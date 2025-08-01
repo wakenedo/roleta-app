@@ -23,16 +23,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setUser(user);
-      setLoading(false);
-    });
-    return () => unsubscribe();
+    if (typeof window !== "undefined" && auth) {
+      const unsubscribe = onAuthStateChanged(auth, async (user) => {
+        setUser(user);
+        setLoading(false);
+      });
+      return () => unsubscribe();
+    }
   }, []);
 
   const logout = async () => {
-    await signOut(auth);
-    setUser(null);
+    if (typeof window !== "undefined" && auth) {
+      await signOut(auth);
+      setUser(null);
+    }
   };
 
   const getToken = async () => {

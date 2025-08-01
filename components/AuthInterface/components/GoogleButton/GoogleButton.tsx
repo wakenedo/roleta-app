@@ -11,10 +11,12 @@ const GoogleButton = () => {
   const handleGoogleLogin = async () => {
     try {
       setLoading(true);
-      const result = await signInWithPopup(auth, gAuthProvider);
-      const user = result.user;
-      console.log("✅ Google login success:", user);
-      // Optional: send user token to your backend
+      if (typeof window !== "undefined" && auth) {
+        const result = await signInWithPopup(auth, gAuthProvider);
+        const user = result.user;
+        console.log("✅ Google login success:", user);
+        // Optional: send user token to your backend
+      }
     } catch (error) {
       console.error("❌ Google login failed:", error);
     } finally {
