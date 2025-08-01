@@ -3,7 +3,7 @@ import { AnimatedTitle } from "./components/AnimatedTitle";
 
 const AuthInterface = () => {
   return (
-    <div className="p-2 shadow-lg m-2 bg-slate-50 rounded w-full">
+    <div className="p-2 shadow-lg m-2 bg-slate-50 rounded ">
       <div className="m-4 ">
         <AnimatedTitle />
         <div className="md:mt-4 mt-2">

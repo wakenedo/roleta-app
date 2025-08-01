@@ -3,8 +3,14 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import ArtTitle from "@/public/PROMOBET.png";
 import FArtTitle from "@/public/PROMOBETFULL.png";
+import ArtTitleSm from "@/public/PROMOBETSM.png";
+import FArtTitleSm from "@/public/PROMOBETFULLSM.png";
 
-const AnimatedTitle = () => {
+interface AnimatedTitleProps {
+  small?: boolean;
+}
+
+const AnimatedTitle: React.FC<AnimatedTitleProps> = ({ small = false }) => {
   const [showFirst, setShowFirst] = useState(true);
 
   useEffect(() => {
@@ -15,20 +21,24 @@ const AnimatedTitle = () => {
   }, []);
 
   return (
-    <div className="relative w-full flex justify-center items-center my-2 h-[60px] md:h-[100px]">
+    <div
+      className={`relative w-full flex ${
+        small ? "" : "justify-center h-[60px] md:h-[100px]"
+      } items-center my-2 `}
+    >
       <Image
-        src={ArtTitle}
+        src={small ? ArtTitleSm : ArtTitle}
         alt="promobet"
         className={`absolute transition-opacity duration-1500 ${
-          showFirst ? "opacity-100" : "opacity-0"
-        }`}
+          small ? "w-25" : ""
+        } ${showFirst ? "opacity-100" : "opacity-0"}`}
       />
       <Image
-        src={FArtTitle}
+        src={small ? FArtTitleSm : FArtTitle}
         alt="Fpromobet"
         className={`absolute transition-opacity duration-1500 ${
-          showFirst ? "opacity-0" : "opacity-100"
-        }`}
+          small ? "w-25" : ""
+        } ${showFirst ? "opacity-0" : "opacity-100"}`}
       />
     </div>
   );
