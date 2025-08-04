@@ -1,11 +1,15 @@
 "use client";
 import { AuthInterface } from "@/components/AuthInterface";
+import { BannerPromo } from "@/components/BannerPromo";
 import { Header } from "@/components/Header";
+import { InterfaceSwitch } from "@/components/InterfaceSwitch";
 import { UserInterface } from "@/components/UserInterface";
 import { useAuth } from "@/context/AuthContext/AuthContext";
+import { useState } from "react";
 
 export default function Home() {
   const { user, logout } = useAuth();
+  const [gameTab, setGameTab] = useState<"left" | "right">("left");
 
   return (
     <>
@@ -25,9 +29,21 @@ export default function Home() {
 
         {/* Foreground Content */}
         <div>
-          <main className="flex flex-col justify-between  min-h-screen relative z-10 pt-10">
-            <div className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start mt-50">
+          <main className="flex flex-col justify-between  min-h-screen relative z-10 pt-4">
+            <div className="flex flex-col gap-3  items-center  mt-10 mx-2">
+              <BannerPromo />
+              {user != null && (
+                <InterfaceSwitch
+                  leftLabel="Slots da Sorte"
+                  leftComponent={<div>Game 1 content</div>}
+                  rightLabel="Roleta de Ofertas"
+                  rightComponent={<div>Game 2 content</div>}
+                  activeSide={gameTab}
+                  onToggleChange={(side) => setGameTab(side)}
+                />
+              )}
               {user === null && <AuthInterface />}
+              <div></div>
             </div>
             <div className="z-10 flex sticky-bottom w-full">
               {user != null && <UserInterface user={user} logout={logout} />}
