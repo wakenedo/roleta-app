@@ -3,6 +3,7 @@ import { AuthInterface } from "@/components/AuthInterface";
 import { BannerPromo } from "@/components/BannerPromo";
 import { Header } from "@/components/Header";
 import { InterfaceSwitch } from "@/components/InterfaceSwitch";
+import { Slots } from "@/components/Slots";
 import { UserInterface } from "@/components/UserInterface";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useState } from "react";
@@ -30,12 +31,12 @@ export default function Home() {
         {/* Foreground Content */}
         <div>
           <main className="flex flex-col justify-between  min-h-screen relative z-10 pt-4">
-            <div className="flex flex-col gap-3  items-center  mt-10 mx-2">
+            <div className="flex flex-col   items-center  mt-10 ">
               <BannerPromo />
               {user != null && (
                 <InterfaceSwitch
                   leftLabel="Slots da Sorte"
-                  leftComponent={<div>Game 1 content</div>}
+                  leftComponent={<Slots />}
                   rightLabel="Roleta de Ofertas"
                   rightComponent={<div>Game 2 content</div>}
                   activeSide={gameTab}
