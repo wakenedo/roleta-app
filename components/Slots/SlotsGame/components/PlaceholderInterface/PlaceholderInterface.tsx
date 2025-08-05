@@ -10,11 +10,11 @@ const PlaceholderInterface: React.FC<PlaceholderInterfaceProps> = ({
   if (loading) {
     return (
       <div className="col-span-3 justify-center text-gray-400 text-center h-[22rem]">
-        <div className="grid grid-cols-3 gap-2 ">
+        <div className="grid grid-cols-3 gap-2 w-full">
           {[...Array(3)].map((_, i) => (
             <div
               key={i}
-              className="bg-gray-700 animate-pulse rounded-md h-[21rem] w-[8.25rem] flex flex-col items-center justify-center"
+              className="bg-gray-700 animate-pulse rounded-md h-[21rem] p-[2.25rem] w-full flex flex-col items-center justify-center"
             >
               <div className="w-16 h-16 bg-gray-600 rounded-full mb-2" />
               <div className="w-20 h-3 bg-gray-600 rounded mb-1" />
