@@ -3,6 +3,14 @@ interface Product {
   name: string;
   image: string;
   url: string;
+  price: string;
+  discount: string;
+  discountedPrice: string;
+  tier?: "common" | "jackpot" | "rare";
+}
+
+interface ProductCardProps {
+  product: Product;
 }
 
 interface SlotsGameProps {
@@ -11,4 +19,4 @@ interface SlotsGameProps {
   spin: () => void;
 }
 
-export type { SlotsGameProps, Product };
+export type { SlotsGameProps, Product, ProductCardProps };

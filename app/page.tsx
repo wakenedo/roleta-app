@@ -31,7 +31,7 @@ export default function Home() {
         {/* Foreground Content */}
         <div>
           <main className="flex flex-col justify-between  min-h-screen relative z-10 pt-4">
-            <div className="flex flex-col   items-center  mt-10 ">
+            <div className="flex flex-col   items-center  mt-10 mx-2">
               <BannerPromo />
               {user != null && (
                 <InterfaceSwitch

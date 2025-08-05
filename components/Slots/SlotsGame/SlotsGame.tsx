@@ -1,11 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import { getAuth } from "firebase/auth";
-import { PlaceholderInterface } from "./components/PlaceholderInterface";
 import { SlotsGameProps } from "../types";
-import { ProductCard } from "./components/ProductCard";
 import { ProductSlots } from "./components/ProductSlots";
 
 const MAX_SPINS_PER_DAY = 5;
@@ -43,7 +40,7 @@ const SlotsGame: React.FC<SlotsGameProps> = ({
       <button
         onClick={handleSpin}
         disabled={spinning || spinsToday >= MAX_SPINS_PER_DAY}
-        className="px-6 py-2 bg-green-500 text-white rounded disabled:bg-gray-400"
+        className="px-6 py-2 bg-green-500 text-white rounded-xs disabled:bg-gray-400"
       >
         {spinning
           ? "Girando..."
