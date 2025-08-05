@@ -6,7 +6,7 @@ const symbols = ["🍒", "🍋", "🔔", "🍉", "⭐", "7️⃣"];
 const getRandomSymbol = () =>
   symbols[Math.floor(Math.random() * symbols.length)];
 
-const Slots = () => {
+const Slots4Fun = () => {
   const [reel1, setReel1] = useState("🍒");
   const [reel2, setReel2] = useState("🍋");
   const [reel3, setReel3] = useState("🔔");
@@ -66,4 +66,4 @@ const Slots = () => {
   );
 };
 
-export default Slots;
+export default Slots4Fun;

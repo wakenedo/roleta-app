@@ -3,6 +3,7 @@ import { AuthInterface } from "@/components/AuthInterface";
 import { BannerPromo } from "@/components/BannerPromo";
 import { Header } from "@/components/Header";
 import { InterfaceSwitch } from "@/components/InterfaceSwitch";
+import { Slots4Fun } from "@/components/Play4Fun/Slots4Fun";
 import { Slots } from "@/components/Slots";
 import { UserInterface } from "@/components/UserInterface";
 import { useAuth } from "@/context/AuthContext/AuthContext";
@@ -38,7 +39,7 @@ export default function Home() {
                   leftLabel="Slots da Sorte"
                   leftComponent={<Slots />}
                   rightLabel="Roleta de Ofertas"
-                  rightComponent={<div>Game 2 content</div>}
+                  rightComponent={<Slots4Fun />}
                   activeSide={gameTab}
                   onToggleChange={(side) => setGameTab(side)}
                 />
