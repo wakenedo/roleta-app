@@ -4,57 +4,37 @@ import React, { useState } from "react";
 import { SlotsGame } from "./SlotsGame";
 import { Product } from "./types";
 
-const dummyProducts: Product[] = [
-  {
-    id: "1",
-    name: "Bluetooth Headphones",
-    image: "/products/headphones.jpg",
-    url: "https://your-affiliate-link.com/headphones",
-    price: "320",
-    discount: "10%",
-    discountedPrice: "288",
-    tier: "common",
-  },
-  {
-    id: "2",
-    name: "Smart Watch",
-    image: "/products/watch.jpg",
-    url: "https://your-affiliate-link.com/watch",
-    price: "210",
-    discount: "20%",
-    discountedPrice: "168",
-    tier: "rare",
-  },
-  {
-    id: "3",
-    name: "Gaming Mouse",
-    image: "/products/mouse.jpg",
-    url: "https://your-affiliate-link.com/mouse",
-    price: "450",
-    discount: "30%",
-    discountedPrice: "315",
-    tier: "jackpot",
-  },
-];
-
-const getRandomProducts = (count = 3): Product[] => {
-  const shuffled = [...dummyProducts].sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, count);
-};
-
 const Slots = () => {
   const [spinning, setSpinning] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
 
-  const spin = () => {
+  const spin = async (idToken: string) => {
     setSpinning(true);
-    setSelectedProducts([]);
+    try {
+      const res = await fetch("http://localhost:4000/api/spin", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+      });
 
-    setTimeout(() => {
-      const results = getRandomProducts();
-      setSelectedProducts(results);
-      setSpinning(false);
-    }, 2000);
+      if (!res.ok) {
+        const errorData = await res.json();
+        console.error("Spin failed:", errorData);
+        setSpinning(false);
+        return;
+      }
+
+      const data = await res.json();
+      setSelectedProducts(data.products || []); // Fallback just in case
+      console.log("Spin success:", data);
+    } catch (err) {
+      console.error("Network error:", err);
+    } finally {
+      setTimeout(() => {
+        setSpinning(false);
+      }, 2500);
+    }
   };
 
   return (

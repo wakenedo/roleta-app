@@ -16,7 +16,7 @@ interface ProductCardProps {
 interface SlotsGameProps {
   spinning: boolean;
   selectedProducts: Product[];
-  spin: () => void;
+  spin: (idToken: string) => Promise<void>;
 }
 
 export type { SlotsGameProps, Product, ProductCardProps };

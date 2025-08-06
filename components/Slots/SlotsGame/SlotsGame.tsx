@@ -24,14 +24,26 @@ const SlotsGame: React.FC<SlotsGameProps> = ({
     setSpinsToday(stored ? parseInt(stored) : 0);
   }, [uid]);
 
-  const handleSpin = () => {
+  const handleSpin = async () => {
     if (spinning || spinsToday >= MAX_SPINS_PER_DAY) return;
 
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (!user) {
+      console.warn("User not logged in");
+      return;
+    }
+
+    const idToken = await user.getIdToken();
+    if (!idToken) return;
+
     const newCount = spinsToday + 1;
-    setSpinsToday(newCount);
     const today = new Date().toDateString();
     localStorage.setItem(`spins-${uid}-${today}`, newCount.toString());
-    spin();
+    setSpinsToday(newCount);
+
+    spin(idToken);
   };
 
   return (
