@@ -22,7 +22,7 @@ const AnimatedTitle: React.FC<AnimatedTitleProps> = ({ small = false }) => {
 
   return (
     <div
-      className={`relative w-full flex ${
+      className={`relative w-full md:w-100 flex ${
         small ? "" : "justify-center h-[60px] md:h-[100px]"
       } items-center my-2 `}
     >
