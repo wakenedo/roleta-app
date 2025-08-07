@@ -8,9 +8,13 @@ const Slots = () => {
   const [spinning, setSpinning] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
 
-  const renderDeployAddress = process.env.NEXT_PUBLIC_RENDER_API ?? "";
+  const renderDeployAddress = process.env.NEXT_PUBLIC_RENDER_API;
 
   const spin = async (idToken: string) => {
+    if (!renderDeployAddress) {
+      throw new Error("A variável NEXT_PUBLIC_RENDER_API não está definida.");
+    }
+
     setSpinning(true);
     try {
       const res = await fetch(`${renderDeployAddress}/spin`, {
@@ -20,15 +24,16 @@ const Slots = () => {
         },
       });
 
-      if (!res.ok) {
-        const errorData = await res.json();
-        console.error("Spin failed:", errorData);
-        setSpinning(false);
-        return;
+      const contentType = res.headers.get("content-type");
+
+      if (!res.ok || !contentType?.includes("application/json")) {
+        const text = await res.text(); // safer than res.json()
+        console.error("Unexpected response:", text);
+        throw new Error("API returned non-JSON or error response.");
       }
 
       const data = await res.json();
-      setSelectedProducts(data.products || []); // Fallback just in case
+      setSelectedProducts(data.products || []);
       console.log("Spin success:", data);
     } catch (err) {
       console.error("Network error:", err);
