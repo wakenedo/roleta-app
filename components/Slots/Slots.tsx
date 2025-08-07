@@ -13,7 +13,7 @@ const Slots = () => {
   const spin = async (idToken: string) => {
     setSpinning(true);
     try {
-      const res = await fetch(renderDeployAddress, {
+      const res = await fetch(`${renderDeployAddress}/spin`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${idToken}`,
