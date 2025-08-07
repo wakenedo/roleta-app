@@ -8,10 +8,12 @@ const Slots = () => {
   const [spinning, setSpinning] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
 
+  const renderDeployAddress = process.env.NEXT_PUBLIC_RENDER_API ?? "";
+
   const spin = async (idToken: string) => {
     setSpinning(true);
     try {
-      const res = await fetch("http://localhost:4000/api/spin", {
+      const res = await fetch(renderDeployAddress, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${idToken}`,
