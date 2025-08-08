@@ -7,6 +7,14 @@ interface Product {
   discount: string;
   discountedPrice: string;
   tier?: "common" | "jackpot" | "rare";
+  store: string;
+  campaign: CampaignProps;
+}
+
+interface CampaignProps {
+  campaignLink: string;
+  couponCode: string | null;
+  description: string;
 }
 
 interface ProductCardProps {
