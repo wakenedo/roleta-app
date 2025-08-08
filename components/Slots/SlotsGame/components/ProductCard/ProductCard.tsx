@@ -21,11 +21,25 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <span className="text-xs font-medium text-slate-900 truncate max-w-[80px]">
             {product.name}
           </span>
-          <span className="text-xs font-bold text-slate-400 mt-2 line-through">
-            {formatPriceBRL(product.price)}
-          </span>
-          <span className="text-sm font-bold text-green-500 ">
-            {formatPriceBRL(product.discountedPrice)}
+          {product.discount != null ? (
+            <>
+              <span className="text-xs font-bold text-slate-400 mt-2 line-through">
+                {formatPriceBRL(product.price)}
+              </span>
+              <span className="text-sm font-bold text-green-500 ">
+                {formatPriceBRL(product.discountedPrice)}
+              </span>
+            </>
+          ) : (
+            <>
+              <span className="text-sm font-bold text-green-500 ">
+                {formatPriceBRL(product.price)}
+              </span>
+            </>
+          )}
+
+          <span className="text-xs font-medium text-slate-900">
+            {product.store}
           </span>
         </div>
       </a>
