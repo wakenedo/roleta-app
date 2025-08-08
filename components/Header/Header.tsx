@@ -30,12 +30,14 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex gap-6 text-sm w-80">
-          <a href="#" className="hover:underline">
+          <Link href="/TermsOfService" className="hover:underline">
             <span>Termos de Uso</span>
-          </a>
-          <a href="#" className="hover:underline">
-            <span>Area de Usuário</span>
-          </a>
+          </Link>
+          {user != null && (
+            <Link href="/UserArea" className="hover:underline">
+              <span>Area de Usuário</span>
+            </Link>
+          )}
         </nav>
 
         {/* Mobile Menu Button */}
@@ -47,12 +49,20 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
       {/* Mobile Dropdown Menu */}
       {menuOpen && (
         <nav className="md:hidden bg-slate-900 px-4 py-3 space-y-2 text-sm  z-10 w-full absolute">
-          <a href="#" className="block font-semibold text-lg text-slate-50">
+          <Link
+            href="/TermsOfService"
+            className="block font-semibold text-lg text-slate-50"
+          >
             Termos de Uso
-          </a>
-          <a href="#" className="block font-semibold text-lg text-slate-50">
-            Area do Usuário
-          </a>
+          </Link>
+          {user != null && (
+            <Link
+              href="/UserArea"
+              className="block font-semibold text-lg text-slate-50"
+            >
+              Area do Usuário
+            </Link>
+          )}
         </nav>
       )}
     </header>
