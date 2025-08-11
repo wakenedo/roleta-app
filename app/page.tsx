@@ -1,6 +1,5 @@
 "use client";
 import { AuthInterface } from "@/components/AuthInterface";
-import { BannerPromo } from "@/components/BannerPromo";
 import { Header } from "@/components/Header";
 import { InterfaceSwitch } from "@/components/InterfaceSwitch";
 import { Slots4Fun } from "@/components/Play4Fun/Slots4Fun";
@@ -32,8 +31,7 @@ export default function Home() {
         {/* Foreground Content */}
         <div>
           <main className="flex flex-col justify-between  min-h-screen relative z-10 pt-4">
-            <div className="flex flex-col   items-center  mt-10 mx-2">
-              <BannerPromo />
+            <div className="flex flex-col   items-center  mt-6 mx-2">
               {user != null && (
                 <InterfaceSwitch
                   leftLabel="Slots da Sorte"
