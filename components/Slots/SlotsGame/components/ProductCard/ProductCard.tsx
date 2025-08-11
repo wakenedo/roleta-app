@@ -7,15 +7,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <motion.div
       key={product.id}
-      className="flex flex-col min-h-[25rem]  items-center bg-slate-50 text-slate-900 rounded-xs shadow-md p-2"
+      className="flex flex-col min-h-[27rem]  items-center bg-slate-50 text-slate-900 rounded-xs shadow-md p-2"
       whileHover={{ scale: 1.05 }}
     >
       <a href={product.url} target="_blank" rel="noopener noreferrer">
-        <img
-          src={product.image}
-          alt={product.name}
-          className="h-60 object-contain mb-1 shadow-lg"
-        />
+        <div className="min-h-60 mb-1 shadow-lg bg-slate-200">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="min-h-60 object-contain"
+          />
+        </div>
         <TierBadge product={product} />
         <div className="w-full flex flex-col items-center justify-center text-center px-2 py-1">
           <span className="text-xs font-medium text-slate-900 truncate max-w-[80px]">
@@ -29,6 +31,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               <span className="text-sm font-bold text-green-500 ">
                 {formatPriceBRL(product.discountedPrice)}
               </span>
+              <span className="text-xs">{product.discount} OFF</span>
             </>
           ) : (
             <>
