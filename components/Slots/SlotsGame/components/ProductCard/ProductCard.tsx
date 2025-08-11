@@ -7,7 +7,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <motion.div
       key={product.id}
-      className="flex flex-col min-h-[23rem]  items-center bg-slate-50 text-slate-900 rounded-xs shadow-md p-2"
+      className="flex flex-col min-h-[25rem]  items-center bg-slate-50 text-slate-900 rounded-xs shadow-md p-2"
       whileHover={{ scale: 1.05 }}
     >
       <a href={product.url} target="_blank" rel="noopener noreferrer">
