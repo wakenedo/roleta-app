@@ -15,28 +15,15 @@ export default function Home() {
   return (
     <>
       <Header user={user} />
-      <div className="relative font-sans min-h-screen overflow-hidden">
-        <div className="absolute inset-0 bg-black/40 z-0" />
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute top-0 left-0 w-full h-full object-cover z-[-1]"
-        >
-          <source src="/background.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-
-        {/* Foreground Content */}
+      <div className=" bg-gradient-to-b from-blue-100 via-blue-200 to-blue-300 text-slate-800 font-sans">
         <div>
           <main className="flex flex-col justify-between  min-h-screen relative z-10 pt-4">
-            <div className="flex flex-col   items-center  mt-6 mx-2">
+            <div className="flex flex-col   items-center  mt-7 mx-2">
               {user != null && (
                 <InterfaceSwitch
-                  leftLabel="Slots da Sorte"
+                  leftLabel="Slots"
                   leftComponent={<Slots />}
-                  rightLabel="Roleta de Ofertas"
+                  rightLabel="Roleta"
                   rightComponent={<Slots4Fun />}
                   activeSide={gameTab}
                   onToggleChange={(side) => setGameTab(side)}

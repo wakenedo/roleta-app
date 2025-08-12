@@ -45,8 +45,10 @@ const Slots = () => {
   };
 
   return (
-    <div className="bg-slate-800 h-auto min-h-[480px] flex flex-col rounded-b-xs text-white py-2">
-      <h2 className="text-2xl font-bold mb-2 ml-2">Descubra Suas Ofertas</h2>
+    <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl h-auto min-h-[480px] flex flex-col rounded-t-xs text-white py-2">
+      <h2 className="text-2xl font-bold mb-2 ml-2 text-slate-900">
+        Descubra Suas Ofertas
+      </h2>
       <div className="border-t border-slate-600 mx-2" />
       <div className="flex mt-4 mx-2 items-center justify-center">
         <SlotsGame

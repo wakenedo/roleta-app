@@ -49,10 +49,13 @@ const SlotsGame: React.FC<SlotsGameProps> = ({
   return (
     <div className="flex flex-col items-center w-full max-w-md">
       <ProductSlots selectedProducts={selectedProducts} spinning={spinning} />
+      <p className="mb-2 text-sm text-slate-900">
+        Rodadas restantes hoje: {MAX_SPINS_PER_DAY - spinsToday}
+      </p>
       <button
         onClick={handleSpin}
         disabled={spinning || spinsToday >= MAX_SPINS_PER_DAY}
-        className="px-6 py-2 bg-green-500 text-white rounded-xs disabled:bg-gray-400"
+        className="px-6 py-2 bg-green-400 text-slate-50 rounded-xs disabled:bg-slate-400 mb-2"
       >
         {spinning
           ? "Girando..."
@@ -60,10 +63,6 @@ const SlotsGame: React.FC<SlotsGameProps> = ({
           ? "Limite diário atingido"
           : "Girar"}
       </button>
-
-      <p className="mt-2 text-sm text-gray-400">
-        Rodadas restantes hoje: {MAX_SPINS_PER_DAY - spinsToday}
-      </p>
     </div>
   );
 };

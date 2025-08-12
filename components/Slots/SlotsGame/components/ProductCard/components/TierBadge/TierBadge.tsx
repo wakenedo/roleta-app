@@ -11,19 +11,19 @@ const TierBadge: React.FC<TierBadgeProps> = ({ product }) => {
     <div
       className={`border rounded-full p-1 w-full text-center mt-2 ${
         product.tier === "jackpot"
-          ? "border-yellow-500"
+          ? "border-yellow-400"
           : product.tier === "rare"
-          ? "border-blue-500"
-          : "border-gray-500"
+          ? "border-blue-400"
+          : "border-gray-400"
       }`}
     >
       <span
         className={`text-xs font-bold ${
           product.tier === "jackpot"
-            ? "text-yellow-500"
+            ? "text-yellow-400"
             : product.tier === "rare"
-            ? "text-blue-500"
-            : "text-gray-500"
+            ? "text-blue-400"
+            : "text-gray-400"
         }`}
       >
         {product.tier === "jackpot" ? (
