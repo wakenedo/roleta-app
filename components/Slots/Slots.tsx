@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { SlotsGame } from "./SlotsGame";
 import { Product } from "./types";
+import { ProductSlotsReel } from "./SlotsGame/components/ProductSlotsReels";
 
 const Slots = () => {
   const [spinning, setSpinning] = useState(false);
@@ -51,10 +52,10 @@ const Slots = () => {
       </h2>
       <div className="border-t border-slate-600 mx-2" />
       <div className="flex mt-4 mx-2 items-center justify-center">
-        <SlotsGame
+        <ProductSlotsReel
           selectedProducts={selectedProducts}
-          spin={spin}
           spinning={spinning}
+          spin={spin}
         />
       </div>
     </div>
