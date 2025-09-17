@@ -151,7 +151,7 @@ export default function Slots3x3() {
             ];
 
             let winMessage = "";
-            let winners: string[] = [];
+            const winners: string[] = [];
 
             rows.forEach((row, i) => {
               if (row[0] === row[1] && row[1] === row[2]) {
@@ -181,68 +181,61 @@ export default function Slots3x3() {
 
   // função para forçar um win (modo: 'middle' | 'diag0' | 'diag1')
   const forceWin = (mode: "middle" | "diag0" | "diag1") => {
-    // limpa timers pra não conflitar com spins em andamento
     clearAllTimers();
     setSpinning(false);
 
-    // animação visível
     setTransitionDurations([0.6, 0.6, 0.6]);
 
     let finalTopIndices: number[] = [0, 0, 0];
     let winners: string[] = [];
 
     if (mode === "middle") {
-      // escolhe um símbolo que exista em todas as colunas (quase certo com strips aleatórios)
       let sym = SYMBOLS.find((s) => reels.every((r) => r.includes(s)));
-      if (!sym) sym = reels[0][0]; // fallback
+      if (!sym) sym = reels[0][0];
       const middleIndices = reels.map((r) => r.findIndex((x) => x === sym));
       finalTopIndices = middleIndices.map(
         (mi) => (mi - 1 + REEL_LENGTH) % REEL_LENGTH
       );
       winners = ["row-1"];
     } else if (mode === "diag0") {
-      // ↘ : reel0[top], reel1[mid], reel2[bot]
       let found = false;
       for (const s of SYMBOLS) {
-        const i0 = reels[0].findIndex((x) => x === s); // top target for reel0
-        const i1 = reels[1].findIndex((x) => x === s); // mid target for reel1
-        const i2 = reels[2].findIndex((x) => x === s); // bot target for reel2
+        const i0 = reels[0].findIndex((x) => x === s);
+        const i1 = reels[1].findIndex((x) => x === s);
+        const i2 = reels[2].findIndex((x) => x === s);
         if (i0 >= 0 && i1 >= 0 && i2 >= 0) {
-          finalTopIndices[0] = i0; // top = i0
-          finalTopIndices[1] = (i1 - 1 + REEL_LENGTH) % REEL_LENGTH; // top s.t. middle=i1
-          finalTopIndices[2] = (i2 - 2 + REEL_LENGTH) % REEL_LENGTH; // top s.t. bottom=i2
+          finalTopIndices[0] = i0;
+          finalTopIndices[1] = (i1 - 1 + REEL_LENGTH) % REEL_LENGTH;
+          finalTopIndices[2] = (i2 - 2 + REEL_LENGTH) % REEL_LENGTH;
           winners = ["diag-0"];
           found = true;
           break;
         }
       }
-      if (!found) {
-        // fallback para middle se não encontrou
-        return forceWin("middle");
-      }
+      if (!found) return forceWin("middle");
     } else {
-      // diag1 ↙ : reel0[bot], reel1[mid], reel2[top]
       let found = false;
       for (const s of SYMBOLS) {
-        const i0 = reels[0].findIndex((x) => x === s); // bot desired on reel0
-        const i1 = reels[1].findIndex((x) => x === s); // mid desired on reel1
-        const i2 = reels[2].findIndex((x) => x === s); // top desired on reel2
+        const i0 = reels[0].findIndex((x) => x === s);
+        const i1 = reels[1].findIndex((x) => x === s);
+        const i2 = reels[2].findIndex((x) => x === s);
         if (i0 >= 0 && i1 >= 0 && i2 >= 0) {
-          finalTopIndices[0] = (i0 - 2 + REEL_LENGTH) % REEL_LENGTH; // top s.t. bot=i0
-          finalTopIndices[1] = (i1 - 1 + REEL_LENGTH) % REEL_LENGTH; // top s.t. mid=i1
-          finalTopIndices[2] = i2; // top = i2 (top desired)
+          finalTopIndices[0] = (i0 - 2 + REEL_LENGTH) % REEL_LENGTH;
+          finalTopIndices[1] = (i1 - 1 + REEL_LENGTH) % REEL_LENGTH;
+          finalTopIndices[2] = i2;
           winners = ["diag-1"];
           found = true;
           break;
         }
       }
-      if (!found) {
-        return forceWin("middle");
-      }
+      if (!found) return forceWin("middle");
     }
 
-    // aplica as posições finais (visual) e marca winners/message
-    setPos(finalTopIndices);
+    // ✅ CHANGE: use requestAnimationFrame to ensure DOM updates before highlighting
+    requestAnimationFrame(() => {
+      setPos(finalTopIndices);
+      setWinningLines(winners); // <-- moved here so it highlights correctly
+    });
 
     const finalGrid = finalTopIndices.map((top, c) => {
       const topIdx = top % REEL_LENGTH;
@@ -253,7 +246,7 @@ export default function Slots3x3() {
 
     let winMessage = "";
     if (winners.includes("row-1")) {
-      winMessage = `🎉 Test Win — Linha do Meio: ${finalGrid
+      winMessage = `🎉 Test Win — Meio: ${finalGrid
         .map((col) => col[1])
         .join(" ")}`;
     } else if (winners.includes("diag-0")) {
@@ -263,7 +256,6 @@ export default function Slots3x3() {
     }
 
     setMessage(winMessage);
-    setWinningLines(winners);
   };
 
   // highlight: checa se a célula (rowIdx: 0=top,1=mid,2=bot; colIdx: 0..2) faz parte de uma linha/diagonal vencedora
@@ -276,7 +268,9 @@ export default function Slots3x3() {
 
   return (
     <div className="bg-slate-900 min-h-screen flex flex-col items-center justify-center text-white p-6">
-      <h2 className="text-2xl font-bold mb-6">🎰 Slots 3x3 — Realistic Reel Strips</h2>
+      <h2 className="text-2xl font-bold mb-6">
+        🎰 Slots 3x3 — Realistic Reel Strips
+      </h2>
 
       <div className="flex gap-6 mb-6">
         {[0, 1, 2].map((col) => {
@@ -284,7 +278,10 @@ export default function Slots3x3() {
           const translateY = -(pos[col] * CELL_HEIGHT);
 
           return (
-            <div key={col} className="w-28 bg-slate-800 rounded-lg p-2 shadow-lg">
+            <div
+              key={col}
+              className="w-28 bg-slate-800 rounded-lg p-2 shadow-lg"
+            >
               <div
                 className="overflow-hidden rounded"
                 style={{
@@ -300,7 +297,7 @@ export default function Slots3x3() {
                 >
                   {reels[col].map((s, i) => {
                     // calcular se esse stop está entre os visíveis e qual é a row (0..2)
-                    const rel = ((i - pos[col]) + REEL_LENGTH) % REEL_LENGTH;
+                    const rel = (i - pos[col] + REEL_LENGTH) % REEL_LENGTH;
                     const inVisible = rel < VISIBLE;
                     const rowIdx = inVisible ? rel : -1;
 
@@ -389,8 +386,9 @@ export default function Slots3x3() {
       )}
 
       <p className="mt-4 text-sm text-slate-400 max-w-xl text-center">
-        Use os botões <strong>Test Win</strong> para forçar combinações (útil para debug).
-        Ative "Manter último win..." se quiser que o destaque do último resultado permaneça visível quando iniciar uma nova jogada.
+        Use os botões <strong>Test Win</strong> para forçar combinações (útil
+        para debug). Ative Manter último win... se quiser que o destaque do
+        último resultado permaneça visível quando iniciar uma nova jogada.
       </p>
     </div>
   );
