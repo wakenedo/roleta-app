@@ -1,24 +1,12 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 
-/**
- * Slots3x3.tsx
- * - 3 colunas (cada coluna = um reel strip com N stops)
- * - mostra 3 símbolos visíveis por coluna (top, middle, bottom)
- * - anima spin e para uma coluna por vez
- * - ajuste: REEL_LENGTH para alterar quantos "stops" por reel (20-40 recomendado)
- */
-
-// símbolos básicos (você pode adicionar/duplicar para variar frequências)
 const SYMBOLS = ["🍒", "🍋", "🔔", "🍉", "⭐", "7️⃣", "🍇", "🍊"];
-
-const REEL_LENGTH = 24; // recomendo 20-30 para estilo clássico; 32-78 para video slots
-const VISIBLE = 3; // número de símbolos visíveis por coluna (top/middle/bottom)
-const CELL_HEIGHT = 72; // px por célula (ajuste para o tamanho visual)
+const REEL_LENGTH = 24;
+const VISIBLE = 3;
+const CELL_HEIGHT = 72;
 
 function randomStrip(symbols: string[], length: number) {
-  // Gera um array com 'length' stops preenchidos aleatoriamente com símbolos,
-  // mas garantindo alguma variedade (pode ajustar frequência duplicando alguns símbolos)
   const strip: string[] = [];
   for (let i = 0; i < length; i++) {
     strip.push(symbols[Math.floor(Math.random() * symbols.length)]);
@@ -27,14 +15,12 @@ function randomStrip(symbols: string[], length: number) {
 }
 
 export default function Slots3x3() {
-  // gera 3 reels (colunas) com strips independentes
   const [reels] = useState(() => [
     randomStrip(SYMBOLS, REEL_LENGTH),
     randomStrip(SYMBOLS, REEL_LENGTH),
     randomStrip(SYMBOLS, REEL_LENGTH),
   ]);
 
-  // posição atual (index do símbolo que está no topo visível) para cada reel
   const [pos, setPos] = useState<number[]>(() => [
     Math.floor(Math.random() * REEL_LENGTH),
     Math.floor(Math.random() * REEL_LENGTH),
@@ -43,127 +29,241 @@ export default function Slots3x3() {
 
   const [spinning, setSpinning] = useState(false);
   const [message, setMessage] = useState("");
+  const [winningLines, setWinningLines] = useState<string[]>([]);
+  const [persistWin, setPersistWin] = useState(false); // manter destaque entre jogadas (opcional)
 
-  // refs para timers/intervals
   const intervalsRef = useRef<(number | null)[]>([null, null, null]);
-  const timeoutsRef = useRef<(number | null)[]>([null, null, null]);
+  const timeoutsRef = useRef<(number | null)[]>([null, null, null, null]); // index 3 usado para final wait
 
-  // controla se o reel está em transição CSS (usamos para controlar duração)
-  const [transitionDurations, setTransitionDurations] = useState<number[]>([
-    0, 0, 0,
-  ]);
+  const [transitionDurations, setTransitionDurations] = useState<number[]>(
+    () => [0, 0, 0]
+  );
 
   useEffect(() => {
-    // cleanup on unmount
     return () => {
-      intervalsRef.current.forEach((id) => id && clearInterval(id));
-      timeoutsRef.current.forEach((id) => id && clearTimeout(id));
+      clearAllTimers();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const clearAllTimers = () => {
+    intervalsRef.current.forEach((id, i) => {
+      if (id) {
+        clearInterval(id);
+        intervalsRef.current[i] = null;
+      }
+    });
+    timeoutsRef.current.forEach((id, i) => {
+      if (id) {
+        clearTimeout(id);
+        timeoutsRef.current[i] = null;
+      }
+    });
+  };
 
   const startSpin = () => {
     if (spinning) return;
-    setMessage("");
+
+    // Se o usuário não quiser persistir o último win, limpamos ao iniciar spin.
+    if (!persistWin) {
+      setMessage("");
+      setWinningLines([]);
+    }
+
     setSpinning(true);
 
-    // Para cada coluna: inicia um intervalo que incrementa a posição (spin rápido)
-    // e programa um timeout escalonado para parar cada coluna com desaceleração.
-    const baseStopDelay = 800; // ms primeiro reel para começar a parar
-    const gapBetweenStops = 500; // ms entre cada reel stop
+    const baseStopDelay = 800;
+    const gapBetweenStops = 500;
 
-    // reset transition durations (rápido para visual de spin)
+    // array para guardar o topIndex final de cada reel (resolve problema de closure)
+    const finalTopIndices = [0, 0, 0];
+
     setTransitionDurations([0.06, 0.06, 0.06]);
 
     for (let col = 0; col < 3; col++) {
-      // spin interval: incrementa pos rapidamente (ilusão de rolar)
+      // spin rápido (visual)
       intervalsRef.current[col] = window.setInterval(() => {
         setPos((prev) => {
           const next = [...prev];
           next[col] = (next[col] + 1) % REEL_LENGTH;
           return next;
         });
-      }, 60 + Math.random() * 20); // intervalo levemente variado por realismo
+      }, 60 + Math.random() * 20);
 
-      // schedule stop
       const stopTime =
         baseStopDelay + col * gapBetweenStops + Math.floor(Math.random() * 300);
 
       timeoutsRef.current[col] = window.setTimeout(() => {
-        // clear the fast-interval
+        // para o intervalo rápido
         if (intervalsRef.current[col]) {
           clearInterval(intervalsRef.current[col] as number);
           intervalsRef.current[col] = null;
         }
 
-        // Escolher índice alvo de parada (o símbolo que ficará no centro / middle)
-        // Vamos definir finalMiddleIndex aleatório e então calcular topIndex para alinhar o middle
+        // escolhe target de middle aleatório e calcula top index relativo
         const finalMiddleIndex = Math.floor(Math.random() * REEL_LENGTH);
         const finalTopIndex =
-          (finalMiddleIndex - 1 + REEL_LENGTH) % REEL_LENGTH; // top = middle -1 (porque temos 3 visíveis)
+          (finalMiddleIndex - 1 + REEL_LENGTH) % REEL_LENGTH;
 
-        // aplicar transição mais longa (desaceleração)
+        // guarda o top final para uso posterior (sem depender de closure de state)
+        finalTopIndices[col] = finalTopIndex;
+
+        // animação de desaceleração
         setTransitionDurations((prev) => {
           const next = [...prev];
-          next[col] = 0.6 + Math.random() * 0.3; // 600-900ms ease-out
+          next[col] = 0.6 + Math.random() * 0.3;
           return next;
         });
 
-        // atualiza pos[col] para finalTopIndex (com CSS transition anima o movimento)
+        // aplica pos para mover visualmente o reel
         setPos((prev) => {
           const next = [...prev];
           next[col] = finalTopIndex;
           return next;
         });
 
-        // se for a última coluna parar tudo e avaliar resultado
+        // se for o último reel, aguarda animação e valida a grade final usando finalTopIndices
         if (col === 2) {
-          // aguarda a animação terminar
           const finalWait = 900;
           timeoutsRef.current[3] = window.setTimeout(() => {
             setSpinning(false);
 
-            // calcular símbolo do meio de cada coluna
-            const middleSymbols = [0, 1, 2].map((c) => {
-              const middleIndex = ((pos[c] ?? 0) + 1) % REEL_LENGTH; // pos representa topIndex; middle = top+1
-              return reels[c][middleIndex];
+            // montar a grade final (usando os top indices finais)
+            const finalGrid = finalTopIndices.map((top, c) => {
+              const topIdx = top % REEL_LENGTH;
+              const midIdx = (topIdx + 1) % REEL_LENGTH;
+              const botIdx = (topIdx + 2) % REEL_LENGTH;
+              return [reels[c][topIdx], reels[c][midIdx], reels[c][botIdx]];
+            });
+            // finalGrid: [ [col0Top, col0Mid, col0Bot], [col1...], [col2...] ]
+
+            // criar linhas (top, mid, bottom)
+            const rows = [
+              [finalGrid[0][0], finalGrid[1][0], finalGrid[2][0]], // top row
+              [finalGrid[0][1], finalGrid[1][1], finalGrid[2][1]], // middle row
+              [finalGrid[0][2], finalGrid[1][2], finalGrid[2][2]], // bottom row
+            ];
+
+            // diagonais (principal e secundária)
+            const diagonals = [
+              [finalGrid[0][0], finalGrid[1][1], finalGrid[2][2]], // ↘
+              [finalGrid[0][2], finalGrid[1][1], finalGrid[2][0]], // ↙
+            ];
+
+            let winMessage = "";
+            const winners: string[] = [];
+
+            rows.forEach((row, i) => {
+              if (row[0] === row[1] && row[1] === row[2]) {
+                winMessage += `🎉 Linha ${i + 1}: ${row.join(" ")}\n`;
+                winners.push(`row-${i}`);
+              }
             });
 
-            // OBS: devido a assincronia de state setPos, recalc direto a partir do DOM state:
-            // para garantir, vamos basear no último pos via callback síncrono - em React isso é OK aqui:
-            // (se quiser 100% garantir use outros mecanismos; este é suficiente pra demo)
-            const finalMiddle = [0, 1, 2].map((c) => {
-              const top = ((pos[c] ?? 0) + 0) % REEL_LENGTH;
-              const middle = (top + 1) % REEL_LENGTH;
-              return reels[c][middle];
+            diagonals.forEach((diag, i) => {
+              if (diag[0] === diag[1] && diag[1] === diag[2]) {
+                winMessage += `🎉 Diagonal ${i + 1}: ${diag.join(" ")}\n`;
+                winners.push(`diag-${i}`);
+              }
             });
 
-            // contar matches
-            if (
-              finalMiddle[0] === finalMiddle[1] &&
-              finalMiddle[1] === finalMiddle[2]
-            ) {
-              setMessage("🎉 JACKPOT! Três iguais na linha do meio!");
-            } else if (
-              finalMiddle[0] === finalMiddle[1] ||
-              finalMiddle[1] === finalMiddle[2] ||
-              finalMiddle[0] === finalMiddle[2]
-            ) {
-              setMessage("😊 Quase lá! Dois símbolos iguais.");
-            } else {
-              setMessage("😢 Sem combinação. Tente de novo!");
+            if (!winMessage) {
+              winMessage = "😢 Sem combinação. Tente de novo!";
             }
+
+            setMessage(winMessage);
+            setWinningLines(winners);
           }, finalWait);
         }
       }, stopTime);
     }
   };
 
-  // helper para obter os três visíveis (top, middle, bottom) de uma coluna, dado topIndex
-  const visibleFor = (col: number) => {
-    const top = pos[col] % REEL_LENGTH;
-    const middle = (top + 1) % REEL_LENGTH;
-    const bottom = (top + 2) % REEL_LENGTH;
-    return [reels[col][top], reels[col][middle], reels[col][bottom]];
+  // função para forçar um win (modo: 'middle' | 'diag0' | 'diag1')
+  const forceWin = (mode: "middle" | "diag0" | "diag1") => {
+    clearAllTimers();
+    setSpinning(false);
+
+    setTransitionDurations([0.6, 0.6, 0.6]);
+
+    let finalTopIndices: number[] = [0, 0, 0];
+    let winners: string[] = [];
+
+    if (mode === "middle") {
+      let sym = SYMBOLS.find((s) => reels.every((r) => r.includes(s)));
+      if (!sym) sym = reels[0][0];
+      const middleIndices = reels.map((r) => r.findIndex((x) => x === sym));
+      finalTopIndices = middleIndices.map(
+        (mi) => (mi - 1 + REEL_LENGTH) % REEL_LENGTH
+      );
+      winners = ["row-1"];
+    } else if (mode === "diag0") {
+      let found = false;
+      for (const s of SYMBOLS) {
+        const i0 = reels[0].findIndex((x) => x === s);
+        const i1 = reels[1].findIndex((x) => x === s);
+        const i2 = reels[2].findIndex((x) => x === s);
+        if (i0 >= 0 && i1 >= 0 && i2 >= 0) {
+          finalTopIndices[0] = i0;
+          finalTopIndices[1] = (i1 - 1 + REEL_LENGTH) % REEL_LENGTH;
+          finalTopIndices[2] = (i2 - 2 + REEL_LENGTH) % REEL_LENGTH;
+          winners = ["diag-0"];
+          found = true;
+          break;
+        }
+      }
+      if (!found) return forceWin("middle");
+    } else {
+      let found = false;
+      for (const s of SYMBOLS) {
+        const i0 = reels[0].findIndex((x) => x === s);
+        const i1 = reels[1].findIndex((x) => x === s);
+        const i2 = reels[2].findIndex((x) => x === s);
+        if (i0 >= 0 && i1 >= 0 && i2 >= 0) {
+          finalTopIndices[0] = (i0 - 2 + REEL_LENGTH) % REEL_LENGTH;
+          finalTopIndices[1] = (i1 - 1 + REEL_LENGTH) % REEL_LENGTH;
+          finalTopIndices[2] = i2;
+          winners = ["diag-1"];
+          found = true;
+          break;
+        }
+      }
+      if (!found) return forceWin("middle");
+    }
+
+    // ✅ CHANGE: use requestAnimationFrame to ensure DOM updates before highlighting
+    requestAnimationFrame(() => {
+      setPos(finalTopIndices);
+      setWinningLines(winners); // <-- moved here so it highlights correctly
+    });
+
+    const finalGrid = finalTopIndices.map((top, c) => {
+      const topIdx = top % REEL_LENGTH;
+      const midIdx = (topIdx + 1) % REEL_LENGTH;
+      const botIdx = (topIdx + 2) % REEL_LENGTH;
+      return [reels[c][topIdx], reels[c][midIdx], reels[c][botIdx]];
+    });
+
+    let winMessage = "";
+    if (winners.includes("row-1")) {
+      winMessage = `🎉 Test Win — Meio: ${finalGrid
+        .map((col) => col[1])
+        .join(" ")}`;
+    } else if (winners.includes("diag-0")) {
+      winMessage = `🎉 Test Win — Diagonal ↘: ${finalGrid[0][0]} ${finalGrid[1][1]} ${finalGrid[2][2]}`;
+    } else if (winners.includes("diag-1")) {
+      winMessage = `🎉 Test Win — Diagonal ↙: ${finalGrid[0][2]} ${finalGrid[1][1]} ${finalGrid[2][0]}`;
+    }
+
+    setMessage(winMessage);
+  };
+
+  // highlight: checa se a célula (rowIdx: 0=top,1=mid,2=bot; colIdx: 0..2) faz parte de uma linha/diagonal vencedora
+  const highlight = (rowIdx: number, colIdx: number) => {
+    if (winningLines.includes(`row-${rowIdx}`)) return true;
+    if (winningLines.includes("diag-0") && rowIdx === colIdx) return true; // principal
+    if (winningLines.includes("diag-1") && rowIdx === 2 - colIdx) return true; // secundária
+    return false;
   };
 
   return (
@@ -173,11 +273,8 @@ export default function Slots3x3() {
       </h2>
 
       <div className="flex gap-6 mb-6">
-        {/* Cada coluna é um container vertical com overflow:hidden e altura = CELL_HEIGHT * VISIBLE */}
         {[0, 1, 2].map((col) => {
-          const visible = visibleFor(col);
           const transSec = transitionDurations[col] ?? 0.06;
-          // transform calcula com base no top index: translateY = - (topIndex * CELL_HEIGHT) mod (REEL_LENGTH*CELL_HEIGHT)
           const translateY = -(pos[col] * CELL_HEIGHT);
 
           return (
@@ -192,35 +289,39 @@ export default function Slots3x3() {
                   width: "100%",
                 }}
               >
-                {/* inner strip: nós renderizamos todos os stops para permitir animação de translateY */}
                 <div
                   style={{
                     transform: `translateY(${translateY}px)`,
                     transition: `transform ${transSec}s cubic-bezier(.22,.98,.01,1)`,
                   }}
                 >
-                  {/* renderiza todos os stops em coluna para a animação ser contínua */}
-                  {reels[col].map((s, i) => (
-                    <div
-                      key={`${col}-${i}`}
-                      className="flex items-center justify-center"
-                      style={{
-                        height: `${CELL_HEIGHT}px`,
-                        fontSize: "2rem",
-                      }}
-                    >
+                  {reels[col].map((s, i) => {
+                    // calcular se esse stop está entre os visíveis e qual é a row (0..2)
+                    const rel = (i - pos[col] + REEL_LENGTH) % REEL_LENGTH;
+                    const inVisible = rel < VISIBLE;
+                    const rowIdx = inVisible ? rel : -1;
+
+                    const highlightClass =
+                      inVisible && highlight(rowIdx, col)
+                        ? "bg-yellow-400 text-black font-bold rounded-lg scale-110"
+                        : "";
+
+                    return (
                       <div
-                        className={`w-full h-full flex items-center justify-center text-4xl ${
-                          i === (pos[col] + 1) % REEL_LENGTH
-                            ? "scale-110 font-semibold"
-                            : ""
-                        }`}
+                        key={`${col}-${i}`}
+                        className="flex items-center justify-center"
+                        style={{ height: `${CELL_HEIGHT}px` }}
                       >
-                        {s}
+                        <div
+                          className={`w-full h-full flex items-center justify-center text-4xl transition-transform ${highlightClass}`}
+                        >
+                          {s}
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                  {/* Para dar sensação contínua, repetir o começo do strip ao final (wrap) */}
+                    );
+                  })}
+
+                  {/* wrap para animação contínua */}
                   {reels[col].slice(0, VISIBLE).map((s, i) => (
                     <div
                       key={`${col}-wrap-${i}`}
@@ -239,22 +340,55 @@ export default function Slots3x3() {
         })}
       </div>
 
-      <button
-        onClick={startSpin}
-        disabled={spinning}
-        className="bg-yellow-400 text-black font-bold px-6 py-2 rounded hover:bg-yellow-300 transition disabled:opacity-50 mb-4"
-      >
-        {spinning ? "Girando..." : "Spin"}
-      </button>
+      <div className="flex gap-3 mb-3">
+        <button
+          onClick={startSpin}
+          disabled={spinning}
+          className="bg-yellow-400 text-black font-bold px-6 py-2 rounded hover:bg-yellow-300 transition disabled:opacity-50"
+        >
+          {spinning ? "Girando..." : "Spin"}
+        </button>
 
-      {message && <p className="mt-2 text-lg">{message}</p>}
+        {/* Test buttons */}
+        <button
+          onClick={() => forceWin("middle")}
+          className="bg-green-500 text-white font-bold px-3 py-1 rounded hover:bg-green-600"
+        >
+          Test Win — Middle
+        </button>
+
+        <button
+          onClick={() => forceWin("diag0")}
+          className="bg-blue-500 text-white font-bold px-3 py-1 rounded hover:bg-blue-600"
+        >
+          Test Win — Diag ↘
+        </button>
+
+        <button
+          onClick={() => forceWin("diag1")}
+          className="bg-purple-500 text-white font-bold px-3 py-1 rounded hover:bg-purple-600"
+        >
+          Test Win — Diag ↙
+        </button>
+      </div>
+
+      <label className="flex items-center gap-2 text-sm mb-4">
+        <input
+          type="checkbox"
+          checked={persistWin}
+          onChange={(e) => setPersistWin(e.target.checked)}
+        />
+        <span>Manter último win destacado entre jogadas (persist)</span>
+      </label>
+
+      {message && (
+        <pre className="mt-2 text-lg whitespace-pre-line">{message}</pre>
+      )}
 
       <p className="mt-4 text-sm text-slate-400 max-w-xl text-center">
-        Cada coluna usa um reel strip com <strong>{REEL_LENGTH}</strong> stops.
-        Isso imita roletas reais — em vez de sortear cada célula isoladamente, a
-        coluna gira e para mostrando 3 símbolos visíveis (top/middle/bottom).
-        Você pode ajustar <code>REEL_LENGTH</code> para simular máquinas
-        clássicas (~20–30 stops) ou vídeo-slots modernos (32–78+).
+        Use os botões <strong>Test Win</strong> para forçar combinações (útil
+        para debug). Ative Manter último win... se quiser que o destaque do
+        último resultado permaneça visível quando iniciar uma nova jogada.
       </p>
     </div>
   );
