@@ -28,17 +28,17 @@ const TierBadge: React.FC<TierBadgeProps> = ({ product }) => {
       >
         {product.tier === "jackpot" ? (
           <div className="flex items-center justify-center space-x-1">
-            <TbConfetti size={18} />
+            <TbConfetti size={18} className="hidden md:block" />
             <span className="text-xs">Jackpot!</span>
           </div>
         ) : product.tier === "rare" ? (
           <div className="flex items-center justify-center space-x-1">
-            <CiStar size={18} />
+            <CiStar size={18} className="hidden md:block" />
             <span className="text-xs">Raro</span>
           </div>
         ) : (
           <div className="flex items-center justify-center space-x-1">
-            <ImGift size={18} />
+            <ImGift size={18} className="hidden md:block" />
             <span className="text-xs">Comun</span>
           </div>
         )}
