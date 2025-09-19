@@ -151,7 +151,7 @@ const ProductSlotsReels: React.FC<ProductReelsProps> = ({
   }, [shouldStop]);
 
   return (
-    <div className="flex flex-col items-center gap-4 mb-6">
+    <div className="flex flex-col items-center mb-6">
       <div className="flex rounded-l-lg rounded-r-lg  shadow-lg bg-slate-200 ">
         {reels.map((reel, col) => {
           const transSec = transitionDurations[col];
