@@ -11,11 +11,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const cardContent = (
     <motion.div
       key={product.id}
-      className="flex flex-col min-h-[33rem] min-w-[11rem] mb-2 items-center bg-slate-800 text-slate-50  
-                 rounded-md shadow-md p-3 mx-2" // ⬅ added mx-2 for spacing between cards
+      className="flex flex-col md:min-h-[33rem]   md:min-w-[11rem] mb-2 items-center bg-slate-800 text-slate-50  
+                 rounded-md shadow-md p-3 md:mx-2" // ⬅ added mx-2 for spacing between cards
     >
       {/* product image */}
-      <div className="min-h-64 mb-2 shadow-lg bg-slate-500 w-full flex items-center justify-center">
+      <div className="md:min-h-64 h-54 mb-2 shadow-lg bg-slate-500 w-full flex items-center justify-center">
         {product.image ? (
           <img
             src={product.image}
@@ -31,8 +31,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <TierBadge product={product} />
 
       {/* text + pricing */}
-      <div className="w-full flex flex-col items-center justify-center text-center px-2 py-1">
-        <span className="text-xs font-medium text-slate-100 truncate max-w-[135px] h-5">
+      <div className="w-full flex flex-col items-center justify-center text-center md:px-2 py-1">
+        <span className="text-xs font-medium text-slate-100 truncate md:max-w-[135px] max-w-[65px] h-5">
           {product.name}
         </span>
 
@@ -41,7 +41,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <span className="text-xs font-bold text-slate-400 line-through">
               {formatPriceBRL(product.price)}
             </span>
-            <span className="text-md font-bold text-green-400">
+            <span className="md:text-md text-sm font-bold text-green-400">
               {formatPriceBRL(product.discountedPrice)}
             </span>
             <span className="text-xs">{product.discount} OFF</span>
@@ -51,7 +51,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <span className="text-xs font-bold text-slate-400 uppercase">
               °
             </span>
-            <span className="text-md font-bold text-green-400">
+            <span className="md:text-md text-sm font-bold text-green-400">
               {formatPriceBRL(product.price)}
             </span>
             <span className="text-xs uppercase text-slate-400">°</span>
