@@ -52,7 +52,7 @@ const Slots = () => {
       </h2>
       <div className="border-t border-slate-600 mx-2" />
       <div className="flex mt-4 mx-2 items-center justify-center">
-        <ProductSlotsReel
+        <SlotsGame
           selectedProducts={selectedProducts}
           spinning={spinning}
           spin={spin}
