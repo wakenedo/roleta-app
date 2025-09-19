@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Product } from "@/components/Slots/types";
 import { ProductCard } from "../ProductCard";
-import { getAuth } from "firebase/auth";
+import { ProductSlotsReelsPlaceholderInterface } from "../ProductSlotsReelsPlaceholderInterface";
 
 const REEL_LENGTH = 24;
 const VISIBLE = 1;
@@ -11,21 +11,12 @@ const CELL_HEIGHT = 550;
 interface ProductReelsProps {
   selectedProducts: Product[];
   spinning: boolean;
-  spin: (idToken: string) => Promise<void>;
 }
 
 const ProductSlotsReels: React.FC<ProductReelsProps> = ({
   selectedProducts,
   spinning,
-  spin,
 }) => {
-  const auth = getAuth();
-  const user = auth.currentUser;
-  const uid = user?.uid || "guest";
-
-  const MAX_SPINS_PER_DAY = 5000;
-  const [spinsToday, setSpinsToday] = useState(0);
-
   // reel state
   const [reels, setReels] = useState<Product[][]>([[], [], []]);
   const [pos, setPos] = useState<number[]>([0, 0, 0]);
@@ -33,6 +24,7 @@ const ProductSlotsReels: React.FC<ProductReelsProps> = ({
     0, 0, 0,
   ]);
   const [animating, setAnimating] = useState<boolean[]>([false, false, false]);
+  const [activePlaceholder, setActivePlaceholder] = useState(true);
 
   const [shouldStop, setShouldStop] = useState(false);
   const intervalsRef = useRef<(number | null)[]>([null, null, null]);
@@ -48,36 +40,6 @@ const ProductSlotsReels: React.FC<ProductReelsProps> = ({
     discount: "????",
     store: "????",
     campaign: { campaignLink: "", couponCode: "", description: "" },
-  };
-
-  // load spin count
-  useEffect(() => {
-    const today = new Date().toDateString();
-    const stored = localStorage.getItem(`spins-${uid}-${today}`);
-    setSpinsToday(stored ? parseInt(stored) : 0);
-  }, [uid]);
-
-  // handle spin click
-  const handleSpin = async () => {
-    if (spinning || spinsToday >= MAX_SPINS_PER_DAY) return;
-
-    const auth = getAuth();
-    const user = auth.currentUser;
-
-    if (!user) {
-      console.warn("User not logged in");
-      return;
-    }
-
-    const idToken = await user.getIdToken();
-    if (!idToken) return;
-
-    const newCount = spinsToday + 1;
-    const today = new Date().toDateString();
-    localStorage.setItem(`spins-${uid}-${today}`, newCount.toString());
-    setSpinsToday(newCount);
-
-    spin(idToken);
   };
 
   // initialize reels
@@ -109,10 +71,10 @@ const ProductSlotsReels: React.FC<ProductReelsProps> = ({
   useEffect(() => {
     if (!spinning) return;
 
-    setTransitionDurations([0.3, 0.3, 0.3]); // quick steps
-    setAnimating([true, true, true]);
+    setTransitionDurations([10.8, 10.8, 10.8]); // quick steps
+    setAnimating([!animating, !animating, !animating]);
 
-    const intervalMs = 180;
+    const intervalMs = 100;
 
     for (let col = 0; col < 3; col++) {
       intervalsRef.current[col] = window.setInterval(() => {
@@ -154,8 +116,8 @@ const ProductSlotsReels: React.FC<ProductReelsProps> = ({
   useEffect(() => {
     if (!shouldStop) return;
 
-    const baseStopDelay = 800;
-    const gapBetweenStops = 800;
+    const baseStopDelay = 400;
+    const gapBetweenStops = 400;
 
     for (let col = 0; col < 3; col++) {
       setTimeout(() => {
@@ -185,11 +147,12 @@ const ProductSlotsReels: React.FC<ProductReelsProps> = ({
     }
 
     setShouldStop(false);
+    setActivePlaceholder(false);
   }, [shouldStop]);
 
   return (
     <div className="flex flex-col items-center gap-4 mb-6">
-      <div className="flex">
+      <div className="flex rounded-l-lg rounded-r-lg  shadow-lg bg-slate-200 ">
         {reels.map((reel, col) => {
           const transSec = transitionDurations[col];
           const translateY =
@@ -198,7 +161,7 @@ const ProductSlotsReels: React.FC<ProductReelsProps> = ({
           return (
             <div
               key={col}
-              className="rounded-lg p-1 shadow-lg bg-slate-300 overflow-hidden relative w-50"
+              className=" p-1 overflow-hidden relative "
               style={{ height: `${CELL_HEIGHT * VISIBLE}px` }}
             >
               <div
@@ -208,30 +171,26 @@ const ProductSlotsReels: React.FC<ProductReelsProps> = ({
                 }}
               >
                 {/* duplicate for seamless scroll */}
-                {[...reel, ...reel].map((product, i) => (
-                  <div
-                    key={`${col}-${i}`}
-                    style={{ height: `${CELL_HEIGHT}px` }}
-                    className="flex items-center justify-center overflow-hidden"
-                  >
-                    <div className="w-[95%] h-[95%] flex items-center justify-center mx-auto my-2">
-                      <ProductCard product={product} />
+                {[...reel, ...reel].map((product, i) => {
+                  return spinning === false && activePlaceholder ? (
+                    <ProductSlotsReelsPlaceholderInterface key={i} />
+                  ) : (
+                    <div
+                      key={`${col}-${i}`}
+                      style={{ height: `${CELL_HEIGHT}px` }}
+                      className="flex items-center justify-center overflow-hidden"
+                    >
+                      <div className="w-[95%] h-[95%] flex items-center justify-center mx-auto my-2">
+                        <ProductCard product={product} />
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           );
         })}
       </div>
-
-      <button
-        onClick={handleSpin}
-        disabled={spinning}
-        className="bg-yellow-400 text-black font-bold px-6 py-2 rounded hover:bg-yellow-300 transition disabled:opacity-50"
-      >
-        {spinning ? "Girando..." : "Spin"}
-      </button>
     </div>
   );
 };
