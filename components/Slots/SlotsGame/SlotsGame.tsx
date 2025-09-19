@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getAuth } from "firebase/auth";
 import { SlotsGameProps } from "../types";
 import { ProductSlots } from "./components/ProductSlots";
+import ProductSlotsReels from "./components/ProductSlotsReels/ProductSlotsReels";
 
 const MAX_SPINS_PER_DAY = 5;
 
@@ -48,7 +49,10 @@ const SlotsGame: React.FC<SlotsGameProps> = ({
 
   return (
     <div className="flex flex-col items-center w-full max-w-md">
-      <ProductSlots selectedProducts={selectedProducts} spinning={spinning} />
+      <ProductSlotsReels
+        selectedProducts={selectedProducts}
+        spinning={spinning}
+      />
       <p className="mb-2 text-sm text-slate-900">
         Rodadas restantes hoje: {MAX_SPINS_PER_DAY - spinsToday}
       </p>
