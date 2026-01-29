@@ -4,44 +4,38 @@ import React, { useState } from "react";
 import { SlotsGame } from "./SlotsGame";
 import { Product } from "./types";
 import { ProductSlotsReelsProvider } from "@/context/ProductSlotsReelsContext/ProductSlotsReelsContext";
+import { useAuth } from "@/context/AuthContext/AuthContext";
 
 const Slots = () => {
   const [spinning, setSpinning] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
+  const { getToken } = useAuth();
 
-  const renderDeployAddress = process.env.NEXT_PUBLIC_RENDER_API;
+  const renderDeployAddress = process.env.NEXT_PUBLIC_LOCAL_API;
 
-  const spin = async (idToken: string) => {
-    if (!renderDeployAddress) {
-      throw new Error("A variável NEXT_PUBLIC_RENDER_API não está definida.");
-    }
-
+  const spin = async () => {
     setSpinning(true);
+
     try {
+      const token = await getToken();
+
       const res = await fetch(`${renderDeployAddress}/spin`, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${idToken}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
-      const contentType = res.headers.get("content-type");
-
-      if (!res.ok || !contentType?.includes("application/json")) {
-        const text = await res.text(); // safer than res.json()
-        console.error("Unexpected response:", text);
-        throw new Error("API returned non-JSON or error response.");
+      if (!res.ok) {
+        throw new Error("Spin request failed");
       }
 
       const data = await res.json();
-      setSelectedProducts(data.products || []);
-      console.log("Spin success:", data);
+      setSelectedProducts(data.products ?? []);
     } catch (err) {
-      console.error("Network error:", err);
+      console.error("Spin error:", err);
     } finally {
-      setTimeout(() => {
-        setSpinning(false);
-      }, 2500);
+      setTimeout(() => setSpinning(false), 2500);
     }
   };
 
@@ -56,11 +50,7 @@ const Slots = () => {
           spinning={spinning}
           selectedProducts={selectedProducts}
         >
-          <SlotsGame
-            selectedProducts={selectedProducts}
-            spinning={spinning}
-            spin={spin}
-          />
+          <SlotsGame spinning={spinning} spin={spin} />
         </ProductSlotsReelsProvider>
       </div>
     </div>
