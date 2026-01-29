@@ -1,65 +1,131 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getAuth } from "firebase/auth";
 import { SlotsGameProps } from "../types";
 import ProductSlotsReels from "./components/ProductSlotsReels/ProductSlotsReels";
+import { useAuth } from "@/context/AuthContext/AuthContext";
 
-const MAX_SPINS_PER_DAY = 5;
+type Quota = {
+  used: number;
+  remaining: number;
+  limit: number;
+};
 
 const SlotsGame: React.FC<SlotsGameProps> = ({ spinning, spin }) => {
-  const auth = getAuth();
-  const user = auth.currentUser;
-  const uid = user?.uid || "guest"; // fallback for dev
+  const { user, authorizedFetch } = useAuth();
 
-  const [spinsToday, setSpinsToday] = useState(0);
+  const [quota, setQuota] = useState<Quota | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
+  const renderDeployAddress = process.env.NEXT_PUBLIC_LOCAL_API;
+
+  /* ------------------------------------------------------------
+   * Fetch quota on login / mount
+   * ------------------------------------------------------------ */
   useEffect(() => {
-    const today = new Date().toDateString();
-    const stored = localStorage.getItem(`spins-${uid}-${today}`);
-    setSpinsToday(stored ? parseInt(stored) : 0);
-  }, [uid]);
-
-  const handleSpin = async () => {
-    if (spinning || spinsToday >= MAX_SPINS_PER_DAY) return;
-
-    const auth = getAuth();
-    const user = auth.currentUser;
-
     if (!user) {
-      console.warn("User not logged in");
+      setQuota(null);
       return;
     }
 
-    const idToken = await user.getIdToken();
-    if (!idToken) return;
+    let cancelled = false;
 
-    const newCount = spinsToday + 1;
-    const today = new Date().toDateString();
-    localStorage.setItem(`spins-${uid}-${today}`, newCount.toString());
-    setSpinsToday(newCount);
+    const fetchQuota = async () => {
+      try {
+        const res = await authorizedFetch(`${renderDeployAddress}/spin/quota`);
 
-    spin(idToken);
+        if (!res.ok) return;
+
+        const data = await res.json();
+        if (!cancelled) setQuota(data.quota);
+      } catch {}
+    };
+
+    fetchQuota();
+    return () => {
+      cancelled = true;
+    };
+  }, [user, authorizedFetch]);
+
+  /* ------------------------------------------------------------
+   * Spin handler
+   * ------------------------------------------------------------ */
+  const handleSpin = async () => {
+    if (!user || spinning || loading) return;
+    if (quota && quota.remaining <= 0) return;
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const res = await authorizedFetch(`${renderDeployAddress}/spin`, {
+        method: "POST",
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        if (res.status === 403) {
+          setQuota(data.quota ?? quota);
+          setError("Limite diário atingido");
+        } else if (res.status === 401) {
+          setError("Sessão expirada. Faça login novamente.");
+        } else {
+          setError("Erro ao girar");
+        }
+        return;
+      }
+
+      // 🔑 Backend is the authority
+      setQuota(data.quota);
+
+      // Trigger reels animation
+      spin();
+    } catch {
+      setError("Erro de conexão");
+    } finally {
+      setLoading(false);
+    }
   };
+
+  /* ------------------------------------------------------------
+   * Render
+   * ------------------------------------------------------------ */
+  const remaining = quota?.remaining;
+
+  console.log("Quota:", quota?.remaining);
 
   return (
     <div className="flex flex-col items-center w-full max-w-md">
       <ProductSlotsReels />
+
       <p className="mb-2 text-sm text-slate-900">
-        Rodadas restantes hoje: {MAX_SPINS_PER_DAY - spinsToday}
+        {quota !== undefined ? `Rodadas restantes hoje: ${remaining}` : "—"}
       </p>
+
+      {error && <p className="mb-2 text-xs text-red-500">{error}</p>}
+
       <button
         onClick={handleSpin}
-        disabled={spinning || spinsToday >= MAX_SPINS_PER_DAY}
+        disabled={
+          !user ||
+          spinning ||
+          loading ||
+          (remaining !== undefined && remaining <= 0)
+        }
         className="px-6 py-2 bg-green-400 text-slate-50 rounded-xs disabled:bg-slate-400 mb-2"
       >
-        {spinning
-          ? "Girando..."
-          : spinsToday >= MAX_SPINS_PER_DAY
-            ? "Limite diário atingido"
-            : "Girar"}
+        {!user
+          ? "Faça login para girar"
+          : loading || spinning
+            ? "Girando..."
+            : remaining !== undefined && remaining <= 0
+              ? "Limite diário atingido"
+              : "Girar"}
       </button>
     </div>
   );
 };
+
 export default SlotsGame;

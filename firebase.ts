@@ -13,13 +13,9 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID!,
 };
 
-let app;
-if (typeof window !== "undefined") {
-  // Only initialize on client side
-  app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
-}
+const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 
-const auth = app ? getAuth(app) : undefined;
+const auth = getAuth(app);
 const gAuthProvider = new GoogleAuthProvider();
 
 export { app, auth, gAuthProvider };
