@@ -22,6 +22,7 @@ interface AuthContextProps {
   logout: () => Promise<void>;
   getToken: (forceRefresh?: boolean) => Promise<string>;
   requireAuth: () => User;
+  authorizedFetch: typeof fetch;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -71,6 +72,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const authorizedFetch = async (
+    input: RequestInfo | URL,
+    init: RequestInit = {},
+  ) => {
+    const token = await getToken();
+
+    return fetch(input, {
+      ...init,
+      headers: {
+        ...(init.headers || {}),
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -80,6 +96,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         getToken,
         requireAuth,
         loginWithGoogle,
+        authorizedFetch
       }}
     >
       {children}
