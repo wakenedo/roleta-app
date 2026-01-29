@@ -1,37 +1,34 @@
 "use client";
+
 import Image from "next/image";
 import { useState } from "react";
-import { signInWithPopup } from "firebase/auth";
 import GIcon from "@/public/google-icon.png";
-import { auth, gAuthProvider } from "@/firebase";
+import { useAuth } from "@/context/AuthContext/AuthContext";
 
 const GoogleButton = () => {
+  const { loginWithGoogle } = useAuth();
   const [loading, setLoading] = useState(false);
 
   const handleGoogleLogin = async () => {
     try {
       setLoading(true);
-      if (typeof window !== "undefined" && auth) {
-        const result = await signInWithPopup(auth, gAuthProvider);
-        const user = result.user;
-        console.log("✅ Google login success:", user);
-        // Optional: send user token to your backend
-      }
-    } catch (error) {
-      console.error("❌ Google login failed:", error);
+      await loginWithGoogle();
+    } catch (err) {
+      console.error("❌ Google login failed:", err);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div
+    <button
       onClick={handleGoogleLogin}
-      className="p-2 rounded-full border border-slate-400 flex items-center gap-2 cursor-pointer"
+      disabled={loading}
+      className="p-2 rounded-full border border-slate-400 flex items-center gap-2 cursor-pointer disabled:opacity-60"
     >
       <Image src={GIcon} alt="google" width={24} height={24} />
       <span>{loading ? "Carregando..." : "Entrar com Google"}</span>
-    </div>
+    </button>
   );
 };
 
