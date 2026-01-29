@@ -29,8 +29,7 @@ interface ProductReelsProps {
 
 interface SlotsGameProps {
   spinning: boolean;
-  selectedProducts: Product[];
-  spin: (idToken: string) => Promise<void>;
+  spin: () => Promise<void>;
 }
 
 interface TierBadgeProps {
