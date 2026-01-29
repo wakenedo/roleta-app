@@ -1,48 +1,18 @@
-import { Product } from "@/components/Slots/types";
-import { ImGift } from "react-icons/im";
-import { CiStar } from "react-icons/ci";
-import { TbConfetti } from "react-icons/tb";
+import { TierBadgeProps } from "@/components/Slots/types";
+import { BadgeDynamicGradient } from "./components/BadgeDynamicGradiet";
+import { BadgeContent } from "./components/BadgeContent";
+import { tierStyle } from "../../utils";
 
-interface TierBadgeProps {
-  product: Product;
-}
 const TierBadge: React.FC<TierBadgeProps> = ({ product }) => {
   return (
     <div
-      className={`border rounded-full p-1 w-full text-center mt-2 ${
-        product.tier === "jackpot"
-          ? "border-yellow-400"
-          : product.tier === "rare"
-          ? "border-blue-400"
-          : "border-gray-400"
-      }`}
+      className={`
+        border-2 overflow-hidden mb-2 rounded-full  w-full text-center mt-2 
+        ${tierStyle(product).border}`}
     >
-      <span
-        className={`text-xs font-bold ${
-          product.tier === "jackpot"
-            ? "text-yellow-400"
-            : product.tier === "rare"
-            ? "text-blue-400"
-            : "text-gray-400"
-        }`}
-      >
-        {product.tier === "jackpot" ? (
-          <div className="flex items-center justify-center space-x-1">
-            <TbConfetti size={18} className="hidden md:block" />
-            <span className="text-xs">Jackpot!</span>
-          </div>
-        ) : product.tier === "rare" ? (
-          <div className="flex items-center justify-center space-x-1">
-            <CiStar size={18} className="hidden md:block" />
-            <span className="text-xs">Raro</span>
-          </div>
-        ) : (
-          <div className="flex items-center justify-center space-x-1">
-            <ImGift size={18} className="hidden md:block" />
-            <span className="text-xs">Comun</span>
-          </div>
-        )}
-      </span>
+      <BadgeDynamicGradient product={product}>
+        <BadgeContent product={product} />
+      </BadgeDynamicGradient>
     </div>
   );
 };

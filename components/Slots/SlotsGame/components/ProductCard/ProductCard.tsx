@@ -1,73 +1,29 @@
-import { ProductCardProps } from "@/components/Slots/types";
 import { motion } from "framer-motion";
-import { TierBadge } from "./components/TierBadge";
-import { formatPriceBRL } from "./utils";
-import PlaceholderLogo from "@/public/logoparceiroplaceholder.png";
-import Image from "next/image";
+import { ProductCardProps } from "@/components/Slots/types";
+import { CardContent } from "./components/CardContent";
+import { CardDynamicGradient } from "./components/CardDynamicGradient";
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const isFiller = product.id === "placeholder";
-
   const cardContent = (
     <motion.div
-      key={product.id}
-      className="flex flex-col md:min-h-[33rem]   md:min-w-[11rem] mb-2 items-center bg-slate-800 text-slate-50  
-                 rounded-md shadow-md p-3 md:mx-2" // ⬅ added mx-2 for spacing between cards
+      className="
+         overflow-hidden
+        w-fit md:w-[192px]
+        h-[33rem]
+        rounded-md
+        shadow-md
+        transform-gpu
+      "
     >
-      {/* product image */}
-      <div className="md:min-h-64 h-54 mb-2 shadow-lg bg-slate-500 w-full flex items-center justify-center">
-        {product.image ? (
-          <img
-            src={product.image}
-            alt={product.name}
-            className="object-contain"
-          />
-        ) : (
-          <span className="text-slate-300">???</span>
-        )}
-      </div>
-
-      {/* tier badge */}
-      <TierBadge product={product} />
-
-      {/* text + pricing */}
-      <div className="w-full flex flex-col items-center justify-center text-center md:px-2 py-1">
-        <span className="text-xs font-medium text-slate-100 truncate md:max-w-[135px] max-w-[65px] h-5">
-          {product.name}
-        </span>
-
-        {product.discount ? (
-          <>
-            <span className="text-xs font-bold text-slate-400 line-through">
-              {formatPriceBRL(product.price)}
-            </span>
-            <span className="md:text-md text-sm font-bold text-green-400">
-              {formatPriceBRL(product.discountedPrice)}
-            </span>
-            <span className="text-xs">{product.discount} OFF</span>
-          </>
-        ) : (
-          <>
-            <span className="text-xs font-bold text-slate-400 uppercase">
-              °
-            </span>
-            <span className="md:text-md text-sm font-bold text-green-400">
-              {formatPriceBRL(product.price)}
-            </span>
-            <span className="text-xs uppercase text-slate-400">°</span>
-          </>
-        )}
-
-        {product.store && (
-          <div className="mt-1">
-            <Image src={PlaceholderLogo} alt="store" width={120} height={40} />
-          </div>
-        )}
-      </div>
+      {/* 🔵 GRADIENT LAYER */}
+      <CardDynamicGradient product={product}>
+        {/* 🧠 CONTENT LAYER */}
+        <CardContent product={product} />
+      </CardDynamicGradient>
     </motion.div>
   );
 
-  // only wrap with <a> if product is real (not filler)
   return isFiller ? (
     cardContent
   ) : (
