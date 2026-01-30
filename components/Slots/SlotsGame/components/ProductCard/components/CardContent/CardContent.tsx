@@ -59,7 +59,13 @@ const CardContent: FC<ProductCardProps> = ({ product }) => {
         ) : (
           <>
             <span className="text-xs text-slate-400">°</span>
-            <span className="text-sm font-bold text-green-400 text-shadow-2xs text-shadow-slate-50">
+            <span
+              className={`
+                text-shadow-2xs  text-sm md:text-base font-bold
+                ${tierStyle(product).glow}
+                ${tierStyle(product).discountedPrice} 
+              `}
+            >
               {formatPriceBRL(product.price)}
             </span>
             <span className="text-xs text-slate-400">°</span>

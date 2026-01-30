@@ -5,33 +5,35 @@ import { SlotsGame } from "./SlotsGame";
 import { Product } from "./types";
 import { ProductSlotsReelsProvider } from "@/context/ProductSlotsReelsContext/ProductSlotsReelsContext";
 import { useAuth } from "@/context/AuthContext/AuthContext";
+import { useUser } from "@/context/UserContext/UserContext";
 
 const Slots = () => {
   const [spinning, setSpinning] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
-  const { getToken } = useAuth();
+  const { authorizedFetch } = useAuth();
+  const { consumeSpin } = useUser();
 
   const renderDeployAddress = process.env.NEXT_PUBLIC_LOCAL_API;
 
   const spin = async () => {
+    if (spinning) return;
+
     setSpinning(true);
 
     try {
-      const token = await getToken();
-
-      const res = await fetch(`${renderDeployAddress}/spin`, {
+      const res = await authorizedFetch(`${renderDeployAddress}/spin`, {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       });
 
+      const data = await res.json();
+
       if (!res.ok) {
-        throw new Error("Spin request failed");
+        throw new Error("Spin failed");
       }
 
-      const data = await res.json();
+      // 🎯 Backend is the authority
       setSelectedProducts(data.products ?? []);
+      consumeSpin(data.quota);
     } catch (err) {
       console.error("Spin error:", err);
     } finally {
@@ -50,7 +52,7 @@ const Slots = () => {
           spinning={spinning}
           selectedProducts={selectedProducts}
         >
-          <SlotsGame spinning={spinning} spin={spin} />
+          <SlotsGame spinning={spinning} onSpin={spin} />
         </ProductSlotsReelsProvider>
       </div>
     </div>
