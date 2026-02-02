@@ -9,44 +9,7 @@ import {
   useCallback,
 } from "react";
 import { useAuth } from "@/context/AuthContext/AuthContext";
-
-export type SpinQuota = {
-  used: number;
-  remaining: number;
-  limit: number;
-  resetsAt: string;
-};
-
-export type UserStats = {
-  totalSpins: number;
-  totalRewards: number;
-  jackpots: number;
-};
-
-export type BackendUser = {
-  id: string;
-  email: string;
-  name: string | null;
-  photoURL: string | null;
-  createdAt: string | null;
-};
-
-export type UserState = {
-  user: BackendUser;
-  quota: {
-    spins: SpinQuota;
-  };
-  stats: UserStats;
-  rewards: unknown[];
-};
-
-interface UserContextProps {
-  data: UserState | null;
-  loading: boolean;
-  error: string | null;
-  refresh: () => Promise<void>;
-  consumeSpin: (quota: SpinQuota) => void;
-}
+import { SpinQuota, UserContextProps, UserState } from "./types";
 
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
