@@ -6,7 +6,6 @@ import React, {
   useEffect,
   useRef,
   useState,
-  ReactNode,
 } from "react";
 import { Product } from "@/components/Slots/types";
 import {
@@ -15,26 +14,10 @@ import {
   CELL_HEIGHT,
   VISIBLE,
 } from "@/components/Slots/SlotsGame/components/ProductSlotsReels/enum";
-
-export type ProductSlotsReelsContextType = {
-  reels: Product[][];
-  pos: number[];
-  transitionDurations: number[];
-  animating: boolean[];
-  activePlaceholder: boolean;
-  spinning: boolean;
-  CELL_HEIGHT: number;
-  VISIBLE: number;
-};
+import { ProductSlotsReelsContextType, ProviderProps } from "./types";
 
 const ProductSlotsReelsContext =
   createContext<ProductSlotsReelsContextType | null>(null);
-
-type ProviderProps = {
-  selectedProducts: Product[];
-  spinning: boolean;
-  children: ReactNode;
-};
 
 export const ProductSlotsReelsProvider: React.FC<ProviderProps> = ({
   selectedProducts,

@@ -1,1 +1,1 @@
-export { default as ProductSlotsReel } from "./ProductSlotsReels";
+export { default as ProductSlotsReels } from "./ProductSlotsReels";

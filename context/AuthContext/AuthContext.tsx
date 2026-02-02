@@ -14,16 +14,7 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { auth, gAuthProvider } from "@/firebase";
-
-interface AuthContextProps {
-  user: User | null;
-  loading: boolean;
-  loginWithGoogle: () => Promise<void>;
-  logout: () => Promise<void>;
-  getToken: (forceRefresh?: boolean) => Promise<string>;
-  requireAuth: () => User;
-  authorizedFetch: typeof fetch;
-}
+import { AuthContextProps } from "./types";
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
@@ -96,7 +87,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         getToken,
         requireAuth,
         loginWithGoogle,
-        authorizedFetch
+        authorizedFetch,
       }}
     >
       {children}
