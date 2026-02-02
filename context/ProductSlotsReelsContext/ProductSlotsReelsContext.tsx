@@ -6,7 +6,6 @@ import React, {
   useEffect,
   useRef,
   useState,
-  ReactNode,
 } from "react";
 import { Product } from "@/components/Slots/types";
 import {
