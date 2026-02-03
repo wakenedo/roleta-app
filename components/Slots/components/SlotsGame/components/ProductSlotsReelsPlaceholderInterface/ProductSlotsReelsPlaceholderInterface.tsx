@@ -6,7 +6,7 @@ const ProductSlotsReelsPlaceholderInterface: React.FC = () => {
   const randomDelay = Math.random() * 12;
 
   return (
-    <div className="justify-center text-slate-700 text-center py-2 w-[6.5rem] md:w-[11rem]">
+    <div className="justify-center text-slate-700 text-center py-2 w-[6.5rem] md:w-[11rem] mx-2">
       <div className="my-1 flex flex-col items-center">
         <motion.div
           animate={{

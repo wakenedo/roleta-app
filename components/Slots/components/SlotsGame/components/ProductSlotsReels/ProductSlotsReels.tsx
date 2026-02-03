@@ -28,7 +28,7 @@ const ProductSlotsReels: React.FC = () => {
           return (
             <div
               key={col}
-              className="pb-1 px-1 overflow-hidden relative"
+              className="pb-1 mx-1 overflow-hidden relative"
               style={{ height: `${CELL_HEIGHT * VISIBLE}px` }}
             >
               <div
