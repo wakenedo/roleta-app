@@ -17,7 +17,9 @@ const SpinButton = ({
     <button
       onClick={onSpin}
       disabled={disabled}
-      className="px-6 py-2 bg-green-400 text-slate-50 rounded-xs disabled:bg-slate-400 mb-2"
+      className="
+      cursor-pointer px-22 py-2 drop-shadow-xl text-shadow-2xs bg-green-400 
+      text-slate-50 rounded-xs disabled:bg-slate-400 mb-4"
     >
       {!user
         ? "Faça login para girar"

@@ -4,23 +4,13 @@ import { TierBadge } from "../TierBadge";
 import PlaceholderLogo from "@/public/logoparceiroplaceholder.png";
 import { ProductCardProps } from "@/components/Slots/types";
 import { FC } from "react";
+import { CardImage } from "../CardImage";
 
 const CardContent: FC<ProductCardProps> = ({ product }) => {
   return (
     <div className="relative z-10 flex flex-col items-center h-full p-3">
       {/* IMAGE */}
-      <div className="z-10 h-54 md:h-64 mb-2 w-full shadow-lg flex items-center justify-center bg-slate-700 backdrop-blur-sm">
-        {product.image ? (
-          <img
-            src={product.image}
-            alt={product.name}
-            className="object-contain max-h-full"
-          />
-        ) : (
-          <span className="text-slate-300">???</span>
-        )}
-      </div>
-
+      <CardImage product={product} />
       <TierBadge product={product} />
 
       <div className="w-full flex flex-col items-center text-center px-2 py-1">

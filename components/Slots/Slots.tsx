@@ -1,11 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
-import { SlotsGame } from "./SlotsGame";
+import { useEffect, useRef, useState } from "react";
+
 import { Product } from "./types";
 import { ProductSlotsReelsProvider } from "@/context/ProductSlotsReelsContext/ProductSlotsReelsContext";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useUser } from "@/context/UserContext/UserContext";
+
+import { SlotsTitle } from "./components/SlotsTitle";
+import { SlotsGame } from "./components/SlotsGame";
+import { productSlotsReelsGradient } from "./components/SlotsGame/components/ProductSlotsReels/utils";
 
 const Slots = () => {
   const [spinning, setSpinning] = useState(false);
@@ -41,12 +45,20 @@ const Slots = () => {
     }
   };
 
+  const gradientRef = useRef<HTMLDivElement | null>(null);
+
+  /* gradient effect stays here */
+  useEffect(() => {
+    productSlotsReelsGradient(gradientRef);
+  }, []);
+
   return (
-    <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl h-auto min-h-[480px] flex flex-col rounded-t-xs text-white py-2 min-w-2xl">
-      <h2 className="text-2xl font-bold mb-2 ml-2 text-slate-900">
-        Descubra Suas Ofertas
-      </h2>
-      <div className="border-t border-slate-600 mx-2" />
+    <div
+      ref={gradientRef}
+      className="bg-white/5 backdrop-blur-md  rounded-2xl shadow-2xl h-auto min-h-[480px] flex flex-col rounded-t-xs text-white py-2 min-w-2xl"
+    >
+      <SlotsTitle />
+      <div className="border-t border-slate-100 mx-8" />
       <div className="flex mt-4 mx-2 items-center justify-center">
         <ProductSlotsReelsProvider
           spinning={spinning}

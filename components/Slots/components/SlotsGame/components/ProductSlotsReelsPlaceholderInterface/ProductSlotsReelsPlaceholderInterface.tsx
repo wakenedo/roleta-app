@@ -21,7 +21,7 @@ const ProductSlotsReelsPlaceholderInterface: React.FC = () => {
             delay: randomDelay, // so each column feels more organic
           }}
         >
-          <ImGift size={112} className="text-slate-700" />
+          <ImGift size={112} className="text-slate-600" />
         </motion.div>
       </div>
     </div>

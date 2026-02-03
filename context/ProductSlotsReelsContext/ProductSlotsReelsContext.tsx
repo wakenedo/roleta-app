@@ -8,13 +8,14 @@ import React, {
   useState,
 } from "react";
 import { Product } from "@/components/Slots/types";
+
+import { ProductSlotsReelsContextType, ProviderProps } from "./types";
 import {
   FILLER,
   REEL_LENGTH,
-  CELL_HEIGHT,
   VISIBLE,
-} from "@/components/Slots/SlotsGame/components/ProductSlotsReels/enum";
-import { ProductSlotsReelsContextType, ProviderProps } from "./types";
+  CELL_HEIGHT,
+} from "@/components/Slots/components/SlotsGame/components/ProductSlotsReels/enum";
 
 const ProductSlotsReelsContext =
   createContext<ProductSlotsReelsContextType | null>(null);

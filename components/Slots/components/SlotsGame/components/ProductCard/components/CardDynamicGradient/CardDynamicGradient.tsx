@@ -9,14 +9,14 @@ const CardDynamicGradient = ({
   children: React.ReactNode;
   product: Product;
 }) => {
-  const gradientRef = useRef<HTMLDivElement | null>(null);
+  const cardGradientRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    cardGradientLifecycle({ gradientRef, product });
+    cardGradientLifecycle({ gradientRef: cardGradientRef, product });
   }, [product, product.tier]);
   return (
     <div
-      ref={gradientRef}
+      ref={cardGradientRef}
       className="
           h-full
           absolute inset-0
