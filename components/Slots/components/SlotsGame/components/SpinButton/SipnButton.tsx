@@ -19,7 +19,7 @@ const SpinButton = ({
       disabled={disabled}
       className="
       cursor-pointer px-22 py-2 drop-shadow-xl text-shadow-2xs bg-green-400 
-      text-slate-50 rounded-xs disabled:bg-slate-400 mb-4"
+      text-slate-50 rounded-xs disabled:bg-slate-400 mb-4 font-semibold"
     >
       {!user
         ? "Faça login para girar"
