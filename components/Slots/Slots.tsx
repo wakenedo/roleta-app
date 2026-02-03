@@ -58,8 +58,8 @@ const Slots = () => {
       className="bg-white/5 backdrop-blur-md  rounded-2xl shadow-2xl h-auto min-h-[480px] flex flex-col rounded-t-xs text-white py-2 min-w-2xl"
     >
       <SlotsTitle />
-      <div className="border-t border-slate-100 mx-8" />
-      <div className="flex mt-4 mx-2 items-center justify-center">
+      <div className="z-10 border-t border-slate-100 mx-8" />
+      <div className="z-10 flex mt-4 mx-2 items-center justify-center">
         <ProductSlotsReelsProvider
           spinning={spinning}
           selectedProducts={selectedProducts}
