@@ -14,7 +14,7 @@ const slotsTitleGradientLifecycle = ({
     schedule: [
       { time: "6:00", colors: ["#6366f1", "#22d3ee", "#facc15"] },
       { time: "18:00", colors: ["#e6ec48", "#22d3ee", "#34d399"] },
-      { time: "22:00", colors: ["#1e1b4b", "#0f172a", "#020617"] },
+      { time: "22:00", colors: ["#f9f472", "#275c3f", "#5A0E62"] },
     ],
     textClip: true,
     transitionDuration: 1200,
