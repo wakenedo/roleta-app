@@ -6,7 +6,7 @@ const ProductSlotsReelsPlaceholderInterface: React.FC = () => {
   const randomDelay = Math.random() * 12;
 
   return (
-    <div className="justify-center text-slate-700 text-center py-2 w-[6.5rem] md:w-[11rem]">
+    <div className="justify-center text-slate-700 text-center py-2 w-[6.5rem] md:w-[11rem] mx-2">
       <div className="my-1 flex flex-col items-center">
         <motion.div
           animate={{
@@ -21,7 +21,7 @@ const ProductSlotsReelsPlaceholderInterface: React.FC = () => {
             delay: randomDelay, // so each column feels more organic
           }}
         >
-          <ImGift size={112} className="text-slate-700" />
+          <ImGift size={112} className="text-slate-600" />
         </motion.div>
       </div>
     </div>

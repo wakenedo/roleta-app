@@ -1,6 +1,7 @@
 "use client";
 import { Header } from "@/components/Header";
-import { ProductCard } from "@/components/Slots/SlotsGame/components/ProductCard";
+import { ProductCard } from "@/components/Slots/components/SlotsGame/components/ProductCard";
+
 import { useAuth } from "@/context/AuthContext/AuthContext";
 const UserArea = () => {
   const { user } = useAuth();

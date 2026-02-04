@@ -1,6 +1,6 @@
 "use client";
 
-import { SlotsGameProps } from "../types";
+import { SlotsGameProps } from "../../types";
 import { ProductSlotsReels } from "./components/ProductSlotsReels";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useUser } from "@/context/UserContext/UserContext";

@@ -1,8 +1,7 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { ProductCard } from "../ProductCard";
 import { ProductSlotsReelsPlaceholderInterface } from "../ProductSlotsReelsPlaceholderInterface";
-import { productSlotsReelsGradient } from "./utils";
 import { useProductSlotsReels } from "@/context/ProductSlotsReelsContext/ProductSlotsReelsContext";
 const ProductSlotsReels: React.FC = () => {
   const {
@@ -15,19 +14,13 @@ const ProductSlotsReels: React.FC = () => {
     VISIBLE,
   } = useProductSlotsReels();
 
-  const gradientRef = useRef<HTMLDivElement | null>(null);
-
-  /* gradient effect stays here */
-  useEffect(() => {
-    productSlotsReelsGradient(gradientRef);
-  }, []);
-
   return (
     <div className="flex flex-col items-center mb-6">
-      <div
-        ref={gradientRef}
-        className="flex rounded-l-lg rounded-r-lg shadow-lg bg-slate-200 px-2"
-      >
+      <div className="relative flex rounded-lg  px-2 overflow-hidden">
+        <div
+          className="absolute inset-0 rounded-lg pointer-events-none
+    shadow-[inset_4px_4px_8px_rgba(0,0,0,0.25)]"
+        />
         {reels.map((reel, col) => {
           const translateY =
             -(pos[col] * CELL_HEIGHT) + CELL_HEIGHT * Math.floor(VISIBLE / 2);
@@ -35,7 +28,7 @@ const ProductSlotsReels: React.FC = () => {
           return (
             <div
               key={col}
-              className="pb-1 px-1 overflow-hidden relative"
+              className="pb-1 mx-1 overflow-hidden relative"
               style={{ height: `${CELL_HEIGHT * VISIBLE}px` }}
             >
               <div
