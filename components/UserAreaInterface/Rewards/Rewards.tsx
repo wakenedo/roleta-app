@@ -7,12 +7,44 @@ const Rewards = () => {
       <h3 className="text-sm font-semibold text-slate-800 mb-2">
         Últimos prêmios
       </h3>
+      <hr className="border-t border-slate-300 mb-4" />
 
-      <ul className="text-sm text-slate-700 space-y-1">
-        <li>🎁 Cupom R$10 – Loja X</li>
-        <li>🎁 Frete grátis – Loja Y</li>
-        <li className="text-slate-400 italic">Nenhum prêmio recente</li>
-      </ul>
+      <div className="text-sm text-slate-500">
+        <div className="w-fit flex flex-col">
+          <div>
+            <span className="text-xs font-semibold text-slate-600">
+              Economizado :
+            </span>
+            <div>
+              <span className="text-xs text-slate-600">R$ 0,00</span>
+            </div>
+          </div>
+          <div>
+            <span className="text-xs font-semibold text-slate-600">
+              Jackpots :
+            </span>
+            <div>
+              <span className="text-xs text-slate-600">0</span>
+            </div>
+          </div>
+          <div>
+            <span className="text-xs font-semibold text-slate-600">
+              Raros :
+            </span>
+            <div>
+              <span className="text-xs text-slate-600">0</span>
+            </div>
+          </div>
+          <div>
+            <span className="text-xs font-semibold text-slate-600">
+              Comum :
+            </span>
+            <div>
+              <span className="text-xs text-slate-600">0</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
