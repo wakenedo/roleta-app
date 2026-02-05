@@ -17,9 +17,9 @@ const UserAreaInterface = ({
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/50 z-[-1]" />
 
-      <main className="relative z-10 min-h-screen flex flex-col items-center pt-6 px-4">
+      <main className="md:max-w-3xl mx-auto relative z-10 min-h-screen flex flex-col items-center pt-6 px-4">
         {/* Promo */}
-        <div className="w-full max-w-md mb-6">
+        <div className="w-full  mb-6">
           <BannerPromo />
         </div>
 
@@ -27,10 +27,10 @@ const UserAreaInterface = ({
 
         {/* Stats */}
         {user && (
-          <div className="w-full max-w-md grid gap-4 mb-6">
+          <div className="w-full  grid gap-4 mb-6">
             <UserCard user={user} logout={logout} />
+            <UserStats user={user} />
             <DailyQuota />
-            <UserStats />
             <Rewards />
           </div>
         )}
