@@ -1,27 +1,39 @@
 // components/UserStats.tsx
 "use client";
 
-const UserStats = () => {
+import { User } from "firebase/auth";
+
+const UserStats = ({ user }: { user: User }) => {
   return (
     <div className="bg-white/90 backdrop-blur rounded-lg shadow-md p-4">
-      <h3 className="text-sm font-semibold text-slate-800 mb-2">
-        Seus números
-      </h3>
-
-      <div className="grid grid-cols-3 gap-3 text-center">
+      <div>
+        <span className="text-sm font-semibold text-slate-800">
+          Estatísticas do Usuário
+        </span>
+        <hr className="border-t border-slate-300 my-2" />
+      </div>
+      <div className="w-fit flex flex-col">
         <div>
-          <p className="text-lg font-bold text-slate-900">12</p>
-          <p className="text-xs text-slate-600">Rodadas</p>
+          <span className="text-xs font-semibold text-slate-600">
+            Assinatura Ativa :
+          </span>
+          <div>
+            <span className="text-xs text-slate-600">
+              {user.email?.includes("promobet.com") ? "Premium" : "Gratuita"}
+            </span>
+          </div>
         </div>
-
         <div>
-          <p className="text-lg font-bold text-slate-900">3</p>
-          <p className="text-xs text-slate-600">Prêmios</p>
+          <span className="text-xs font-semibold text-slate-600">
+            Troféus Conquistados :
+          </span>
+          <div></div>
         </div>
-
         <div>
-          <p className="text-lg font-bold text-slate-900">2</p>
-          <p className="text-xs text-slate-600">Dias ativos</p>
+          <span className="text-xs font-semibold text-slate-600">
+            Giros Realizados (Roleta de Ofertas) :
+          </span>
+          <div></div>
         </div>
       </div>
     </div>
