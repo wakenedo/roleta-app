@@ -2,6 +2,11 @@
 "use client";
 
 import { User } from "firebase/auth";
+import { SubscriptionStatus } from "./components/SubscriptionStatus";
+import { AccountSpinHistory } from "./components/AccountSpinHistory";
+
+import { AccountRewardHistory } from "./components/AccountRewardHistory";
+import { TrophiesAcquired } from "./components/TrophiesAcquired";
 
 const UserStats = ({ user }: { user: User }) => {
   return (
@@ -12,29 +17,11 @@ const UserStats = ({ user }: { user: User }) => {
         </span>
         <hr className="border-t border-slate-300 my-2" />
       </div>
-      <div className="w-fit flex flex-col">
-        <div>
-          <span className="text-xs font-semibold text-slate-600">
-            Assinatura Ativa :
-          </span>
-          <div>
-            <span className="text-xs text-slate-600">
-              {user.email?.includes("promobet.com") ? "Premium" : "Gratuita"}
-            </span>
-          </div>
-        </div>
-        <div>
-          <span className="text-xs font-semibold text-slate-600">
-            Troféus Conquistados :
-          </span>
-          <div></div>
-        </div>
-        <div>
-          <span className="text-xs font-semibold text-slate-600">
-            Giros Realizados (Roleta de Ofertas) :
-          </span>
-          <div></div>
-        </div>
+      <div className=" flex flex-col space-y-2">
+        <SubscriptionStatus user={user} />
+        <AccountRewardHistory />
+        <AccountSpinHistory />
+        <TrophiesAcquired />
       </div>
     </div>
   );
