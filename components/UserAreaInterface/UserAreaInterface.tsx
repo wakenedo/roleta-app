@@ -29,8 +29,8 @@ const UserAreaInterface = ({
         {user && (
           <div className="w-full  grid gap-4 mb-6">
             <UserCard user={user} logout={logout} />
-            <UserStats user={user} />
             <DailyQuota />
+            <UserStats user={user} />
             <Rewards />
           </div>
         )}
