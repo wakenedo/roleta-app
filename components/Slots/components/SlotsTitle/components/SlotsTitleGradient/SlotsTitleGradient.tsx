@@ -11,7 +11,7 @@ const SlotsTitleGradient = () => {
   }, []);
 
   return (
-    <div className="font-bold ml-8 md:text-4xl w-fit">
+    <div className="font-bold ml-7 md:text-5xl w-fit text-shadow-2xs">
       <div ref={slotsTitleGradientRef}>Roleta de Ofertas</div>
     </div>
   );

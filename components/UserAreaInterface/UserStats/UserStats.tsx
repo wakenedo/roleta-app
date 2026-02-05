@@ -1,28 +1,27 @@
 // components/UserStats.tsx
 "use client";
 
-const UserStats = () => {
+import { User } from "firebase/auth";
+import { SubscriptionStatus } from "./components/SubscriptionStatus";
+import { AccountSpinHistory } from "./components/AccountSpinHistory";
+
+import { AccountRewardHistory } from "./components/AccountRewardHistory";
+import { TrophiesAcquired } from "./components/TrophiesAcquired";
+
+const UserStats = ({ user }: { user: User }) => {
   return (
     <div className="bg-white/90 backdrop-blur rounded-lg shadow-md p-4">
-      <h3 className="text-sm font-semibold text-slate-800 mb-2">
-        Seus números
-      </h3>
-
-      <div className="grid grid-cols-3 gap-3 text-center">
-        <div>
-          <p className="text-lg font-bold text-slate-900">12</p>
-          <p className="text-xs text-slate-600">Rodadas</p>
-        </div>
-
-        <div>
-          <p className="text-lg font-bold text-slate-900">3</p>
-          <p className="text-xs text-slate-600">Prêmios</p>
-        </div>
-
-        <div>
-          <p className="text-lg font-bold text-slate-900">2</p>
-          <p className="text-xs text-slate-600">Dias ativos</p>
-        </div>
+      <div>
+        <span className="text-sm font-semibold text-slate-800">
+          Estatísticas do Usuário
+        </span>
+        <hr className="border-t border-slate-300 my-2" />
+      </div>
+      <div className=" flex flex-col space-y-2">
+        <SubscriptionStatus user={user} />
+        <AccountRewardHistory />
+        <AccountSpinHistory />
+        <TrophiesAcquired />
       </div>
     </div>
   );
