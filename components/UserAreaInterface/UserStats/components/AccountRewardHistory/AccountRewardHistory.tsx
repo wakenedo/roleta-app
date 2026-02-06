@@ -1,7 +1,9 @@
+import { UserAreaSectionBackground } from "@/components/UserAreaInterface/UserAreaSectionBackground";
+
 const AccountRewardHistory = () => {
   return (
     <>
-      <div className="bg-white/90 backdrop-blur rounded-lg shadow-md p-4 w-full">
+      <UserAreaSectionBackground>
         <span className="text-sm font-semibold text-slate-800 mb-2 line-clamp-2">
           Prêmios Acumulados
         </span>
@@ -18,7 +20,7 @@ const AccountRewardHistory = () => {
             </div>
           </div>
         </div>
-      </div>
+      </UserAreaSectionBackground>
     </>
   );
 };

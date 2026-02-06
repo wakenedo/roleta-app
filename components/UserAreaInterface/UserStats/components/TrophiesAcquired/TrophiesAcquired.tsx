@@ -1,9 +1,10 @@
+import { UserAreaSectionBackground } from "@/components/UserAreaInterface/UserAreaSectionBackground";
 import { BiTrophy } from "react-icons/bi";
 
 const TrophiesAcquired = () => {
   return (
     <>
-      <div className="bg-white/90 backdrop-blur rounded-lg shadow-md p-4 w-full">
+      <UserAreaSectionBackground>
         <span className="text-sm font-semibold text-slate-800 mb-2 line-clamp-2">
           Troféus Conquistados
         </span>
@@ -14,7 +15,7 @@ const TrophiesAcquired = () => {
             <span>Ainda nenhum troféu !</span>
           </div>
         </div>
-      </div>
+      </UserAreaSectionBackground>
     </>
   );
 };

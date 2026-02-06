@@ -1,3 +1,4 @@
+import { UserAreaSectionBackground } from "@/components/UserAreaInterface/UserAreaSectionBackground";
 import { UserState } from "@/context/UserContext/types";
 
 const RemainingDisplay = ({ data }: { data: UserState | null }) => {
@@ -16,7 +17,7 @@ const RemainingDisplay = ({ data }: { data: UserState | null }) => {
 
   const isEmpty = remaining === 0;
   return (
-    <div className="bg-white/90 backdrop-blur rounded-lg shadow-md p-4">
+    <UserAreaSectionBackground>
       <span className="text-sm font-semibold text-slate-800 mb-2 line-clamp-2">
         Rodadas de hoje
       </span>
@@ -56,7 +57,7 @@ const RemainingDisplay = ({ data }: { data: UserState | null }) => {
           </button>
         </div>
       )}
-    </div>
+    </UserAreaSectionBackground>
   );
 };
 export default RemainingDisplay;
