@@ -50,15 +50,15 @@ const Slots = () => {
   /* gradient effect stays here */
   useEffect(() => {
     productSlotsReelsGradient(gradientRef);
-  }, []);
+  }, [gradientRef]);
 
   return (
     <div
       ref={gradientRef}
-      className="bg-white/5 backdrop-blur-md  rounded-2xl shadow-2xl h-auto min-h-[480px] flex flex-col rounded-t-xs text-white py-2 min-w-2xl"
+      className="shadow-2xl h-auto min-h-[480px] flex flex-col py-2 min-w-2xl"
     >
       <SlotsTitle />
-      <div className="z-10 border-t border-slate-100 mx-8" />
+      <div className="z-10 border-b border-slate-100 mx-8" />
       <div className="z-10 flex mt-4 mx-2 items-center justify-center">
         <ProductSlotsReelsProvider
           spinning={spinning}
