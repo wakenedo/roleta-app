@@ -15,7 +15,7 @@ const ProductSlotsReels: React.FC = () => {
   } = useProductSlotsReels();
 
   return (
-    <div className="flex flex-col items-center mb-6">
+    <div className="flex flex-col items-center">
       <div className="relative flex rounded-lg  px-2 overflow-hidden">
         <div
           className="absolute inset-0 rounded-lg pointer-events-none
