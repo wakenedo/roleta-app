@@ -1,6 +1,7 @@
 import { UserState } from "@/context/UserContext/types";
 
-const RemainingDisplay = ({ data }: { data: UserState }) => {
+const RemainingDisplay = ({ data }: { data: UserState | null }) => {
+  if (!data) return;
   const remaining = data.quota.spins.remaining;
   const dailyLimit = data.quota.spins.limit;
 
