@@ -17,7 +17,7 @@ const Slots = () => {
   const { authorizedFetch } = useAuth();
   const { consumeSpin } = useUser();
 
-  const renderDeployAddress = process.env.NEXT_PUBLIC_LOCAL_API;
+  const renderDeployAddress = process.env.NEXT_PUBLIC_API_URL;
 
   const spin = async () => {
     if (spinning) return;

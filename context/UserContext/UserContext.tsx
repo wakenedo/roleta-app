@@ -13,7 +13,7 @@ import { SpinQuota, UserContextProps, UserState } from "./types";
 
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
-const API_URL = process.env.NEXT_PUBLIC_LOCAL_API;
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const { user, authorizedFetch, loading: authLoading } = useAuth();
