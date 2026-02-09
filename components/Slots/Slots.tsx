@@ -10,12 +10,13 @@ import { useUser } from "@/context/UserContext/UserContext";
 import { SlotsTitle } from "./components/SlotsTitle";
 import { SlotsGame } from "./components/SlotsGame";
 import { productSlotsReelsGradient } from "./components/SlotsGame/components/ProductSlotsReels/utils";
+import { SlotsLoading } from "./components/SlotsLoading";
 
 const Slots = () => {
   const [spinning, setSpinning] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
   const { authorizedFetch } = useAuth();
-  const { consumeSpin } = useUser();
+  const { consumeSpin, loading } = useUser();
 
   const renderDeployAddress = process.env.NEXT_PUBLIC_API_URL;
 
@@ -59,7 +60,12 @@ const Slots = () => {
     >
       <SlotsTitle />
       <div className="z-10 border-b border-slate-100 mx-8" />
-      <div className="z-10 flex mt-4 mx-2 items-center justify-center">
+      <div className="z-10 flex mt-4 items-center justify-center h-full w-full">
+        {loading && (
+          <div className="mt-40">
+            <SlotsLoading />
+          </div>
+        )}
         <ProductSlotsReelsProvider
           spinning={spinning}
           selectedProducts={selectedProducts}
