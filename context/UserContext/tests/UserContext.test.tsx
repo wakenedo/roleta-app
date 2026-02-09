@@ -91,7 +91,7 @@ describe("UserContext", () => {
     });
 
     expect(mockAuthorizedFetch).toHaveBeenCalledWith(
-      `${process.env.NEXT_PUBLIC_LOCAL_API}/users/me`,
+      `${process.env.NEXT_PUBLIC_API_URL}/users/me`,
     );
   });
 
