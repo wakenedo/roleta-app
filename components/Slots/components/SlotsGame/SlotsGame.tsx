@@ -16,6 +16,7 @@ const SlotsGame: React.FC<SlotsGameProps & { onSpin: () => void }> = ({
 
   const quota = data.quota.spins;
   const remaining = quota.remaining ?? 0;
+  const resetsAt = quota.resetsAt;
 
   const disabled = !user || spinning || loading || (quota && remaining <= 0);
 
@@ -32,6 +33,8 @@ const SlotsGame: React.FC<SlotsGameProps & { onSpin: () => void }> = ({
 
   const isEmpty = remaining === 0;
 
+  console.log("data", data);
+
   return (
     <div className="flex flex-col items-center">
       <ProductSlotsReels />
@@ -41,6 +44,7 @@ const SlotsGame: React.FC<SlotsGameProps & { onSpin: () => void }> = ({
       ) : (
         <div className="min-w-xl">
           <SpinInterface
+            resetsAt={resetsAt}
             disabled={disabled}
             remaining={remaining}
             onSpin={onSpin}
