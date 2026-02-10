@@ -4,12 +4,15 @@ import { DailyQuota } from "./DailyQuota";
 import { Rewards } from "./Rewards";
 import { UserStats } from "./UserStats";
 import { UserCard } from "./UserCard";
+import { UserState } from "@/context/UserContext/types";
 
 const UserAreaInterface = ({
   user,
+  data,
   logout,
 }: {
   user: User | null;
+  data: UserState | null;
   logout: () => void;
 }) => {
   return (
@@ -23,7 +26,7 @@ const UserAreaInterface = ({
           <div className="w-full  grid gap-4 mb-6">
             <UserCard user={user} logout={logout} />
             <DailyQuota />
-            <UserStats user={user} />
+            <UserStats data={data} />
             <Rewards />
           </div>
         )}
