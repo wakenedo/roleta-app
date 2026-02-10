@@ -1,6 +1,9 @@
+import { formatPriceBRL } from "@/components/Slots/components/SlotsGame/components/ProductCard/utils";
 import { UserAreaSectionBackground } from "@/components/UserAreaInterface/UserAreaSectionBackground";
 
-const AccountRewardHistory = () => {
+const AccountRewardHistory = ({ total }: { total: number | undefined }) => {
+  if (total) return;
+  const formattedPrice = formatPriceBRL(total as number);
   return (
     <>
       <UserAreaSectionBackground>
@@ -15,7 +18,7 @@ const AccountRewardHistory = () => {
                 Economizado
               </span>
               <div>
-                <span className="text-xs text-slate-600">R$ 0,00</span>
+                <span className="text-xs text-slate-600">{formattedPrice}</span>
               </div>
             </div>
           </div>
