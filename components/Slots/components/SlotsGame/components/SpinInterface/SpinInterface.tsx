@@ -12,6 +12,7 @@ const SpinInterface = ({
   spinning,
   remaining,
   isEmpty,
+  resetsAt,
 }: {
   dailyLimit: number;
   barColor: "bg-green-400" | "bg-yellow-400" | "bg-red-400";
@@ -21,11 +22,13 @@ const SpinInterface = ({
   spinning: boolean;
   remaining: number;
   isEmpty: boolean;
+  resetsAt: string;
 }) => {
   return (
     <>
       <div className="bg-white/5 backdrop-blur shadow-md mb-4 p-2 w-full ">
         <AvailableRounds
+          resetsAt={resetsAt}
           dailyLimit={dailyLimit}
           isEmpty={isEmpty}
           remaining={remaining}

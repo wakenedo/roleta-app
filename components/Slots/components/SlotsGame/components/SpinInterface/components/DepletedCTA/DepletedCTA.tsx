@@ -10,7 +10,7 @@ const DepletedCTA = () => {
           console.log("Upgrade or wait until tomorrow");
         }}
       >
-        Disponível em : 20h
+        Compre mais giros ou Assine
       </button>
     </div>
   );

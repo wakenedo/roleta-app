@@ -1,14 +1,16 @@
 // components/UserStats.tsx
 "use client";
 
-import { User } from "firebase/auth";
 import { SubscriptionStatus } from "./components/SubscriptionStatus";
 import { AccountSpinHistory } from "./components/AccountSpinHistory";
 
 import { AccountRewardHistory } from "./components/AccountRewardHistory";
 import { TrophiesAcquired } from "./components/TrophiesAcquired";
+import { UserState } from "@/context/UserContext/types";
 
-const UserStats = ({ user }: { user: User }) => {
+const UserStats = ({ data }: { data: UserState | null }) => {
+  const accountStats = data?.stats;
+  const totalReward = data?.stats.totalRewards;
   return (
     <div className="bg-white/90 backdrop-blur rounded-lg shadow-md p-4">
       <div>
@@ -18,9 +20,9 @@ const UserStats = ({ user }: { user: User }) => {
         <hr className="border-t border-slate-300 my-2" />
       </div>
       <div className=" flex flex-col space-y-2">
-        <SubscriptionStatus user={user} />
-        <AccountRewardHistory />
-        <AccountSpinHistory />
+        <SubscriptionStatus data={data} />
+        <AccountRewardHistory total={totalReward} />
+        <AccountSpinHistory stats={accountStats} />
         <TrophiesAcquired />
       </div>
     </div>

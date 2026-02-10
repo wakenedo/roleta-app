@@ -1,6 +1,7 @@
 import { UserAreaSectionBackground } from "@/components/UserAreaInterface/UserAreaSectionBackground";
+import { UserStats } from "@/context/UserContext/types";
 
-const AccountSpinHistory = () => {
+const AccountSpinHistory = ({ stats }: { stats: UserStats | undefined }) => {
   return (
     <>
       <UserAreaSectionBackground>
@@ -11,13 +12,13 @@ const AccountSpinHistory = () => {
         <div>
           <span className="text-xs font-semibold text-slate-600">Total</span>
           <div>
-            <span className="text-xs text-slate-600">0</span>
+            <span className="text-xs text-slate-600">{stats?.totalSpins}</span>
           </div>
         </div>
         <div>
           <span className="text-xs font-semibold text-slate-600">Jackpots</span>
           <div>
-            <span className="text-xs text-slate-600">0</span>
+            <span className="text-xs text-slate-600">{stats?.jackpots}</span>
           </div>
         </div>
         <div>

@@ -8,6 +8,10 @@ import { OutOfSpinsInterface } from "./components/OutOfSpinsInterface";
 const DailyQuota = () => {
   const { data, loading } = useUser();
 
+  const historyPreview = data?.historyPreview;
+
+  console.log("DailyQuotaData", data?.historyPreview);
+
   if (loading || !data) {
     return (
       <div className="flex flex-col space-y-2 bg-white/90 backdrop-blur rounded-lg shadow-md p-4">
@@ -19,7 +23,7 @@ const DailyQuota = () => {
   return (
     <div className="flex flex-col space-y-2 bg-white/90 backdrop-blur rounded-lg shadow-md p-4">
       <RemainingDisplay data={data} />
-      <DailyOffersHistory />
+      <DailyOffersHistory historyPreview={historyPreview} />
     </div>
   );
 };
