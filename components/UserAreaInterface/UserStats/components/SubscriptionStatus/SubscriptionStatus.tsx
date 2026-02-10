@@ -1,16 +1,16 @@
 import { UserAreaSectionBackground } from "@/components/UserAreaInterface/UserAreaSectionBackground";
-import { User } from "firebase/auth";
+import { UserState } from "@/context/UserContext/types";
+import { SubscriptionTag } from "./SubscriptionTag";
 
-const SubscriptionStatus = ({ user }: { user: User }) => {
+const SubscriptionStatus = ({ data }: { data: UserState | null }) => {
+  const subscriptionStatus = data?.user.subscription;
   return (
     <UserAreaSectionBackground>
       <span className="text-xs font-semibold text-slate-600">
         Assinatura Ativa :
       </span>
       <div>
-        <span className="text-xs text-slate-600">
-          {user.email?.includes("promobet.com") ? "Premium" : "Gratuita"}
-        </span>
+        <SubscriptionTag subStatus={subscriptionStatus} />
       </div>
     </UserAreaSectionBackground>
   );
