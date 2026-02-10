@@ -24,6 +24,7 @@ const mockBackendUser: UserState = {
     name: "Test User",
     photoURL: null,
     createdAt: null,
+    subscription: "free",
   },
   quota: {
     spins: {
@@ -38,6 +39,7 @@ const mockBackendUser: UserState = {
     totalRewards: 2,
     jackpots: 0,
   },
+  historyPreview: [],
   rewards: [],
 };
 

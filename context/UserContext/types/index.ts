@@ -1,3 +1,5 @@
+import { Product } from "@/components/Slots/types";
+
 type SpinQuota = {
   used: number;
   remaining: number;
@@ -17,6 +19,7 @@ type BackendUser = {
   name: string | null;
   photoURL: string | null;
   createdAt: string | null;
+  subscription: string;
 };
 
 type UserState = {
@@ -26,6 +29,7 @@ type UserState = {
   };
   stats: UserStats;
   rewards: unknown[];
+  historyPreview: Product[] | [];
 };
 
 interface UserContextProps {
