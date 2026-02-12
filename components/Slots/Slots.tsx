@@ -16,7 +16,7 @@ const Slots = () => {
   const [spinning, setSpinning] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
   const { authorizedFetch } = useAuth();
-  const { consumeSpin, loading } = useUser();
+  const { loading, optimisticSpin } = useUser();
 
   const renderDeployAddress = process.env.NEXT_PUBLIC_API_URL;
 
@@ -36,9 +36,17 @@ const Slots = () => {
         throw new Error("Spin failed");
       }
 
+      const spinItem = {
+        id: data.id,
+        createdAt: data.createdAt ?? new Date().toISOString(),
+        products: data.products ?? [],
+        quotaBefore: data.quota.before,
+        quotaAfter: data.quota.after,
+      };
+
       // 🎯 Backend is the authority
       setSelectedProducts(data.products ?? []);
-      consumeSpin(data.quota);
+      optimisticSpin(spinItem, data.quota);
     } catch (err) {
       console.error("Spin error:", err);
     } finally {
