@@ -1,13 +1,8 @@
-import { User } from "firebase/auth";
 import { UserOptions } from "./components/UserOptions";
+import { FC } from "react";
+import { UserCardProps } from "../types";
 
-const UserCard = ({
-  user,
-  logout,
-}: {
-  user: User | null;
-  logout: () => void;
-}) => {
+const UserCard: FC<UserCardProps> = ({ user, logout }) => {
   return (
     <div className="w-full bg-white/90 backdrop-blur rounded-lg shadow-md p-4 ">
       {user && (

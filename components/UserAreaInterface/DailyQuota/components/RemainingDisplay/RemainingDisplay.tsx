@@ -1,12 +1,14 @@
 import { UserAreaSectionBackground } from "@/components/UserAreaInterface/UserAreaSectionBackground";
-import { UserState } from "@/context/UserContext/types";
+import { SpinQuota } from "@/context/UserContext/types";
 
-const RemainingDisplay = ({ data }: { data: UserState | null }) => {
-  if (!data) return;
-  const remaining = data.quota.spins.remaining;
-  const dailyLimit = data.quota.spins.limit;
+const RemainingDisplay = ({ spins }: { spins: SpinQuota | undefined }) => {
+  const remaining = spins?.remaining;
+  const dailyLimit = spins?.limit;
 
-  const progress = dailyLimit > 0 ? (remaining / dailyLimit) * 100 : 0;
+  const progress =
+    dailyLimit && remaining && dailyLimit > 0
+      ? (remaining / dailyLimit) * 100
+      : 0;
 
   const barColor =
     progress > 60
