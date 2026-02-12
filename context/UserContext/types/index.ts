@@ -11,6 +11,8 @@ type UserStats = {
   totalSpins: number;
   totalRewards: number;
   jackpots: number;
+  rare: number;
+  common: number;
 };
 
 type BackendUser = {
@@ -47,7 +49,6 @@ interface UserContextProps {
   loading: boolean;
   error: string | null;
   refresh: () => Promise<void>;
-  consumeSpin: (quota: SpinQuota) => void;
   optimisticSpin: (spin: SpinHistoryItem, quota: SpinQuota) => void;
 }
 

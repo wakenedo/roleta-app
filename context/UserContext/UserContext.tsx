@@ -78,31 +78,12 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [authLoading, fetchMe]);
 
-  /**
-   * Called after a successful spin
-   * Backend remains the authority
-   */
-  const consumeSpin = (quota: SpinQuota) => {
-    setData((prev) => {
-      if (!prev) return prev;
-
-      return {
-        ...prev,
-        quota: {
-          spins: quota,
-        },
-        stats: {
-          ...prev.stats,
-          totalSpins: prev.stats.totalSpins + 1,
-        },
-      };
-    });
-  };
-
   const optimisticSpin = (spin: SpinHistoryItem, quota: SpinQuota) => {
+    if (!authLoading) {
+      fetchMe();
+    }
     setData((prev) => {
       if (!prev) return prev;
-
       return {
         ...prev,
         quota: { spins: quota },
@@ -122,7 +103,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         loading,
         error,
         refresh: fetchMe,
-        consumeSpin,
         optimisticSpin,
       }}
     >
