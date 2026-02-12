@@ -16,7 +16,7 @@ export default function HistoryProductItem({ product }: { product: Product }) {
           href={product.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sm font-medium text-slate-900 hover:underline truncate"
+          className="text-xs font-semibold text-slate-600 hover:underline truncate"
         >
           {product.name}
         </a>
@@ -26,17 +26,31 @@ export default function HistoryProductItem({ product }: { product: Product }) {
 
       {/* Right */}
       <div className="flex items-center gap-2 shrink-0">
-        <span className="text-sm font-semibold text-slate-800">
-          {formatPriceBRL(product.price)}
-        </span>
-
-        <span
-          className={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${
-            tierStyles[product.tier] ?? "bg-slate-100 text-slate-700"
-          }`}
-        >
-          {product.tier}
-        </span>
+        {product.discountedPrice ? (
+          <div className="flex flex-col w-fit items-center ">
+            <span className="text-xs line-through font-semibold text-slate-400">
+              {formatPriceBRL(product.price)}
+            </span>
+            <span className="text-sm font-semibold  text-emerald-600">
+              {formatPriceBRL(product.discountedPrice)}
+            </span>
+          </div>
+        ) : (
+          <div className="flex flex-col w-fit items-center ">
+            <span className="text-xs text-emerald-600 font-semibold ">
+              {formatPriceBRL(product.price)}
+            </span>
+          </div>
+        )}
+        <div className="text-center min-w-15">
+          <span
+            className={`text-[10px]  px-2 py-0.5 rounded-full font-semibold ${
+              tierStyles[product.tier] ?? "bg-slate-100 text-slate-700 "
+            }`}
+          >
+            {product.tier}
+          </span>
+        </div>
       </div>
     </div>
   );

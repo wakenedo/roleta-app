@@ -2,6 +2,7 @@ import { UserAreaSectionBackground } from "@/components/UserAreaInterface/UserAr
 import { UserStats } from "@/context/UserContext/types";
 
 const AccountSpinHistory = ({ stats }: { stats: UserStats | undefined }) => {
+  if (!stats) return;
   return (
     <>
       <UserAreaSectionBackground>
@@ -12,25 +13,25 @@ const AccountSpinHistory = ({ stats }: { stats: UserStats | undefined }) => {
         <div>
           <span className="text-xs font-semibold text-slate-600">Total</span>
           <div>
-            <span className="text-xs text-slate-600">{stats?.totalSpins}</span>
+            <span className="text-xs text-slate-600">{stats.totalSpins}</span>
           </div>
         </div>
         <div>
           <span className="text-xs font-semibold text-slate-600">Jackpots</span>
           <div>
-            <span className="text-xs text-slate-600">{stats?.jackpots}</span>
+            <span className="text-xs text-slate-600">{stats.jackpots}</span>
           </div>
         </div>
         <div>
           <span className="text-xs font-semibold text-slate-600">Raros </span>
           <div>
-            <span className="text-xs text-slate-600">0</span>
+            <span className="text-xs text-slate-600">{stats.rare}</span>
           </div>
         </div>
         <div>
           <span className="text-xs font-semibold text-slate-600">Comum </span>
           <div>
-            <span className="text-xs text-slate-600">0</span>
+            <span className="text-xs text-slate-600">{stats.common}</span>
           </div>
         </div>
       </UserAreaSectionBackground>

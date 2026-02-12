@@ -10,7 +10,6 @@ interface UserInterfaceProps {
 const UserInterface: React.FC<UserInterfaceProps> = ({ user, logout }) => {
   const userPhoto = user.photoURL;
   const userName = user.displayName;
-  console.log("userInterface", user, userName);
   return (
     <div className="p-2 shadow-lg m-2 bg-slate-800 rounded w-full ">
       <div className="md:cursor-pointer flex justify-between p-2 items-center">

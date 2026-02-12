@@ -23,15 +23,13 @@ const DailyOffersHistory = ({
 
   const isEmpty = history.length === 0;
 
-  console.log("DailyOffersHistory", history);
-
   return (
     <UserAreaSectionBackground>
       <h3 className="text-sm font-semibold text-slate-800 mb-2">
         Histórico de Ofertas
       </h3>
       <hr className="border-t border-slate-300 mb-4" />
-      <div className="h-75 overflow-scroll   [scrollbar-width:none]">
+      <div className="max-h-75 overflow-scroll   [scrollbar-width:none]">
         {isEmpty ? (
           <div className="text-center mb-2 space-y-2 flex flex-col max-w-sm mx-auto">
             <div className="my-4">
