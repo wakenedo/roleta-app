@@ -1,12 +1,7 @@
-const SpinButton = ({
-  onSpin,
-  disabled,
-  spinning,
-}: {
-  onSpin: () => void;
-  disabled: boolean | undefined;
-  spinning: boolean;
-}) => {
+import { SpinButtonProps } from "@/components/Slots/types";
+import { FC } from "react";
+
+const SpinButton: FC<SpinButtonProps> = ({ onSpin, disabled, spinning }) => {
   return (
     <button
       onClick={onSpin}

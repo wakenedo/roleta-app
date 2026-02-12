@@ -1,13 +1,11 @@
-const AvailableRounds = ({
+import { AvailableRoundsProps } from "@/components/Slots/types";
+import { FC } from "react";
+
+const AvailableRounds: FC<AvailableRoundsProps> = ({
   isEmpty,
   remaining,
   dailyLimit,
   resetsAt,
-}: {
-  isEmpty: boolean;
-  remaining: number;
-  dailyLimit: number;
-  resetsAt: string;
 }) => {
   return (
     <div className="flex flex-col justify-center items-center mt-1 ">

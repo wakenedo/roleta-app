@@ -1,9 +1,9 @@
-const DynamicProgressBar = ({
+import { DynamicProgressBarProps } from "@/components/Slots/types";
+import { FC } from "react";
+
+const DynamicProgressBar: FC<DynamicProgressBarProps> = ({
   barColor,
   progress,
-}: {
-  barColor: "bg-green-400" | "bg-yellow-400" | "bg-red-400";
-  progress: number;
 }) => {
   return (
     <div className="py-1">

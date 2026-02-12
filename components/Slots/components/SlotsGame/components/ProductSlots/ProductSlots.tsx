@@ -1,12 +1,7 @@
-import { Product } from "@/components/Slots/types";
+import { ProductSlotsProps } from "@/components/Slots/types";
 import { PlaceholderInterface } from "../PlaceholderInterface";
 import { ProductCard } from "../ProductCard";
 import { motion } from "framer-motion";
-
-interface ProductSlotsProps {
-  selectedProducts: Product[];
-  spinning: boolean;
-}
 
 const slotVariants = {
   spinning: (i: number) => ({

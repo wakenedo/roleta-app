@@ -1,9 +1,11 @@
+import { FC } from "react";
 import { AvailableRounds } from "./components/AvailableRounds";
 import { DepletedCTA } from "./components/DepletedCTA";
 import { DynamicProgressBar } from "./components/DynamicProgressBar";
 import { SpinButton } from "./components/SpinButton";
+import { SpinInterfaceProps } from "@/components/Slots/types";
 
-const SpinInterface = ({
+const SpinInterface: FC<SpinInterfaceProps> = ({
   dailyLimit,
   barColor,
   progress,
@@ -13,16 +15,6 @@ const SpinInterface = ({
   remaining,
   isEmpty,
   resetsAt,
-}: {
-  dailyLimit: number;
-  barColor: "bg-green-400" | "bg-yellow-400" | "bg-red-400";
-  progress: number;
-  onSpin: () => void;
-  disabled: boolean | undefined;
-  spinning: boolean;
-  remaining: number;
-  isEmpty: boolean;
-  resetsAt: string;
 }) => {
   return (
     <>

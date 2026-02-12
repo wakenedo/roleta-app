@@ -27,6 +27,11 @@ interface ProductReelsProps {
   spinning: boolean;
 }
 
+interface ProductSlotsProps {
+  selectedProducts: Product[];
+  spinning: boolean;
+}
+
 interface SlotsGameProps {
   spinning: boolean;
   onSpin: () => Promise<void>;
@@ -43,6 +48,36 @@ type TierConfig = {
   duration?: number;
 };
 
+interface SpinInterfaceProps {
+  dailyLimit: number;
+  barColor: "bg-green-400" | "bg-yellow-400" | "bg-red-400";
+  progress: number;
+  onSpin: () => void;
+  disabled: boolean | undefined;
+  spinning: boolean;
+  remaining: number;
+  isEmpty: boolean;
+  resetsAt: string;
+}
+
+type AvailableRoundsProps = {
+  isEmpty: boolean;
+  remaining: number;
+  dailyLimit: number;
+  resetsAt: string;
+};
+
+type DynamicProgressBarProps = {
+  barColor: "bg-green-400" | "bg-yellow-400" | "bg-red-400";
+  progress: number;
+};
+
+type SpinButtonProps = {
+  onSpin: () => void;
+  disabled: boolean | undefined;
+  spinning: boolean;
+};
+
 type CardGradientLifecycleProps = {
   gradientRef: React.RefObject<HTMLDivElement | null>;
   product: Product;
@@ -53,6 +88,10 @@ type BadgeGradientLifecycleProps = {
 };
 
 export type {
+  SpinInterfaceProps,
+  AvailableRoundsProps,
+  SpinButtonProps,
+  DynamicProgressBarProps,
   SlotsGameProps,
   Product,
   ProductCardProps,
@@ -60,6 +99,7 @@ export type {
   TierConfig,
   CardGradientLifecycleProps,
   ProductReelsProps,
+  ProductSlotsProps,
   TierBadgeProps,
   BadgeGradientLifecycleProps,
 };
