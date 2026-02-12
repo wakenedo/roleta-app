@@ -29,8 +29,18 @@ type UserState = {
   };
   stats: UserStats;
   rewards: unknown[];
-  historyPreview: Product[] | [];
+  historyPreview: SpinHistoryItem[];
 };
+
+interface SpinHistoryItem {
+  id: string;
+  createdAt: string;
+  ip?: string;
+  userAgent?: string;
+  quotaBefore: number;
+  quotaAfter: number;
+  products: Product[];
+}
 
 interface UserContextProps {
   data: UserState | null;
@@ -38,6 +48,14 @@ interface UserContextProps {
   error: string | null;
   refresh: () => Promise<void>;
   consumeSpin: (quota: SpinQuota) => void;
+  optimisticSpin: (spin: SpinHistoryItem, quota: SpinQuota) => void;
 }
 
-export type { UserContextProps, UserState, BackendUser, SpinQuota, UserStats };
+export type {
+  UserContextProps,
+  UserState,
+  BackendUser,
+  SpinQuota,
+  UserStats,
+  SpinHistoryItem,
+};
