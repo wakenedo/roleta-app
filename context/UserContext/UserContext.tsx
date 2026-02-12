@@ -35,42 +35,56 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const performFetch = useCallback(
+    async (opts?: { silent?: boolean }) => {
+      if (!user) {
+        setData(null);
+        return;
+      }
+
+      try {
+        if (!opts?.silent) setLoading(true);
+        setError(null);
+
+        const res = await authorizedFetch(`${API_URL}/users/me`);
+        if (!res.ok) throw new Error("Failed to fetch user");
+
+        const json = await res.json();
+
+        setData((prev) => {
+          if (!prev) return json;
+
+          const merged = [
+            ...json.historyPreview,
+            ...(prev.historyPreview ?? []),
+          ];
+
+          const unique = Array.from(
+            new Map(merged.map((item) => [item.id, item])).values(),
+          );
+
+          return {
+            ...json,
+            historyPreview: unique,
+          };
+        });
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load user data");
+      } finally {
+        if (!opts?.silent) setLoading(false);
+      }
+    },
+    [user, authorizedFetch],
+  );
+
   const fetchMe = useCallback(async () => {
-    if (!user) {
-      setData(null);
-      return;
-    }
+    await performFetch();
+  }, [performFetch]);
 
-    try {
-      setLoading(true);
-      setError(null);
-
-      const res = await authorizedFetch(`${API_URL}/users/me`);
-      if (!res.ok) throw new Error("Failed to fetch user");
-
-      const json = await res.json();
-      setData((prev) => {
-        if (!prev) return json;
-
-        // merge history (server + optimistic)
-        const merged = [...json.historyPreview, ...(prev.historyPreview ?? [])];
-
-        const unique = Array.from(
-          new Map(merged.map((item) => [item.id, item])).values(),
-        );
-
-        return {
-          ...json,
-          historyPreview: unique,
-        };
-      });
-    } catch (err) {
-      console.error(err);
-      setError("Failed to load user data");
-    } finally {
-      setLoading(false);
-    }
-  }, [user, authorizedFetch]);
+  const silentRefresh = useCallback(async () => {
+    await performFetch({ silent: true });
+  }, [performFetch]);
 
   useEffect(() => {
     if (!authLoading) {
@@ -79,11 +93,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   }, [authLoading, fetchMe]);
 
   const optimisticSpin = (spin: SpinHistoryItem, quota: SpinQuota) => {
-    if (!authLoading) {
-      fetchMe();
-    }
     setData((prev) => {
       if (!prev) return prev;
+
       return {
         ...prev,
         quota: { spins: quota },
@@ -94,6 +106,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         historyPreview: buildNextHistory(prev, spin),
       };
     });
+    if (!authLoading) {
+      silentRefresh();
+    }
   };
 
   return (

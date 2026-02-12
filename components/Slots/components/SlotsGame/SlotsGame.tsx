@@ -33,8 +33,6 @@ const SlotsGame: React.FC<SlotsGameProps & { onSpin: () => void }> = ({
 
   const isEmpty = remaining === 0;
 
-  console.log("data", data);
-
   return (
     <div className="flex flex-col items-center">
       <ProductSlotsReels />
