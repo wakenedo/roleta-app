@@ -1,7 +1,23 @@
+import {
+  formatCountdown,
+  getTimeUntil,
+} from "@/components/Slots/components/SlotsGame/components/SpinInterface/utils";
 import { UserAreaSectionBackground } from "@/components/UserAreaInterface/UserAreaSectionBackground";
-import { SpinQuota } from "@/context/UserContext/types";
+import { SpinQuota, UserState } from "@/context/UserContext/types";
+import { useEffect, useState } from "react";
 
-const RemainingDisplay = ({ spins }: { spins: SpinQuota | undefined }) => {
+const RemainingDisplay = ({
+  spins,
+
+  resetsAt,
+}: {
+  spins: SpinQuota | undefined;
+  resetsAt: string;
+}) => {
+  const [timeLeft, setTimeLeft] = useState(
+    formatCountdown(getTimeUntil(resetsAt)),
+  );
+
   const remaining = spins?.remaining;
   const dailyLimit = spins?.limit;
 
@@ -18,6 +34,24 @@ const RemainingDisplay = ({ spins }: { spins: SpinQuota | undefined }) => {
         : "bg-red-400";
 
   const isEmpty = remaining === 0;
+
+  useEffect(() => {
+    if (!isEmpty) return;
+
+    const interval = setInterval(() => {
+      const result = getTimeUntil(resetsAt);
+
+      if (result.isExpired) {
+        setTimeLeft("disponível!");
+        clearInterval(interval);
+        return;
+      }
+
+      setTimeLeft(formatCountdown(result));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [resetsAt, isEmpty]);
   return (
     <UserAreaSectionBackground>
       <span className="text-sm font-semibold text-slate-800 mb-2 line-clamp-2">
@@ -45,9 +79,17 @@ const RemainingDisplay = ({ spins }: { spins: SpinQuota | undefined }) => {
 
       {isEmpty && (
         <div className="mt-3 text-center">
-          <p className="text-xs text-red-600 mb-2">
-            Você atingiu o limite diário de rodadas
-          </p>
+          <div className="flex flex-col space-y-1 mb-2">
+            <div>
+              <p className="text-xs text-red-600 ">
+                Você atingiu o limite diário de rodadas
+              </p>
+            </div>
+            <div className="flex items-center justify-center space-x-1">
+              <span className="text-xs">Seus giros voltam em:</span>
+              <b className="text-md">{timeLeft}</b>
+            </div>
+          </div>
           <button
             className="text-xs font-semibold text-white bg-slate-800 px-3 py-1.5 rounded hover:bg-slate-700 transition"
             onClick={() => {
