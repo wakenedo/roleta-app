@@ -33,21 +33,24 @@ const AvailableRounds: FC<AvailableRoundsProps> = ({
   return (
     <div className="flex flex-col justify-center items-center mt-1 ">
       <div className="flex justify-center items-center gap-1">
-        <span
-          className={`text-base font-semibold ${
-            isEmpty ? "text-red-600" : "text-slate-800"
-          } mb-2 `}
-        >
-          Rodadas de hoje:
-        </span>
-
-        <span
-          className={`text-lg font-bold ${
-            isEmpty ? "text-red-600" : "text-slate-800"
-          }`}
-        >
-          {remaining} / {dailyLimit}
-        </span>
+        <div>
+          <span
+            className={`text-base font-semibold ${
+              isEmpty ? "text-red-600" : "text-slate-800"
+            } mb-2 `}
+          >
+            Rodadas de hoje:
+          </span>
+        </div>
+        <div>
+          <span
+            className={`text-lg font-bold ${
+              isEmpty ? "text-red-600" : "text-slate-800"
+            }`}
+          >
+            {remaining} / {dailyLimit}
+          </span>
+        </div>
       </div>
 
       {isEmpty && (
