@@ -11,6 +11,7 @@ import { UserState } from "@/context/UserContext/types";
 const UserStats = ({ data }: { data: UserState | null }) => {
   const accountStats = data?.stats;
   const totalReward = data?.stats.totalRewards;
+  const subStatus = data?.user.subscription;
   return (
     <div className="bg-white/90 backdrop-blur rounded-lg shadow-md p-4">
       <div>
@@ -20,7 +21,7 @@ const UserStats = ({ data }: { data: UserState | null }) => {
         <hr className="border-t border-slate-300 my-2" />
       </div>
       <div className=" flex flex-col space-y-2">
-        <SubscriptionStatus data={data} />
+        <SubscriptionStatus subStatus={subStatus} />
         <AccountRewardHistory total={totalReward} />
         <AccountSpinHistory stats={accountStats} />
         <TrophiesAcquired />

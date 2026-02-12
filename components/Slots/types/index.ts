@@ -7,7 +7,7 @@ interface Product {
   price: string;
   discount: string;
   discountedPrice: string;
-  tier?: Tier;
+  tier: Tier;
   store: string;
   campaign: CampaignProps;
 }

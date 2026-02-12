@@ -1,14 +1,9 @@
+import { UserCardProps } from "@/components/UserAreaInterface/types";
 import { UserAreaSectionBackground } from "@/components/UserAreaInterface/UserAreaSectionBackground";
-import { User } from "firebase/auth";
+import { FC } from "react";
 import { FaPowerOff } from "react-icons/fa";
 
-const UserOptions = ({
-  user,
-  logout,
-}: {
-  user: User | null;
-  logout: () => void;
-}) => {
+const UserOptions: FC<UserCardProps> = ({ user, logout }) => {
   return (
     <UserAreaSectionBackground>
       <div className="flex justify-between gap-3">

@@ -5,19 +5,34 @@ import { UserAreaInterface } from "@/components/UserAreaInterface";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useUser } from "@/context/UserContext/UserContext";
 import { redirect } from "next/navigation";
+import { useMemo } from "react";
 
 const UserArea = () => {
   const { user, logout } = useAuth();
-  const { data } = useUser();
+  const { data, loading } = useUser();
+
+  if (!user) {
+    redirect("/");
+  }
+
+  const history = useMemo(
+    () => data?.historyPreview ?? [],
+    [data?.historyPreview],
+  );
+
+  const spins = data?.quota.spins;
 
   return (
     <>
       <Header user={user} />
-      {user ? (
-        <UserAreaInterface data={data} user={user} logout={logout} />
-      ) : (
-        redirect("/")
-      )}
+      <UserAreaInterface
+        historyPreview={history}
+        loading={loading}
+        spins={spins}
+        data={data}
+        user={user}
+        logout={logout}
+      />
     </>
   );
 };

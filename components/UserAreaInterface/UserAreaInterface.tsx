@@ -1,19 +1,16 @@
-import { User } from "firebase/auth";
-import { BannerPromo } from "../BannerPromo";
 import { DailyQuota } from "./DailyQuota";
 import { Rewards } from "./Rewards";
 import { UserStats } from "./UserStats";
 import { UserCard } from "./UserCard";
-import { UserState } from "@/context/UserContext/types";
+import { UserAreaInterfaceProps } from "./types";
 
-const UserAreaInterface = ({
+const UserAreaInterface: React.FC<UserAreaInterfaceProps> = ({
   user,
   data,
   logout,
-}: {
-  user: User | null;
-  data: UserState | null;
-  logout: () => void;
+  historyPreview,
+  spins,
+  loading,
 }) => {
   return (
     <div className="relative min-h-screen font-sans overflow-hidden">
@@ -22,7 +19,12 @@ const UserAreaInterface = ({
         {user && (
           <div className="w-full  grid gap-4 mb-6">
             <UserCard user={user} logout={logout} />
-            <DailyQuota />
+            <DailyQuota
+              historyPreview={historyPreview}
+              spins={spins}
+              loading={loading}
+              data={data}
+            />
             <UserStats data={data} />
             <Rewards />
           </div>
