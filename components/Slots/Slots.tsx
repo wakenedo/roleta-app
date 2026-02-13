@@ -64,10 +64,10 @@ const Slots = () => {
   return (
     <div
       ref={gradientRef}
-      className="shadow-2xl h-auto min-h-[480px] flex flex-col py-2 min-w-2xl"
+      className="shadow-2xl h-auto min-h-[480px] flex flex-col py-2 md:w-2xl w-full md:px-0 px-2"
     >
       <SlotsTitle />
-      <div className="z-10 border-b border-slate-100 mx-8" />
+      <div className="z-10 border-b border-slate-100 md:mx-6 mx-3" />
       <div className="z-10 flex mt-4 items-center justify-center h-full w-full">
         {loading && (
           <div className="mt-40">

@@ -15,11 +15,11 @@ const ProductSlotsReels: React.FC = () => {
   } = useProductSlotsReels();
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="relative flex rounded-lg  px-2 overflow-hidden">
+    <div className="flex flex-col md:items-center w-full px-2">
+      <div className="relative w-full flex rounded-lg justify-around overflow-hidden px-1">
         <div
-          className="absolute inset-0 rounded-lg pointer-events-none
-    shadow-[inset_4px_4px_8px_rgba(0,0,0,0.25)]"
+          className="absolute inset-0 rounded-lg pointer-events-none 
+    shadow-[inset_4px_4px_8px_rgba(0,0,0,0.25)] w-full"
         />
         {reels.map((reel, col) => {
           const translateY =
@@ -28,7 +28,7 @@ const ProductSlotsReels: React.FC = () => {
           return (
             <div
               key={col}
-              className="pb-1 mx-1 overflow-hidden relative"
+              className="pb-1 md:mx-auto  overflow-hidden relative  md:w-fit"
               style={{ height: `${CELL_HEIGHT * VISIBLE}px` }}
             >
               <div
@@ -46,7 +46,7 @@ const ProductSlotsReels: React.FC = () => {
                       style={{ height: `${CELL_HEIGHT}px` }}
                       className="flex items-center justify-center overflow-hidden"
                     >
-                      <div className="w-[95%] h-[95%] flex items-center justify-center mx-auto my-2">
+                      <div className=" flex items-center justify-center mx-auto my-2">
                         <ProductCard product={product} />
                       </div>
                     </div>

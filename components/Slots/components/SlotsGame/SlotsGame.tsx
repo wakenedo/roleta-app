@@ -34,13 +34,13 @@ const SlotsGame: React.FC<SlotsGameProps & { onSpin: () => void }> = ({
   const isEmpty = remaining === 0;
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center w-full md:w-fit">
       <ProductSlotsReels />
 
       {loading ? (
         <p className="mb-2 text-sm text-slate-500">Carregando...</p>
       ) : (
-        <div className="min-w-xl">
+        <div className="md:min-w-xl min-w-full px-4">
           <SpinInterface
             resetsAt={resetsAt}
             disabled={disabled}

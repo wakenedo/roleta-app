@@ -4,7 +4,7 @@ import { UserCardProps } from "../types";
 
 const UserCard: FC<UserCardProps> = ({ user, logout }) => {
   return (
-    <div className="w-full bg-white/90 backdrop-blur rounded-lg shadow-md p-4 ">
+    <div className="w-full bg-white/90 backdrop-blur rounded-lg shadow-md md:p-4 p-2 ">
       {user && (
         <div className="flex flex-col gap-3 ">
           <div>

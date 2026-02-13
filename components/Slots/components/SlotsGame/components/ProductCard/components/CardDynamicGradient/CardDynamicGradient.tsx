@@ -19,6 +19,7 @@ const CardDynamicGradient = ({
       ref={cardGradientRef}
       className="
           h-full
+          w-full
           absolute inset-0
           z-0
           will-change-transform

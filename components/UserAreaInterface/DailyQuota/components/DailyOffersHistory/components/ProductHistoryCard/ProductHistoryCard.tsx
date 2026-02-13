@@ -22,7 +22,7 @@ const ProductHistoryCard = ({
   };
 
   return (
-    <div className="rounded-md  bg-slate-200 p-3  mx-2">
+    <div className="rounded-md  bg-slate-200 p-3  md:mx-2">
       {/* Header */}
       <div className="flex items-center justify-between mb-2">
         <span className="text-xs font-semibold text-slate-700">
@@ -41,7 +41,7 @@ const ProductHistoryCard = ({
         {spin.products.map((product) => (
           <div
             key={product.id}
-            className={`text-sm text-slate-800 ${borderTierStyles[product.tier]} border rounded-md `}
+            className={`md:text-sm text-xs text-slate-800 ${borderTierStyles[product.tier]} border rounded-md `}
           >
             <HistoryProductItem product={product} />
           </div>
