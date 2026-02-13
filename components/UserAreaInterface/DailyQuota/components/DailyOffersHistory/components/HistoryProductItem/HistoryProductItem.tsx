@@ -28,10 +28,10 @@ export default function HistoryProductItem({ product }: { product: Product }) {
       <div className="flex items-center gap-2 shrink-0">
         {product.discountedPrice ? (
           <div className="flex flex-col w-fit items-center ">
-            <span className="text-xs line-through font-semibold text-slate-400">
+            <span className="md:text-xs text-[10px] line-through font-semibold text-slate-400">
               {formatPriceBRL(product.price)}
             </span>
-            <span className="text-sm font-semibold  text-emerald-600">
+            <span className="md:text-sm text-xs font-semibold  text-emerald-600">
               {formatPriceBRL(product.discountedPrice)}
             </span>
           </div>

@@ -13,7 +13,7 @@ const UserStats = ({ data }: { data: UserState | null }) => {
   const totalReward = data?.stats.totalRewards;
   const subStatus = data?.user.subscription;
   return (
-    <div className="bg-white/90 backdrop-blur rounded-lg shadow-md p-4">
+    <div className="bg-white/90 backdrop-blur rounded-lg shadow-md md:p-4 p-2">
       <div>
         <span className="text-sm font-semibold text-slate-800">
           Estatísticas do Usuário

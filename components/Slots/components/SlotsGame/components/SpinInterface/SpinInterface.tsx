@@ -18,7 +18,7 @@ const SpinInterface: FC<SpinInterfaceProps> = ({
 }) => {
   return (
     <>
-      <div className="bg-white/5 backdrop-blur shadow-md mb-4 p-2 w-full ">
+      <div className="bg-white/5 backdrop-blur shadow-md mb-4 p-2 md:w-full mx-auto ">
         <AvailableRounds
           resetsAt={resetsAt}
           dailyLimit={dailyLimit}

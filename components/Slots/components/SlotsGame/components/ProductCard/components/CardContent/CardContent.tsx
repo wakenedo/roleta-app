@@ -8,15 +8,15 @@ import { CardImage } from "../CardImage";
 
 const CardContent: FC<ProductCardProps> = ({ product }) => {
   return (
-    <div className="relative z-10 flex flex-col items-center h-full p-3">
+    <div className="w-full relative z-10 flex flex-col items-center h-full  md:p-3 p-2">
       {/* IMAGE */}
       <CardImage product={product} />
       <TierBadge product={product} />
 
-      <div className="w-full flex flex-col items-center text-center px-2 py-1">
+      <div className="w-fit flex flex-col items-center text-center md:px-2 md:py-1">
         <span
           className={`
-            text-xs  font-semibold truncate w-full h-5
+            text-xs  font-semibold truncate w-25 md:w-full h-5
             text-shadow-2xs
             ${tierStyle(product).name} ${tierStyle(product).glow}
           `}
@@ -63,9 +63,19 @@ const CardContent: FC<ProductCardProps> = ({ product }) => {
         )}
 
         {product.store && (
-          <div className="mt-1">
-            <Image src={PlaceholderLogo} alt="store" width={120} height={40} />
-          </div>
+          <>
+            <div className="mt-1 md:block hidden">
+              <Image
+                src={PlaceholderLogo}
+                alt="store"
+                width={120}
+                height={40}
+              />
+            </div>
+            <div className="mt-1 md:hidden block">
+              <Image src={PlaceholderLogo} alt="store" width={80} height={30} />
+            </div>
+          </>
         )}
       </div>
     </div>

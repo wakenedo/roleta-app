@@ -15,14 +15,14 @@ const DailyQuota: FC<DailyQuotaProps> = ({
   const resetAt = data.quota.spins.resetsAt;
   if (loading || !historyPreview) {
     return (
-      <div className="flex flex-col space-y-2 bg-white/90 backdrop-blur rounded-lg shadow-md p-4">
+      <div className="flex flex-col space-y-2 bg-white/90 backdrop-blur rounded-lg shadow-md md:p-4 p-2">
         <OutOfSpinsInterface />
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col space-y-2 bg-white/90 backdrop-blur rounded-lg shadow-md p-4 ">
+    <div className="flex flex-col space-y-2 bg-white/90 backdrop-blur rounded-lg shadow-md md:p-4 p-2 ">
       <RemainingDisplay resetsAt={resetAt} spins={spins} />
       <DailyOffersHistory data={data} historyPreview={historyPreview} />
     </div>
