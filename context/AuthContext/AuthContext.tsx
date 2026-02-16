@@ -69,11 +69,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   ) => {
     const token = await getToken();
 
+    const { getTenantId } = await import("@/context/TenantContext/utils");
+
     return fetch(input, {
       ...init,
       headers: {
         ...(init.headers || {}),
         Authorization: `Bearer ${token}`,
+        "x-tenant-id": getTenantId() as string,
       },
     });
   };
