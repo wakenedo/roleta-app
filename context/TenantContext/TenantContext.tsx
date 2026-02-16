@@ -1,0 +1,84 @@
+"use client";
+
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+  useCallback,
+} from "react";
+import { useAuth } from "@/context/AuthContext/AuthContext";
+import { setTenantId } from "./utils";
+import { Tenant, TenantContextProps, TenantProduct } from "./types";
+
+const TenantContext = createContext<TenantContextProps | undefined>(undefined);
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+export const TenantProvider = ({ children }: { children: ReactNode }) => {
+  const { user, authorizedFetch } = useAuth();
+
+  const [tenant, setTenant] = useState<Tenant | null>(null);
+  const [products, setProducts] = useState<TenantProduct[]>([]);
+  const [preview, setPreview] = useState<TenantProduct[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const STATIC_TENANT_ID = process.env.NEXT_PUBLIC_DEFAULT_TENANT!;
+
+  const fetchTenant = useCallback(async () => {
+    if (!user) {
+      setTenant(null);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const [tenantRes] = await Promise.all([
+        authorizedFetch(`${API_URL}/tenants/${STATIC_TENANT_ID}`),
+      ]);
+
+      const tenantJson = await tenantRes.json();
+
+      setTenant(tenantJson ?? null);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to load tenant area");
+    } finally {
+      setLoading(false);
+    }
+  }, [user, authorizedFetch, STATIC_TENANT_ID]);
+
+  useEffect(() => {
+    fetchTenant();
+  }, [fetchTenant]);
+
+  useEffect(() => {
+    setTenantId(tenant?.id ?? null);
+  }, [tenant]);
+
+  return (
+    <TenantContext.Provider
+      value={{
+        tenant,
+        products,
+        preview,
+        loading,
+        error,
+        setTenant,
+        refresh: fetchTenant,
+      }}
+    >
+      {children}
+    </TenantContext.Provider>
+  );
+};
+
+export const useTenant = () => {
+  const ctx = useContext(TenantContext);
+  if (!ctx) throw new Error("useTenant must be used within TenantProvider");
+  return ctx;
+};
