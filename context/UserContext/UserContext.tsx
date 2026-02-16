@@ -20,12 +20,9 @@ const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-const buildNextHistory = (
-  prev: UserState,
-  spin: SpinHistoryItem,
-): SpinHistoryItem[] => {
+const buildNextHistory = (prev: UserState): SpinHistoryItem[] => {
   const limit = prev.user.subscription === "premium" ? 50 : 10;
-  return [spin, ...(prev.historyPreview ?? [])].slice(0, limit);
+  return [...(prev.historyPreview ?? [])].slice(0, limit);
 };
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
@@ -92,7 +89,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [authLoading, fetchMe]);
 
-  const optimisticSpin = (spin: SpinHistoryItem, quota: SpinQuota) => {
+  const optimisticSpin = (quota: SpinQuota) => {
     setData((prev) => {
       if (!prev) return prev;
 
@@ -103,7 +100,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
           ...prev.stats,
           totalSpins: prev.stats.totalSpins + 1,
         },
-        historyPreview: buildNextHistory(prev, spin),
+        historyPreview: buildNextHistory(prev),
       };
     });
     if (!authLoading) {
