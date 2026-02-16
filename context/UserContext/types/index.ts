@@ -49,7 +49,7 @@ interface UserContextProps {
   loading: boolean;
   error: string | null;
   refresh: () => Promise<void>;
-  optimisticSpin: (spin: SpinHistoryItem, quota: SpinQuota) => void;
+  optimisticSpin: (quota: SpinQuota) => void;
 }
 
 export type {
