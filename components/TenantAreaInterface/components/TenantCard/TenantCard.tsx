@@ -1,9 +1,27 @@
 import { Tenant } from "@/context/TenantContext/types";
 import { TenantOptions } from "./components/TenantOptions";
+import { TenantError } from "../TenantError";
 
-const TenantCard = ({ tenant }: { tenant: Tenant }) => {
+const TenantCard = ({
+  tenant,
+  loading,
+  error,
+}: {
+  tenant: Tenant;
+  loading: boolean;
+  error: string | null;
+}) => {
   return (
     <div className="w-full bg-white/90 backdrop-blur rounded-lg shadow-md md:p-4 p-2 ">
+      {error && <TenantError error={error} />}
+      {loading && (
+        <div className="flex flex-col gap-3 ">
+          <hr className="border-t border-slate-300" />
+          <div>
+            <p>Loading tenant...</p>
+          </div>
+        </div>
+      )}
       {tenant && (
         <div className="flex flex-col gap-3 ">
           <div>
