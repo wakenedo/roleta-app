@@ -6,7 +6,12 @@ const TenantAreaInterface: FC<TenantAreaInterfaceProps> = ({
   tenant,
   loading,
   error,
+  products,
+  preview,
 }) => {
+  console.log("TenantAreaInterface Tenant", tenant);
+  console.log("TenantAreaInterface products", products);
+  console.log("TenantAreaInterface preview", preview);
   if (!tenant) return null;
   return (
     <div className="relative min-h-screen font-sans overflow-hidden">

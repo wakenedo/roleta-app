@@ -37,21 +37,25 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
       setLoading(true);
       setError(null);
 
-      const [tenantRes, productsRes] = await Promise.all([
+      const [tenantRes, productsRes, previewRes] = await Promise.all([
         authorizedFetch(`${API_URL}/tenants/${STATIC_TENANT_ID}`),
         authorizedFetch(
           `${API_URL}/tenants/${STATIC_TENANT_ID}/admin/products`,
         ),
+        authorizedFetch(`${API_URL}/tenants/${STATIC_TENANT_ID}/preview`),
       ]);
 
       if (!tenantRes.ok) throw new Error("tenant failed");
       if (!productsRes.ok) throw new Error("products failed");
+      if (!previewRes.ok) throw new Error("preview failed");
 
       const tenantJson = await tenantRes.json();
       const productsJson = await productsRes.json();
+      const previewJson = await previewRes.json();
 
       setTenant(tenantJson ?? null);
       setProducts(productsJson ?? []);
+      setPreview(previewJson ?? []);
     } catch (err) {
       console.error(err);
       setError("Failed to load tenant area");

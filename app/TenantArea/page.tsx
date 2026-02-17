@@ -7,7 +7,7 @@ import { useTenant } from "@/context/TenantContext/TenantContext";
 
 const TenantArea = () => {
   const { user, logout } = useAuth();
-  const { tenant, loading, error } = useTenant();
+  const { tenant, loading, error, products, preview } = useTenant();
 
   return (
     <>
@@ -17,6 +17,8 @@ const TenantArea = () => {
         loading={loading}
         tenant={tenant}
         error={error}
+        products={products}
+        preview={preview}
       />
     </>
   );
