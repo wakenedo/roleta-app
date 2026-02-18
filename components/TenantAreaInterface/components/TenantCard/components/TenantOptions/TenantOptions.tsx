@@ -9,8 +9,8 @@ const InfoRow = ({
   value: React.ReactNode;
 }) => (
   <div className="flex justify-between items-center text-sm">
-    <span className="text-slate-500">{label}</span>
-    <span className="font-medium text-slate-800 text-right">{value}</span>
+    <span className="text-xs text-slate-400">{label}</span>
+    <span className="font-medium text-slate-500 text-right">{value}</span>
   </div>
 );
 
@@ -23,8 +23,7 @@ const TenantOptions = ({ tenant }: { tenant: Tenant }) => {
 
   return (
     <TenantAreaSectionBackground>
-      <div className="flex flex-col gap-6">
-        {/* Header */}
+      <div className="flex flex-col gap-2">
         <div className="flex justify-between items-center">
           <div>
             <h2 className="text-lg font-semibold text-slate-800">
@@ -43,65 +42,69 @@ const TenantOptions = ({ tenant }: { tenant: Tenant }) => {
             {tenant.status}
           </span>
         </div>
+        <hr className="border-t border-slate-300 my-1" />
 
-        {/* General Info */}
-        <div className="space-y-2">
-          <h3 className="text-xs tracking-wide text-slate-400">General</h3>
-          <InfoRow label="Created At" value={formattedDate} />
-          <InfoRow label="Affiliate" value={tenant.affiliate || "-"} />
+        <div className="space-y-1">
+          <h3 className="text-sm font-regular tracking-wide text-slate-600">
+            General
+          </h3>
+          <div className="border border-slate-400 rounded-lg p-2">
+            <InfoRow label="Created At" value={formattedDate} />
+            <InfoRow label="Affiliate" value={tenant.affiliate || "-"} />
+          </div>
         </div>
 
-        {/* Branding */}
-        <div className="space-y-2">
-          <h3 className="text-xs tracking-wide text-slate-400">Branding</h3>
+        <div className="space-y-1">
+          <h3 className="text-sm tracking-wide text-slate-600">Branding</h3>
+          <div className="border border-slate-400 rounded-lg p-2">
+            <InfoRow
+              label="Primary Color"
+              value={
+                <div className="flex items-center gap-2">
+                  <div
+                    className="w-4 h-4 rounded"
+                    style={{ background: tenant.branding?.primaryColor }}
+                  />
+                  {tenant.branding?.primaryColor || "-"}
+                </div>
+              }
+            />
 
-          <InfoRow
-            label="Primary Color"
-            value={
-              <div className="flex items-center gap-2">
-                <div
-                  className="w-4 h-4 rounded"
-                  style={{ background: tenant.branding?.primaryColor }}
-                />
-                {tenant.branding?.primaryColor || "-"}
-              </div>
-            }
-          />
-
-          <InfoRow
-            label="Logo URL"
-            value={
-              tenant.branding?.logoUrl ? (
-                <a
-                  href={tenant.branding.logoUrl}
-                  target="_blank"
-                  className="text-indigo-600 underline text-xs"
-                >
-                  View Logo
-                </a>
-              ) : (
-                "No URL provided"
-              )
-            }
-          />
+            <InfoRow
+              label="Logo URL"
+              value={
+                tenant.branding?.logoUrl ? (
+                  <a
+                    href={tenant.branding.logoUrl}
+                    target="_blank"
+                    className="text-indigo-600 underline text-xs"
+                  >
+                    View Logo
+                  </a>
+                ) : (
+                  "No URL provided"
+                )
+              }
+            />
+          </div>
         </div>
 
-        {/* Settings */}
-        <div className="space-y-2">
-          <h3 className="text-xs tracking-wide text-slate-400">Settings</h3>
-
-          <InfoRow
-            label="Cooldown (ms)"
-            value={tenant.settings?.cooldownMs ?? "-"}
-          />
-          <InfoRow
-            label="Free Spins"
-            value={tenant.settings?.spinLimits?.free ?? "-"}
-          />
-          <InfoRow
-            label="Pro Spins"
-            value={tenant.settings?.spinLimits?.pro ?? "-"}
-          />
+        <div className="space-y-1">
+          <h3 className="text-sm tracking-wide text-slate-600">Settings</h3>
+          <div className="border border-slate-400 rounded-lg p-2">
+            <InfoRow
+              label="Cooldown (ms)"
+              value={tenant.settings?.cooldownMs ?? "-"}
+            />
+            <InfoRow
+              label="Free Spins"
+              value={tenant.settings?.spinLimits?.free ?? "-"}
+            />
+            <InfoRow
+              label="Pro Spins"
+              value={tenant.settings?.spinLimits?.pro ?? "-"}
+            />
+          </div>
         </div>
       </div>
     </TenantAreaSectionBackground>
