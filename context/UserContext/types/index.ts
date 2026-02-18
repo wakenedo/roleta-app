@@ -5,6 +5,7 @@ type SpinQuota = {
   remaining: number;
   limit: number;
   resetsAt: string;
+  tenantId?: string | null;
 };
 
 type UserStats = {
