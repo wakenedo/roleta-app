@@ -1,12 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-
 import { Product } from "./types";
 import { ProductSlotsReelsProvider } from "@/context/ProductSlotsReelsContext/ProductSlotsReelsContext";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useUser } from "@/context/UserContext/UserContext";
-
 import { SlotsTitle } from "./components/SlotsTitle";
 import { SlotsGame } from "./components/SlotsGame";
 import { productSlotsReelsGradient } from "./components/SlotsGame/components/ProductSlotsReels/utils";
@@ -31,22 +29,20 @@ const Slots = () => {
       });
 
       const data = await res.json();
+      const quotaData = {
+        limit: data.quota.limit,
+        remaining: data.quota.remaining,
+        resetsAt: data.quota.resetsAt,
+        used: data.quota.used,
+      };
 
       if (!res.ok) {
         throw new Error("Spin failed");
       }
 
-      const spinItem = {
-        id: data.id,
-        createdAt: data.createdAt ?? new Date().toISOString(),
-        products: data.products ?? [],
-        quotaBefore: data.quota.before,
-        quotaAfter: data.quota.after,
-      };
-
       // 🎯 Backend is the authority
       setSelectedProducts(data.products ?? []);
-      optimisticSpin(spinItem, data.quota);
+      optimisticSpin(quotaData);
     } catch (err) {
       console.error("Spin error:", err);
     } finally {
