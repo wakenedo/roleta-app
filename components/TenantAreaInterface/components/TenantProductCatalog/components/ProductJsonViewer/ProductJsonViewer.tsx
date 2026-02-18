@@ -6,9 +6,9 @@ import { TenantProduct } from "@/context/TenantContext/types";
 const ProductJsonViewer = ({ products }: { products: TenantProduct[] }) => {
   return (
     <div className="flex flex-col gap-3 ">
-      <span className="text-xs font-semibold text-slate-600">JSON :</span>
+      <span className="text-xs font-semibold text-slate-600">JSON </span>
 
-      <div className="bg-slate-300 rounded-lg p-4 max-h-75 overflow-auto [scrollbar-width:none]">
+      <div className="bg-slate-300 p-4 max-h-75 overflow-auto [scrollbar-width:none]">
         <JsonView
           value={products}
           collapsed={2}

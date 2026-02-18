@@ -1,6 +1,7 @@
 import { Tenant } from "@/context/TenantContext/types";
 import { TenantOptions } from "./components/TenantOptions";
 import { TenantError } from "../TenantError";
+import { TenantOptionsAnalytics } from "./components/TenantOptionsAnalytics";
 
 const TenantCard = ({
   tenant,
@@ -12,7 +13,7 @@ const TenantCard = ({
   error: string | null;
 }) => {
   return (
-    <div className="w-full bg-white/90 backdrop-blur rounded-lg shadow-md md:p-4 p-2 ">
+    <div className="w-full bg-white/90 backdrop-blur rounded-lg shadow-md md:p-4 p-2 space-y-2">
       {error && <TenantError error={error} />}
       {loading && (
         <div className="flex flex-col gap-3 ">
@@ -33,6 +34,7 @@ const TenantCard = ({
           <TenantOptions tenant={tenant} />
         </div>
       )}
+      <TenantOptionsAnalytics />
     </div>
   );
 };
