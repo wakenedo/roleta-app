@@ -1,4 +1,9 @@
 type Tier = "common" | "rare" | "jackpot";
+
+interface SlotsConfig {
+  tenantId?: string | undefined;
+}
+
 interface Product {
   id: string;
   name: string;
@@ -33,6 +38,7 @@ interface ProductSlotsProps {
 }
 
 interface SlotsGameProps {
+  tenantId?: string;
   spinning: boolean;
   onSpin: () => Promise<void>;
 }
@@ -102,4 +108,5 @@ export type {
   ProductSlotsProps,
   TierBadgeProps,
   BadgeGradientLifecycleProps,
+  SlotsConfig,
 };
