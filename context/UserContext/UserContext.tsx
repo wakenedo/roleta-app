@@ -89,13 +89,14 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [authLoading, fetchMe]);
 
-  const optimisticSpin = (quota: SpinQuota) => {
+  const optimisticSpin = (quota: SpinQuota, tenantId?: string | null) => {
     setData((prev) => {
       if (!prev) return prev;
 
       return {
         ...prev,
         quota: { spins: quota },
+        activeTenant: tenantId,
         stats: {
           ...prev.stats,
           totalSpins: prev.stats.totalSpins + 1,
