@@ -25,7 +25,7 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const STATIC_TENANT_ID = process.env.NEXT_PUBLIC_DEFAULT_TENANT!;
+  const STATIC_TENANT_ID = process.env.NEXT_PUBLIC_DEFAULT_TENANT;
 
   const fetchTenant = useCallback(async () => {
     if (!user) {
