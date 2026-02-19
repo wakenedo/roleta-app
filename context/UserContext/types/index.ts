@@ -5,7 +5,6 @@ type SpinQuota = {
   remaining: number;
   limit: number;
   resetsAt: string;
-  tenantId?: string | null;
 };
 
 type UserStats = {
@@ -50,7 +49,7 @@ interface UserContextProps {
   loading: boolean;
   error: string | null;
   refresh: () => Promise<void>;
-  optimisticSpin: (quota: SpinQuota) => void;
+  optimisticSpin: (quota: SpinQuota, tenantId?: string | null) => void;
 }
 
 export type {
