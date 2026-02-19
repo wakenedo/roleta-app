@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Product } from "./types";
+import { FC, useEffect, useRef, useState } from "react";
+import { Product, SlotsConfig } from "./types";
 import { ProductSlotsReelsProvider } from "@/context/ProductSlotsReelsContext/ProductSlotsReelsContext";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useUser } from "@/context/UserContext/UserContext";
@@ -10,21 +10,25 @@ import { SlotsGame } from "./components/SlotsGame";
 import { productSlotsReelsGradient } from "./components/SlotsGame/components/ProductSlotsReels/utils";
 import { SlotsLoading } from "./components/SlotsLoading";
 
-const Slots = () => {
+const Slots: FC<SlotsConfig> = ({ tenantId }) => {
   const [spinning, setSpinning] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
   const { authorizedFetch } = useAuth();
   const { loading, optimisticSpin } = useUser();
 
   const renderDeployAddress = process.env.NEXT_PUBLIC_API_URL;
-
+  console.log("Slots tenantId", tenantId);
   const spin = async () => {
     if (spinning) return;
 
     setSpinning(true);
 
+    const endpoint = tenantId
+      ? `${renderDeployAddress}/spin/${tenantId}`
+      : `${renderDeployAddress}/spin`;
+
     try {
-      const res = await authorizedFetch(`${renderDeployAddress}/spin`, {
+      const res = await authorizedFetch(endpoint, {
         method: "POST",
       });
 
@@ -42,7 +46,7 @@ const Slots = () => {
 
       // 🎯 Backend is the authority
       setSelectedProducts(data.products ?? []);
-      optimisticSpin(quotaData);
+      optimisticSpin(quotaData, tenantId);
     } catch (err) {
       console.error("Spin error:", err);
     } finally {
