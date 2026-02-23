@@ -21,6 +21,7 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
 
   const [tenant, setTenant] = useState<Tenant | null>(null);
   const [products, setProducts] = useState<TenantProduct[]>([]);
+  const [tenantQuota, setTenantQuota] = useState(null);
   const [preview, setPreview] = useState<TenantProduct[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -37,25 +38,29 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
       setLoading(true);
       setError(null);
 
-      const [tenantRes, productsRes, previewRes] = await Promise.all([
+      const [tenantRes, productsRes, previewRes, quotaRes] = await Promise.all([
         authorizedFetch(`${API_URL}/tenants/${STATIC_TENANT_ID}`),
         authorizedFetch(
           `${API_URL}/tenants/${STATIC_TENANT_ID}/admin/products`,
         ),
         authorizedFetch(`${API_URL}/tenants/${STATIC_TENANT_ID}/preview`),
+        authorizedFetch(`${API_URL}/tenants/${STATIC_TENANT_ID}/quota`),
       ]);
 
       if (!tenantRes.ok) throw new Error("tenant failed");
       if (!productsRes.ok) throw new Error("products failed");
       if (!previewRes.ok) throw new Error("preview failed");
+      if (!quotaRes.ok) throw new Error("tenant quota failed");
 
       const tenantJson = await tenantRes.json();
       const productsJson = await productsRes.json();
       const previewJson = await previewRes.json();
+      const tenantQuotaJson = await quotaRes.json();
 
       setTenant(tenantJson ?? null);
       setProducts(productsJson ?? []);
       setPreview(previewJson ?? []);
+      setTenantQuota(tenantQuotaJson ?? null);
     } catch (err) {
       console.error(err);
       setError("Failed to load tenant area");
@@ -78,6 +83,7 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
         tenant,
         products,
         preview,
+        tenantQuota,
         loading,
         error,
         setTenant,
