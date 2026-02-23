@@ -4,21 +4,27 @@ import { useTenant } from "@/context/TenantContext/TenantContext";
 import { useParams } from "next/navigation";
 
 export default function TenantSlotsPage() {
-  const { tenant, loading, error, products } = useTenant();
+  const { tenant, loading, error, tenantQuota } = useTenant();
   const { tenantId } = useParams();
-  if (!products) return;
   if (!tenant) return;
   if (tenantId != tenant.id) return;
-
+  const tenantSettings = tenant.settings;
+  const tenantBranding = tenant.branding;
+  if (!tenantSettings && !tenantBranding) return;
   const paramTenantId = tenantId;
 
   console.log("tenant", tenantId);
 
-  console.log("tenant products", products);
+  console.log("tenant quota", tenantQuota);
   return (
     <>
       <div>{tenant.id}</div>
-      <Slots tenantId={paramTenantId} />;
+      <Slots
+        tenantId={paramTenantId}
+        tenantQuota={tenantQuota}
+        tenantBranding={tenantBranding}
+        tenantSettings={tenantSettings}
+      />
     </>
   );
 }
