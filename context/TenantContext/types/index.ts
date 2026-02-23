@@ -40,11 +40,15 @@ type TenantProduct = {
 };
 
 type TenantQuota = {
+  quota: QuotaProps | null;
+} | null;
+
+type QuotaProps = {
   used: number;
   remaining: number;
   limit: number;
   resetsAt: string;
-} | null;
+};
 
 type TenantContextProps = {
   tenant: Tenant | null;
@@ -57,4 +61,10 @@ type TenantContextProps = {
   tenantQuota: TenantQuota;
 };
 
-export type { Tenant, TenantContextProps, TenantProduct, TenantQuota };
+export type {
+  Tenant,
+  TenantContextProps,
+  TenantProduct,
+  TenantQuota,
+  QuotaProps,
+};
