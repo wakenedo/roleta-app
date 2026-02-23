@@ -1,17 +1,17 @@
-import { Tenant } from "@/context/TenantContext/types";
 import { TenantOptions } from "./components/TenantOptions";
 import { TenantError } from "../TenantError";
 import { TenantOptionsAnalytics } from "./components/TenantOptionsAnalytics";
+import { FC } from "react";
+import { TenantCardProps } from "../../types";
 
-const TenantCard = ({
+const TenantCard: FC<TenantCardProps> = ({
   tenant,
   loading,
   error,
-}: {
-  tenant: Tenant;
-  loading: boolean;
-  error: string | null;
+  tenantQuota,
 }) => {
+  const quota = tenantQuota?.quota;
+  if (quota === undefined || quota === null) return null;
   return (
     <div className="w-full bg-white/90 backdrop-blur rounded-lg shadow-md md:p-4 p-2 space-y-2">
       {error && <TenantError error={error} />}
@@ -31,7 +31,7 @@ const TenantCard = ({
             </span>
           </div>
           <hr className="border-t border-slate-300" />
-          <TenantOptions tenant={tenant} />
+          <TenantOptions tenant={tenant} quota={quota} />
         </div>
       )}
       <TenantOptionsAnalytics />

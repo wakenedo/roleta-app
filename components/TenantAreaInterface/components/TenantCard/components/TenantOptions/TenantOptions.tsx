@@ -1,4 +1,4 @@
-import { Tenant } from "@/context/TenantContext/types";
+import { QuotaProps, Tenant } from "@/context/TenantContext/types";
 import { TenantAreaSectionBackground } from "../../../TenantAreaSectionBackground";
 
 const InfoRow = ({
@@ -14,12 +14,23 @@ const InfoRow = ({
   </div>
 );
 
-const TenantOptions = ({ tenant }: { tenant: Tenant }) => {
+const TenantOptions = ({
+  tenant,
+  quota,
+}: {
+  tenant: Tenant;
+  quota: QuotaProps | null;
+}) => {
   if (!tenant) return null;
 
   const createdAt = tenant.createdAt as string;
 
+  const formattedQuotaResetsAt = quota?.resetsAt
+    ? new Date(quota.resetsAt).toLocaleString()
+    : "N/A";
+
   const formattedDate = new Date(createdAt).toLocaleString();
+  console.log("TenantOptions tenantQuota", quota);
 
   return (
     <TenantAreaSectionBackground>
@@ -96,13 +107,10 @@ const TenantOptions = ({ tenant }: { tenant: Tenant }) => {
               label="Cooldown (ms)"
               value={tenant.settings?.cooldownMs ?? "-"}
             />
+            <InfoRow label="Rodadas por usuário" value={quota?.limit ?? "-"} />
             <InfoRow
-              label="Free Spins"
-              value={tenant.settings?.spinLimits?.free ?? "-"}
-            />
-            <InfoRow
-              label="Pro Spins"
-              value={tenant.settings?.spinLimits?.pro ?? "-"}
+              label="Disponível novamente em "
+              value={formattedQuotaResetsAt ?? "-"}
             />
           </div>
         </div>
