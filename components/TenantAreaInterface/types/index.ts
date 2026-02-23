@@ -1,4 +1,8 @@
-import { Tenant, TenantProduct } from "@/context/TenantContext/types";
+import {
+  Tenant,
+  TenantProduct,
+  TenantQuota,
+} from "@/context/TenantContext/types";
 
 interface TenantAreaInterfaceProps {
   loading: boolean;
@@ -7,6 +11,7 @@ interface TenantAreaInterfaceProps {
   logout: () => void;
   products: TenantProduct[];
   preview: TenantProduct[];
+  tenantQuota: TenantQuota | null;
 }
 
 export type { TenantAreaInterfaceProps };
