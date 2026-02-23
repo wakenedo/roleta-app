@@ -1,10 +1,16 @@
-import { TenantQuota } from "@/context/TenantContext/types";
+import {
+  TenantBranding,
+  TenantQuota,
+  TenantSettings,
+} from "@/context/TenantContext/types";
 
 type Tier = "common" | "rare" | "jackpot";
 
 interface SlotsConfig {
   tenantId?: string | undefined;
   tenantQuota?: TenantQuota | null;
+  tenantSettings?: TenantSettings;
+  tenantBranding?: TenantBranding;
 }
 
 interface Product {
