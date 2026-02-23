@@ -1,24 +1,20 @@
+type TenantBranding = {
+  logoUrl?: string | null;
+  primaryColor?: string;
+};
+
+type TenantSettings = {
+  cooldownMs: number;
+};
+
 type Tenant = {
   id: string;
   name: string;
   ownerUid: string;
   status: "active" | "inactive";
-
-  branding?: {
-    logoUrl?: string | null;
-    primaryColor?: string;
-  };
-
-  settings?: {
-    cooldownMs: number;
-    spinLimits: {
-      free: number;
-      pro: number;
-    };
-  };
-
+  branding?: TenantBranding;
+  settings?: TenantSettings;
   affiliate?: string | null;
-
   createdAt?: string;
   updatedAt?: string;
 };
@@ -63,6 +59,8 @@ type TenantContextProps = {
 
 export type {
   Tenant,
+  TenantBranding,
+  TenantSettings,
   TenantContextProps,
   TenantProduct,
   TenantQuota,
