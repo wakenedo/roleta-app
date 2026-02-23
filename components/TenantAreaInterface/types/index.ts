@@ -14,4 +14,11 @@ interface TenantAreaInterfaceProps {
   tenantQuota: TenantQuota | null;
 }
 
-export type { TenantAreaInterfaceProps };
+interface TenantCardProps {
+  tenant: Tenant;
+  loading: boolean;
+  error: string | null;
+  tenantQuota: TenantQuota | null;
+}
+
+export type { TenantAreaInterfaceProps, TenantCardProps };
