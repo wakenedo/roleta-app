@@ -39,6 +39,13 @@ type TenantProduct = {
   updatedAt: string;
 };
 
+type TenantQuota = {
+  used: number;
+  remaining: number;
+  limit: number;
+  resetsAt: string;
+} | null;
+
 type TenantContextProps = {
   tenant: Tenant | null;
   products: TenantProduct[];
@@ -47,6 +54,7 @@ type TenantContextProps = {
   error: string | null;
   setTenant: (t: Tenant | null) => void;
   refresh: () => Promise<void>;
+  tenantQuota: TenantQuota;
 };
 
-export type { Tenant, TenantContextProps, TenantProduct };
+export type { Tenant, TenantContextProps, TenantProduct, TenantQuota };
