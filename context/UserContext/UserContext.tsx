@@ -79,24 +79,19 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     await performFetch();
   }, [performFetch]);
 
-  const silentRefresh = useCallback(async () => {
-    await performFetch({ silent: true });
-  }, [performFetch]);
-
   useEffect(() => {
     if (!authLoading) {
       fetchMe();
     }
   }, [authLoading, fetchMe]);
 
-  const optimisticSpin = (quota: SpinQuota, tenantId?: string | null) => {
+  const optimisticSpin = (tenantId?: string | null) => {
     setData((prev) => {
       if (!prev) return prev;
 
       return {
         ...prev,
-        quota: { spins: quota },
-        activeTenant: tenantId,
+        activeTenant: tenantId ?? null,
         stats: {
           ...prev.stats,
           totalSpins: prev.stats.totalSpins + 1,
@@ -104,9 +99,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         historyPreview: buildNextHistory(prev),
       };
     });
-    if (!authLoading) {
-      silentRefresh();
-    }
   };
 
   return (
