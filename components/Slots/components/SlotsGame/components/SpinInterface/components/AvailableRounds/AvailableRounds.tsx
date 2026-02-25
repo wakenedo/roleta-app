@@ -9,14 +9,14 @@ const AvailableRounds: FC<AvailableRoundsProps> = ({
   resetsAt,
 }) => {
   const [timeLeft, setTimeLeft] = useState(
-    formatCountdown(getTimeUntil(resetsAt)),
+    formatCountdown(getTimeUntil(resetsAt as string)),
   );
 
   useEffect(() => {
     if (!isEmpty) return;
 
     const interval = setInterval(() => {
-      const result = getTimeUntil(resetsAt);
+      const result = getTimeUntil(resetsAt as string);
 
       if (result.isExpired) {
         setTimeLeft("disponível!");

@@ -9,15 +9,25 @@ import { SlotsTitle } from "./components/SlotsTitle";
 import { SlotsGame } from "./components/SlotsGame";
 import { productSlotsReelsGradient } from "./components/SlotsGame/components/ProductSlotsReels/utils";
 import { SlotsLoading } from "./components/SlotsLoading";
+import { useTenant } from "@/context/TenantContext/TenantContext";
+import { useGlobalQuota } from "@/context/GlobalQuotaContext/GlobalQuotaContext";
+import { SpinQuota } from "@/context/UserContext/types";
 
-const Slots: FC<SlotsConfig> = ({ tenantId }) => {
+const Slots: FC<SlotsConfig> = ({
+  tenantId,
+  tenantBranding,
+  tenantSettings,
+  tenantName,
+}) => {
   const [spinning, setSpinning] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
   const { authorizedFetch } = useAuth();
   const { loading, optimisticSpin } = useUser();
+  const { refreshQuota, tenantQuota } = useTenant();
+  const { refresh, quota, globalQuotaLoading } = useGlobalQuota();
 
   const renderDeployAddress = process.env.NEXT_PUBLIC_API_URL;
-  console.log("Slots tenantId", tenantId);
+
   const spin = async () => {
     if (spinning) return;
 
@@ -33,12 +43,6 @@ const Slots: FC<SlotsConfig> = ({ tenantId }) => {
       });
 
       const data = await res.json();
-      const quotaData = {
-        limit: data.quota.limit,
-        remaining: data.quota.remaining,
-        resetsAt: data.quota.resetsAt,
-        used: data.quota.used,
-      };
 
       if (!res.ok) {
         throw new Error("Spin failed");
@@ -46,7 +50,10 @@ const Slots: FC<SlotsConfig> = ({ tenantId }) => {
 
       // 🎯 Backend is the authority
       setSelectedProducts(data.products ?? []);
-      optimisticSpin(quotaData, tenantId);
+      if (tenantId) {
+        optimisticSpin(tenantId);
+        refreshQuota();
+      } else optimisticSpin();
     } catch (err) {
       console.error("Spin error:", err);
     } finally {
@@ -61,25 +68,34 @@ const Slots: FC<SlotsConfig> = ({ tenantId }) => {
     productSlotsReelsGradient(gradientRef);
   }, [gradientRef]);
 
+  useEffect(() => {
+    if (!tenantId) refresh();
+  }, [tenantId, refresh]);
+
   return (
     <div
       ref={gradientRef}
-      className="shadow-2xl h-auto min-h-[480px] flex flex-col py-2 md:w-2xl w-full md:px-0 px-2"
+      className="shadow-2xl h-auto min-h-[450px] flex flex-col py-2 md:w-2xl w-full md:px-0 px-2"
     >
-      <SlotsTitle />
+      <SlotsTitle tenantName={tenantName} />
       <div className="z-10 border-b border-slate-100 md:mx-6 mx-3" />
       <div className="z-10 flex mt-4 items-center justify-center h-full w-full">
-        {loading && (
+        {loading && globalQuotaLoading ? (
           <div className="mt-40">
             <SlotsLoading />
           </div>
+        ) : (
+          <ProductSlotsReelsProvider
+            spinning={spinning}
+            selectedProducts={selectedProducts}
+          >
+            <SlotsGame
+              spinning={spinning}
+              onSpin={spin}
+              quota={tenantId ? (tenantQuota as SpinQuota) : quota}
+            />
+          </ProductSlotsReelsProvider>
         )}
-        <ProductSlotsReelsProvider
-          spinning={spinning}
-          selectedProducts={selectedProducts}
-        >
-          <SlotsGame spinning={spinning} onSpin={spin} />
-        </ProductSlotsReelsProvider>
       </div>
     </div>
   );

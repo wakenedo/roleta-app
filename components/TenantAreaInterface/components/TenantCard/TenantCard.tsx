@@ -10,7 +10,7 @@ const TenantCard: FC<TenantCardProps> = ({
   error,
   tenantQuota,
 }) => {
-  const quota = tenantQuota?.quota;
+  const quota = tenantQuota;
   if (quota === undefined || quota === null) return null;
   return (
     <div className="w-full bg-white/90 backdrop-blur rounded-lg shadow-md md:p-4 p-2 space-y-2">

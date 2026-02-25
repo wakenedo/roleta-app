@@ -8,6 +8,7 @@ export default function TenantSlotsPage() {
   const { tenantId } = useParams();
   if (!tenant) return;
   if (tenantId != tenant.id) return;
+  const tenantName = tenant.name;
   const tenantSettings = tenant.settings;
   const tenantBranding = tenant.branding;
   if (!tenantSettings && !tenantBranding) return;
@@ -21,9 +22,9 @@ export default function TenantSlotsPage() {
       <div>{tenant.id}</div>
       <Slots
         tenantId={paramTenantId}
-        tenantQuota={tenantQuota}
         tenantBranding={tenantBranding}
         tenantSettings={tenantSettings}
+        tenantName={tenantName}
       />
     </>
   );

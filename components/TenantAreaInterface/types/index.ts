@@ -3,6 +3,7 @@ import {
   TenantProduct,
   TenantQuota,
 } from "@/context/TenantContext/types";
+import { SpinQuota } from "@/context/UserContext/types";
 
 interface TenantAreaInterfaceProps {
   loading: boolean;
@@ -11,14 +12,14 @@ interface TenantAreaInterfaceProps {
   logout: () => void;
   products: TenantProduct[];
   preview: TenantProduct[];
-  tenantQuota: TenantQuota | null;
+  tenantQuota: TenantQuota | SpinQuota;
 }
 
 interface TenantCardProps {
   tenant: Tenant;
   loading: boolean;
   error: string | null;
-  tenantQuota: TenantQuota | null;
+  tenantQuota: TenantQuota | SpinQuota;
 }
 
 export type { TenantAreaInterfaceProps, TenantCardProps };
