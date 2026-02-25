@@ -10,7 +10,12 @@ import {
 } from "react";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { setTenantId } from "./utils";
-import { Tenant, TenantContextProps, TenantProduct } from "./types";
+import {
+  Tenant,
+  TenantContextProps,
+  TenantProduct,
+  TenantQuota,
+} from "./types";
 
 const TenantContext = createContext<TenantContextProps | undefined>(undefined);
 
@@ -21,10 +26,12 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
 
   const [tenant, setTenant] = useState<Tenant | null>(null);
   const [products, setProducts] = useState<TenantProduct[]>([]);
-  const [tenantQuota, setTenantQuota] = useState(null);
+  const [tenantQuota, setTenantQuota] = useState<TenantQuota>(null);
   const [preview, setPreview] = useState<TenantProduct[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [productsLoaded, setProductsLoaded] = useState(false);
+  const [previewLoaded, setPreviewLoaded] = useState(false);
 
   const STATIC_TENANT_ID = process.env.NEXT_PUBLIC_DEFAULT_TENANT;
 
@@ -38,36 +45,68 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
       setLoading(true);
       setError(null);
 
-      const [tenantRes, productsRes, previewRes, quotaRes] = await Promise.all([
+      const [tenantRes, quotaRes] = await Promise.all([
         authorizedFetch(`${API_URL}/tenants/${STATIC_TENANT_ID}`),
-        authorizedFetch(
-          `${API_URL}/tenants/${STATIC_TENANT_ID}/admin/products`,
-        ),
-        authorizedFetch(`${API_URL}/tenants/${STATIC_TENANT_ID}/preview`),
         authorizedFetch(`${API_URL}/tenants/${STATIC_TENANT_ID}/quota`),
       ]);
 
       if (!tenantRes.ok) throw new Error("tenant failed");
-      if (!productsRes.ok) throw new Error("products failed");
-      if (!previewRes.ok) throw new Error("preview failed");
       if (!quotaRes.ok) throw new Error("tenant quota failed");
 
       const tenantJson = await tenantRes.json();
-      const productsJson = await productsRes.json();
-      const previewJson = await previewRes.json();
       const tenantQuotaJson = await quotaRes.json();
 
       setTenant(tenantJson ?? null);
-      setProducts(productsJson ?? []);
-      setPreview(previewJson ?? []);
-      setTenantQuota(tenantQuotaJson ?? null);
+      setTenantQuota(tenantQuotaJson.quota ?? null);
     } catch (err) {
       console.error(err);
-      setError("Failed to load tenant area");
+      setError("Failed to load tenant");
     } finally {
       setLoading(false);
     }
   }, [user, authorizedFetch, STATIC_TENANT_ID]);
+
+  const loadProducts = async () => {
+    if (!user || productsLoaded) return;
+
+    try {
+      const res = await authorizedFetch(
+        `${API_URL}/tenants/${STATIC_TENANT_ID}/admin/products`,
+      );
+      if (!res.ok) throw new Error("products failed");
+      const json = await res.json();
+      setProducts(json ?? []);
+      setProductsLoaded(true);
+      console.log("Fetching products from API");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const loadPreview = async () => {
+    if (!user || previewLoaded) return;
+
+    try {
+      const res = await authorizedFetch(
+        `${API_URL}/tenants/${STATIC_TENANT_ID}/preview`,
+      );
+      if (!res.ok) throw new Error("preview failed");
+      const json = await res.json();
+      setPreview(json ?? []);
+      setPreviewLoaded(true);
+      console.log("Fetching preview from API");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const refreshQuota = async () => {
+    const res = await authorizedFetch(
+      `${API_URL}/tenants/${STATIC_TENANT_ID}/quota`,
+    );
+    const json = await res.json();
+    setTenantQuota(json.quota);
+  };
 
   useEffect(() => {
     fetchTenant();
@@ -88,6 +127,11 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
         error,
         setTenant,
         refresh: fetchTenant,
+        refreshQuota,
+        loadProducts,
+        loadPreview,
+        invalidateProducts: () => setProductsLoaded(false),
+        invalidatePreview: () => setPreviewLoaded(false),
       }}
     >
       {children}

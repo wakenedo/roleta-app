@@ -1,3 +1,5 @@
+import { SpinQuota } from "@/context/UserContext/types";
+
 type TenantBranding = {
   logoUrl?: string | null;
   primaryColor?: string;
@@ -54,7 +56,12 @@ type TenantContextProps = {
   error: string | null;
   setTenant: (t: Tenant | null) => void;
   refresh: () => Promise<void>;
-  tenantQuota: TenantQuota;
+  refreshQuota: () => Promise<void>;
+  tenantQuota: TenantQuota | SpinQuota;
+  loadPreview: () => Promise<void>;
+  loadProducts: () => Promise<void>;
+  invalidateProducts: () => void;
+  invalidatePreview: () => void;
 };
 
 export type {
