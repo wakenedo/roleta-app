@@ -8,6 +8,8 @@ const SlotsGame: React.FC<SlotsGameProps & { onSpin: () => void }> = ({
   spinning,
   onSpin,
   quota,
+  tenantBranding,
+  tenantSettings,
 }) => {
   const remaining = quota?.remaining ?? 0;
   const resetsAt = quota?.resetsAt;

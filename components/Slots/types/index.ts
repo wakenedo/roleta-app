@@ -47,6 +47,8 @@ interface SlotsGameProps {
   spinning: boolean;
   onSpin: () => Promise<void>;
   quota: SpinQuota | null;
+  tenantBranding?: TenantBranding;
+  tenantSettings?: TenantSettings;
 }
 
 interface TierBadgeProps {
@@ -70,6 +72,8 @@ interface SpinInterfaceProps {
   remaining: number;
   isEmpty: boolean;
   resetsAt: string | undefined;
+  tenantBranding?: TenantBranding;
+  tenantSettings?: TenantSettings;
 }
 
 type AvailableRoundsProps = {
