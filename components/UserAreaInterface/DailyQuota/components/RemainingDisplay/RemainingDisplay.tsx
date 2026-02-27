@@ -3,20 +3,21 @@ import {
   getTimeUntil,
 } from "@/components/Slots/components/SlotsGame/components/SpinInterface/utils";
 import { UserAreaSectionBackground } from "@/components/UserAreaInterface/UserAreaSectionBackground";
-import { SpinQuota, UserState } from "@/context/UserContext/types";
+import { SpinQuota } from "@/context/UserContext/types";
 import { useEffect, useState } from "react";
 
 const RemainingDisplay = ({
   spins,
-
   resetsAt,
 }: {
-  spins: SpinQuota | undefined;
-  resetsAt: string;
+  spins: SpinQuota | null;
+  resetsAt: string | undefined;
 }) => {
   const [timeLeft, setTimeLeft] = useState(
-    formatCountdown(getTimeUntil(resetsAt)),
+    formatCountdown(getTimeUntil(resetsAt as string)),
   );
+
+  console.log("RemainingDisplay - spins:", spins);
 
   const remaining = spins?.remaining;
   const dailyLimit = spins?.limit;
@@ -39,7 +40,7 @@ const RemainingDisplay = ({
     if (!isEmpty) return;
 
     const interval = setInterval(() => {
-      const result = getTimeUntil(resetsAt);
+      const result = getTimeUntil(resetsAt as string);
 
       if (result.isExpired) {
         setTimeLeft("disponível!");

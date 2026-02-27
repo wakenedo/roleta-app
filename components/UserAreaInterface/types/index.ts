@@ -10,7 +10,7 @@ interface UserAreaInterfaceProps {
   data: UserState | null;
   logout: () => void;
   historyPreview: SpinHistoryItem[] | undefined;
-  spins: SpinQuota | undefined;
+  spins: SpinQuota | null;
   loading: boolean;
 }
 
@@ -21,7 +21,7 @@ type UserCardProps = {
 
 type DailyQuotaProps = {
   data: UserState | null;
-  spins: SpinQuota | undefined;
+  spins: SpinQuota | null;
   historyPreview: SpinHistoryItem[] | undefined;
   loading: boolean;
 };

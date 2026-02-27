@@ -38,6 +38,8 @@ const mockBackendUser: UserState = {
     totalSpins: 10,
     totalRewards: 2,
     jackpots: 0,
+    rare: 0,
+    common: 0,
   },
   historyPreview: [],
   rewards: [],
@@ -50,6 +52,7 @@ const wrapper = ({ children }: { children: React.ReactNode }) => (
 describe("UserContext", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    jest.spyOn(console, "error").mockImplementation(() => {});
   });
 
   it("throws if used outside UserProvider", () => {
@@ -117,7 +120,7 @@ describe("UserContext", () => {
     expect(result.current.data).toBeNull();
   });
 
-  it("consumeSpin updates quota and totalSpins", async () => {
+  it("optimisticSpin updates quota and totalSpins", async () => {
     (useAuth as jest.Mock).mockReturnValue({
       user: fakeUser,
       authorizedFetch: mockAuthorizedFetch,
@@ -143,7 +146,7 @@ describe("UserContext", () => {
     };
 
     act(() => {
-      result.current.consumeSpin(newQuota);
+      result.current.optimisticSpin(newQuota);
     });
 
     expect(result.current.data?.quota.spins).toEqual(newQuota);

@@ -12,7 +12,7 @@ const DailyQuota: FC<DailyQuotaProps> = ({
   data,
 }) => {
   if (!data) return;
-  const resetAt = data.quota.spins.resetsAt;
+  const resetAt = spins?.resetsAt;
   if (loading || !historyPreview) {
     return (
       <div className="flex flex-col space-y-2 bg-white/90 backdrop-blur rounded-lg shadow-md md:p-4 p-2">

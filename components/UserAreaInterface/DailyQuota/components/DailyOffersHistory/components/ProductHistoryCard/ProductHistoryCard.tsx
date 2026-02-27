@@ -1,5 +1,11 @@
-import { SpinHistoryItem, UserState } from "@/context/UserContext/types";
+import {
+  SpinHistoryItem,
+  SpinQuota,
+  UserState,
+} from "@/context/UserContext/types";
 import { HistoryProductItem } from "../HistoryProductItem";
+import { useGlobalQuota } from "@/context/GlobalQuotaContext/GlobalQuotaContext";
+import { useTenant } from "@/context/TenantContext/TenantContext";
 
 const ProductHistoryCard = ({
   spin,
@@ -9,11 +15,13 @@ const ProductHistoryCard = ({
   data: UserState | null;
 }) => {
   const date = new Date(spin.createdAt);
+  const { quota } = useGlobalQuota();
+  const { tenantQuota } = useTenant();
 
-  const before =
-    spin.quotaBefore ?? (data ? data.quota.spins.used - 1 : spin.quotaBefore);
+  if (!quota) return null;
+  const before = (quota as SpinQuota) ?? (quota ? quota.used - 1 : quota);
 
-  const after = spin.quotaAfter ?? data?.quota.spins.used;
+  const after = (quota as SpinQuota) ?? quota?.used;
 
   const borderTierStyles: Record<string, string> = {
     common: "border-slate-400 ",
@@ -31,7 +39,9 @@ const ProductHistoryCard = ({
 
         {before !== undefined && after !== undefined && (
           <span className="text-xs text-slate-500">
-            {before} → {after}
+            <>
+              {before} → {after}
+            </>
           </span>
         )}
       </div>

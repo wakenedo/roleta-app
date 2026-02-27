@@ -3,6 +3,7 @@
 import { Header } from "@/components/Header";
 import { UserAreaInterface } from "@/components/UserAreaInterface";
 import { useAuth } from "@/context/AuthContext/AuthContext";
+import { useGlobalQuota } from "@/context/GlobalQuotaContext/GlobalQuotaContext";
 import { useUser } from "@/context/UserContext/UserContext";
 import { redirect } from "next/navigation";
 import { useMemo } from "react";
@@ -10,6 +11,7 @@ import { useMemo } from "react";
 const UserArea = () => {
   const { user, logout } = useAuth();
   const { data, loading } = useUser();
+  const { quota } = useGlobalQuota();
 
   if (!user) {
     redirect("/");
@@ -20,7 +22,7 @@ const UserArea = () => {
     [data?.historyPreview],
   );
 
-  const spins = data?.quota.spins;
+  const spins = quota;
 
   return (
     <>

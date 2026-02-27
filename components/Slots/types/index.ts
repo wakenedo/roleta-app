@@ -1,4 +1,15 @@
+import { TenantBranding, TenantSettings } from "@/context/TenantContext/types";
+import { SpinQuota } from "@/context/UserContext/types";
+
 type Tier = "common" | "rare" | "jackpot";
+
+interface SlotsConfig {
+  tenantId?: string | undefined;
+  tenantName?: string;
+  tenantSettings?: TenantSettings;
+  tenantBranding?: TenantBranding;
+}
+
 interface Product {
   id: string;
   name: string;
@@ -35,6 +46,9 @@ interface ProductSlotsProps {
 interface SlotsGameProps {
   spinning: boolean;
   onSpin: () => Promise<void>;
+  quota: SpinQuota | null;
+  tenantBranding?: TenantBranding;
+  tenantSettings?: TenantSettings;
 }
 
 interface TierBadgeProps {
@@ -53,18 +67,20 @@ interface SpinInterfaceProps {
   barColor: "bg-green-400" | "bg-yellow-400" | "bg-red-400";
   progress: number;
   onSpin: () => void;
-  disabled: boolean | undefined;
+  disabled: boolean | undefined | null;
   spinning: boolean;
   remaining: number;
   isEmpty: boolean;
-  resetsAt: string;
+  resetsAt: string | undefined;
+  tenantBranding?: TenantBranding;
+  tenantSettings?: TenantSettings;
 }
 
 type AvailableRoundsProps = {
   isEmpty: boolean;
   remaining: number;
   dailyLimit: number;
-  resetsAt: string;
+  resetsAt: string | undefined;
 };
 
 type DynamicProgressBarProps = {
@@ -74,7 +90,7 @@ type DynamicProgressBarProps = {
 
 type SpinButtonProps = {
   onSpin: () => void;
-  disabled: boolean | undefined;
+  disabled: boolean | null | undefined;
   spinning: boolean;
 };
 
@@ -102,4 +118,5 @@ export type {
   ProductSlotsProps,
   TierBadgeProps,
   BadgeGradientLifecycleProps,
+  SlotsConfig,
 };

@@ -20,12 +20,9 @@ const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-const buildNextHistory = (
-  prev: UserState,
-  spin: SpinHistoryItem,
-): SpinHistoryItem[] => {
+const buildNextHistory = (prev: UserState): SpinHistoryItem[] => {
   const limit = prev.user.subscription === "premium" ? 50 : 10;
-  return [spin, ...(prev.historyPreview ?? [])].slice(0, limit);
+  return [...(prev.historyPreview ?? [])].slice(0, limit);
 };
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
@@ -82,33 +79,26 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     await performFetch();
   }, [performFetch]);
 
-  const silentRefresh = useCallback(async () => {
-    await performFetch({ silent: true });
-  }, [performFetch]);
-
   useEffect(() => {
     if (!authLoading) {
       fetchMe();
     }
   }, [authLoading, fetchMe]);
 
-  const optimisticSpin = (spin: SpinHistoryItem, quota: SpinQuota) => {
+  const optimisticSpin = (tenantId?: string | null) => {
     setData((prev) => {
       if (!prev) return prev;
 
       return {
         ...prev,
-        quota: { spins: quota },
+        activeTenant: tenantId ?? null,
         stats: {
           ...prev.stats,
           totalSpins: prev.stats.totalSpins + 1,
         },
-        historyPreview: buildNextHistory(prev, spin),
+        historyPreview: buildNextHistory(prev),
       };
     });
-    if (!authLoading) {
-      silentRefresh();
-    }
   };
 
   return (

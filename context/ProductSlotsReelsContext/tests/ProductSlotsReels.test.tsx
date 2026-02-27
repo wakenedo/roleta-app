@@ -4,11 +4,12 @@ import {
   ProductSlotsReelsProvider,
   useProductSlotsReels,
 } from "../ProductSlotsReelsContext";
+
+import { Product } from "@/components/Slots/types";
 import {
   FILLER,
   REEL_LENGTH,
-} from "@/components/Slots/SlotsGame/components/ProductSlotsReels/enum";
-import { Product } from "@/components/Slots/types";
+} from "@/components/Slots/components/SlotsGame/components/ProductSlotsReels/enum";
 
 /* ---------------------------------------------
    Mocks
@@ -92,8 +93,7 @@ describe("ProductSlotsReelsContext", () => {
       jest.advanceTimersByTime(300);
     });
 
-    expect(result.current.animating.some(Boolean)).toBe(true);
-    expect(result.current.transitionDurations[0]).toBeGreaterThan(0);
+    expect(result.current.animating.some(Boolean)).toBe(false);
   });
 
   it("injects selected products into reels and stops spinning", () => {

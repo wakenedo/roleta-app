@@ -26,9 +26,6 @@ type BackendUser = {
 
 type UserState = {
   user: BackendUser;
-  quota: {
-    spins: SpinQuota;
-  };
   stats: UserStats;
   rewards: unknown[];
   historyPreview: SpinHistoryItem[];
@@ -49,7 +46,7 @@ interface UserContextProps {
   loading: boolean;
   error: string | null;
   refresh: () => Promise<void>;
-  optimisticSpin: (spin: SpinHistoryItem, quota: SpinQuota) => void;
+  optimisticSpin: (tenantId?: string | null) => void;
 }
 
 export type {

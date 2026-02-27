@@ -5,7 +5,7 @@ const SpinButton: FC<SpinButtonProps> = ({ onSpin, disabled, spinning }) => {
   return (
     <button
       onClick={onSpin}
-      disabled={disabled}
+      disabled={disabled as boolean}
       className="
       cursor-pointer px-20 py-2 drop-shadow-xl text-shadow-2xs
        bg-green-400 hover:bg-green-200 transition

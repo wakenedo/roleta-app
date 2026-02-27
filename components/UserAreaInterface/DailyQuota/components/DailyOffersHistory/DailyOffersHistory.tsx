@@ -10,19 +10,11 @@ const DailyOffersHistory = ({
   historyPreview,
 }: {
   data: UserState | null;
-  historyPreview: SpinHistoryItem[] | SpinHistoryItem | null | undefined;
+  historyPreview: SpinHistoryItem[];
 }) => {
   const router = useRouter();
 
-  // normalize safely
-  const history: SpinHistoryItem[] = Array.isArray(historyPreview)
-    ? historyPreview
-    : historyPreview
-      ? [historyPreview]
-      : [];
-
-  const isEmpty = history.length === 0;
-
+  const isEmpty = historyPreview.length === 0;
   return (
     <UserAreaSectionBackground>
       <h3 className="text-sm font-semibold text-slate-800 mb-2">
@@ -47,7 +39,7 @@ const DailyOffersHistory = ({
           </div>
         ) : (
           <div className="space-y-3">
-            {history.map((spin) => (
+            {historyPreview.map((spin) => (
               <ProductHistoryCard
                 key={spin.createdAt}
                 spin={spin}

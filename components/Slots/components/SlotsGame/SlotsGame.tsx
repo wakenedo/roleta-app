@@ -2,25 +2,21 @@
 
 import { SlotsGameProps } from "../../types";
 import { ProductSlotsReels } from "./components/ProductSlotsReels";
-import { useAuth } from "@/context/AuthContext/AuthContext";
-import { useUser } from "@/context/UserContext/UserContext";
 import { SpinInterface } from "./components/SpinInterface";
 
 const SlotsGame: React.FC<SlotsGameProps & { onSpin: () => void }> = ({
   spinning,
   onSpin,
+  quota,
+  tenantBranding,
+  tenantSettings,
 }) => {
-  const { user } = useAuth();
-  const { data, loading } = useUser();
-  if (!data) return;
+  const remaining = quota?.remaining ?? 0;
+  const resetsAt = quota?.resetsAt;
 
-  const quota = data.quota.spins;
-  const remaining = quota.remaining ?? 0;
-  const resetsAt = quota.resetsAt;
+  const disabled = spinning || !quota || (quota && remaining <= 0);
 
-  const disabled = !user || spinning || loading || (quota && remaining <= 0);
-
-  const dailyLimit = data.quota.spins.limit;
+  const dailyLimit = quota?.limit ?? 0;
 
   const progress = dailyLimit > 0 ? (remaining / dailyLimit) * 100 : 0;
 
@@ -33,27 +29,25 @@ const SlotsGame: React.FC<SlotsGameProps & { onSpin: () => void }> = ({
 
   const isEmpty = remaining === 0;
 
+  console.log("SlotsGame - quota:", quota);
+
   return (
     <div className="flex flex-col items-center w-full md:w-fit">
       <ProductSlotsReels />
 
-      {loading ? (
-        <p className="mb-2 text-sm text-slate-500">Carregando...</p>
-      ) : (
-        <div className="md:min-w-xl min-w-full px-4">
-          <SpinInterface
-            resetsAt={resetsAt}
-            disabled={disabled}
-            remaining={remaining}
-            onSpin={onSpin}
-            barColor={barColor}
-            dailyLimit={dailyLimit}
-            isEmpty={isEmpty}
-            progress={progress}
-            spinning={spinning}
-          />
-        </div>
-      )}
+      <div className="md:min-w-xl min-w-full px-4">
+        <SpinInterface
+          resetsAt={resetsAt}
+          disabled={disabled}
+          remaining={remaining}
+          onSpin={onSpin}
+          barColor={barColor}
+          dailyLimit={dailyLimit}
+          isEmpty={isEmpty}
+          progress={progress}
+          spinning={spinning}
+        />
+      </div>
     </div>
   );
 };

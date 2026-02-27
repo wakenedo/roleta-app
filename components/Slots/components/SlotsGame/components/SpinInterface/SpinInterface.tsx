@@ -15,6 +15,8 @@ const SpinInterface: FC<SpinInterfaceProps> = ({
   remaining,
   isEmpty,
   resetsAt,
+  tenantBranding,
+  tenantSettings,
 }) => {
   return (
     <>
