@@ -28,7 +28,7 @@ const TenantSlotsDedicatedRouteBackground = ({
       {/* Pattern Layer */}
       <div
         style={patternStyle}
-        className="absolute inset-0 opacity-10 rotate-[-15deg] scale-150 pointer-events-none"
+        className="absolute inset-0 mx-2 opacity-40 rotate-[-15deg] scale-150 pointer-events-none  mix-blend-soft-light w-full h-full"
       >
         {!tenantLogo && tenantName && (
           <div className="w-full h-full flex flex-wrap content-center text-6xl font-extrabold text-white opacity-50">
