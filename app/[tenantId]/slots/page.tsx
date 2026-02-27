@@ -8,14 +8,13 @@ export default function TenantSlotsPage() {
   const { tenant, loading, error } = useTenant();
   const { tenantId } = useParams();
   if (!tenant) return;
-  if (tenantId != tenant.id) return;
+  const paramTenantId = tenantId as string;
   const tenantName = tenant.name;
   const tenantSettings = tenant.settings;
   const tenantBranding = tenant.branding;
   const primaryColor =
     tenantBranding && (tenantBranding.primaryColor as string);
   if (!tenantSettings && !tenantBranding) return;
-  const paramTenantId = tenantId;
 
   console.log("tenantSettings", tenantSettings);
   console.log("primaryColor", primaryColor);
