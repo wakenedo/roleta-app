@@ -2,6 +2,7 @@
 
 import { Header } from "@/components/Header";
 import { TenantAreaInterface } from "@/components/TenantAreaInterface";
+import { TenantSlotsDedicatedRouteBackground } from "@/components/TenantSlotsDedicatedRouteBackground";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useTenant } from "@/context/TenantContext/TenantContext";
 import { useEffect } from "react";
@@ -27,8 +28,8 @@ const TenantArea = () => {
   }, [tenant, loadPreview, loadProducts]);
 
   return (
-    <>
-      <Header user={user} />
+    <TenantSlotsDedicatedRouteBackground tenantBranding={tenant?.branding}>
+      <Header user={user} tenantId={tenant?.id} />
       <TenantAreaInterface
         logout={logout}
         loading={loading}
@@ -38,7 +39,7 @@ const TenantArea = () => {
         preview={preview}
         tenantQuota={tenantQuota}
       />
-    </>
+    </TenantSlotsDedicatedRouteBackground>
   );
 };
 

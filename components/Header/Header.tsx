@@ -9,9 +9,10 @@ import PromoLogo from "@/public/logo.png";
 
 interface HeaderProps {
   user: User | null;
+  tenantId?: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ user }) => {
+const Header: React.FC<HeaderProps> = ({ user, tenantId }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
@@ -29,15 +30,26 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex gap-6 text-sm w-80">
-          <Link href="/TermsOfService" className="hover:underline">
-            <span>Termos de Uso</span>
-          </Link>
+        <nav className="hidden md:flex gap-6 text-sm w-full justify-end">
+          {user != null && (
+            <Link href="/Games" className="hover:underline">
+              <span>Games</span>
+            </Link>
+          )}
+
           {user != null && (
             <Link href="/UserArea" className="hover:underline">
               <span>Area de Usuário</span>
             </Link>
           )}
+          {tenantId != undefined && (
+            <Link href="/TenantArea" className="hover:underline">
+              <span>Tenant</span>
+            </Link>
+          )}
+          <Link href="/TermsOfService" className="hover:underline">
+            <span>Termos de Uso</span>
+          </Link>
         </nav>
 
         {/* Mobile Menu Button */}
@@ -49,12 +61,14 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
       {/* Mobile Dropdown Menu */}
       {menuOpen && (
         <nav className="md:hidden bg-slate-900 px-4 py-3 space-y-2 text-sm  z-10 w-full absolute">
-          <Link
-            href="/TermsOfService"
-            className="block font-semibold text-lg text-slate-50"
-          >
-            Termos de Uso
-          </Link>
+          {user != null && (
+            <Link
+              href="/Games"
+              className="block font-semibold text-lg text-slate-50"
+            >
+              Games
+            </Link>
+          )}
           {user != null && (
             <Link
               href="/UserArea"
@@ -63,6 +77,20 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
               Area do Usuário
             </Link>
           )}
+          {tenantId != undefined && (
+            <Link
+              href="/TenantArea"
+              className="block font-semibold text-lg text-slate-50"
+            >
+              Area do Tenant
+            </Link>
+          )}
+          <Link
+            href="/TermsOfService"
+            className="block font-semibold text-lg text-slate-50"
+          >
+            Termos de Uso
+          </Link>
         </nav>
       )}
     </header>

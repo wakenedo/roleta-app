@@ -1,10 +1,13 @@
 "use client";
+import { Header } from "@/components/Header";
 import { Slots } from "@/components/Slots";
 import { TenantSlotsDedicatedRouteBackground } from "@/components/TenantSlotsDedicatedRouteBackground";
+import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useTenant } from "@/context/TenantContext/TenantContext";
 import { useParams } from "next/navigation";
 
 export default function TenantSlotsPage() {
+  const { user } = useAuth();
   const { tenant, loading, error } = useTenant();
   const { tenantId } = useParams();
   if (!tenant) return;
@@ -24,12 +27,15 @@ export default function TenantSlotsPage() {
       tenantBranding={tenantBranding}
       tenantName={tenantName}
     >
-      <Slots
-        tenantId={paramTenantId}
-        tenantBranding={tenantBranding}
-        tenantSettings={tenantSettings}
-        tenantName={tenantName}
-      />
+      <Header user={user} tenantId={tenant.id} />
+      <div className="mt-14">
+        <Slots
+          tenantId={paramTenantId}
+          tenantBranding={tenantBranding}
+          tenantSettings={tenantSettings}
+          tenantName={tenantName}
+        />
+      </div>
     </TenantSlotsDedicatedRouteBackground>
   );
 }
