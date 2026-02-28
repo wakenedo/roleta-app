@@ -11,7 +11,7 @@ const UserInterface: React.FC<UserInterfaceProps> = ({ user, logout }) => {
   const userPhoto = user.photoURL;
   const userName = user.displayName;
   return (
-    <div className="fixed bottom-0 z-20  p-2 shadow-lg  bg-slate-800 rounded w-full ">
+    <div className="fixed bottom-0 z-20  p-2 shadow-lg  bg-slate-800 w-full ">
       <div className="md:cursor-pointer flex justify-between p-2 items-center">
         <div className="flex items-center space-x-2">
           <Image
