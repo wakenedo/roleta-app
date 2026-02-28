@@ -2,14 +2,12 @@
 
 import { UserAreaSectionBackground } from "@/components/UserAreaInterface/UserAreaSectionBackground";
 import { useRouter } from "next/navigation";
-import { SpinHistoryItem, UserState } from "@/context/UserContext/types";
+import { SpinHistoryItem } from "@/context/UserContext/types";
 import { ProductHistoryCard } from "./components/ProductHistoryCard";
 
 const DailyOffersHistory = ({
-  data,
   historyPreview,
 }: {
-  data: UserState | null;
   historyPreview: SpinHistoryItem[];
 }) => {
   const router = useRouter();
@@ -40,11 +38,7 @@ const DailyOffersHistory = ({
         ) : (
           <div className="space-y-3">
             {historyPreview.map((spin) => (
-              <ProductHistoryCard
-                key={spin.createdAt}
-                spin={spin}
-                data={data}
-              />
+              <ProductHistoryCard key={spin.createdAt} spin={spin} />
             ))}
           </div>
         )}
