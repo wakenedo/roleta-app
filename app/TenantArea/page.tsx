@@ -30,7 +30,10 @@ const TenantArea = () => {
 
   return (
     <>
-      <TenantSlotsDedicatedRouteBackground tenantBranding={tenant?.branding}>
+      <TenantSlotsDedicatedRouteBackground
+        tenantBranding={tenant?.branding}
+        tenantName={tenant?.name}
+      >
         <Header user={user} tenantId={tenant?.id} />
         <TenantAreaInterface
           logout={logout}
