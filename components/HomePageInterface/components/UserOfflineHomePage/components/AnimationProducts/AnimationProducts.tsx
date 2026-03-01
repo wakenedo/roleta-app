@@ -25,14 +25,11 @@ const AnimationProducts = () => {
 
   if (!mounted) return null;
 
-  const arcOffsets1 = [-120, -180, -220, -180, -120];
-  const arcOffsets2 = [-200, -260, -300, -260, -200];
+  const arcOffsets1 = [-610, -630, -650, -630, -610];
+  const arcOffsets2 = [-690, -700, -750, -700, -690];
 
   return (
-    <div
-      ref={containerRef}
-      className="relative m-2 h-120 overflow-hidden rounded-xl    shadow-xl"
-    >
+    <div ref={containerRef} className="relative mx-2 h-230 overflow-hidden">
       {/* 🎉 FULL WIDTH CONFETTI */}
       {confetti.map((x, i) => (
         <motion.div
@@ -113,23 +110,22 @@ const AnimationProducts = () => {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 2.2 }}
       >
-        <h1 className="text-4xl md:text-6xl font-extrabold tracking-widest text-indigo-700 drop-shadow-xl">
+        <h1 className=" mb-40 text-4xl md:text-8xl font-extrabold tracking-wide  text-[#84e9e4] drop-shadow-xl">
           PROMOBET
         </h1>
       </motion.div>
       <motion.div
-        className="absolute bottom-6 left-0 w-full text-center px-4 z-20"
+        className="absolute bottom-25 left-0 w-full text-center px-4 z-20"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 3 }}
       >
-        <span className="text-lg md:text-2xl font-extrabold text-gray-800">
+        <span className="text-2xl md:text-5xl font-extrabold text-[#84e9e4] drop-shadow-xl">
           Um mar de ofertas e diversão esperam por você! Descubra nossas Roletas
           de Ofertas e de nossos parceiros!
         </span>
       </motion.div>
-      ;{/* 🎯 Radial Focus */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0)_30%,rgba(255,255,255,0.5)_85%)] pointer-events-none" />
+      <div className="absolute inset-0 pointer-events-none" />
     </div>
   );
 };

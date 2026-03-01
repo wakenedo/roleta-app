@@ -10,9 +10,6 @@ const AnimatedCta = () => {
     >
       <AnimationProducts />
       <InfoDynamicSection />
-      <div>
-        <AuthInterface />
-      </div>
     </div>
   );
 };

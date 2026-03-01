@@ -1,7 +1,8 @@
 import { FiDollarSign, FiSettings } from "react-icons/fi";
-import { SellingPointCard } from "../SellingPointCard";
-import { SellingPointsBackground } from "../SellingPointsBackground";
+
 import { BiBarChart, BiPalette } from "react-icons/bi";
+import { SellingPointsBackground } from "../SellingPointsBackground";
+import { SellingPointCard } from "../SellingPointCard";
 
 const TenantSellingPoints = () => {
   return (
@@ -9,26 +10,26 @@ const TenantSellingPoints = () => {
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <SellingPointCard
           icon={<FiDollarSign />}
-          title="Monetize Every Spin"
-          description="Generate affiliate revenue through engaging gamified experiences."
+          title="Monetize Cada Giro"
+          description="Gere receita afiliada através de experiências gamificadas envolventes."
         />
 
         <SellingPointCard
           icon={<BiBarChart />}
-          title="Smart Analytics"
-          description="Track user activity, spin quotas, jackpots, and revenue insights."
+          title="Analytics Inteligente"
+          description="Acompanhe giros, cotas, jackpots e insights de receita."
         />
 
         <SellingPointCard
           icon={<BiPalette />}
-          title="Full Branding Control"
-          description="Customize colors, themes, and offers to match your brand identity."
+          title="Controle Total de Marca"
+          description="Personalize cores, temas e ofertas para combinar com sua identidade."
         />
 
         <SellingPointCard
           icon={<FiSettings />}
-          title="Flexible Configuration"
-          description="Control quotas, tiers, rewards, and product distribution logic."
+          title="Configuração Flexível"
+          description="Defina cotas, níveis, recompensas e lógica de distribuição."
         />
       </div>
     </SellingPointsBackground>

@@ -1,5 +1,4 @@
 "use client";
-import { AuthInterface } from "@/components/AuthInterface";
 import { Header } from "@/components/Header";
 import { HomePageInterface } from "@/components/HomePageInterface";
 import { UserInterface } from "@/components/UserInterface";
@@ -13,7 +12,7 @@ export default function Home() {
   return (
     <>
       <Header user={user} tenantId={tenant?.id} />
-      <div className=" bg-gradient-to-b from-blue-100 via-blue-200 to-blue-300 text-slate-800 font-sans">
+      <div className="bg-amber-500">
         <div>
           <main className="flex flex-col justify-between  min-h-screen relative z-10 ">
             <HomePageInterface user={user} />

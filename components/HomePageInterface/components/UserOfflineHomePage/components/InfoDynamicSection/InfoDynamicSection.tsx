@@ -12,14 +12,19 @@ const InfoDynamicSection = () => {
     setOnToggleChange(side);
   };
   return (
-    <InterfaceSwitch
-      leftComponent={<UserSellingPoints />}
-      rightComponent={<TenantSellingPoints />}
-      leftLabel="user"
-      rightLabel="tenant"
-      onToggleChange={handleToggle}
-      activeSide={onToggleChange}
-    />
+    <div>
+      <h2 className="text-4xl md:text-6xl font-extrabold tracking-widest  text-[#84e9e4]  drop-shadow-xl">
+        MODALIDADES
+      </h2>
+      <InterfaceSwitch
+        leftComponent={<UserSellingPoints />}
+        rightComponent={<TenantSellingPoints />}
+        leftLabel="usuário"
+        rightLabel="parceiro"
+        onToggleChange={handleToggle}
+        activeSide={onToggleChange}
+      />
+    </div>
   );
 };
 
