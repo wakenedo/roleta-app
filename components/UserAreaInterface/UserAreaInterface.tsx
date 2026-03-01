@@ -13,9 +13,8 @@ const UserAreaInterface: React.FC<UserAreaInterfaceProps> = ({
   loading,
 }) => {
   return (
-    <div className="relative min-h-screen font-sans overflow-hidden">
-      <div className="absolute inset-0 bg-black/50 z-[-1]" />
-      <main className="mt-8 md:max-w-3xl mx-auto relative z-10 min-h-screen flex flex-col items-center pt-6 md:px-4 px-1">
+    <div className="relative min-h-screen overflow-hidden">
+      <main className="md:max-w-3xl mx-auto relative z-10 min-h-screen flex flex-col items-center pt-4 md:px-4 px-1">
         {user && (
           <div className="w-full md:space-y-4 space-y-1 md:grid  mb-6">
             <UserCard user={user} logout={logout} />

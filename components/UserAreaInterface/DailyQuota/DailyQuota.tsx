@@ -24,7 +24,7 @@ const DailyQuota: FC<DailyQuotaProps> = ({
   return (
     <div className="flex flex-col space-y-2 bg-white/90 backdrop-blur rounded-lg shadow-md md:p-4 p-2 ">
       <RemainingDisplay resetsAt={resetAt} spins={spins} />
-      <DailyOffersHistory data={data} historyPreview={historyPreview} />
+      <DailyOffersHistory historyPreview={historyPreview} />
     </div>
   );
 };

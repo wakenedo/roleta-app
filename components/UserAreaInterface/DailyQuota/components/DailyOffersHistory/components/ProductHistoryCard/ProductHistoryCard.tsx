@@ -7,13 +7,7 @@ import { HistoryProductItem } from "../HistoryProductItem";
 import { useGlobalQuota } from "@/context/GlobalQuotaContext/GlobalQuotaContext";
 import { useTenant } from "@/context/TenantContext/TenantContext";
 
-const ProductHistoryCard = ({
-  spin,
-  data,
-}: {
-  spin: SpinHistoryItem;
-  data: UserState | null;
-}) => {
+const ProductHistoryCard = ({ spin }: { spin: SpinHistoryItem }) => {
   const date = new Date(spin.createdAt);
   const { quota } = useGlobalQuota();
   const { tenantQuota } = useTenant();

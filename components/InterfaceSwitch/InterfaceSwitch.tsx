@@ -24,9 +24,9 @@ const InterfaceSwitch: React.FC<InterfaceSwitchProps> = ({
 
   return (
     <>
-      <div className="flex bg-white/5 backdrop-blur-md border border-white/10 rounded-t-xs p-1 h-9 space-x-1 w-full mt-3">
+      <div className="flex rounded-t-xs p-1 h-9 space-x-1 w-full mt-3">
         <button
-          className={`flex-1 px-4 py-1 rounded-xs text-xs font-bold transition-colors duration-200 uppercase ${
+          className={`flex-1 px-4 pb-2  rounded-xs cursor-pointer font-extrabold transition-colors duration-200 uppercase ${
             activeSide === "left"
               ? "bg-slate-700 text-slate-50 shadow-sm"
               : "text-slate-500 hover:text-slate-800"
@@ -36,7 +36,7 @@ const InterfaceSwitch: React.FC<InterfaceSwitchProps> = ({
           {leftLabel}
         </button>
         <button
-          className={`flex-1 px-4 py-1 rounded-xs text-xs font-bold transition-colors duration-200 uppercase ${
+          className={`flex-1 px-4 pb-2  rounded-xs cursor-pointer  font-extrabold transition-colors duration-200 uppercase ${
             activeSide === "right"
               ? "bg-slate-700 text-slate-50 shadow-sm"
               : "text-slate-500 hover:text-slate-800"

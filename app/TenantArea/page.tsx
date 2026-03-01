@@ -1,7 +1,9 @@
 "use client";
 
+import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { TenantAreaInterface } from "@/components/TenantAreaInterface";
+import { TenantSlotsDedicatedRouteBackground } from "@/components/TenantSlotsDedicatedRouteBackground";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useTenant } from "@/context/TenantContext/TenantContext";
 import { useEffect } from "react";
@@ -28,16 +30,22 @@ const TenantArea = () => {
 
   return (
     <>
-      <Header user={user} />
-      <TenantAreaInterface
-        logout={logout}
-        loading={loading}
-        tenant={tenant}
-        error={error}
-        products={products}
-        preview={preview}
-        tenantQuota={tenantQuota}
-      />
+      <TenantSlotsDedicatedRouteBackground
+        tenantBranding={tenant?.branding}
+        tenantName={tenant?.name}
+      >
+        <Header user={user} tenantId={tenant?.id} />
+        <TenantAreaInterface
+          logout={logout}
+          loading={loading}
+          tenant={tenant}
+          error={error}
+          products={products}
+          preview={preview}
+          tenantQuota={tenantQuota}
+        />
+      </TenantSlotsDedicatedRouteBackground>
+      <Footer />
     </>
   );
 };
