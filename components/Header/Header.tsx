@@ -6,6 +6,7 @@ import Link from "next/link";
 import { User } from "@firebase/auth";
 import Image from "next/image";
 import PromoLogo from "@/public/logo.png";
+import { GoogleButton } from "../AuthInterface/components/GoogleButton";
 
 interface HeaderProps {
   user: User | null;
@@ -19,7 +20,7 @@ const Header: React.FC<HeaderProps> = ({ user, tenantId }) => {
 
   return (
     <header className="fixed top-0 left-0 w-full bg-slate-950/80 backdrop-blur-md text-slate-50 z-20">
-      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div className="max-w-8xl mx-auto px-4 py-3 flex items-center justify-between ">
         {/* Logo / Title */}
         <Link href="/" className="w-full">
           {user === null ? (
@@ -47,9 +48,10 @@ const Header: React.FC<HeaderProps> = ({ user, tenantId }) => {
               <span>Tenant</span>
             </Link>
           )}
-          <Link href="/TermsOfService" className="hover:underline">
+          <Link href="/TermsOfService" className="hover:underline mt-2">
             <span>Termos de Uso</span>
           </Link>
+          {user === null && <GoogleButton />}
         </nav>
 
         {/* Mobile Menu Button */}
@@ -91,6 +93,7 @@ const Header: React.FC<HeaderProps> = ({ user, tenantId }) => {
           >
             Termos de Uso
           </Link>
+          {user === null && <GoogleButton />}
         </nav>
       )}
     </header>
