@@ -24,7 +24,7 @@ const InterfaceSwitch: React.FC<InterfaceSwitchProps> = ({
 
   return (
     <>
-      <div className="flex bg-white/5 backdrop-blur-md border border-white/10 rounded-t-xs p-1 h-9 space-x-1 w-full mt-3">
+      <div className="flex rounded-t-xs p-1 h-9 space-x-1 w-full mt-3">
         <button
           className={`flex-1 px-4 pb-1 rounded-xs  font-extrabold transition-colors duration-200 uppercase ${
             activeSide === "left"

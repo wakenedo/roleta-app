@@ -3,6 +3,7 @@ import { TenantSubscriptionModes } from "../TenantSubscriptionModes";
 import { AnimatedCta } from "./components/AnimatedCta";
 import { TheGameExperience } from "./components/TheGameExperience";
 import { AreaBackground } from "./components/AreaBackground";
+import { InfoDynamicSection } from "./components/InfoDynamicSection";
 
 const UserOfflineHomePage = () => {
   return (
@@ -10,6 +11,7 @@ const UserOfflineHomePage = () => {
       <AnimatedCta />
       <AreaBackground>
         <TheGameExperience />
+        <InfoDynamicSection />
         <UserSubscriptionModes />
         <TenantSubscriptionModes />
       </AreaBackground>

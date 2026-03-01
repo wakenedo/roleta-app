@@ -3,6 +3,7 @@ import React from "react";
 import { Header } from "@/components/Header";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useTenant } from "@/context/TenantContext/TenantContext";
+import { Footer } from "@/components/Footer";
 
 const TermsOfService: React.FC = () => {
   const { user } = useAuth();
@@ -205,6 +206,7 @@ const TermsOfService: React.FC = () => {
           </article>
         </main>
       </div>
+      <Footer />
     </>
   );
 };

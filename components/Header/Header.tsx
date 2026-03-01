@@ -1,12 +1,12 @@
 "use client";
 import { useState } from "react";
 import { IoMenu, IoClose } from "react-icons/io5";
-import { AnimatedTitle } from "../AuthInterface/components/AnimatedTitle";
 import Link from "next/link";
 import { User } from "@firebase/auth";
 import Image from "next/image";
 import PromoLogo from "@/public/logo.png";
-import { GoogleButton } from "../AuthInterface/components/GoogleButton";
+import { GoogleButton } from "../GoogleButton";
+import { AnimatedTitle } from "../AnimatedTitle";
 
 interface HeaderProps {
   user: User | null;
@@ -48,9 +48,6 @@ const Header: React.FC<HeaderProps> = ({ user, tenantId }) => {
               <span>Tenant</span>
             </Link>
           )}
-          <Link href="/TermsOfService" className="hover:underline mt-2">
-            <span>Termos de Uso</span>
-          </Link>
           {user === null && <GoogleButton />}
         </nav>
 
@@ -87,12 +84,6 @@ const Header: React.FC<HeaderProps> = ({ user, tenantId }) => {
               Area do Tenant
             </Link>
           )}
-          <Link
-            href="/TermsOfService"
-            className="block font-semibold text-lg text-slate-50"
-          >
-            Termos de Uso
-          </Link>
           {user === null && <GoogleButton />}
         </nav>
       )}

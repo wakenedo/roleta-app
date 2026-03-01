@@ -13,7 +13,12 @@ const InfoDynamicSection = () => {
   };
   return (
     <div>
-      <h2 className="text-4xl md:text-6xl font-extrabold tracking-widest  text-[#84e9e4]  drop-shadow-xl">
+      <h2
+        className="
+        text-4xl md:text-6xl font-extrabold tracking-widest 
+       text-[#84e9e4]  drop-shadow-xl text-center pb-10
+       "
+      >
         MODALIDADES
       </h2>
       <InterfaceSwitch

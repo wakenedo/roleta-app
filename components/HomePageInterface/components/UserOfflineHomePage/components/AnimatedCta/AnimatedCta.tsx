@@ -1,5 +1,3 @@
-import { AuthInterface } from "@/components/AuthInterface";
-import { InfoDynamicSection } from "../InfoDynamicSection";
 import { AnimationProducts } from "../AnimationProducts";
 
 const AnimatedCta = () => {
@@ -9,7 +7,6 @@ const AnimatedCta = () => {
       className=" flex flex-col border-black md:mx-2 h-fit"
     >
       <AnimationProducts />
-      <InfoDynamicSection />
     </div>
   );
 };

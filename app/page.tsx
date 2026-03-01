@@ -1,4 +1,5 @@
 "use client";
+import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { HomePageInterface } from "@/components/HomePageInterface";
 import { UserInterface } from "@/components/UserInterface";
@@ -20,6 +21,7 @@ export default function Home() {
         </div>
       </div>
       {user != null && <UserInterface user={user} logout={logout} />}
+      <Footer />
     </>
   );
 }

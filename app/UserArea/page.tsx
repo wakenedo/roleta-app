@@ -1,5 +1,6 @@
 "use client";
 
+import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { UserAreaInterface } from "@/components/UserAreaInterface";
 import { useAuth } from "@/context/AuthContext/AuthContext";
@@ -37,6 +38,7 @@ const UserArea = () => {
         user={user}
         logout={logout}
       />
+      <Footer />
     </>
   );
 };

@@ -1,4 +1,5 @@
 "use client";
+import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Slots } from "@/components/Slots";
 import { TenantSlotsDedicatedRouteBackground } from "@/components/TenantSlotsDedicatedRouteBackground";
@@ -23,19 +24,22 @@ export default function TenantSlotsPage() {
   console.log("primaryColor", primaryColor);
 
   return (
-    <TenantSlotsDedicatedRouteBackground
-      tenantBranding={tenantBranding}
-      tenantName={tenantName}
-    >
-      <Header user={user} tenantId={tenant.id} />
-      <div className="mt-14">
-        <Slots
-          tenantId={paramTenantId}
-          tenantBranding={tenantBranding}
-          tenantSettings={tenantSettings}
-          tenantName={tenantName}
-        />
-      </div>
-    </TenantSlotsDedicatedRouteBackground>
+    <>
+      <TenantSlotsDedicatedRouteBackground
+        tenantBranding={tenantBranding}
+        tenantName={tenantName}
+      >
+        <Header user={user} tenantId={tenant.id} />
+        <div className="mt-14">
+          <Slots
+            tenantId={paramTenantId}
+            tenantBranding={tenantBranding}
+            tenantSettings={tenantSettings}
+            tenantName={tenantName}
+          />
+        </div>
+      </TenantSlotsDedicatedRouteBackground>
+      <Footer />
+    </>
   );
 }

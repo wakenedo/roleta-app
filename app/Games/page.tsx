@@ -1,4 +1,5 @@
 "use client";
+import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Slots } from "@/components/Slots";
 import { UserInterface } from "@/components/UserInterface";
@@ -19,6 +20,7 @@ const Games = () => {
           {user != null && <UserInterface user={user} logout={logout} />}
         </div>
       </div>
+      <Footer />
     </>
   );
 };

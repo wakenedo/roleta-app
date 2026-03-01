@@ -4,7 +4,7 @@ const SellingPointsBackground = ({
   children: React.ReactNode;
 }) => {
   return (
-    <div className="relative overflow-hidden  px-1 text-white ">
+    <div className="relative overflow-hidden pt-5  px-2 text-white ">
       {/* Central Glow */}
 
       <div className="relative z-10">{children}</div>
