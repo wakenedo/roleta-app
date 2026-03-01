@@ -2,6 +2,7 @@
 
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { AreaBackground } from "@/components/HomePageInterface/components/UserOfflineHomePage/components/AreaBackground";
 import { UserAreaInterface } from "@/components/UserAreaInterface";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useGlobalQuota } from "@/context/GlobalQuotaContext/GlobalQuotaContext";
@@ -30,14 +31,16 @@ const UserArea = () => {
   return (
     <>
       <Header user={user} tenantId={tenant?.id} />
-      <UserAreaInterface
-        historyPreview={history}
-        loading={loading}
-        spins={spins}
-        data={data}
-        user={user}
-        logout={logout}
-      />
+      <AreaBackground>
+        <UserAreaInterface
+          historyPreview={history}
+          loading={loading}
+          spins={spins}
+          data={data}
+          user={user}
+          logout={logout}
+        />
+      </AreaBackground>
       <Footer />
     </>
   );
