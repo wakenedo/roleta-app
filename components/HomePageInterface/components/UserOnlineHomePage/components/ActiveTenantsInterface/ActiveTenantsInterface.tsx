@@ -2,12 +2,12 @@ const ActiveTenantsInterface = () => {
   return (
     <div
       id="active-tenants"
-      className="border-2 flex flex-col border-black md:mx-2 h-260"
+      className="border-2 flex flex-col bg-white border-black md:mx-2 h-220"
     >
       <div>
-        <span className="text-3xl">Active Tenants</span>
+        <span className="text-3xl text-slate-800">Active Tenants</span>
       </div>
-      <div>
+      <div className="text-slate-800">
         This is the early interface for active tenants, it will be show only to
         users that are registered for discoverability. This interface can be
         broken down into multiple components, to later search, display and

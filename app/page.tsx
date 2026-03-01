@@ -2,12 +2,11 @@
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { HomePageInterface } from "@/components/HomePageInterface";
-import { UserInterface } from "@/components/UserInterface";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useTenant } from "@/context/TenantContext/TenantContext";
 
 export default function Home() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const { tenant } = useTenant();
 
   return (
@@ -20,7 +19,7 @@ export default function Home() {
           </main>
         </div>
       </div>
-      {user != null && <UserInterface user={user} logout={logout} />}
+
       <Footer />
     </>
   );

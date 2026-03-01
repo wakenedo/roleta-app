@@ -13,7 +13,7 @@ const SellingPointCard = ({
 }: SellingPointCardProps) => {
   return (
     <div
-      className="group relative flex flex-col items-center  px-10 py-24 
+      className="cursor-default group relative flex flex-col items-center  px-10 py-24 
       bg-gradient-to-br from-[#111827] to-[#1f2937]
       border border-white/5
       backdrop-blur-md
@@ -28,7 +28,7 @@ const SellingPointCard = ({
         {title}
       </h3>
 
-      <p className="text-base text-gray-400 text-center">{description}</p>
+      <p className="text-base text-gray-400 text-center ">{description}</p>
 
       {/* Neon Hover Overlay */}
       <div

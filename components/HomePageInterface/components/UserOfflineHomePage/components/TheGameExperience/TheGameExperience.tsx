@@ -1,5 +1,4 @@
 "use client";
-import ArtTitle from "@/public/PROMOBETFULL.png";
 
 const TheGameExperience = () => {
   const steps = [

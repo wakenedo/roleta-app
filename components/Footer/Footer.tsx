@@ -8,7 +8,7 @@ const Footer = () => {
 
       <div className="max-w-7xl mx-auto px-6 py-16 grid gap-12 md:grid-cols-3">
         {/* Brand Section */}
-        <div>
+        <div className="cursor-default">
           <h3 className="text-2xl font-extrabold text-[#84e9e4] tracking-wider">
             PROMOBET
           </h3>
@@ -20,7 +20,9 @@ const Footer = () => {
 
         {/* Plataforma */}
         <div>
-          <h4 className="text-white font-semibold mb-4">Plataforma</h4>
+          <h4 className="text-white font-semibold mb-4 cursor-default">
+            Plataforma
+          </h4>
           <ul className="space-y-2 text-sm">
             <li>
               <Link href="/faq" className="hover:text-[#84e9e4] transition">
@@ -45,7 +47,9 @@ const Footer = () => {
 
         {/* Legal */}
         <div>
-          <h4 className="text-white font-semibold mb-4">Legal</h4>
+          <h4 className="text-white font-semibold mb-4 cursor-default">
+            Legal
+          </h4>
           <ul className="space-y-2 text-sm">
             <li>
               <Link
@@ -76,7 +80,7 @@ const Footer = () => {
       </div>
 
       {/* Bottom Strip */}
-      <div className="border-t border-white/10 py-6 text-center text-xs text-gray-500">
+      <div className="border-t border-white/10 py-6 text-center text-xs text-gray-500 cursor-default">
         © {new Date().getFullYear()} Promobet. Todos os direitos reservados.
         <br />A Promobet não vende produtos diretamente. As compras são
         realizadas em marketplaces parceiros.
