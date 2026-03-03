@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Tenant } from "@/context/TenantContext/types";
 import { PopularTenantSearchInterface } from "./components/PopularTenantSearchInterface";
 import { SelectedTenantCard } from "./components/SelectedTenantCard";
+import { NotSelectedPlaceholder } from "./components/NotSelectedPlaceholder";
 
 const SearchPopularTenants = ({
   search,
@@ -50,9 +51,7 @@ const SearchPopularTenants = ({
           {selected ? (
             <SelectedTenantCard tenant={selected} />
           ) : (
-            <div className="text-gray-400">
-              Selecione um parceiro para visualizar.
-            </div>
+            <NotSelectedPlaceholder />
           )}
         </div>
       </div>

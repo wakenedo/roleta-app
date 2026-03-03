@@ -32,14 +32,14 @@ const PopularTenants = ({
       </div>
       <div className=" pt-2  space-y-4 relative md:mx-2   overflow-hidden   h-full">
         {/* Search */}
-        {featured && <FeaturedTenants featured={mockedTop3} />}
+        {featured && <FeaturedTenants featured={top3} />}
         <div className="bg-gradient-to-br from-[#0b0f1f] via-[#141b3a] to-[#1d1147]">
           <SearchPopularTenants
             error={error}
             loading={loading}
             search={search}
             setSearch={setSearch}
-            tenants={mockedRest}
+            tenants={rest}
           />
         </div>
       </div>
