@@ -13,6 +13,7 @@ type Tenant = {
   id: string;
   name: string;
   ownerUid: string;
+  subscription: string;
   status: "active" | "inactive";
   branding?: TenantBranding;
   settings?: TenantSettings;

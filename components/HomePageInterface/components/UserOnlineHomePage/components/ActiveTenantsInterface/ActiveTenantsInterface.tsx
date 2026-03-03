@@ -1,21 +1,40 @@
+"use client";
+
+import { useMemo } from "react";
+import { useTenants } from "@/hooks/useTenants";
+import { PopularTenants } from "../PopularTenants";
+
 const ActiveTenantsInterface = () => {
+  const { tenants, filtered, loading, error, search, setSearch } = useTenants();
+
+  // For now: simple popularity logic
+  // Later this can come from backend (recommended)
+  const popularTenants = useMemo(() => {
+    return [...tenants]
+      .sort((a, b) => {
+        const aCooldown = a.settings?.cooldownMs ?? 3000;
+        const bCooldown = b.settings?.cooldownMs ?? 3000;
+
+        // Lower cooldown = more engaging = more popular (temporary heuristic)
+        return aCooldown - bCooldown;
+      })
+      .slice(0, 6);
+  }, [tenants]);
+
+  const featuredTenant = popularTenants[0] || null;
+
   return (
-    <div
-      id="active-tenants"
-      className="border-2 flex flex-col bg-white border-black md:mx-2 h-220"
-    >
-      <div>
-        <span className="text-3xl text-slate-800">Active Tenants</span>
-      </div>
-      <div className="text-slate-800">
-        This is the early interface for active tenants, it will be show only to
-        users that are registered for discoverability. This interface can be
-        broken down into multiple components, to later search, display and
-        filter tenants that are active on the platform, and show relevant
-        information about them, like: name, description, subscription mode, how
-        much users are playing or played on the slots/ products brought etc.
-      </div>
+    <div className="pt-2 space-y-10 pb-10">
+      <PopularTenants
+        featured={featuredTenant}
+        tenants={popularTenants}
+        loading={loading}
+        error={error}
+        search={search}
+        setSearch={setSearch}
+      />
     </div>
   );
 };
+
 export default ActiveTenantsInterface;

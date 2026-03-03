@@ -33,18 +33,21 @@ const Header: React.FC<HeaderProps> = ({ user, tenantId }) => {
         {/* Desktop Nav */}
         <nav className="hidden md:flex gap-6 text-sm w-full justify-end">
           {user != null && (
-            <Link href="/Games" className="hover:underline">
+            <Link href="/Games" className="hover:text-[#84e9e4] transition">
               <span>Games</span>
             </Link>
           )}
 
           {user != null && (
-            <Link href="/UserArea" className="hover:underline">
+            <Link href="/UserArea" className="hover:text-[#84e9e4] transition">
               <span>Area de Usuário</span>
             </Link>
           )}
           {tenantId != undefined && (
-            <Link href="/TenantArea" className="hover:underline">
+            <Link
+              href="/TenantArea"
+              className="hover:text-[#84e9e4] transition"
+            >
               <span>Tenant</span>
             </Link>
           )}
