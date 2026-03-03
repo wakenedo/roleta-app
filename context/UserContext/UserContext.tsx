@@ -9,12 +9,7 @@ import {
   useCallback,
 } from "react";
 import { useAuth } from "@/context/AuthContext/AuthContext";
-import {
-  SpinHistoryItem,
-  SpinQuota,
-  UserContextProps,
-  UserState,
-} from "./types";
+import { SpinHistoryItem, UserContextProps, UserState } from "./types";
 
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 

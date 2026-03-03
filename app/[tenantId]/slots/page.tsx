@@ -16,12 +16,7 @@ export default function TenantSlotsPage() {
   const tenantName = tenant.name;
   const tenantSettings = tenant.settings;
   const tenantBranding = tenant.branding;
-  const primaryColor =
-    tenantBranding && (tenantBranding.primaryColor as string);
   if (!tenantSettings && !tenantBranding) return;
-
-  console.log("tenantSettings", tenantSettings);
-  console.log("primaryColor", primaryColor);
 
   return (
     <>

@@ -1,4 +1,6 @@
 "use client";
+import { UserState } from "@/context/UserContext/types";
+import { UserSubscriptionCard } from "./components/UserSubscriptionCard";
 
 const USER_SPIN_PLANS = {
   free: {
@@ -15,9 +17,12 @@ const USER_SPIN_PLANS = {
   },
 };
 
-const UserSubscriptionModes = () => {
-  const CURRENT_USER_PLAN = "free"; // 🔥 mock for now
-
+const UserSubscriptionModes = ({
+  userData,
+}: {
+  userData?: UserState | null;
+}) => {
+  const CURRENT_USER_PLAN = userData?.user.subscription; // 🔥 mock for now
   const plans = [
     {
       id: "free",
@@ -37,10 +42,6 @@ const UserSubscriptionModes = () => {
       highlight: true,
     },
   ];
-
-  const handleSubscribe = (planId: string) => {
-    console.log("Subscribe to:", planId);
-  };
 
   return (
     <section className="relative md:mx-2 my-20  overflow-hidden bg-gradient-to-br from-[#0b0f1f] via-[#141b3a] to-[#1d1147] text-white p-16">
@@ -63,56 +64,14 @@ const UserSubscriptionModes = () => {
         {plans.map((plan) => {
           const config =
             USER_SPIN_PLANS[plan.id as keyof typeof USER_SPIN_PLANS];
-          const isFreeUser = CURRENT_USER_PLAN === plan.id;
 
           return (
-            <div
+            <UserSubscriptionCard
+              config={config}
+              plan={plan}
+              userPlan={CURRENT_USER_PLAN}
               key={plan.id}
-              className={`relative  p-8 transition-all duration-300
-              ${
-                plan.highlight
-                  ? "border border-yellow-400 shadow-[0_0_40px_rgba(250,204,21,0.3)] scale-105"
-                  : "border border-white/10"
-              }
-              bg-gradient-to-br from-[#111827] to-[#1f2937]`}
-            >
-              {plan.highlight && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-yellow-400 text-black text-xs font-bold px-4 py-1 rounded-full cursor-default">
-                  MAIS POPULAR
-                </div>
-              )}
-
-              <h3 className="text-2xl font-bold tracking-wide mb-4 text-amber-500 cursor-default">
-                {plan.name}
-              </h3>
-
-              <div className="text-4xl font-extrabold mb-6 bg-gradient-to-r from-[#84e9e4] to-amber-500 bg-clip-text text-transparent cursor-default">
-                {plan.price}
-              </div>
-
-              <ul className="space-y-3 text-gray-300 mb-8 cursor-default">
-                <li>🎰 {config.global} Giros Globais</li>
-                <li>
-                  🏢 Multiplicador Tenant:{" "}
-                  {config.tenantMultiplier > 0
-                    ? `x${config.tenantMultiplier}`
-                    : "Não incluso"}
-                </li>
-              </ul>
-
-              <button
-                onClick={() => handleSubscribe(plan.id)}
-                disabled={isFreeUser}
-                className={`w-full py-3  font-semibold transition-all duration-300
-                ${
-                  isFreeUser
-                    ? "bg-gray-700 cursor-not-allowed"
-                    : "bg-gradient-to-r from-[#84e9e4] to-amber-500 hover:opacity-90 text-slate-800 cursor-pointer"
-                }`}
-              >
-                {isFreeUser ? "Plano Atual" : "Assinar"}
-              </button>
-            </div>
+            />
           );
         })}
       </div>
