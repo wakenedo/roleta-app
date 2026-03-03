@@ -52,7 +52,7 @@ const TenantSubscriptionModes = () => {
       </div>
 
       <div className="relative z-10 text-center mb-16 cursor-default">
-        <h2 className="text-5xl font-extrabold tracking-widest bg-gradient-to-r text-amber-500">
+        <h2 className="text-5xl font-extrabold tracking-widest bg-gradient-to-r text-[#84e9e4] ">
           PLANOS PARA PARCEIROS
         </h2>
         <p className="mt-6 text-gray-300 max-w-2xl mx-auto">
@@ -83,7 +83,7 @@ const TenantSubscriptionModes = () => {
                 </div>
               )}
 
-              <h3 className="text-2xl font-bold tracking-wide mb-4 text-[#84e9e4] cursor-default">
+              <h3 className="text-2xl font-bold tracking-wide mb-4 text-amber-500 cursor-default">
                 {plan.name}
               </h3>
 

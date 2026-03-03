@@ -1,13 +1,16 @@
 import { TenantSubscriptionModes } from "../TenantSubscriptionModes";
+import { AreaBackground } from "../UserOfflineHomePage/components/AreaBackground";
 import { UserSubscriptionModes } from "../UserSubscriptionModes";
 import { ActiveTenantsInterface } from "./components/ActiveTenantsInterface";
 
 const UserOnlineHomePage = () => {
   return (
-    <div className="flex flex-col  mt-10 md:py-2  ">
+    <div className="flex flex-col  mt-10   ">
       <ActiveTenantsInterface />
-      <UserSubscriptionModes />
-      <TenantSubscriptionModes />
+      <AreaBackground>
+        <UserSubscriptionModes />
+        <TenantSubscriptionModes />
+      </AreaBackground>
     </div>
   );
 };

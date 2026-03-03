@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <>
       <Header user={user} tenantId={tenant?.id} />
-      <div className="bg-amber-500">
+      <div className="bg-gradient-to-br from-amber-500 to-[#84e9e4]">
         <div>
           <main className="flex flex-col justify-between  min-h-screen relative z-10 ">
             <HomePageInterface user={user} />
