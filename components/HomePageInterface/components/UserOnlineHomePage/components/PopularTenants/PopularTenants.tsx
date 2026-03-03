@@ -26,22 +26,20 @@ const PopularTenants = ({
   return (
     <div id="popular-tenants" className="  flex flex-col  md:mx-1 h-fit">
       <div className="mt-6">
-        <h2 className="text-5xl font-extrabold tracking-widest  text-center text-[#84e9e4] drop-shadow">
+        <h2 className="md:text-5xl font-extrabold tracking-widest  text-center text-[#84e9e4] drop-shadow">
           DESTAQUES PROMOBET
         </h2>
       </div>
       <div className=" pt-2  space-y-4 relative md:mx-2   overflow-hidden   h-full">
         {/* Search */}
         {featured && <FeaturedTenants featured={top3} />}
-        <div className="bg-gradient-to-br from-[#0b0f1f] via-[#141b3a] to-[#1d1147]">
-          <SearchPopularTenants
-            error={error}
-            loading={loading}
-            search={search}
-            setSearch={setSearch}
-            tenants={rest}
-          />
-        </div>
+        <SearchPopularTenants
+          error={error}
+          loading={loading}
+          search={search}
+          setSearch={setSearch}
+          tenants={rest}
+        />
       </div>
     </div>
   );

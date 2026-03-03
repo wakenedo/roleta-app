@@ -29,7 +29,7 @@ const SearchPopularTenants = ({
 
   return (
     <>
-      <h3 className="uppercase md:text-5xl font-extrabold tracking-widest p-4 text-amber-500">
+      <h3 className="text-center uppercase md:text-5xl font-extrabold tracking-widest p-4 text-[#84e9e4] drop-shadow">
         Os Mais Populares
       </h3>
 
