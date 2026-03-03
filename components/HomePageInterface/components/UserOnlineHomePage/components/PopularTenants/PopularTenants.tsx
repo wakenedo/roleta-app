@@ -23,6 +23,7 @@ const PopularTenants = ({
   const mockedRest = mockedTenants.slice(3);
   const top3 = tenants.slice(0, 3);
   const rest = tenants.slice(3);
+
   return (
     <div id="popular-tenants" className="  flex flex-col  md:mx-1 h-fit">
       <div className="mt-6">

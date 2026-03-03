@@ -11,19 +11,19 @@ const UserSellingPoints = () => {
         <SellingPointCard
           icon={<GiSparkles />}
           title="Giros Diários Gratuitos"
-          description="Receba até 5 giros grátis por dia e descubra novas ofertas."
+          description="Receba até 10 giros grátis por dia e descubra novas ofertas."
         />
 
         <SellingPointCard
           icon={<GiFireTail />}
           title="Recompensas Exclusivas"
-          description="Desbloqueie jackpots especiais e oportunidades raras."
+          description="Desbloqueie jackpots especiais e oportunidades exclusivamente raras."
         />
 
         <SellingPointCard
           icon={<FiZap />}
           title="Resultados Instantâneos"
-          description="Gire e receba sugestões de produtos na hora."
+          description="Gire e receba as ofertas na hora."
         />
 
         <SellingPointCard

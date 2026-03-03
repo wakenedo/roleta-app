@@ -29,7 +29,7 @@ const UserSubscriptionCard = ({
   };
 
   const isUserPlan = plan.id === userPlan;
-
+  if (isUserPlan) return null;
   return (
     <div
       key={plan.id}

@@ -1,6 +1,7 @@
 "use client";
 import { Tenant } from "@/context/TenantContext/types";
-import TenantSubscriptionCard from "./components/TenantSubscriptionCard/TenantSubascriptionCard";
+import TenantSubscriptionCard from "./components/TenantSubscriptionCard/TenantSubscriptionCard";
+import { TenantMaxedSubscription } from "./components/TenantMaxedSubscription";
 
 const TENANT_PLANS = {
   tenant: {
@@ -38,6 +39,12 @@ const TenantSubscriptionModes = ({ tenant }: { tenant?: Tenant | null }) => {
       highlight: true,
     },
   ];
+
+  const tenantMaxPlan = tenant?.subscription === "tenantPremium";
+
+  if (tenantMaxPlan) {
+    return null;
+  }
 
   return (
     <section

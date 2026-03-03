@@ -2,7 +2,7 @@ import { LuMousePointerClick } from "react-icons/lu";
 
 const NotSelectedPlaceholder = () => {
   return (
-    <div className="h-full flex items-center justify-center border border-slate-700 bg-slate-900/40  shadow-sm">
+    <div className="cursor-default h-full flex items-center justify-center border border-slate-700 bg-slate-900/40  shadow-sm">
       <div className="flex flex-col items-center text-center px-6 py-12">
         <div className="flex items-center justify-center w-14 h-14 rounded-full bg-slate-800 mb-5">
           <LuMousePointerClick className="w-7 h-7 text-slate-400" />

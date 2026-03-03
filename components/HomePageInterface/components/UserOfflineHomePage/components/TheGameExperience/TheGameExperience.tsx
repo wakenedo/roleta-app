@@ -5,7 +5,7 @@ const TheGameExperience = () => {
     {
       title: "ENTRE NA PROMOBET",
       description:
-        "Crie sua conta e desbloqueie acesso à nossa experiência global de slots.",
+        "Crie sua conta gratuitamente e desbloqueie acesso à nossa experiência global de slots.",
       emoji: "🚀",
     },
     {
@@ -17,7 +17,7 @@ const TheGameExperience = () => {
     {
       title: "JOGUE NOS SLOTS DOS PARCEIROS",
       description:
-        "Explore experiências exclusivas criadas por nossos parceiros e tenants.",
+        "Explore experiências exclusivas criadas por nossos parceiros e seus produtos.",
       emoji: "🏢",
     },
     {

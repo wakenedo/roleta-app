@@ -1,6 +1,7 @@
 "use client";
 import { UserState } from "@/context/UserContext/types";
 import { UserSubscriptionCard } from "./components/UserSubscriptionCard";
+import { UserMaxedSubscription } from "./components/UserMaxedSubscription";
 
 const USER_SPIN_PLANS = {
   free: {
@@ -25,11 +26,6 @@ const UserSubscriptionModes = ({
   const CURRENT_USER_PLAN = userData?.user.subscription; // 🔥 mock for now
   const plans = [
     {
-      id: "free",
-      name: "FREE",
-      price: "Grátis",
-    },
-    {
       id: "premium",
       name: "PREMIUM",
       price: "R$29/mês",
@@ -42,6 +38,12 @@ const UserSubscriptionModes = ({
       highlight: true,
     },
   ];
+
+  const userMaxPlan = userData?.user.subscription === "premium+";
+
+  if (userMaxPlan) {
+    return <UserMaxedSubscription />;
+  }
 
   return (
     <section className="relative md:mx-2 my-20  overflow-hidden bg-gradient-to-br from-[#0b0f1f] via-[#141b3a] to-[#1d1147] text-white p-16">
@@ -60,7 +62,7 @@ const UserSubscriptionModes = ({
         </p>
       </div>
 
-      <div className="grid gap-8 md:grid-cols-3 max-w-6xl mx-auto">
+      <div className={`grid gap-8 md:grid-cols-2 max-w-4xl mx-auto `}>
         {plans.map((plan) => {
           const config =
             USER_SPIN_PLANS[plan.id as keyof typeof USER_SPIN_PLANS];

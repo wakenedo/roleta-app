@@ -1,6 +1,6 @@
 const NoTenantsList = () => {
   return (
-    <div className="flex flex-col items-center justify-center text-center md:h-170 py-16 px-6">
+    <div className="cursor-default flex flex-col items-center justify-center text-center md:h-170 py-16 px-6">
       <div className="space-y-4 rounded shadow-lg flex flex-col items-center justify-center bg-gradient-to-br from-[#111827] to-[#1f2937] p-6">
         <h3 className="md:text-2xl font-semibold text-white mb-2">
           Nenhum parceiro encontrado

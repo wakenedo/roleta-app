@@ -37,6 +37,9 @@ const TenantSubscriptionCard = ({
     console.log("Upgrade tenant to:", planId);
   };
   const isTenantPlan = plan.id === tenantPlan;
+
+  if (isTenantPlan) return null;
+
   return (
     <div
       key={plan.id}
