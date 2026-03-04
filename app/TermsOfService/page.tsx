@@ -1,17 +1,11 @@
-"use client";
 import React from "react";
 import { Header } from "@/components/Header";
-import { useAuth } from "@/context/AuthContext/AuthContext";
-import { useTenant } from "@/context/TenantContext/TenantContext";
 import { Footer } from "@/components/Footer";
 
 const TermsOfService: React.FC = () => {
-  const { user } = useAuth();
-  const { tenant } = useTenant();
-
   return (
     <>
-      <Header user={user} tenantId={tenant?.id} />
+      <Header />
       <div className="min-h-screen bg-gradient-to-b from-blue-100 via-blue-200 to-blue-300 text-slate-800 font-sans">
         <main className="relative z-10 max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
           <article className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 mt-3 shadow-2xl">

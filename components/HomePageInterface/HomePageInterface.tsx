@@ -1,24 +1,18 @@
-import { User } from "firebase/auth";
+"use client";
 import { UserOfflineHomePage } from "./components/UserOfflineHomePage";
 import { UserOnlineHomePage } from "./components/UserOnlineHomePage";
-import { UserState } from "@/context/UserContext/types";
-import { Tenant } from "@/context/TenantContext/types";
+import { useAuth } from "@/context/AuthContext/AuthContext";
+import { useUser } from "@/context/UserContext/UserContext";
+import { useTenant } from "@/context/TenantContext/TenantContext";
 
-const HomePageInterface = ({
-  user,
-  userData,
-  tenant,
-}: {
-  user: User | null;
-  userData: UserState | null;
-  tenant?: Tenant | null;
-}) => {
+const HomePageInterface = () => {
+  const { user } = useAuth();
+  const { data } = useUser();
+  const { tenant } = useTenant();
   return (
     <>
       {user === null && <UserOfflineHomePage />}
-      {user != null && (
-        <UserOnlineHomePage userData={userData} tenant={tenant} />
-      )}
+      {user != null && <UserOnlineHomePage userData={data} tenant={tenant} />}
     </>
   );
 };

@@ -34,7 +34,7 @@ const TenantArea = () => {
         tenantBranding={tenant?.branding}
         tenantName={tenant?.name}
       >
-        <Header user={user} tenantId={tenant?.id} />
+        <Header />
         <TenantAreaInterface
           logout={logout}
           loading={loading}

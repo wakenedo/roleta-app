@@ -1,42 +1,20 @@
-const ForTenantsInterface = ({
-  planId,
-  tenantSubscription,
-}: {
-  planId?: string | null;
-  tenantSubscription?: string | null;
-}) => {
+import { useTenant } from "@/context/TenantContext/TenantContext";
+import { PlanIdInterface } from "./components/PlanIdInterface";
+import TenantsHowItWorksInterface from "./components/TenantHowItWorksInterface/TenantsHowItWorksInterface";
+import { TenantSubscriptionInterface } from "./components/TenantSubscriptionInterface";
+
+const ForTenantsInterface = ({ planId }: { planId?: string | null }) => {
   console.log("FOR TENANTS PLAN:", planId);
+  const { tenant } = useTenant();
+  const tenantSubscription = tenant?.subscription;
   if (planId) {
-    return (
-      <main className="flex flex-col justify-between items-center  min-h-screen relative z-10 pt-4">
-        <div>
-          <h2 className="uppercase">{planId}</h2>
-          <span>
-            Tenants : planId dynamic Flow (From TenantSubscriptionCard aware of
-            the planID chosen)
-          </span>
-        </div>
-      </main>
-    );
+    return <PlanIdInterface planId={planId} />;
   }
   if (tenantSubscription) {
     return (
-      <main className="flex flex-col justify-between items-center  min-h-screen relative z-10 pt-4">
-        <div>
-          <h2 className="uppercase">{tenantSubscription}</h2>
-          <span>
-            Tenants : no planId will use tenantId from tenant register flow that
-            is coming , to display tailor made Tenants (How it works) interfaces
-            acordingly to their subs only for logged in tenant users
-          </span>
-        </div>
-      </main>
+      <TenantSubscriptionInterface tenantSubscription={tenantSubscription} />
     );
   }
-  return (
-    <main className="flex flex-col justify-between items-center  min-h-screen relative z-10 pt-4">
-      Tenants : From footer , display generic Tenants (How it works) interface
-    </main>
-  );
+  return <TenantsHowItWorksInterface />;
 };
 export default ForTenantsInterface;

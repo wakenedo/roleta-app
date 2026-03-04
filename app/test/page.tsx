@@ -1,14 +1,11 @@
-"use client";
 import { Header } from "@/components/Header";
 import { ProductCard } from "@/components/Slots/components/SlotsGame/components/ProductCard";
 
 import { useAuth } from "@/context/AuthContext/AuthContext";
 const UserArea = () => {
-  const { user } = useAuth();
-
   return (
     <>
-      <Header user={user} />
+      <Header />
       <div className="relative font-sans min-h-screen overflow-hidden">
         <div className="absolute inset-0 bg-black/40 z-0" />
 

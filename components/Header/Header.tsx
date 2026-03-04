@@ -2,19 +2,20 @@
 import { useState } from "react";
 import { IoMenu, IoClose } from "react-icons/io5";
 import Link from "next/link";
-import { User } from "@firebase/auth";
 import Image from "next/image";
 import PromoLogo from "@/public/logo.png";
 import { GoogleButton } from "../GoogleButton";
 import { AnimatedTitle } from "../AnimatedTitle";
+import { useAuth } from "@/context/AuthContext/AuthContext";
+import { useTenant } from "@/context/TenantContext/TenantContext";
 
-interface HeaderProps {
-  user: User | null;
-  tenantId?: string;
-}
+const Header: React.FC = () => {
+  const { user } = useAuth();
+  const { tenant } = useTenant();
 
-const Header: React.FC<HeaderProps> = ({ user, tenantId }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const tenantId = tenant?.id;
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 

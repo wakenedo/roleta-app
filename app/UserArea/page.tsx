@@ -6,7 +6,6 @@ import { AreaBackground } from "@/components/HomePageInterface/components/UserOf
 import { UserAreaInterface } from "@/components/UserAreaInterface";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useGlobalQuota } from "@/context/GlobalQuotaContext/GlobalQuotaContext";
-import { useTenant } from "@/context/TenantContext/TenantContext";
 import { useUser } from "@/context/UserContext/UserContext";
 import { redirect } from "next/navigation";
 import { useMemo } from "react";
@@ -15,7 +14,6 @@ const UserArea = () => {
   const { user, logout } = useAuth();
   const { data, loading } = useUser();
   const { quota } = useGlobalQuota();
-  const { tenant } = useTenant();
 
   if (!user) {
     redirect("/");
@@ -30,7 +28,7 @@ const UserArea = () => {
 
   return (
     <>
-      <Header user={user} tenantId={tenant?.id} />
+      <Header />
       <AreaBackground>
         <UserAreaInterface
           historyPreview={history}
