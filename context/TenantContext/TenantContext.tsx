@@ -16,6 +16,7 @@ import {
   TenantProduct,
   TenantQuota,
 } from "./types";
+import { useParams } from "next/navigation";
 
 const TenantContext = createContext<TenantContextProps | undefined>(undefined);
 
@@ -23,6 +24,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const TenantProvider = ({ children }: { children: ReactNode }) => {
   const { user, authorizedFetch } = useAuth();
+  const { tenantId } = useParams();
 
   const [tenant, setTenant] = useState<Tenant | null>(null);
   const [products, setProducts] = useState<TenantProduct[]>([]);
@@ -34,7 +36,8 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
   const [previewLoaded, setPreviewLoaded] = useState(false);
 
   const STATIC_TENANT_ID = process.env.NEXT_PUBLIC_DEFAULT_TENANT;
-
+  const paramTenantId = tenantId as string;
+  console.log("TenantContext ParamTenantId", paramTenantId);
   const fetchTenant = useCallback(async () => {
     if (!user) {
       setTenant(null);
