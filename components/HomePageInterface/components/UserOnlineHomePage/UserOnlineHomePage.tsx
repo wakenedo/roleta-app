@@ -31,7 +31,10 @@ const UserOnlineHomePage = ({
 
   if (!mounted) return null;
   return (
-    <div ref={containerRef} className="flex flex-col  mt-10   ">
+    <div
+      ref={containerRef}
+      className="relative flex flex-col  mt-10  overflow-hidden "
+    >
       {confetti.map((x, i) => (
         <motion.div
           key={i}
@@ -51,6 +54,7 @@ const UserOnlineHomePage = ({
           {confettiEmojis[i % confettiEmojis.length]}
         </motion.div>
       ))}
+
       <ActiveTenantsInterface />
       <AreaBackground>
         <UserSubscriptionModes userData={userData} />
