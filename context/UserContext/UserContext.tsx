@@ -7,6 +7,7 @@ import {
   useState,
   ReactNode,
   useCallback,
+  useMemo,
 } from "react";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { SpinHistoryItem, UserContextProps, UserState } from "./types";
@@ -74,6 +75,11 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     await performFetch();
   }, [performFetch]);
 
+  const historyPreview = useMemo(
+    () => data?.historyPreview ?? [],
+    [data?.historyPreview],
+  );
+
   useEffect(() => {
     if (!authLoading) {
       fetchMe();
@@ -100,6 +106,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     <UserContext.Provider
       value={{
         data,
+        historyPreview,
         loading,
         error,
         refresh: fetchMe,

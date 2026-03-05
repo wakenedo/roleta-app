@@ -1,17 +1,13 @@
-import { SpinHistoryItem, SpinQuota } from "@/context/UserContext/types";
+import { SpinHistoryItem } from "@/context/UserContext/types";
 import { HistoryProductItem } from "../HistoryProductItem";
-import { useGlobalQuota } from "@/context/GlobalQuotaContext/GlobalQuotaContext";
-import { useTenant } from "@/context/TenantContext/TenantContext";
 
 const ProductHistoryCard = ({ spin }: { spin: SpinHistoryItem }) => {
   const date = new Date(spin.createdAt);
-  const { quota } = useGlobalQuota();
-  const { tenantQuota } = useTenant();
 
-  if (!quota) return null;
-  const before = (quota as SpinQuota) ?? (quota ? quota.used - 1 : quota);
+  if (!spin) return null;
+  const before = spin.quotaBefore;
 
-  const after = (quota as SpinQuota) ?? quota?.used;
+  const after = spin.quotaAfter;
 
   const borderTierStyles: Record<string, string> = {
     common: "border-slate-400 ",
@@ -19,16 +15,28 @@ const ProductHistoryCard = ({ spin }: { spin: SpinHistoryItem }) => {
     jackpot: "border-amber-300",
   };
 
+  const tenantId = spin.tenantId;
+  const isTenantPayer = tenantId != null;
+
   return (
-    <div className="rounded-md  bg-slate-200 p-3  md:mx-2">
+    <div key={spin.id} className="rounded-md  bg-slate-200 p-3  md:mx-2">
       {/* Header */}
       <div className="flex items-center justify-between mb-2">
-        <span className="text-xs font-semibold text-slate-700">
-          {date.toLocaleString()}
-        </span>
+        <div className="flex space-x-2 items-center cursor-default">
+          {isTenantPayer && (
+            <div className="flex space-x-1 p-1 bg-slate-600 rounded">
+              <span className="text-xs font-extrabold text-slate-300">
+                {tenantId}
+              </span>
+            </div>
+          )}
+          <span className="text-xs font-semibold text-slate-700">
+            {date.toLocaleString()}
+          </span>
+        </div>
 
         {before !== undefined && after !== undefined && (
-          <span className="text-xs text-slate-500">
+          <span className="text-xs text-slate-500 cursor-default">
             <>
               {before} → {after}
             </>

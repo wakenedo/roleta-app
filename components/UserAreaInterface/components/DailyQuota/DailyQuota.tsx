@@ -9,9 +9,7 @@ const DailyQuota: FC<DailyQuotaProps> = ({
   spins,
   historyPreview,
   loading,
-  data,
 }) => {
-  if (!data) return;
   const resetAt = spins?.resetsAt;
   if (loading || !historyPreview) {
     return (

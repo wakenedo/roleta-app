@@ -16,7 +16,7 @@ const DailyOffersHistory = ({
   return (
     <UserAreaSectionBackground>
       <h3 className="text-sm font-semibold text-slate-800 mb-2">
-        Histórico de Ofertas
+        Histórico de Descobertas
       </h3>
       <hr className="border-t border-slate-300 mb-4" />
       <div className="max-h-75 overflow-scroll   [scrollbar-width:none]">
@@ -30,7 +30,7 @@ const DailyOffersHistory = ({
               className="cursor-pointer py-2 drop-shadow-xl text-shadow-2xs
               bg-green-400 hover:bg-green-200 transition
               text-slate-50 rounded-xs disabled:bg-slate-400 pb-2 font-semibold"
-              onClick={() => router.push("/")}
+              onClick={() => router.push("/Games")}
             >
               Começe a Jogar
             </button>
