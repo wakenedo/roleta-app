@@ -61,7 +61,7 @@ const UserPremium = ({ planId }: { planId: string | null }) => {
               disabled={loading}
               className="px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-black font-semibold rounded-lg transition"
             >
-              {loading ? "Processing..." : "Upgrade to Premium+"}
+              {loading ? "Processing..." : "Upgrade to Premium"}
             </button>
           )}
         </div>
