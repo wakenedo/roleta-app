@@ -17,7 +17,13 @@ const UserContext = createContext<UserContextProps | undefined>(undefined);
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const buildNextHistory = (prev: UserState): SpinHistoryItem[] => {
-  const limit = prev.user.subscription === "premium" ? 50 : 10;
+  const limits: Record<string, number> = {
+    free: 10,
+    premium: 20,
+    "premium+": 30,
+  };
+
+  const limit = limits[prev.user.subscription] ?? 10;
   return [...(prev.historyPreview ?? [])].slice(0, limit);
 };
 
