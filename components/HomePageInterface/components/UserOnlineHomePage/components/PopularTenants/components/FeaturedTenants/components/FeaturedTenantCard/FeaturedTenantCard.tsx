@@ -2,6 +2,7 @@ import { Tenant } from "@/context/TenantContext/types";
 import { useRouter } from "next/navigation";
 import { SubscriptionBadge } from "../SubscriptionBadge";
 import { TenantSubscription } from "../SubscriptionBadge/SubscriptionBadge";
+import { GiBanana } from "react-icons/gi";
 
 const FeaturedTenantCard = ({ tenant }: { tenant: Tenant }) => {
   const router = useRouter();
@@ -35,13 +36,32 @@ const FeaturedTenantCard = ({ tenant }: { tenant: Tenant }) => {
       style={{ borderColor: primaryColor }}
       onClick={handleClick}
     >
-      {tenant.branding?.logoUrl && (
+      {tenant.branding?.logoUrl ? (
         <img
           src={tenant.branding.logoUrl}
           alt={tenant.name}
           className="h-80 object-contain border  rounded-full w-80 mx-auto shadow-2xl "
           style={{ borderColor: primaryColor, backgroundColor: primaryColor }}
         />
+      ) : (
+        <>
+          <div
+            className="h-80 object-contain border  rounded-full w-80 mx-auto shadow-2xl "
+            style={{ borderColor: primaryColor, backgroundColor: primaryColor }}
+          >
+            <div className="flex  h-full  justify-center">
+              <div className="flex flex-col relative justify-center my-auto text-center rotate-[-15deg]">
+                <GiBanana className="h-24 w-24 mx-auto text-slate-100" />
+                <span className="md:text-xl text-slate-100 font-bold">
+                  Bananas !
+                </span>
+                <span className="md:text-4xl font-extrabold text-slate-100 drop-shadow-2xl ">
+                  SEM LOGO
+                </span>
+              </div>
+            </div>
+          </div>
+        </>
       )}
       <div>
         <h2 className="md:text-5xl font-bold" style={{ color: primaryColor }}>
