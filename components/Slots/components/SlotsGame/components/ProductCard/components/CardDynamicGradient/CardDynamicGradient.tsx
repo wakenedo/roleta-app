@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useRef } from "react";
 import { cardGradientLifecycle } from "../../utils";
 import { Product } from "@/components/Slots/types";

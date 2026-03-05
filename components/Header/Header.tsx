@@ -8,14 +8,20 @@ import { GoogleButton } from "../GoogleButton";
 import { AnimatedTitle } from "../AnimatedTitle";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useTenant } from "@/context/TenantContext/TenantContext";
+import { useUser } from "@/context/UserContext/UserContext";
 
 const Header: React.FC = () => {
   const { user } = useAuth();
+  const { data } = useUser();
   const { tenant } = useTenant();
 
   const [menuOpen, setMenuOpen] = useState(false);
 
   const tenantId = tenant?.id;
+  const tenantOwnerId = tenant?.ownerUid;
+  const isTestUser = data?.user?.id === tenantOwnerId;
+
+  const resolvedTenantId = isTestUser ? tenantId : undefined;
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
@@ -44,7 +50,7 @@ const Header: React.FC = () => {
               <span>Area de Usuário</span>
             </Link>
           )}
-          {tenantId != undefined && (
+          {resolvedTenantId != undefined && (
             <Link
               href="/TenantArea"
               className="hover:text-[#84e9e4] transition"
@@ -80,7 +86,7 @@ const Header: React.FC = () => {
               Area do Usuário
             </Link>
           )}
-          {tenantId != undefined && (
+          {resolvedTenantId != undefined && (
             <Link
               href="/TenantArea"
               className="block font-semibold text-lg text-slate-50"

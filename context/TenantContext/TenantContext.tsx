@@ -17,6 +17,7 @@ import {
   TenantQuota,
 } from "./types";
 import { useParams } from "next/navigation";
+import { useUser } from "../UserContext/UserContext";
 
 const TenantContext = createContext<TenantContextProps | undefined>(undefined);
 
@@ -25,7 +26,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 export const TenantProvider = ({ children }: { children: ReactNode }) => {
   const { user, authorizedFetch } = useAuth();
   const { tenantId } = useParams();
-
+  const { data } = useUser();
   const [tenant, setTenant] = useState<Tenant | null>(null);
   const [products, setProducts] = useState<TenantProduct[]>([]);
   const [tenantQuota, setTenantQuota] = useState<TenantQuota>(null);
@@ -36,10 +37,18 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
   const [previewLoaded, setPreviewLoaded] = useState(false);
 
   const STATIC_TENANT_ID = process.env.NEXT_PUBLIC_DEFAULT_TENANT;
-  const paramTenantId = tenantId as string;
+  const paramTenantId = tenantId as string | undefined;
+
+  const isTestUser = data?.user?.id === "9WmAGXUGtkWjq3bqCErXyFETZ4y2";
+
+  const resolvedTenantId = isTestUser
+    ? STATIC_TENANT_ID
+    : (paramTenantId ?? null);
   console.log("TenantContext ParamTenantId", paramTenantId);
+  console.log("Tenant test ownerid", isTestUser);
+
   const fetchTenant = useCallback(async () => {
-    if (!user) {
+    if (!user || !resolvedTenantId) {
       setTenant(null);
       return;
     }
@@ -49,8 +58,8 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
       setError(null);
 
       const [tenantRes, quotaRes] = await Promise.all([
-        authorizedFetch(`${API_URL}/tenants/${STATIC_TENANT_ID}`),
-        authorizedFetch(`${API_URL}/tenants/${STATIC_TENANT_ID}/quota`),
+        authorizedFetch(`${API_URL}/tenants/${resolvedTenantId}`),
+        authorizedFetch(`${API_URL}/tenants/${resolvedTenantId}/quota`),
       ]);
 
       if (!tenantRes.ok) throw new Error("tenant failed");
@@ -67,14 +76,14 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
     } finally {
       setLoading(false);
     }
-  }, [user, authorizedFetch, STATIC_TENANT_ID]);
+  }, [user, authorizedFetch, resolvedTenantId]);
 
   const loadProducts = async () => {
-    if (!user || productsLoaded) return;
+    if (!user || !resolvedTenantId || productsLoaded) return;
 
     try {
       const res = await authorizedFetch(
-        `${API_URL}/tenants/${STATIC_TENANT_ID}/admin/products`,
+        `${API_URL}/tenants/${resolvedTenantId}/admin/products`,
       );
       if (!res.ok) throw new Error("products failed");
       const json = await res.json();
@@ -87,11 +96,11 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const loadPreview = async () => {
-    if (!user || previewLoaded) return;
+    if (!user || !resolvedTenantId || previewLoaded) return;
 
     try {
       const res = await authorizedFetch(
-        `${API_URL}/tenants/${STATIC_TENANT_ID}/preview`,
+        `${API_URL}/tenants/${resolvedTenantId}/preview`,
       );
       if (!res.ok) throw new Error("preview failed");
       const json = await res.json();
@@ -105,7 +114,7 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
 
   const refreshQuota = async () => {
     const res = await authorizedFetch(
-      `${API_URL}/tenants/${STATIC_TENANT_ID}/quota`,
+      `${API_URL}/tenants/${resolvedTenantId}/quota`,
     );
     const json = await res.json();
     setTenantQuota(json.quota);

@@ -29,9 +29,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${roboto.variable} ${robotoMono.variable} antialiased`}>
         <AuthProvider>
-          <TenantProvider>
-            <UserProvider>{children}</UserProvider>
-          </TenantProvider>
+          <UserProvider>
+            <TenantProvider>{children}</TenantProvider>
+          </UserProvider>
         </AuthProvider>
       </body>
     </html>

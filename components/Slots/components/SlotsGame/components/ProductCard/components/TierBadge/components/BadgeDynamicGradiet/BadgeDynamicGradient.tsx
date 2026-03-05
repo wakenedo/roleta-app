@@ -1,3 +1,4 @@
+"use client";
 import { Product } from "@/components/Slots/types";
 import { useEffect, useRef } from "react";
 import { badgeGradientLifecycle } from "../../utils";
