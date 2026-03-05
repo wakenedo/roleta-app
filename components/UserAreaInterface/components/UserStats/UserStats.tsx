@@ -1,4 +1,3 @@
-// components/UserStats.tsx
 "use client";
 
 import { SubscriptionStatus } from "./components/SubscriptionStatus";

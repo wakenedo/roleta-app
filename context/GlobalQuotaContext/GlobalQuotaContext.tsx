@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import { useAuth } from "../AuthContext/AuthContext";
 import { SpinQuota } from "../UserContext/types";

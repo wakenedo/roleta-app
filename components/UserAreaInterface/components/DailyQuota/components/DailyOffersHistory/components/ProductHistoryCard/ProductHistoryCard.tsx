@@ -1,8 +1,4 @@
-import {
-  SpinHistoryItem,
-  SpinQuota,
-  UserState,
-} from "@/context/UserContext/types";
+import { SpinHistoryItem, SpinQuota } from "@/context/UserContext/types";
 import { HistoryProductItem } from "../HistoryProductItem";
 import { useGlobalQuota } from "@/context/GlobalQuotaContext/GlobalQuotaContext";
 import { useTenant } from "@/context/TenantContext/TenantContext";

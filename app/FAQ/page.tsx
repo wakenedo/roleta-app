@@ -6,9 +6,7 @@ const FAQ = () => {
   return (
     <>
       <Header />
-
       <FAQInterface />
-
       <Footer />
     </>
   );

@@ -1,6 +1,6 @@
+import { UserCardProps } from "../../types";
 import { UserOptions } from "./components/UserOptions";
 import { FC } from "react";
-import { UserCardProps } from "../types";
 
 const UserCard: FC<UserCardProps> = ({ user, logout }) => {
   return (

@@ -1,4 +1,3 @@
-// components/Rewards.tsx
 "use client";
 
 const Rewards = () => {

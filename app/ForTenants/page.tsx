@@ -1,19 +1,18 @@
-"use client";
 import { Footer } from "@/components/Footer";
-import { ForTenantsInterface } from "@/components/ForTenantsInterface";
+import { ForTenantsContent } from "@/components/ForTenantsInterface/components/ForTenantsContent";
+
 import { Header } from "@/components/Header";
 import { AreaBackground } from "@/components/HomePageInterface/components/UserOfflineHomePage/components/AreaBackground";
-import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 const ForTenants = () => {
-  const searchParams = useSearchParams();
-  const planId = searchParams.get("plan");
-
   return (
     <>
       <Header />
       <AreaBackground>
-        <ForTenantsInterface planId={planId} />
+        <Suspense fallback={null}>
+          <ForTenantsContent />
+        </Suspense>
       </AreaBackground>
       <Footer />
     </>

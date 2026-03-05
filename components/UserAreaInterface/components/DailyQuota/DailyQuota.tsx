@@ -3,7 +3,7 @@ import { RemainingDisplay } from "./components/RemainingDisplay";
 import { DailyOffersHistory } from "./components/DailyOffersHistory";
 import { OutOfSpinsInterface } from "./components/OutOfSpinsInterface";
 import { FC } from "react";
-import { DailyQuotaProps } from "../types";
+import { DailyQuotaProps } from "../../types";
 
 const DailyQuota: FC<DailyQuotaProps> = ({
   spins,
