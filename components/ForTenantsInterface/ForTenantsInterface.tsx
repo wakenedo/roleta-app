@@ -1,7 +1,7 @@
 import { useTenant } from "@/context/TenantContext/TenantContext";
 import { PlanIdInterface } from "./components/PlanIdInterface";
-import TenantsHowItWorksInterface from "./components/TenantHowItWorksInterface/TenantsHowItWorksInterface";
 import { TenantSubscriptionInterface } from "./components/TenantSubscriptionInterface";
+import TenantsHowItWorksInterface from "./components/TenantHowItWorksInterface/TenantsHowItWorksInterface";
 
 const ForTenantsInterface = ({ planId }: { planId?: string | null }) => {
   console.log("FOR TENANTS PLAN:", planId);

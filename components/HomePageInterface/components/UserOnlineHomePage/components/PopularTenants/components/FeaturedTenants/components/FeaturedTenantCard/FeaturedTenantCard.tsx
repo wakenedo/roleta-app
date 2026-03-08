@@ -50,7 +50,7 @@ const FeaturedTenantCard = ({ tenant }: { tenant: Tenant }) => {
             style={{ borderColor: primaryColor, backgroundColor: primaryColor }}
           >
             <div className="flex  h-full  justify-center">
-              <div className="flex flex-col relative justify-center my-auto text-center rotate-[-15deg]">
+              <div className="flex flex-col relative justify-center my-auto text-center rotate-[-12deg]">
                 <GiBanana className="h-24 w-24 mx-auto text-slate-100" />
                 <span className="md:text-xl text-slate-100 font-bold">
                   Bananas !

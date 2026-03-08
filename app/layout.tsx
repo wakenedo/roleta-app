@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext/AuthContext";
 import { UserProvider } from "@/context/UserContext/UserContext";
 import { TenantProvider } from "@/context/TenantContext/TenantContext";
+import { TenantAuthProvider } from "@/context/TenantAuthContext/TenantAuthContext";
 
 const roboto = Roboto({
   variable: "--font-roboto",
@@ -29,9 +30,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${roboto.variable} ${robotoMono.variable} antialiased`}>
         <AuthProvider>
-          <UserProvider>
-            <TenantProvider>{children}</TenantProvider>
-          </UserProvider>
+          <TenantAuthProvider>
+            <UserProvider>
+              <TenantProvider>{children}</TenantProvider>
+            </UserProvider>
+          </TenantAuthProvider>
         </AuthProvider>
       </body>
     </html>

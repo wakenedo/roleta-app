@@ -8,7 +8,6 @@ import {
   ReactNode,
   useCallback,
 } from "react";
-import { useAuth } from "@/context/AuthContext/AuthContext";
 import { setTenantId } from "./utils";
 import {
   Tenant,
@@ -18,13 +17,14 @@ import {
 } from "./types";
 import { useParams } from "next/navigation";
 import { useUser } from "../UserContext/UserContext";
+import { useTenantAuth } from "../TenantAuthContext/TenantAuthContext";
 
 const TenantContext = createContext<TenantContextProps | undefined>(undefined);
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const TenantProvider = ({ children }: { children: ReactNode }) => {
-  const { user, authorizedFetch } = useAuth();
+  const { tenantFetch } = useTenantAuth();
   const { tenantId } = useParams();
   const { data } = useUser();
   const [tenant, setTenant] = useState<Tenant | null>(null);
@@ -48,18 +48,13 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
   console.log("Tenant test ownerid", isTestUser);
 
   const fetchTenant = useCallback(async () => {
-    if (!user || !resolvedTenantId) {
-      setTenant(null);
-      return;
-    }
-
     try {
       setLoading(true);
       setError(null);
 
       const [tenantRes, quotaRes] = await Promise.all([
-        authorizedFetch(`${API_URL}/tenants/${resolvedTenantId}`),
-        authorizedFetch(`${API_URL}/tenants/${resolvedTenantId}/quota`),
+        tenantFetch(`${API_URL}/tenants/${resolvedTenantId}`),
+        tenantFetch(`${API_URL}/tenants/${resolvedTenantId}/quota`),
       ]);
 
       if (!tenantRes.ok) throw new Error("tenant failed");
@@ -76,13 +71,13 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
     } finally {
       setLoading(false);
     }
-  }, [user, authorizedFetch, resolvedTenantId]);
+  }, [tenantFetch, resolvedTenantId]);
 
   const loadProducts = async () => {
-    if (!user || !resolvedTenantId || productsLoaded) return;
+    if (!resolvedTenantId || productsLoaded) return;
 
     try {
-      const res = await authorizedFetch(
+      const res = await tenantFetch(
         `${API_URL}/tenants/${resolvedTenantId}/admin/products`,
       );
       if (!res.ok) throw new Error("products failed");
@@ -96,10 +91,10 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const loadPreview = async () => {
-    if (!user || !resolvedTenantId || previewLoaded) return;
+    if (!resolvedTenantId || previewLoaded) return;
 
     try {
-      const res = await authorizedFetch(
+      const res = await tenantFetch(
         `${API_URL}/tenants/${resolvedTenantId}/preview`,
       );
       if (!res.ok) throw new Error("preview failed");
@@ -113,7 +108,7 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const refreshQuota = async () => {
-    const res = await authorizedFetch(
+    const res = await tenantFetch(
       `${API_URL}/tenants/${resolvedTenantId}/quota`,
     );
     const json = await res.json();

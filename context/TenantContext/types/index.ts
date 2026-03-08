@@ -9,6 +9,22 @@ type TenantSettings = {
   cooldownMs: number;
 };
 
+type TenantRegisterStep =
+  | "register"
+  | "payment"
+  | "branding"
+  | "products"
+  | "completed";
+
+type RegisterTenant = {
+  name: string;
+  email: string;
+  password: string;
+  planId: string;
+  tenantId: string;
+  onboardingStep: TenantRegisterStep;
+};
+
 type Tenant = {
   id: string;
   name: string;
@@ -72,5 +88,6 @@ export type {
   TenantContextProps,
   TenantProduct,
   TenantQuota,
+  RegisterTenant,
   QuotaProps,
 };

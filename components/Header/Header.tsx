@@ -9,6 +9,7 @@ import { AnimatedTitle } from "../AnimatedTitle";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useTenant } from "@/context/TenantContext/TenantContext";
 import { useUser } from "@/context/UserContext/UserContext";
+import { TenantHeaderArea } from "./components/TenantHeaderArea";
 
 const Header: React.FC = () => {
   const { user } = useAuth();
@@ -58,7 +59,8 @@ const Header: React.FC = () => {
               <span>Tenant</span>
             </Link>
           )}
-          {user === null && <GoogleButton />}
+          {tenant === null && user === null && <TenantHeaderArea />}
+          {user === null && tenant === null && <GoogleButton />}
         </nav>
 
         {/* Mobile Menu Button */}
