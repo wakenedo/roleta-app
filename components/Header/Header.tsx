@@ -9,7 +9,8 @@ import { AnimatedTitle } from "../AnimatedTitle";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useTenant } from "@/context/TenantContext/TenantContext";
 import { useUser } from "@/context/UserContext/UserContext";
-import { TenantHeaderArea } from "./components/TenantHeaderArea";
+import { HeaderLoginInterface } from "./components/HeaderLoginInterface";
+import { HeaderRegisterInterface } from "./components/HeaderRegisterInterface";
 
 const Header: React.FC = () => {
   const { user } = useAuth();
@@ -17,6 +18,8 @@ const Header: React.FC = () => {
   const { tenant } = useTenant();
 
   const [menuOpen, setMenuOpen] = useState(false);
+  const [loginOptionsMenuOpen, setLoginOptionsMenuOpen] = useState(false);
+  const [registerOptionsMenuOpen, setRegisterOptionsMenuOpen] = useState(true);
 
   const tenantId = tenant?.id;
   const tenantOwnerId = tenant?.ownerUid;
@@ -25,6 +28,14 @@ const Header: React.FC = () => {
   const resolvedTenantId = isTestUser ? tenantId : undefined;
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
+  const toggleLoginOptionsMenu = () => {
+    setLoginOptionsMenuOpen(!loginOptionsMenuOpen);
+    setRegisterOptionsMenuOpen(true);
+  };
+  const toggleRegisterOptionsMenu = () => {
+    setRegisterOptionsMenuOpen(!registerOptionsMenuOpen);
+    setLoginOptionsMenuOpen(false);
+  };
 
   return (
     <header className="fixed top-0 left-0 w-full bg-slate-950/80 backdrop-blur-md text-slate-50 z-20">
@@ -59,8 +70,19 @@ const Header: React.FC = () => {
               <span>Tenant</span>
             </Link>
           )}
-          {tenant === null && user === null && <TenantHeaderArea />}
-          {user === null && tenant === null && <GoogleButton />}
+
+          <HeaderLoginInterface
+            loginOptionsMenuOpen={loginOptionsMenuOpen}
+            tenant={tenant}
+            toggleLoginOptionsMenu={toggleLoginOptionsMenu}
+            user={user}
+          />
+          <HeaderRegisterInterface
+            registerOptionsMenuOpen={registerOptionsMenuOpen}
+            toggleRegisterOptionsMenu={toggleRegisterOptionsMenu}
+            tenant={tenant}
+            user={user}
+          />
         </nav>
 
         {/* Mobile Menu Button */}

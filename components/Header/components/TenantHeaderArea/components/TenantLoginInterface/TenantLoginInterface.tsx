@@ -19,25 +19,33 @@ const TenantLoginInterface = () => {
   };
 
   return (
-    <>
-      <input
-        type="text"
-        placeholder="email"
-        onChange={(e) => setTenantEmail(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="password"
-        onChange={(e) => setTenantPassword(e.target.value)}
-      />
+    <div className="w-full space-y-2">
+      <div className=" flex flex-col">
+        <span className="text-xs">Email</span>
+        <input
+          type="text"
+          placeholder="email"
+          className="bg-slate-100 text-slate-800 p-1"
+          onChange={(e) => setTenantEmail(e.target.value)}
+        />
+      </div>
+      <div className=" flex flex-col">
+        <span className="text-xs">Password</span>
+        <input
+          type="text"
+          placeholder="password"
+          className="bg-slate-100 text-slate-800 p-1"
+          onChange={(e) => setTenantPassword(e.target.value)}
+        />
+      </div>
       <button
         onClick={handleTenantLogin}
         disabled={loading}
-        className="p-1 px-2  rounded-full border border-slate-400 flex items-center gap-2 cursor-pointer disabled:opacity-60"
+        className="p-1 px-2 w-full my-2 rounded-full border border-slate-400   cursor-pointer disabled:opacity-60 text-center"
       >
-        <span>{loading ? "Carregando..." : "Login Parceiro"}</span>
+        <span>{loading ? "Carregando..." : "Entrar"}</span>
       </button>
-    </>
+    </div>
   );
 };
 export default TenantLoginInterface;

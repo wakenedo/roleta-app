@@ -9,7 +9,7 @@ const TenantRegisterInterface = () => {
   return (
     <button
       onClick={handleClick}
-      className="p-1 px-2  rounded-full border border-slate-400 flex items-center gap-2 cursor-pointer disabled:opacity-60"
+      className="p-1 px-2 mb-2 rounded-full border border-slate-400 text-center gap-2 cursor-pointer disabled:opacity-60"
     >
       Virar Parceiro
     </button>
