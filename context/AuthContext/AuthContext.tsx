@@ -41,8 +41,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const loginWithGoogle = async () => {
     if (!auth) return;
-    await signInWithPopup(auth, gAuthProvider);
-    // user state will update via onAuthStateChanged
+
+    try {
+      setLoading(true);
+
+      gAuthProvider.setCustomParameters({
+        prompt: "select_account",
+      });
+
+      await signInWithPopup(auth, gAuthProvider);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const requireAuth = () => {

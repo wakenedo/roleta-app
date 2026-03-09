@@ -1,6 +1,8 @@
 import { Tenant, TenantQuota } from "@/context/TenantContext/types";
 import { TenantAreaSectionBackground } from "../../../TenantAreaSectionBackground";
 import { SpinQuota } from "@/context/UserContext/types";
+import { FaPowerOff } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 const InfoRow = ({
   label,
@@ -18,11 +20,19 @@ const InfoRow = ({
 const TenantOptions = ({
   tenant,
   quota,
+  logout,
 }: {
   tenant: Tenant;
   quota: SpinQuota | TenantQuota;
+  logout: () => void;
 }) => {
+  const router = useRouter();
   if (!tenant) return null;
+
+  const handleLogout = () => {
+    logout();
+    router.push("/");
+  };
 
   const createdAt = tenant.createdAt as string;
 
@@ -42,18 +52,26 @@ const TenantOptions = ({
             <h2 className="text-lg font-semibold text-slate-800">
               {tenant.name}
             </h2>
-            <span className="text-xs text-slate-500">ID: {tenant.id}</span>
+            <div className="flex flex-col space-y-2">
+              <span className="text-xs text-slate-500">ID: {tenant.id}</span>
+              <span
+                className={`px-3 py-1 w-fit rounded-full text-xs font-semibold capitalize ${
+                  tenant.status === "active"
+                    ? "bg-green-100 text-green-700"
+                    : "bg-red-100 text-red-600"
+                }`}
+              >
+                {tenant.status}
+              </span>
+            </div>
           </div>
 
-          <span
-            className={`px-3 py-1 rounded-full text-xs font-semibold capitalize ${
-              tenant.status === "active"
-                ? "bg-green-100 text-green-700"
-                : "bg-red-100 text-red-600"
-            }`}
-          >
-            {tenant.status}
-          </span>
+          <FaPowerOff
+            color="#aeb3b8"
+            size={14}
+            className="mr-1 w-fit"
+            onClick={handleLogout}
+          />
         </div>
         <hr className="border-t border-slate-300 my-1" />
 

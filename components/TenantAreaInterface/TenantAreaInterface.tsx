@@ -11,8 +11,10 @@ const TenantAreaInterface: FC<TenantAreaInterfaceProps> = ({
   products,
   tenantQuota,
   preview,
+  logout,
 }) => {
   if (!tenant) return null;
+  console.log("TenantAreaInterface", products);
   return (
     <div className="relative min-h-screen font-sans overflow-hidden">
       <main className="mt-10 md:max-w-3xl mx-auto relative z-10 min-h-screen flex flex-col items-center  md:px-4 px-1">
@@ -23,6 +25,7 @@ const TenantAreaInterface: FC<TenantAreaInterfaceProps> = ({
               loading={loading}
               error={error}
               tenantQuota={tenantQuota}
+              logout={logout}
             />
             <TenantProductCatalog
               products={products}

@@ -36,6 +36,7 @@ interface SpinHistoryItem {
   createdAt: string;
   ip?: string;
   userAgent?: string;
+  tenantId?: string;
   quotaBefore: number;
   quotaAfter: number;
   products: Product[];
@@ -47,6 +48,7 @@ interface UserContextProps {
   error: string | null;
   refresh: () => Promise<void>;
   optimisticSpin: (tenantId?: string | null) => void;
+  historyPreview?: SpinHistoryItem[];
 }
 
 export type {

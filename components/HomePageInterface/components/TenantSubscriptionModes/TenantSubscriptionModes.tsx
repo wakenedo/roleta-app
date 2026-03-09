@@ -1,7 +1,6 @@
 "use client";
 import { Tenant } from "@/context/TenantContext/types";
 import TenantSubscriptionCard from "./components/TenantSubscriptionCard/TenantSubscriptionCard";
-import { TenantMaxedSubscription } from "./components/TenantMaxedSubscription";
 
 const TENANT_PLANS = {
   tenant: {

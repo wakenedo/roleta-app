@@ -1,4 +1,5 @@
 import { TenantSubscriptionButton } from "../TenantSubscriptionButton";
+import { useRouter } from "next/navigation";
 
 const TenantSubscriptionCard = ({
   plan,
@@ -33,7 +34,9 @@ const TenantSubscriptionCard = ({
       };
   tenantPlan: string | undefined;
 }) => {
+  const router = useRouter();
   const handleSubscribe = (planId: string) => {
+    router.push(`/ForTenants?plan=${planId}`);
     console.log("Upgrade tenant to:", planId);
   };
   const isTenantPlan = plan.id === tenantPlan;

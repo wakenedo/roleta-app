@@ -1,3 +1,4 @@
+"use client";
 import { UserSubscriptionModes } from "../UserSubscriptionModes";
 import { TenantSubscriptionModes } from "../TenantSubscriptionModes";
 import { AnimatedCta } from "./components/AnimatedCta";

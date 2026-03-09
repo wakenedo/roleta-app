@@ -7,6 +7,7 @@ import {
   useState,
   ReactNode,
   useCallback,
+  useMemo,
 } from "react";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { SpinHistoryItem, UserContextProps, UserState } from "./types";
@@ -16,7 +17,13 @@ const UserContext = createContext<UserContextProps | undefined>(undefined);
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const buildNextHistory = (prev: UserState): SpinHistoryItem[] => {
-  const limit = prev.user.subscription === "premium" ? 50 : 10;
+  const limits: Record<string, number> = {
+    free: 10,
+    premium: 20,
+    "premium+": 30,
+  };
+
+  const limit = limits[prev.user.subscription] ?? 10;
   return [...(prev.historyPreview ?? [])].slice(0, limit);
 };
 
@@ -74,6 +81,11 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     await performFetch();
   }, [performFetch]);
 
+  const historyPreview = useMemo(
+    () => data?.historyPreview ?? [],
+    [data?.historyPreview],
+  );
+
   useEffect(() => {
     if (!authLoading) {
       fetchMe();
@@ -100,6 +112,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     <UserContext.Provider
       value={{
         data,
+        historyPreview,
         loading,
         error,
         refresh: fetchMe,

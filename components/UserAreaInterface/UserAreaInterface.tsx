@@ -1,7 +1,8 @@
-import { DailyQuota } from "./DailyQuota";
-import { Rewards } from "./Rewards";
-import { UserStats } from "./UserStats";
-import { UserCard } from "./UserCard";
+import { DailyQuota } from "./components/DailyQuota";
+import { Rewards } from "./components/Rewards";
+import { UserCard } from "./components/UserCard";
+import { UserStats } from "./components/UserStats";
+
 import { UserAreaInterfaceProps } from "./types";
 
 const UserAreaInterface: React.FC<UserAreaInterfaceProps> = ({

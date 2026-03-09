@@ -1,4 +1,5 @@
-import { useState } from "react";
+"use client";
+import { useState, useCallback } from "react";
 import { useAuth } from "../AuthContext/AuthContext";
 import { SpinQuota } from "../UserContext/types";
 
@@ -9,15 +10,20 @@ const useGlobalQuota = () => {
   const [quota, setQuota] = useState<SpinQuota | null>(null);
   const [globalQuotaLoading, setGlobalQuotaLoading] = useState(false);
 
-  const refresh = async () => {
-    if (globalQuotaLoading) return; // prevent multiple simultaneous refreshes
+  const refresh = useCallback(async () => {
     setGlobalQuotaLoading(true);
-    const res = await authorizedFetch(`${renderDeployAddress}/spin/quota`);
-    const json = await res.json();
-    setQuota(json.quota);
-    setGlobalQuotaLoading(false);
-  };
+
+    try {
+      const res = await authorizedFetch(`${renderDeployAddress}/spin/quota`);
+      const json = await res.json();
+      setQuota(json.quota);
+    } finally {
+      setGlobalQuotaLoading(false);
+    }
+  }, [authorizedFetch]);
+
   console.log("GlobalQuotaContext: quota =", quota);
+
   return { quota, refresh, globalQuotaLoading };
 };
 

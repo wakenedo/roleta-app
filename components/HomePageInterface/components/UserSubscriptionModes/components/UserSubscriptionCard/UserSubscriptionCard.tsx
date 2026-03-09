@@ -1,4 +1,5 @@
 import UserSubscriptionButton from "../UserSubscriptionButton/UserSubscriptionButton";
+import { useRouter } from "next/navigation";
 
 const UserSubscriptionCard = ({
   plan,
@@ -24,8 +25,10 @@ const UserSubscriptionCard = ({
   };
   userPlan: string | undefined;
 }) => {
+  const router = useRouter();
   const handleSubscribe = (planId: string) => {
     console.log("Subscribe to:", planId);
+    router.push(`/UserSubscriptions?plan=${encodeURIComponent(planId)}`);
   };
 
   const isUserPlan = plan.id === userPlan;

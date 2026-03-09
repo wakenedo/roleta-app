@@ -1,3 +1,4 @@
+"use client";
 import { InterfaceSwitch } from "@/components/InterfaceSwitch";
 import { TenantSellingPoints } from "./components/TenantSellingPoints";
 import { UserSellingPoints } from "./components/UserSellingPoints";

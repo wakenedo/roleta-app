@@ -1,3 +1,4 @@
+"use client";
 import { Tenant } from "@/context/TenantContext/types";
 import { TenantSubscriptionModes } from "../TenantSubscriptionModes";
 import { AreaBackground } from "../UserOfflineHomePage/components/AreaBackground";
