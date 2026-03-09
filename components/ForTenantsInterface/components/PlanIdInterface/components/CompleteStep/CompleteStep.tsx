@@ -3,13 +3,18 @@ import { Dispatch, SetStateAction, useEffect } from "react";
 import { TenantRegisteredInterface } from "../TenantCheckoutInterface/TenantRegisteredInterface";
 import { TenantPlanAssignedInterface } from "../TenantCheckoutInterface/TenantPlanAssignedInterface";
 import { TenantBrandingAssignedInterface } from "../TenantCheckoutInterface/TenantBrandingAssignedInterface";
+import { TenantProduct } from "@/context/TenantContext/types";
+import { TenantProductsCatalogInterface } from "../TenantCheckoutInterface/TenantProductsCatalogInterface";
 
 const CompleteStep = ({
   name,
   email,
-  selectedPlan,
   logoUrl,
   primaryColor,
+  selectedPlan,
+  products,
+  loading,
+  error,
   setStepHeader,
   resolveComplete,
 }: {
@@ -22,6 +27,9 @@ const CompleteStep = ({
     name: string;
     price: string;
   };
+  products: TenantProduct[];
+  loading: boolean;
+  error: string | null;
   setStepHeader: Dispatch<SetStateAction<StepHeaderProps>>;
   resolveComplete: () => Promise<void>;
 }) => {
@@ -40,6 +48,11 @@ const CompleteStep = ({
       <TenantBrandingAssignedInterface
         logoUrl={logoUrl}
         primaryColor={primaryColor}
+      />
+      <TenantProductsCatalogInterface
+        products={products}
+        loading={loading}
+        error={error}
       />
       <div className="border w-full p-2 mb-3">
         Onboarding completo 🚀 Products seeded using mock in BE{" "}

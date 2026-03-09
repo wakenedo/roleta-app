@@ -12,6 +12,7 @@ const ProductsStep = ({
   selectedPlan,
   logoUrl,
   primaryColor,
+
   onSave,
   setStepHeader,
 }: {
@@ -19,6 +20,7 @@ const ProductsStep = ({
   email: string;
   logoUrl: string;
   primaryColor: string;
+
   selectedPlan: {
     id: string;
     name: string;
@@ -44,6 +46,7 @@ const ProductsStep = ({
         logoUrl={logoUrl}
         primaryColor={primaryColor}
       />
+
       <div className="border w-full p-2 mb-3">
         Finalizar will trigger seedProduct in BE for now in order to emulate
         Save products / affiliateLinks Flow so no need to pass products for now

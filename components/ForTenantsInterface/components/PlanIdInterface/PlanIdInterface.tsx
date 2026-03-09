@@ -7,8 +7,10 @@ import { ProductsStep } from "./components/ProductsStep";
 import { RegisterStep } from "./components/RegisterStep";
 import { StepHeaderInterface } from "./components/StepHeaderInterface";
 import { CompleteStep } from "./components/CompleteStep";
+import { useTenant } from "@/context/TenantContext/TenantContext";
 
 const PlanIdInterface = ({ planId }: { planId: string }) => {
+  const { products, loading, error } = useTenant();
   const {
     step,
     name,
@@ -90,12 +92,15 @@ const PlanIdInterface = ({ planId }: { planId: string }) => {
       case "complete":
         return (
           <CompleteStep
-            setStepHeader={setStepHeader}
             name={name}
             email={email}
             logoUrl={logoUrl}
             primaryColor={primaryColor}
             selectedPlan={selectedPlan}
+            products={products}
+            error={error}
+            loading={loading}
+            setStepHeader={setStepHeader}
             resolveComplete={resolveComplete}
           />
         );
