@@ -14,7 +14,7 @@ type TenantRegisterStep =
   | "payment"
   | "branding"
   | "products"
-  | "completed";
+  | "complete";
 
 type RegisterTenant = {
   name: string;
@@ -84,6 +84,7 @@ type TenantContextProps = {
 export type {
   Tenant,
   TenantBranding,
+  TenantRegisterStep,
   TenantSettings,
   TenantContextProps,
   TenantProduct,

@@ -13,6 +13,7 @@ const TenantProductCatalog = ({
   loading: boolean;
   error: string | null;
 }) => {
+  if (!products) return error;
   return (
     <div className="bg-white/90 backdrop-blur rounded-lg shadow-md md:p-4 p-2 ">
       <div className="flex flex-col gap-3 ">

@@ -19,7 +19,10 @@ interface TenantAuthContextProps {
   ) => Promise<RegisterTenant>;
 
   tenantLogout: () => void;
-  tenantFetch: (url: string, options?: RequestInit) => Promise<Response>;
+  tenantFetch: (
+    url: string,
+    options?: RequestInit,
+  ) => Promise<Response | undefined>;
 }
 
 const TenantAuthContext = createContext<TenantAuthContextProps | undefined>(
@@ -30,6 +33,12 @@ export const TenantAuthProvider = ({ children }: { children: ReactNode }) => {
   const [tenantToken, setTenantToken] = useState<string | null>(() => {
     if (typeof window !== "undefined") {
       return localStorage.getItem("tenantToken");
+    }
+    return null;
+  });
+  const [tenantId, setTenantId] = useState<string | null>(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("tenantId");
     }
     return null;
   });
@@ -51,9 +60,10 @@ export const TenantAuthProvider = ({ children }: { children: ReactNode }) => {
     }
 
     const json = await res.json();
-
     setTenantToken(json.token);
+    setTenantId(json.tenantId);
     localStorage.setItem("tenantToken", json.token);
+    localStorage.setItem("tenantId", json.tenantId);
   };
 
   const tenantRegister = async (
@@ -83,20 +93,23 @@ export const TenantAuthProvider = ({ children }: { children: ReactNode }) => {
     const json = await res.json();
 
     setTenantToken(json.token);
+    setTenantId(json.tenantId);
     localStorage.setItem("tenantToken", json.token);
-
+    localStorage.setItem("tenantId", json.tenantId);
     return json;
   };
 
   const tenantLogout = () => {
     setTenantToken(null);
+    setTenantId(null);
     localStorage.removeItem("tenantToken");
+    localStorage.removeItem("tenantId");
   };
 
   const tenantFetch = async (url: string, options: RequestInit = {}) => {
-    if (!tenantToken) throw new Error("No tenant token");
+    if (!tenantId) return;
 
-    return fetch(`${API_URL}${url}`, {
+    return fetch(`${url}`, {
       ...options,
       headers: {
         ...(options.headers || {}),

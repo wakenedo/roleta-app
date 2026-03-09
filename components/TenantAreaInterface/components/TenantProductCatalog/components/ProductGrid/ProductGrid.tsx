@@ -2,6 +2,7 @@ import { TenantProduct } from "@/context/TenantContext/types";
 import { ProductCard } from "../ProductCard";
 
 const ProductGrid = ({ products }: { products: TenantProduct[] }) => {
+  if (products === null) return null;
   return (
     <div className="flex flex-col gap-3">
       <span className="text-xs font-semibold text-slate-600">
