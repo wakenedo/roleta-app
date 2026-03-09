@@ -2,14 +2,11 @@
 
 import { useState } from "react";
 import { useTenantAuth } from "@/context/TenantAuthContext/TenantAuthContext";
-import { TenantBranding, TenantProduct } from "@/context/TenantContext/types";
-
-export type TenantRegisterStep =
-  | "register"
-  | "payment"
-  | "branding"
-  | "products"
-  | "completed";
+import {
+  TenantBranding,
+  TenantProduct,
+  TenantRegisterStep,
+} from "@/context/TenantContext/types";
 
 export type StepHeaderProps = {
   stepNumber: number;
@@ -70,7 +67,13 @@ export const useTenantOnboarding = (planId?: string | null) => {
       body: JSON.stringify({ products }),
     });
 
-    setStep("completed");
+    setStep("complete");
+  };
+
+  const resolveComplete = async () => {
+    await tenantFetch(`/tenants/onboard/complete/${tenantId}`, {
+      method: "POST",
+    });
   };
 
   return {
@@ -88,6 +91,7 @@ export const useTenantOnboarding = (planId?: string | null) => {
     completePayment,
     saveBranding,
     saveProducts,
+    resolveComplete,
 
     setName,
     setEmail,

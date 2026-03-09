@@ -1,7 +1,9 @@
 import { useTenantAuth } from "@/context/TenantAuthContext/TenantAuthContext";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const TenantLoginInterface = () => {
+  const router = useRouter();
   const { tenantLogin } = useTenantAuth();
   const [loading, setLoading] = useState(false);
   const [tenantEmail, setTenantEmail] = useState<string>();
@@ -10,6 +12,7 @@ const TenantLoginInterface = () => {
   const handleTenantLogin = async () => {
     try {
       setLoading(true);
+      router.push("/TenantArea");
       await tenantLogin(tenantEmail, tenantPassword);
     } catch (err) {
       console.error("❌ Tenant login failed:", err);
@@ -24,8 +27,8 @@ const TenantLoginInterface = () => {
         <span className="text-xs">Email</span>
         <input
           type="text"
-          placeholder="email"
-          className="bg-slate-100 text-slate-800 p-1"
+          placeholder="E-mail Parceiro"
+          className="bg-slate-100 text-slate-800 p-1 italic"
           onChange={(e) => setTenantEmail(e.target.value)}
         />
       </div>
@@ -33,8 +36,8 @@ const TenantLoginInterface = () => {
         <span className="text-xs">Password</span>
         <input
           type="text"
-          placeholder="password"
-          className="bg-slate-100 text-slate-800 p-1"
+          placeholder="Password Parceiro"
+          className="bg-slate-100 text-slate-800 p-1 italic"
           onChange={(e) => setTenantPassword(e.target.value)}
         />
       </div>

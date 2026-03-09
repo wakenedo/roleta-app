@@ -22,9 +22,12 @@ const RegisterStep = ({
   ) => Promise<void>;
 }) => {
   return (
-    <div className="flex flex-col space-y-4 mt-6">
+    <div className="flex flex-col space-y-2 mt-6 mb-4">
       <>
-        <span>Nome :</span>
+        <div className="mb-0">
+          <span className="text-xs">Nome </span>
+        </div>
+
         <input
           type="text"
           placeholder="Nome do parceiro"
@@ -33,27 +36,31 @@ const RegisterStep = ({
         />
       </>
       <>
-        <span>Email :</span>
+        <div className="mb-0">
+          <span className="text-xs">Email </span>
+        </div>
         <input
           placeholder="Email"
           onChange={(e) => setEmail(e.target.value)}
-          className="p-2 text-black"
+          className="p-2 text-black italic"
         />
       </>
 
       <>
-        <span>Password :</span>
+        <div className="mb-0">
+          <span className="text-xs">Password </span>
+        </div>
         <input
           type="password"
           placeholder="Senha"
           onChange={(e) => setPassword(e.target.value)}
-          className="p-2 text-black"
+          className="p-2 text-black italic"
         />
       </>
 
       <button
         onClick={() => registerTenant(name, email, password)}
-        className="bg-indigo-500 py-3 rounded-lg"
+        className="bg-indigo-500 py-3 rounded-lg mt-4"
       >
         Criar Conta
       </button>

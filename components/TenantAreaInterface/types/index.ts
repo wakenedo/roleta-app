@@ -18,6 +18,7 @@ interface TenantAreaInterfaceProps {
 interface TenantCardProps {
   tenant: Tenant;
   loading: boolean;
+  logout: () => void;
   error: string | null;
   tenantQuota: TenantQuota | SpinQuota;
 }

@@ -1,7 +1,5 @@
-import {
-  StepHeaderProps,
-  TenantRegisterStep,
-} from "@/hooks/useTenantOnboarding";
+import { TenantRegisterStep } from "@/context/TenantContext/types";
+import { StepHeaderProps } from "@/hooks/useTenantOnboarding";
 
 const StepHeaderInterface = ({
   stepHeader,
@@ -16,7 +14,7 @@ const StepHeaderInterface = ({
     step != "payment" &&
     step != "branding" &&
     step != "products" &&
-    step != "completed";
+    step != "complete";
 
   return (
     <>

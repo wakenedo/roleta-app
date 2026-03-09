@@ -22,6 +22,7 @@ const PlanIdInterface = ({ planId }: { planId: string }) => {
     completePayment,
     saveBranding,
     saveProducts,
+    resolveComplete,
     setName,
     setEmail,
     setPassword,
@@ -86,7 +87,7 @@ const PlanIdInterface = ({ planId }: { planId: string }) => {
           />
         );
 
-      case "completed":
+      case "complete":
         return (
           <CompleteStep
             setStepHeader={setStepHeader}
@@ -95,6 +96,7 @@ const PlanIdInterface = ({ planId }: { planId: string }) => {
             logoUrl={logoUrl}
             primaryColor={primaryColor}
             selectedPlan={selectedPlan}
+            resolveComplete={resolveComplete}
           />
         );
     }
