@@ -16,17 +16,13 @@ import {
   TenantQuota,
 } from "./types";
 import { useParams } from "next/navigation";
-import { useUser } from "../UserContext/UserContext";
 import { useTenantAuth } from "../TenantAuthContext/TenantAuthContext";
 
 const TenantContext = createContext<TenantContextProps | undefined>(undefined);
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
 export const TenantProvider = ({ children }: { children: ReactNode }) => {
-  const { tenantFetch, tenantToken } = useTenantAuth();
+  const { tenantFetch, tenantToken, sessionTenantId } = useTenantAuth();
   const { tenantId } = useParams();
-  const { data } = useUser();
   const [tenant, setTenant] = useState<Tenant | null>(null);
   const [products, setProducts] = useState<TenantProduct[]>([]);
   const [tenantQuota, setTenantQuota] = useState<TenantQuota>(null);
@@ -35,40 +31,21 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
   const [error, setError] = useState<string | null>(null);
   const [productsLoaded, setProductsLoaded] = useState(false);
   const [previewLoaded, setPreviewLoaded] = useState(false);
-  const [localTenantId, setLocalTenantId] = useState<string | null>(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("tenantId");
-    }
-    return null;
-  });
 
-  const STATIC_TENANT_ID = process.env.NEXT_PUBLIC_DEFAULT_TENANT;
-  const paramTenantId = tenantId as string | undefined;
-
-  const isTestUser = data?.user?.id === "9WmAGXUGtkWjq3bqCErXyFETZ4y2";
-
-  const resolvedTenantId = !isTestUser
-    ? localTenantId
-    : (paramTenantId ?? null);
-  console.log("TenantContext ParamTenantId", paramTenantId);
-  console.log("Tenant test ownerid", isTestUser);
-  console.log("Tenant test resolvedTenantId", resolvedTenantId);
+  const resolvedTenantId = !sessionTenantId ? tenantId : sessionTenantId;
 
   const fetchTenant = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
 
-      const [tenantRes] = await Promise.all([
-        tenantFetch(`${API_URL}/tenants/${resolvedTenantId}`),
-      ]);
+      const tenantRes = await tenantFetch(`/tenants/${resolvedTenantId}`);
 
       if (!tenantRes?.ok) throw new Error("tenant failed");
       const tenantJson = await tenantRes.json();
       console.log("tenantJson", tenantJson);
-      localStorage.setItem("tenantId", tenantJson.id);
+
       setTenant(tenantJson ?? null);
-      setLocalTenantId(tenantJson.id);
     } catch (err) {
       console.error(err);
       setError("Failed to load tenant");
@@ -76,15 +53,13 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false);
     }
   }, [tenantFetch, resolvedTenantId]);
-  console.log("tenantQuotaJson", tenantQuota);
-  console.log("Tenant test localTenantId", localTenantId);
 
   const loadProducts = async () => {
     if (!resolvedTenantId || productsLoaded) return;
 
     try {
       const res = await tenantFetch(
-        `${API_URL}/tenants/${resolvedTenantId}/admin/products`,
+        `/tenants/${resolvedTenantId}/admin/products`,
       );
       if (!res?.ok) throw new Error("products failed");
       const json = await res.json();
@@ -100,9 +75,7 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
     if (!resolvedTenantId || previewLoaded) return;
 
     try {
-      const res = await tenantFetch(
-        `${API_URL}/tenants/${resolvedTenantId}/preview`,
-      );
+      const res = await tenantFetch(`/tenants/${resolvedTenantId}/preview`);
       if (!res?.ok) throw new Error("preview failed");
       const json = await res.json();
       setPreview(json ?? []);
@@ -114,23 +87,19 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const refreshQuota = async () => {
-    const res = await tenantFetch(
-      `${API_URL}/tenants/${resolvedTenantId}/quota`,
-      {
-        headers: {
-          Authorization: `Bearer ${tenantToken}`,
-          "Content-Type": "application/json",
-        },
-      },
-    );
-    if (!res?.ok) throw new Error("refresh quota failed");
-    const json = await res.json();
-    setTenantQuota(json.quota);
+    if (!resolvedTenantId || !tenantQuota) return;
+    try {
+      const res = await tenantFetch(`/tenants/${resolvedTenantId}/quota`);
+      if (!res?.ok) throw new Error("quota failed");
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {
+    if (previewLoaded && productsLoaded) return;
     fetchTenant();
-  }, [fetchTenant]);
+  }, [fetchTenant, previewLoaded, productsLoaded]);
 
   useEffect(() => {
     setTenantId(tenant?.id ?? null);

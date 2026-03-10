@@ -7,10 +7,8 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 interface TenantAuthContextProps {
   tenantToken: string | null;
-  tenantLogin: (
-    email: string | undefined,
-    password: string | undefined,
-  ) => Promise<void>;
+  sessionTenantId: string | null;
+  tenantLogin: (email: string, password: string) => Promise<void>;
   tenantRegister: (
     name: string,
     email: string,
@@ -19,10 +17,7 @@ interface TenantAuthContextProps {
   ) => Promise<RegisterTenant>;
 
   tenantLogout: () => void;
-  tenantFetch: (
-    url: string,
-    options?: RequestInit,
-  ) => Promise<Response | undefined>;
+  tenantFetch: (url: string, options?: RequestInit) => Promise<Response>;
 }
 
 const TenantAuthContext = createContext<TenantAuthContextProps | undefined>(
@@ -43,10 +38,7 @@ export const TenantAuthProvider = ({ children }: { children: ReactNode }) => {
     return null;
   });
 
-  const tenantLogin = async (
-    email: string | undefined,
-    password: string | undefined,
-  ) => {
+  const tenantLogin = async (email: string, password: string) => {
     const res = await fetch(`${API_URL}/tenants/auth/login`, {
       method: "POST",
       headers: {
@@ -106,10 +98,10 @@ export const TenantAuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem("tenantId");
   };
 
-  const tenantFetch = async (url: string, options: RequestInit = {}) => {
-    if (!tenantId) return;
+  const tenantFetch = async (path: string, options: RequestInit = {}) => {
+    if (!tenantToken) throw new Error("Not authenticated");
 
-    return fetch(`${url}`, {
+    return fetch(`${API_URL}${path}`, {
       ...options,
       headers: {
         ...(options.headers || {}),
@@ -123,6 +115,7 @@ export const TenantAuthProvider = ({ children }: { children: ReactNode }) => {
     <TenantAuthContext.Provider
       value={{
         tenantToken,
+        sessionTenantId: tenantId,
         tenantLogin,
         tenantRegister,
         tenantLogout,
