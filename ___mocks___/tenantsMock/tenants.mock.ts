@@ -6,7 +6,7 @@ export const mockTenants: Tenant[] = [
     name: "Nike Slots",
     ownerUid: "owner-1",
     status: "active",
-    subscription: "tenantPremium",
+    subscriptionMode: "tenantPremium",
     branding: {
       primaryColor: "#111111",
       logoUrl: "https://via.placeholder.com/120x60?text=Nike",
@@ -20,7 +20,7 @@ export const mockTenants: Tenant[] = [
     name: "Adidas Spin",
     ownerUid: "owner-2",
     status: "active",
-    subscription: "tenantPremium",
+    subscriptionMode: "tenantPremium",
     branding: {
       primaryColor: "#0a0a0a",
       logoUrl: "https://via.placeholder.com/120x60?text=Adidas",
@@ -33,7 +33,7 @@ export const mockTenants: Tenant[] = [
     name: "Amazon Jackpot",
     ownerUid: "owner-3",
     status: "active",
-    subscription: "tenantPremium",
+    subscriptionMode: "tenantPremium",
     branding: {
       primaryColor: "#ff9900",
       logoUrl: "https://via.placeholder.com/120x60?text=Amazon",
@@ -47,7 +47,7 @@ export const mockTenants: Tenant[] = [
     name: "Tech World Slots",
     ownerUid: "owner-4",
     status: "active",
-    subscription: "tenantPremium",
+    subscriptionMode: "tenantPremium",
     branding: {
       primaryColor: "#0066ff",
       logoUrl: "https://via.placeholder.com/120x60?text=Tech",
@@ -60,7 +60,7 @@ export const mockTenants: Tenant[] = [
     name: "Gamer Zone",
     ownerUid: "owner-5",
     status: "active",
-    subscription: "tenantPremium",
+    subscriptionMode: "tenantPremium",
     branding: {
       primaryColor: "#8e44ad",
       logoUrl: "https://via.placeholder.com/120x60?text=Gamer",
@@ -73,7 +73,7 @@ export const mockTenants: Tenant[] = [
     name: "Fashion Spin",
     ownerUid: "owner-6",
     status: "active",
-    subscription: "tenantPremium",
+    subscriptionMode: "tenantPremium",
     branding: {
       primaryColor: "#e91e63",
       logoUrl: "https://via.placeholder.com/120x60?text=Fashion",
@@ -86,7 +86,7 @@ export const mockTenants: Tenant[] = [
     name: "Crypto Rewards",
     ownerUid: "owner-7",
     status: "active",
-    subscription: "tenantPremium",
+    subscriptionMode: "tenantPremium",
     branding: {
       primaryColor: "#f39c12",
       logoUrl: "https://via.placeholder.com/120x60?text=Crypto",
@@ -99,7 +99,7 @@ export const mockTenants: Tenant[] = [
     name: "Travel Spin",
     ownerUid: "owner-8",
     status: "active",
-    subscription: "tenantPremium",
+    subscriptionMode: "tenantPremium",
     branding: {
       primaryColor: "#16a085",
       logoUrl: "https://via.placeholder.com/120x60?text=Travel",
@@ -112,7 +112,7 @@ export const mockTenants: Tenant[] = [
     name: "Beauty Jackpot",
     ownerUid: "owner-9",
     status: "active",
-    subscription: "tenantPremium",
+    subscriptionMode: "tenantPremium",
     branding: {
       primaryColor: "#d35400",
       logoUrl: "https://via.placeholder.com/120x60?text=Beauty",
@@ -125,7 +125,7 @@ export const mockTenants: Tenant[] = [
     name: "Super Market Spin",
     ownerUid: "owner-10",
     status: "active",
-    subscription: "tenantPremium",
+    subscriptionMode: "tenantPremium",
     branding: {
       primaryColor: "#2ecc71",
       logoUrl: "https://via.placeholder.com/120x60?text=Market",

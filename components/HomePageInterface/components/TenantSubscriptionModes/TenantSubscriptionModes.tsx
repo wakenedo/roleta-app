@@ -18,7 +18,7 @@ const TENANT_PLANS = {
 };
 
 const TenantSubscriptionModes = ({ tenant }: { tenant?: Tenant | null }) => {
-  const CURRENT_TENANT_PLAN = tenant?.subscription; // 🔥 mock for now
+  const CURRENT_TENANT_PLAN = tenant?.subscriptionMode; // 🔥 mock for now
 
   const plans = [
     {
@@ -39,7 +39,7 @@ const TenantSubscriptionModes = ({ tenant }: { tenant?: Tenant | null }) => {
     },
   ];
 
-  const tenantMaxPlan = tenant?.subscription === "tenantPremium";
+  const tenantMaxPlan = tenant?.subscriptionMode === "tenantPremium";
 
   if (tenantMaxPlan) {
     return null;

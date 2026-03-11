@@ -6,7 +6,7 @@ import TenantsHowItWorksInterface from "./components/TenantHowItWorksInterface/T
 const ForTenantsInterface = ({ planId }: { planId?: string | null }) => {
   console.log("FOR TENANTS PLAN:", planId);
   const { tenant } = useTenant();
-  const tenantSubscription = tenant?.subscription;
+  const tenantSubscription = tenant?.subscriptionMode;
   if (planId) {
     return <PlanIdInterface planId={planId} />;
   }

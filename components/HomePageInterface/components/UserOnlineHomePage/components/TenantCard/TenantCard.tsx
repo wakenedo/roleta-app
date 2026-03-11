@@ -30,7 +30,7 @@ const TenantCard = ({ tenant }: { tenant: Tenant }) => {
         {tenant.name}
       </h2>
       <span className="text-base font-bold" style={{ color: primaryColor }}>
-        {tenant.subscription}
+        {tenant.subscriptionMode}
       </span>
 
       <div className="text-sm text-gray-500 flex flex-col gap-1">
