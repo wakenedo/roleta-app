@@ -29,7 +29,7 @@ type Tenant = {
   id: string;
   name: string;
   ownerUid: string;
-  subscription: string;
+  subscriptionMode: string;
   status: "active" | "inactive";
   branding?: TenantBranding;
   settings?: TenantSettings;
@@ -73,8 +73,6 @@ type TenantContextProps = {
   error: string | null;
   setTenant: (t: Tenant | null) => void;
   refresh: () => Promise<void>;
-  refreshQuota: () => Promise<void>;
-  tenantQuota: TenantQuota | SpinQuota;
   loadPreview: () => Promise<void>;
   loadProducts: () => Promise<void>;
   invalidateProducts: () => void;

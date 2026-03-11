@@ -11,8 +11,6 @@ const TenantCard: FC<TenantCardProps> = ({
   tenantQuota,
   logout,
 }) => {
-  const quota = tenantQuota;
-  console.log("TenantCard", quota);
   return (
     <div className="w-full bg-white/90 backdrop-blur rounded-lg shadow-md md:p-4 p-2 space-y-2">
       {error && <TenantError error={error} />}
@@ -32,7 +30,7 @@ const TenantCard: FC<TenantCardProps> = ({
             </span>
           </div>
           <hr className="border-t border-slate-300" />
-          <TenantOptions tenant={tenant} quota={quota} logout={logout} />
+          <TenantOptions tenant={tenant} quota={tenantQuota} logout={logout} />
         </div>
       )}
       <TenantOptionsAnalytics />

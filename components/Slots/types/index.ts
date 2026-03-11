@@ -8,6 +8,20 @@ interface SlotsConfig {
   tenantName?: string;
   tenantSettings?: TenantSettings;
   tenantBranding?: TenantBranding;
+  refreshQuota?: () => Promise<void>;
+  refresh: ({ tenantId }: { tenantId: string | null }) => Promise<void>;
+  quota: SpinQuota | null;
+  globalQuotaLoading: boolean;
+  optimisticSpin: (tenantId?: string | null) => void;
+  loading: boolean;
+  sessionTenantId: string | null;
+  authorizedFetch: {
+    (input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
+    (
+      input: string | URL | globalThis.Request,
+      init?: RequestInit,
+    ): Promise<Response>;
+  };
 }
 
 interface Product {

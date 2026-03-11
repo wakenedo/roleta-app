@@ -28,7 +28,7 @@ const FeaturedTenantCard = ({ tenant }: { tenant: Tenant }) => {
         return 10; // fallback safety
     }
   }
-  const quota = resolveTenantQuota(tenant.subscription);
+  const quota = resolveTenantQuota(tenant.subscriptionMode);
 
   return (
     <div
@@ -69,7 +69,7 @@ const FeaturedTenantCard = ({ tenant }: { tenant: Tenant }) => {
         </h2>
 
         <SubscriptionBadge
-          subscription={tenant.subscription as TenantSubscription}
+          subscription={tenant.subscriptionMode as TenantSubscription}
         />
 
         <div>

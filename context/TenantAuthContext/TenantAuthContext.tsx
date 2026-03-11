@@ -99,8 +99,6 @@ export const TenantAuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const tenantFetch = async (path: string, options: RequestInit = {}) => {
-    if (!tenantToken) throw new Error("Not authenticated");
-
     return fetch(`${API_URL}${path}`, {
       ...options,
       headers: {

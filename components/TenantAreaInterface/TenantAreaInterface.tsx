@@ -1,19 +1,23 @@
-import { FC } from "react";
 import { TenantAreaInterfaceProps } from "./types";
 import { TenantCard } from "./components/TenantCard";
 import { TenantProductCatalog } from "./components/TenantProductCatalog";
 import { TenantPreview } from "./components/TenantPreview";
 
-const TenantAreaInterface: FC<TenantAreaInterfaceProps> = ({
+const TenantAreaInterface: React.FC<TenantAreaInterfaceProps> = ({
   tenant,
   loading,
   error,
   products,
-  tenantQuota,
+
   preview,
   logout,
 }) => {
-  if (!tenant) return null;
+  const quota = {
+    used: 0,
+    remaining: 0,
+    limit: 0,
+    resetsAt: "0",
+  };
   console.log("TenantAreaInterface", products);
   return (
     <div className="relative min-h-screen font-sans overflow-hidden">
@@ -24,8 +28,8 @@ const TenantAreaInterface: FC<TenantAreaInterfaceProps> = ({
               tenant={tenant}
               loading={loading}
               error={error}
-              tenantQuota={tenantQuota}
               logout={logout}
+              tenantQuota={quota}
             />
             <TenantProductCatalog
               products={products}

@@ -3,30 +3,18 @@
 import { TenantSlotsDedicatedRouteBackground } from "@/components/TenantSlotsDedicatedRouteBackground";
 import { useTenant } from "@/context/TenantContext/TenantContext";
 import { useEffect } from "react";
-import TenantAreaInterface from "../../TenantAreaInterface";
+
 import { useTenantAuth } from "@/context/TenantAuthContext/TenantAuthContext";
+import TenantAreaInterface from "../../TenantAreaInterface";
 
 const TenantAreaContent = () => {
   const { tenantLogout } = useTenantAuth();
-  const {
-    tenant,
-    loading,
-    error,
-    products,
-    preview,
-    tenantQuota,
-    loadPreview,
-    loadProducts,
-  } = useTenant();
+  const { tenant, loading, error, products, preview, refresh } = useTenant();
 
-  console.log("TenantAreaProducts", products);
   useEffect(() => {
-    if (tenant) {
-      loadProducts();
-      loadPreview();
-    }
-  }, [tenant, loadPreview, loadProducts]);
-  console.log("TenantAreaContent", tenantQuota);
+    refresh();
+  }, [refresh]);
+
   return (
     <TenantSlotsDedicatedRouteBackground
       tenantBranding={tenant?.branding}
@@ -39,7 +27,6 @@ const TenantAreaContent = () => {
         error={error}
         products={products}
         preview={preview}
-        tenantQuota={tenantQuota}
       />
     </TenantSlotsDedicatedRouteBackground>
   );
