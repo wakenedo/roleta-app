@@ -25,10 +25,9 @@ const TenantAreaContent = () => {
   }, [refresh]);
 
   useEffect(() => {
-    if (tenant) {
-      loadProducts();
-      loadPreview();
-    }
+    if (!tenant) return;
+    loadProducts();
+    loadPreview();
   }, [tenant, loadPreview, loadProducts]);
 
   return (
