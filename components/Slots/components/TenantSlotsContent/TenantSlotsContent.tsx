@@ -28,7 +28,7 @@ const TenantSlotsContent = () => {
       tenantBranding={tenantBranding}
       tenantName={tenantName}
     >
-      <div className="mt-14">
+      <div className="pb-22 flex items-center justify-center">
         <Slots
           quota={quota}
           loading={loading}
