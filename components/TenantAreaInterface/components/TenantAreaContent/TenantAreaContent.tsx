@@ -9,11 +9,27 @@ import TenantAreaInterface from "../../TenantAreaInterface";
 
 const TenantAreaContent = () => {
   const { tenantLogout } = useTenantAuth();
-  const { tenant, loading, error, products, preview, refresh } = useTenant();
+  const {
+    tenant,
+    loading,
+    error,
+    products,
+    preview,
+    refresh,
+    loadProducts,
+    loadPreview,
+  } = useTenant();
 
   useEffect(() => {
     refresh();
   }, [refresh]);
+
+  useEffect(() => {
+    if (tenant) {
+      loadProducts();
+      loadPreview();
+    }
+  }, [tenant, loadPreview, loadProducts]);
 
   return (
     <TenantSlotsDedicatedRouteBackground
