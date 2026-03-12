@@ -5,6 +5,7 @@ import { TenantRegisteredInterface } from "../TenantCheckoutInterface/TenantRegi
 import { TenantPlanAssignedInterface } from "../TenantCheckoutInterface/TenantPlanAssignedInterface";
 import { TenantBrandingAssignedInterface } from "../TenantCheckoutInterface/TenantBrandingAssignedInterface";
 import { StepHeaderProps } from "@/hooks/useTenantOnboarding";
+import { AddProductsContent } from "./components/AddProductsContent";
 
 const ProductsStep = ({
   name,
@@ -29,7 +30,7 @@ const ProductsStep = ({
   onSave: (products: TenantProduct[]) => void;
   setStepHeader: Dispatch<SetStateAction<StepHeaderProps>>;
 }) => {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<TenantProduct[]>([]);
 
   useEffect(() => {
     setStepHeader({
@@ -46,17 +47,7 @@ const ProductsStep = ({
         logoUrl={logoUrl}
         primaryColor={primaryColor}
       />
-
-      <div className="border w-full p-2 mb-3">
-        Finalizar will trigger seedProduct in BE for now in order to emulate
-        Save products / affiliateLinks Flow so no need to pass products for now
-      </div>
-      <button
-        onClick={() => onSave(products)}
-        className="bg-indigo-500 py-3 rounded-lg"
-      >
-        Finalizar Onboarding
-      </button>
+      <AddProductsContent onSave={onSave} products={products} />
     </div>
   );
 };
