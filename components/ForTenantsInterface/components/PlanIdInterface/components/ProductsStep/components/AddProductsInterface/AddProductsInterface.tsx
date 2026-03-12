@@ -1,13 +1,36 @@
 import { TenantProduct } from "@/context/TenantContext/types";
 import { SaveProductsButton } from "./components/SaveProductsButton";
+import { Dispatch, SetStateAction } from "react";
+import { HandleFileUploadInput } from "./components/HandleFileUploadInput";
+import { ProductImportPreviewTable } from "./components/ProductImportPreviewTable";
 
 const AddProductsInterface = ({
-  products,
-  onSave,
+  productsImport,
 }: {
-  products: TenantProduct[];
-  onSave: (products: TenantProduct[]) => void;
+  productsImport: {
+    fileName: string | null;
+    rawProducts: TenantProduct[];
+    products: TenantProduct[];
+    errors: string[];
+    isValidated: boolean;
+    handleFileUpload: (file: File) => Promise<void>;
+    validateProducts: () => boolean;
+    updateProducts: Dispatch<SetStateAction<TenantProduct[]>>;
+  };
 }) => {
+  const { fileName, errors, handleFileUpload, validateProducts } =
+    productsImport;
+
+  const handleSubmit = () => {
+    const valid = validateProducts();
+
+    if (!valid) return;
+
+    console.log("Products validated ✔");
+  };
+
+  console.log("AddProductsInerface", productsImport.products);
+
   return (
     <>
       <span className="text-sm">Produtos</span>
@@ -20,25 +43,17 @@ const AddProductsInterface = ({
           que seus produtos carregarem escolha as configurações dos Tiers e
           alavanque o engajamento de seus usuários !
         </div>
-        <div>
-          <span className="text-sm">Formatos suportados</span>
-          <div className="border">
-            <ul className="text-xs decoration-0">
-              <li>Json</li>
-              <li>Csv</li>
-            </ul>
-          </div>
-        </div>
-        <div>
-          <span className="text-sm">Escolha seu arquivo </span>
-          <div>
-            <button className="text-xs border p-1 cursor-pointer">
-              Subir para a plataforma
-            </button>
-          </div>
-        </div>
+        <HandleFileUploadInput
+          errors={errors}
+          fileName={fileName}
+          handleFileUpload={handleFileUpload}
+        />
+        <ProductImportPreviewTable
+          products={productsImport.products}
+          updateProducts={productsImport.updateProducts}
+        />
       </div>
-      <SaveProductsButton onSave={onSave} products={products} />
+      <SaveProductsButton onClick={handleSubmit} />
     </>
   );
 };

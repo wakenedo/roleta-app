@@ -1,19 +1,13 @@
-import { TenantProduct } from "@/context/TenantContext/types";
+type SaveProductsButtonProps = {
+  onClick: () => void;
+};
 
-const SaveProductsButton = ({
-  products,
-  onSave,
-}: {
-  products: TenantProduct[];
-  onSave: (products: TenantProduct[]) => void;
-}) => {
+const SaveProductsButton = ({ onClick }: SaveProductsButtonProps) => {
   return (
-    <button
-      onClick={() => onSave(products)}
-      className="bg-indigo-500 py-3 rounded-lg"
-    >
-      Finalizar Onboarding
+    <button onClick={onClick} className="bg-indigo-500 py-3 rounded-lg">
+      Importar Produtos
     </button>
   );
 };
+
 export default SaveProductsButton;

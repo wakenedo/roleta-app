@@ -1,11 +1,13 @@
 import { TenantProduct } from "@/context/TenantContext/types";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 
 import { TenantRegisteredInterface } from "../TenantCheckoutInterface/TenantRegisteredInterface";
 import { TenantPlanAssignedInterface } from "../TenantCheckoutInterface/TenantPlanAssignedInterface";
 import { TenantBrandingAssignedInterface } from "../TenantCheckoutInterface/TenantBrandingAssignedInterface";
 import { StepHeaderProps } from "@/hooks/useTenantOnboarding";
 import { AddProductsContent } from "./components/AddProductsContent";
+import { CompleteProductsStepButton } from "./components/AddProductsInterface/components/CompleteProductsStepButton";
+import { useProductsImport } from "@/hooks/useProductsImport";
 
 const ProductsStep = ({
   name,
@@ -30,8 +32,7 @@ const ProductsStep = ({
   onSave: (products: TenantProduct[]) => void;
   setStepHeader: Dispatch<SetStateAction<StepHeaderProps>>;
 }) => {
-  const [products, setProducts] = useState<TenantProduct[]>([]);
-
+  const productsImport = useProductsImport();
   useEffect(() => {
     setStepHeader({
       stepNumber: 4,
@@ -47,7 +48,11 @@ const ProductsStep = ({
         logoUrl={logoUrl}
         primaryColor={primaryColor}
       />
-      <AddProductsContent onSave={onSave} products={products} />
+      <AddProductsContent productsImport={productsImport} />
+      <CompleteProductsStepButton
+        onSave={onSave}
+        products={productsImport.products}
+      />
     </div>
   );
 };
