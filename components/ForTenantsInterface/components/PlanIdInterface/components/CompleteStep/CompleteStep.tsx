@@ -54,8 +54,8 @@ const CompleteStep = ({
         loading={loading}
         error={error}
       />
-      <div className="border w-full p-2 mb-3">
-        Onboarding completo 🚀 Products seeded using mock in BE{" "}
+      <div className="border w-full p-2 mb-3 text-center">
+        Onboarding completo 🚀
       </div>
     </div>
   );
