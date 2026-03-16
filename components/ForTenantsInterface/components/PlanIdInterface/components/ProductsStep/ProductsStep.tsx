@@ -15,7 +15,7 @@ const ProductsStep = ({
   selectedPlan,
   logoUrl,
   primaryColor,
-
+  importProducts,
   onSave,
   setStepHeader,
 }: {
@@ -31,6 +31,7 @@ const ProductsStep = ({
   };
   onSave: (products: TenantProduct[]) => void;
   setStepHeader: Dispatch<SetStateAction<StepHeaderProps>>;
+  importProducts: (products: TenantProduct[]) => Promise<void>;
 }) => {
   const productsImport = useProductsImport();
   useEffect(() => {
@@ -48,10 +49,15 @@ const ProductsStep = ({
         logoUrl={logoUrl}
         primaryColor={primaryColor}
       />
-      <AddProductsContent productsImport={productsImport} />
+      <AddProductsContent
+        productsImport={productsImport}
+        selectedPlan={selectedPlan}
+        importProducts={importProducts}
+      />
       <CompleteProductsStepButton
         onSave={onSave}
         products={productsImport.products}
+        areProductsValidated={productsImport.isValidated}
       />
     </div>
   );
