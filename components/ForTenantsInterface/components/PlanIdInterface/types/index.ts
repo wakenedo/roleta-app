@@ -133,6 +133,16 @@ type ProductImportPreviewTableProps = {
   };
 };
 
+type ProductImportRowProps = {
+  product: TenantProduct;
+  index: number;
+  updateProductField: (
+    index: number,
+    field: keyof TenantProduct,
+    value: TenantProduct[keyof TenantProduct],
+  ) => void;
+};
+
 export type {
   CompleteStepProps,
   BrandingStepProps,
@@ -143,4 +153,5 @@ export type {
   SaveProductsButtonProps,
   HandleFileUploadInputProps,
   ProductImportPreviewTableProps,
+  ProductImportRowProps,
 };

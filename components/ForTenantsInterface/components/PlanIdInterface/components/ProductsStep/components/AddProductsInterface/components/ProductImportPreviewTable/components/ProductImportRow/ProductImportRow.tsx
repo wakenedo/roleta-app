@@ -1,16 +1,11 @@
+import { ProductImportRowProps } from "@/components/ForTenantsInterface/components/PlanIdInterface/types";
 import { TenantProduct } from "@/context/TenantContext/types";
 
-type Props = {
-  product: TenantProduct;
-  index: number;
-  updateProductField: (
-    index: number,
-    field: keyof TenantProduct,
-    value: TenantProduct[keyof TenantProduct],
-  ) => void;
-};
-
-const ProductImportRow = ({ product, index, updateProductField }: Props) => {
+const ProductImportRow = ({
+  product,
+  index,
+  updateProductField,
+}: ProductImportRowProps) => {
   const missing = (value: TenantProduct[keyof TenantProduct]) =>
     !value ? "border-red-400" : "border-gray-300";
 
