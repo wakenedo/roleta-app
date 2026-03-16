@@ -8,17 +8,22 @@ import {
   paginateProducts,
 } from "./utils/productImportsHelpers";
 import { RawProductsProps } from "./types";
+import { selectedPlanMaxProducts } from "@/components/ForTenantsInterface/components/PlanIdInterface/utils";
 
-const MAX_PRODUCTS = 50;
-const PRODUCTS_PER_PAGE = 25;
-
-export const useProductsImport = () => {
+export const useProductsImport = (selectedPlan: {
+  id: string;
+  name: string;
+  price: string;
+}) => {
   const [fileName, setFileName] = useState<string | null>(null);
   const [rawProducts, setRawProducts] = useState<RawProductsProps[]>([]);
   const [products, setProducts] = useState<TenantProduct[]>([]);
   const [errors, setErrors] = useState<string[]>([]);
   const [isValidated, setIsValidated] = useState(false);
   const [page, setPage] = useState(1);
+
+  const MAX_PRODUCTS = selectedPlanMaxProducts(selectedPlan);
+  const PRODUCTS_PER_PAGE = 25;
 
   const paginatedProducts = paginateProducts(products, page, PRODUCTS_PER_PAGE);
 

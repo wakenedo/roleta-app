@@ -5,7 +5,6 @@ import { TenantBrandingAssignedInterface } from "../TenantCheckoutInterface/Tena
 import { AddProductsContent } from "./components/AddProductsContent";
 import { CompleteProductsStepButton } from "./components/AddProductsInterface/components/CompleteProductsStepButton";
 import { useProductsImport } from "@/hooks/useProductsImport";
-
 import { ProductsStepProps } from "../../types";
 
 const ProductsStep: React.FC<ProductsStepProps> = ({
@@ -18,7 +17,7 @@ const ProductsStep: React.FC<ProductsStepProps> = ({
   onSave,
   setStepHeader,
 }) => {
-  const productsImport = useProductsImport();
+  const productsImport = useProductsImport(selectedPlan);
   useEffect(() => {
     setStepHeader({
       stepNumber: 4,
