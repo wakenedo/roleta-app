@@ -1,6 +1,7 @@
 import { TenantProduct } from "@/context/TenantContext/types";
 import { ProductImportRow } from "./components/ProductImportRow";
 import { ProductImportPreviewTableProps } from "@/components/ForTenantsInterface/components/PlanIdInterface/types";
+import { selectedPlanMaxProducts } from "@/components/ForTenantsInterface/components/PlanIdInterface/utils";
 
 const ProductImportPreviewTable = ({
   products,
@@ -27,20 +28,8 @@ const ProductImportPreviewTable = ({
 
   if (!products.length) return null;
 
-  const selectedPlanMaxProducts = () => {
-    switch (selectedPlan.id) {
-      case "tenant":
-        return 100;
-      case "tenantPro":
-        return 200;
-      case "tenantPremium":
-        return 500;
-      default:
-        return 50;
-    }
-  };
-
-  const lackingProducts = products.length <= selectedPlanMaxProducts();
+  const lackingProducts =
+    products.length <= selectedPlanMaxProducts(selectedPlan);
 
   return (
     <div className="border mt-4">
@@ -55,7 +44,7 @@ const ProductImportPreviewTable = ({
                 <span>{products.length} /</span>
               </div>
               <div>
-                <span>{selectedPlanMaxProducts()} </span>
+                <span>{selectedPlanMaxProducts(selectedPlan)} </span>
               </div>
             </div>
           </div>
