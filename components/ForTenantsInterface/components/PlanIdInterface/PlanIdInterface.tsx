@@ -32,6 +32,7 @@ const PlanIdInterface = ({ planId }: { planId: string }) => {
     setPrimaryColor,
     setStepHeader,
     setSelectedPlan,
+    importProducts,
   } = useTenantOnboarding(planId);
 
   const renderStep = () => {
@@ -80,6 +81,7 @@ const PlanIdInterface = ({ planId }: { planId: string }) => {
         return (
           <ProductsStep
             onSave={saveProducts}
+            importProducts={importProducts}
             setStepHeader={setStepHeader}
             selectedPlan={selectedPlan}
             logoUrl={logoUrl}

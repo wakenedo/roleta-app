@@ -3,14 +3,10 @@
 import { FC, useEffect, useRef, useState } from "react";
 import { Product, SlotsConfig } from "./types";
 import { ProductSlotsReelsProvider } from "@/context/ProductSlotsReelsContext/ProductSlotsReelsContext";
-import { useAuth } from "@/context/AuthContext/AuthContext";
-import { useUser } from "@/context/UserContext/UserContext";
 import { SlotsTitle } from "./components/SlotsTitle";
 import { SlotsGame } from "./components/SlotsGame";
 import { productSlotsReelsGradient } from "./components/SlotsGame/components/ProductSlotsReels/utils";
 import { SlotsLoading } from "./components/SlotsLoading";
-import { useTenant } from "@/context/TenantContext/TenantContext";
-import { useGlobalQuota } from "@/context/GlobalQuotaContext/GlobalQuotaContext";
 import { SpinQuota } from "@/context/UserContext/types";
 
 const Slots: FC<SlotsConfig> = ({
@@ -18,15 +14,19 @@ const Slots: FC<SlotsConfig> = ({
   tenantBranding,
   tenantSettings,
   tenantName,
+  refreshQuota,
+  authorizedFetch,
+  globalQuotaLoading,
+  loading,
+  optimisticSpin,
+  quota,
+  refresh,
+  sessionTenantId,
 }) => {
   const [spinning, setSpinning] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
-  const { authorizedFetch } = useAuth();
-  const { loading, optimisticSpin } = useUser();
-  const { refreshQuota, tenantQuota } = useTenant();
-  const { refresh, quota, globalQuotaLoading } = useGlobalQuota();
 
-  const renderDeployAddress = process.env.NEXT_PUBLIC_API_URL;
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
   const spin = async () => {
     if (spinning) return;
@@ -34,8 +34,8 @@ const Slots: FC<SlotsConfig> = ({
     setSpinning(true);
 
     const endpoint = tenantId
-      ? `${renderDeployAddress}/spin/${tenantId}`
-      : `${renderDeployAddress}/spin`;
+      ? `${API_URL}/spin/${tenantId}`
+      : `${API_URL}/spin`;
 
     try {
       const res = await authorizedFetch(endpoint, {
@@ -50,7 +50,7 @@ const Slots: FC<SlotsConfig> = ({
 
       // 🎯 Backend is the authority
       setSelectedProducts(data.products ?? []);
-      if (tenantId) {
+      if (tenantId && refreshQuota) {
         optimisticSpin(tenantId);
         refreshQuota();
       } else optimisticSpin();
@@ -69,8 +69,9 @@ const Slots: FC<SlotsConfig> = ({
   }, [gradientRef]);
 
   useEffect(() => {
-    if (!tenantId) refresh();
-  }, [tenantId, refresh]);
+    if (tenantId) refresh({ tenantId: tenantId });
+    else if (!tenantId && !sessionTenantId) refresh({ tenantId: null });
+  }, [tenantId, refresh, sessionTenantId]);
 
   return (
     <div
@@ -92,7 +93,7 @@ const Slots: FC<SlotsConfig> = ({
             <SlotsGame
               spinning={spinning}
               onSpin={spin}
-              quota={tenantId ? (tenantQuota as SpinQuota) : quota}
+              quota={quota as SpinQuota}
             />
           </ProductSlotsReelsProvider>
         )}

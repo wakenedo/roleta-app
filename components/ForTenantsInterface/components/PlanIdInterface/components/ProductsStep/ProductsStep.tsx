@@ -1,36 +1,24 @@
-import { TenantProduct } from "@/context/TenantContext/types";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-
+import { useEffect } from "react";
 import { TenantRegisteredInterface } from "../TenantCheckoutInterface/TenantRegisteredInterface";
 import { TenantPlanAssignedInterface } from "../TenantCheckoutInterface/TenantPlanAssignedInterface";
 import { TenantBrandingAssignedInterface } from "../TenantCheckoutInterface/TenantBrandingAssignedInterface";
-import { StepHeaderProps } from "@/hooks/useTenantOnboarding";
+import { AddProductsContent } from "./components/AddProductsContent";
+import { CompleteProductsStepButton } from "./components/AddProductsInterface/components/CompleteProductsStepButton";
+import { useProductsImport } from "@/hooks/useProductsImport";
 
-const ProductsStep = ({
+import { ProductsStepProps } from "../../types";
+
+const ProductsStep: React.FC<ProductsStepProps> = ({
   name,
   email,
   selectedPlan,
   logoUrl,
   primaryColor,
-
+  importProducts,
   onSave,
   setStepHeader,
-}: {
-  name: string;
-  email: string;
-  logoUrl: string;
-  primaryColor: string;
-
-  selectedPlan: {
-    id: string;
-    name: string;
-    price: string;
-  };
-  onSave: (products: TenantProduct[]) => void;
-  setStepHeader: Dispatch<SetStateAction<StepHeaderProps>>;
 }) => {
-  const [products, setProducts] = useState([]);
-
+  const productsImport = useProductsImport();
   useEffect(() => {
     setStepHeader({
       stepNumber: 4,
@@ -46,17 +34,16 @@ const ProductsStep = ({
         logoUrl={logoUrl}
         primaryColor={primaryColor}
       />
-
-      <div className="border w-full p-2 mb-3">
-        Finalizar will trigger seedProduct in BE for now in order to emulate
-        Save products / affiliateLinks Flow so no need to pass products for now
-      </div>
-      <button
-        onClick={() => onSave(products)}
-        className="bg-indigo-500 py-3 rounded-lg"
-      >
-        Finalizar Onboarding
-      </button>
+      <AddProductsContent
+        productsImport={productsImport}
+        selectedPlan={selectedPlan}
+        importProducts={importProducts}
+      />
+      <CompleteProductsStepButton
+        onSave={onSave}
+        products={productsImport.products}
+        areProductsValidated={productsImport.isValidated}
+      />
     </div>
   );
 };

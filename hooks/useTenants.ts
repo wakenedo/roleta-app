@@ -1,19 +1,8 @@
-// hooks/useTenants.ts
-
 "use client";
 
 import { Tenant } from "@/context/TenantContext/types";
 import { useEffect, useState, useCallback, useMemo } from "react";
-
-interface UseTenantsReturn {
-  tenants: Tenant[];
-  filtered: Tenant[];
-  loading: boolean;
-  error: string | null;
-  search: string;
-  setSearch: (value: string) => void;
-  refetch: () => Promise<void>;
-}
+import { UseTenantsReturn } from "./types";
 
 export const useTenants = (): UseTenantsReturn => {
   const [tenants, setTenants] = useState<Tenant[]>([]);

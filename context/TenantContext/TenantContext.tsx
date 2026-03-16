@@ -9,12 +9,7 @@ import {
   useCallback,
 } from "react";
 import { setTenantId } from "./utils";
-import {
-  Tenant,
-  TenantContextProps,
-  TenantProduct,
-  TenantQuota,
-} from "./types";
+import { Tenant, TenantContextProps, TenantProduct } from "./types";
 import { useParams } from "next/navigation";
 import { useTenantAuth } from "../TenantAuthContext/TenantAuthContext";
 
@@ -25,7 +20,6 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
   const { tenantId } = useParams();
   const [tenant, setTenant] = useState<Tenant | null>(null);
   const [products, setProducts] = useState<TenantProduct[]>([]);
-  const [tenantQuota, setTenantQuota] = useState<TenantQuota>(null);
   const [preview, setPreview] = useState<TenantProduct[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -35,6 +29,7 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
   const resolvedTenantId = !sessionTenantId ? tenantId : sessionTenantId;
 
   const fetchTenant = useCallback(async () => {
+    if (!tenantToken && !sessionTenantId && !resolvedTenantId) return;
     try {
       setLoading(true);
       setError(null);
@@ -43,7 +38,7 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
 
       if (!tenantRes?.ok) throw new Error("tenant failed");
       const tenantJson = await tenantRes.json();
-      console.log("tenantJson", tenantJson);
+      console.log("tenantJson tenantFetch", tenantJson);
 
       setTenant(tenantJson ?? null);
     } catch (err) {
@@ -55,8 +50,11 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
   }, [tenantFetch, resolvedTenantId]);
 
   const loadProducts = async () => {
-    if (!resolvedTenantId || productsLoaded) return;
-
+    if (
+      (!tenantToken && !sessionTenantId && !resolvedTenantId) ||
+      productsLoaded
+    )
+      return;
     try {
       const res = await tenantFetch(
         `/tenants/${resolvedTenantId}/admin/products`,
@@ -86,16 +84,6 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const refreshQuota = async () => {
-    if (!resolvedTenantId || !tenantQuota) return;
-    try {
-      const res = await tenantFetch(`/tenants/${resolvedTenantId}/quota`);
-      if (!res?.ok) throw new Error("quota failed");
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   useEffect(() => {
     if (previewLoaded && productsLoaded) return;
     fetchTenant();
@@ -114,12 +102,11 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
         tenant,
         products,
         preview,
-        tenantQuota,
         loading,
         error,
         setTenant,
+        setProducts,
         refresh: fetchTenant,
-        refreshQuota,
         loadProducts,
         loadPreview,
         invalidateProducts: () => setProductsLoaded(false),

@@ -1,4 +1,5 @@
 import { SpinQuota } from "@/context/UserContext/types";
+import { Dispatch, SetStateAction } from "react";
 
 type TenantBranding = {
   logoUrl?: string | null;
@@ -29,7 +30,7 @@ type Tenant = {
   id: string;
   name: string;
   ownerUid: string;
-  subscription: string;
+  subscriptionMode: string;
   status: "active" | "inactive";
   branding?: TenantBranding;
   settings?: TenantSettings;
@@ -72,9 +73,8 @@ type TenantContextProps = {
   loading: boolean;
   error: string | null;
   setTenant: (t: Tenant | null) => void;
+  setProducts: Dispatch<SetStateAction<TenantProduct[]>>;
   refresh: () => Promise<void>;
-  refreshQuota: () => Promise<void>;
-  tenantQuota: TenantQuota | SpinQuota;
   loadPreview: () => Promise<void>;
   loadProducts: () => Promise<void>;
   invalidateProducts: () => void;

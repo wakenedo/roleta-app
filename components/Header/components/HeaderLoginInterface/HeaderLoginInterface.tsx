@@ -15,6 +15,7 @@ const HeaderLoginInterface = ({
   user: User | null;
 }) => {
   if (user != null) return null;
+  console.log("Header Login Interface", user);
   if (tenant != null) return null;
   return (
     <>

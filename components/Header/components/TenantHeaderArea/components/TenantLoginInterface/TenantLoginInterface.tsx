@@ -1,3 +1,4 @@
+"use client";
 import { useTenantAuth } from "@/context/TenantAuthContext/TenantAuthContext";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -6,19 +7,19 @@ const TenantLoginInterface = () => {
   const router = useRouter();
   const { tenantLogin } = useTenantAuth();
   const [loading, setLoading] = useState(false);
-  const [tenantEmail, setTenantEmail] = useState<string>();
-  const [tenantPassword, setTenantPassword] = useState<string>();
+  const [tenantEmail, setTenantEmail] = useState<string>("");
+  const [tenantPassword, setTenantPassword] = useState<string>("");
 
   const handleTenantLogin = async () => {
     try {
       setLoading(true);
-      router.push("/TenantArea");
       await tenantLogin(tenantEmail, tenantPassword);
     } catch (err) {
       console.error("❌ Tenant login failed:", err);
     } finally {
       setLoading(false);
     }
+    router.push("/TenantArea");
   };
 
   return (

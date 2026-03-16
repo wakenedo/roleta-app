@@ -12,7 +12,6 @@ interface TenantAreaInterfaceProps {
   logout: () => void;
   products: TenantProduct[];
   preview: TenantProduct[];
-  tenantQuota: TenantQuota | SpinQuota;
 }
 
 interface TenantCardProps {

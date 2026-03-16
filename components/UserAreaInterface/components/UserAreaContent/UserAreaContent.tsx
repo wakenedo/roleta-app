@@ -17,7 +17,7 @@ const UserAreaContent = () => {
   }
 
   useEffect(() => {
-    refresh();
+    refresh({ tenantId: null });
   }, [refresh]);
 
   return (

@@ -10,16 +10,16 @@ import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useTenant } from "@/context/TenantContext/TenantContext";
 import { HeaderLoginInterface } from "./components/HeaderLoginInterface";
 import { HeaderRegisterInterface } from "./components/HeaderRegisterInterface";
+import { useTenantAuth } from "@/context/TenantAuthContext/TenantAuthContext";
 
 const Header: React.FC = () => {
   const { user } = useAuth();
   const { tenant } = useTenant();
+  const { sessionTenantId } = useTenantAuth();
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [loginOptionsMenuOpen, setLoginOptionsMenuOpen] = useState(false);
   const [registerOptionsMenuOpen, setRegisterOptionsMenuOpen] = useState(true);
-
-  const tenantId = tenant?.id;
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const toggleLoginOptionsMenu = () => {
@@ -58,7 +58,7 @@ const Header: React.FC = () => {
               <span>Area do Usuário</span>
             </Link>
           )}
-          {tenantId != undefined && (
+          {sessionTenantId != null && tenant && (
             <Link
               href="/TenantArea"
               className="hover:text-[#84e9e4] transition"
@@ -106,7 +106,7 @@ const Header: React.FC = () => {
               Area do Usuário
             </Link>
           )}
-          {tenantId != undefined && (
+          {sessionTenantId != undefined && (
             <Link
               href="/TenantArea"
               className="block font-semibold text-lg text-slate-50"

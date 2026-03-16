@@ -1,28 +1,14 @@
-import { Dispatch, SetStateAction, useEffect } from "react";
-
+import { useEffect } from "react";
 import { TenantRegisteredInterface } from "../TenantCheckoutInterface/TenantRegisteredInterface";
-import { StepHeaderProps } from "@/hooks/useTenantOnboarding";
+import { PaymentStepProps } from "../../types";
 
-const PaymentStep = ({
+const PaymentStep: React.FC<PaymentStepProps> = ({
   planId,
   name,
   email,
   onPay,
   setStepHeader,
   setSelectedPlan,
-}: {
-  planId: string;
-  name: string;
-  email: string;
-  onPay: () => void;
-  setStepHeader: Dispatch<SetStateAction<StepHeaderProps>>;
-  setSelectedPlan: Dispatch<
-    SetStateAction<{
-      id: string;
-      name: string;
-      price: string;
-    }>
-  >;
 }) => {
   const TENANT_PLANS = {
     tenant: {

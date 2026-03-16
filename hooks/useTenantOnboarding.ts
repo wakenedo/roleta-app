@@ -7,11 +7,7 @@ import {
   TenantProduct,
   TenantRegisterStep,
 } from "@/context/TenantContext/types";
-
-export type StepHeaderProps = {
-  stepNumber: number;
-  stepText: string;
-};
+import { StepHeaderProps } from "./types";
 
 export const useTenantOnboarding = (planId?: string | null) => {
   const { tenantRegister, tenantFetch } = useTenantAuth();
@@ -61,10 +57,29 @@ export const useTenantOnboarding = (planId?: string | null) => {
     setStep("products");
   };
 
+  const importProducts = async (products: TenantProduct[]) => {
+    const res = await tenantFetch(
+      `/tenants/${tenantId}/admin/products/import`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          products: [...products],
+        }),
+      },
+    );
+
+    const data = await res.json();
+
+    console.log("Import result:", data);
+  };
+
   const saveProducts = async (products: TenantProduct[]) => {
     await tenantFetch(`/tenants/onboard/products/${tenantId}`, {
       method: "POST",
-      body: JSON.stringify({ products }),
+      body: JSON.stringify({ products: [...products] }),
     });
 
     setStep("complete");
@@ -90,6 +105,7 @@ export const useTenantOnboarding = (planId?: string | null) => {
     registerTenant,
     completePayment,
     saveBranding,
+    importProducts,
     saveProducts,
     resolveComplete,
 
