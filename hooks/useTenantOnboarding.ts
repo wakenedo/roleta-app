@@ -7,11 +7,7 @@ import {
   TenantProduct,
   TenantRegisterStep,
 } from "@/context/TenantContext/types";
-
-export type StepHeaderProps = {
-  stepNumber: number;
-  stepText: string;
-};
+import { StepHeaderProps } from "./types";
 
 export const useTenantOnboarding = (planId?: string | null) => {
   const { tenantRegister, tenantFetch } = useTenantAuth();

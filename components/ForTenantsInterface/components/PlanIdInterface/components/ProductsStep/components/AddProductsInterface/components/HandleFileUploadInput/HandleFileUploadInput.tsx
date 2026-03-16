@@ -1,13 +1,10 @@
-const HandleFileUploadInput = ({
+import { HandleFileUploadInputProps } from "@/components/ForTenantsInterface/components/PlanIdInterface/types";
+
+const HandleFileUploadInput: React.FC<HandleFileUploadInputProps> = ({
   handleFileUpload,
   fileName,
   errors,
-}: {
-  handleFileUpload: (file: File) => Promise<void>;
-  fileName: string | null;
-  errors: string[];
 }) => {
-  console.log("HandleFileUploadInput FileNAme", fileName);
   return (
     <div className="flex flex-col mt-4">
       <span className="text-sm">Escolha seu arquivo </span>
@@ -17,7 +14,6 @@ const HandleFileUploadInput = ({
           accept=".json,.csv"
           onChange={(e) => {
             const file = e.target.files?.[0];
-            console.log("HandleFileUploadInput", file);
             if (file) handleFileUpload(file);
           }}
         />

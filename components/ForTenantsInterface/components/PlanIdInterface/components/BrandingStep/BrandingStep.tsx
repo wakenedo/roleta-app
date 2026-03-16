@@ -1,10 +1,9 @@
-import { TenantBranding } from "@/context/TenantContext/types";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { useEffect } from "react";
 import { TenantRegisteredInterface } from "../TenantCheckoutInterface/TenantRegisteredInterface";
 import { TenantPlanAssignedInterface } from "../TenantCheckoutInterface/TenantPlanAssignedInterface";
-import { StepHeaderProps } from "@/hooks/useTenantOnboarding";
+import { BrandingStepProps } from "../../types";
 
-const BrandingStep = ({
+const BrandingStep: React.FC<BrandingStepProps> = ({
   name,
   email,
   logoUrl,
@@ -14,20 +13,6 @@ const BrandingStep = ({
   setStepHeader,
   setLogoUrl,
   setPrimaryColor,
-}: {
-  name: string;
-  email: string;
-  logoUrl: string;
-  primaryColor: string;
-  selectedPlan: {
-    id: string;
-    name: string;
-    price: string;
-  };
-  onSave: (branding: TenantBranding) => void;
-  setStepHeader: Dispatch<SetStateAction<StepHeaderProps>>;
-  setLogoUrl: Dispatch<SetStateAction<string>>;
-  setPrimaryColor: Dispatch<SetStateAction<string>>;
 }) => {
   useEffect(() => {
     setStepHeader({

@@ -7,11 +7,10 @@ import {
   normalizeProducts,
   paginateProducts,
 } from "./utils/productImportsHelpers";
+import { RawProductsProps } from "./types";
 
 const MAX_PRODUCTS = 50;
 const PRODUCTS_PER_PAGE = 25;
-
-type RawProductsProps = [];
 
 export const useProductsImport = () => {
   const [fileName, setFileName] = useState<string | null>(null);

@@ -1,27 +1,6 @@
 import { TenantProduct } from "@/context/TenantContext/types";
 import { ProductImportRow } from "./components/ProductImportRow";
-import { Dispatch, SetStateAction } from "react";
-
-type Props = {
-  products: TenantProduct[];
-  paginatedProducts: TenantProduct[];
-  page: number;
-  setPage: Dispatch<SetStateAction<number>>;
-  updateProducts: (products: TenantProduct[]) => void;
-  selectedPlan: {
-    id: string;
-    name: string;
-    price: string;
-  };
-  pagination: {
-    totalItems: number;
-    perPage: number;
-    currentPage: number;
-    totalPages: number;
-    hasNext: boolean;
-    hasPrev: boolean;
-  };
-};
+import { ProductImportPreviewTableProps } from "@/components/ForTenantsInterface/components/PlanIdInterface/types";
 
 const ProductImportPreviewTable = ({
   products,
@@ -31,7 +10,7 @@ const ProductImportPreviewTable = ({
   setPage,
   pagination,
   page,
-}: Props) => {
+}: ProductImportPreviewTableProps) => {
   const updateProductField = (
     index: number,
     field: keyof TenantProduct,
@@ -47,8 +26,6 @@ const ProductImportPreviewTable = ({
   };
 
   if (!products.length) return null;
-
-  console.log("ImportPreviewTable", selectedPlan);
 
   const selectedPlanMaxProducts = () => {
     switch (selectedPlan.id) {

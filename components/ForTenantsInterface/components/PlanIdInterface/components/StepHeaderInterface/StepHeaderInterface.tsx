@@ -1,14 +1,9 @@
-import { TenantRegisterStep } from "@/context/TenantContext/types";
-import { StepHeaderProps } from "@/hooks/useTenantOnboarding";
+import { StepHeaderInterfaceProps } from "@/hooks/types";
 
-const StepHeaderInterface = ({
+const StepHeaderInterface: React.FC<StepHeaderInterfaceProps> = ({
   stepHeader,
   planId,
   step,
-}: {
-  stepHeader: StepHeaderProps;
-  planId: string;
-  step: TenantRegisterStep;
 }) => {
   const displayPlanIdSection =
     step != "payment" &&

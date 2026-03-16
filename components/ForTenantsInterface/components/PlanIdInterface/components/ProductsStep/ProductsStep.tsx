@@ -1,15 +1,14 @@
-import { TenantProduct } from "@/context/TenantContext/types";
-import { Dispatch, SetStateAction, useEffect } from "react";
-
+import { useEffect } from "react";
 import { TenantRegisteredInterface } from "../TenantCheckoutInterface/TenantRegisteredInterface";
 import { TenantPlanAssignedInterface } from "../TenantCheckoutInterface/TenantPlanAssignedInterface";
 import { TenantBrandingAssignedInterface } from "../TenantCheckoutInterface/TenantBrandingAssignedInterface";
-import { StepHeaderProps } from "@/hooks/useTenantOnboarding";
 import { AddProductsContent } from "./components/AddProductsContent";
 import { CompleteProductsStepButton } from "./components/AddProductsInterface/components/CompleteProductsStepButton";
 import { useProductsImport } from "@/hooks/useProductsImport";
 
-const ProductsStep = ({
+import { ProductsStepProps } from "../../types";
+
+const ProductsStep: React.FC<ProductsStepProps> = ({
   name,
   email,
   selectedPlan,
@@ -18,20 +17,6 @@ const ProductsStep = ({
   importProducts,
   onSave,
   setStepHeader,
-}: {
-  name: string;
-  email: string;
-  logoUrl: string;
-  primaryColor: string;
-
-  selectedPlan: {
-    id: string;
-    name: string;
-    price: string;
-  };
-  onSave: (products: TenantProduct[]) => void;
-  setStepHeader: Dispatch<SetStateAction<StepHeaderProps>>;
-  importProducts: (products: TenantProduct[]) => Promise<void>;
 }) => {
   const productsImport = useProductsImport();
   useEffect(() => {

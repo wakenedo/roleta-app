@@ -1,24 +1,9 @@
 "use client";
 
 import { createContext, useContext, useState, ReactNode } from "react";
-import { RegisterTenant } from "../TenantContext/types";
+import { TenantAuthContextProps } from "./types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
-interface TenantAuthContextProps {
-  tenantToken: string | null;
-  sessionTenantId: string | null;
-  tenantLogin: (email: string, password: string) => Promise<void>;
-  tenantRegister: (
-    name: string,
-    email: string,
-    password: string,
-    planId: string,
-  ) => Promise<RegisterTenant>;
-
-  tenantLogout: () => void;
-  tenantFetch: (url: string, options?: RequestInit) => Promise<Response>;
-}
 
 const TenantAuthContext = createContext<TenantAuthContextProps | undefined>(
   undefined,

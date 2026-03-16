@@ -1,13 +1,9 @@
-import { TenantProduct } from "@/context/TenantContext/types";
+import { CompleteProductsStepButtonProps } from "@/components/ForTenantsInterface/components/PlanIdInterface/types";
 
-const CompleteProductsStepButton = ({
+const CompleteProductsStepButton: React.FC<CompleteProductsStepButtonProps> = ({
   products,
   onSave,
   areProductsValidated,
-}: {
-  products: TenantProduct[];
-  onSave: (products: TenantProduct[]) => void;
-  areProductsValidated: boolean;
 }) => {
   return (
     <button

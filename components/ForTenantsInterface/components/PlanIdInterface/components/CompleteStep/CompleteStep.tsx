@@ -1,12 +1,11 @@
-import { StepHeaderProps } from "@/hooks/useTenantOnboarding";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { useEffect } from "react";
 import { TenantRegisteredInterface } from "../TenantCheckoutInterface/TenantRegisteredInterface";
 import { TenantPlanAssignedInterface } from "../TenantCheckoutInterface/TenantPlanAssignedInterface";
 import { TenantBrandingAssignedInterface } from "../TenantCheckoutInterface/TenantBrandingAssignedInterface";
-import { TenantProduct } from "@/context/TenantContext/types";
 import { TenantProductsCatalogInterface } from "../TenantCheckoutInterface/TenantProductsCatalogInterface";
+import { CompleteStepProps } from "../../types";
 
-const CompleteStep = ({
+const CompleteStep: React.FC<CompleteStepProps> = ({
   name,
   email,
   logoUrl,
@@ -17,21 +16,6 @@ const CompleteStep = ({
   error,
   setStepHeader,
   resolveComplete,
-}: {
-  name: string;
-  email: string;
-  logoUrl: string;
-  primaryColor: string;
-  selectedPlan: {
-    id: string;
-    name: string;
-    price: string;
-  };
-  products: TenantProduct[];
-  loading: boolean;
-  error: string | null;
-  setStepHeader: Dispatch<SetStateAction<StepHeaderProps>>;
-  resolveComplete: () => Promise<void>;
 }) => {
   useEffect(() => {
     setStepHeader({

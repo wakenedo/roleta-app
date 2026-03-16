@@ -1,42 +1,13 @@
-import { TenantProduct } from "@/context/TenantContext/types";
 import { SaveProductsButton } from "./components/SaveProductsButton";
-import { Dispatch, SetStateAction } from "react";
 import { HandleFileUploadInput } from "./components/HandleFileUploadInput";
 import { ProductImportPreviewTable } from "./components/ProductImportPreviewTable";
 import { useTenant } from "@/context/TenantContext/TenantContext";
+import { AddProductsContentProps } from "../../../../types";
 
-const AddProductsInterface = ({
+const AddProductsInterface: React.FC<AddProductsContentProps> = ({
   selectedPlan,
   productsImport,
   importProducts,
-}: {
-  selectedPlan: {
-    id: string;
-    name: string;
-    price: string;
-  };
-  productsImport: {
-    fileName: string | null;
-    rawProducts: [][];
-    products: TenantProduct[];
-    errors: string[];
-    isValidated: boolean;
-    handleFileUpload: (file: File) => Promise<void>;
-    validateProducts: () => boolean;
-    updateProducts: Dispatch<SetStateAction<TenantProduct[]>>;
-    setPage: Dispatch<SetStateAction<number>>;
-    paginatedProducts: TenantProduct[];
-    page: number;
-    pagination: {
-      totalItems: number;
-      perPage: number;
-      currentPage: number;
-      totalPages: number;
-      hasNext: boolean;
-      hasPrev: boolean;
-    };
-  };
-  importProducts: (products: TenantProduct[]) => Promise<void>;
 }) => {
   const {
     fileName,
@@ -57,11 +28,6 @@ const AddProductsInterface = ({
 
     console.log("Products validated ✔");
   };
-
-  console.log("AddProductsInerface", productsImport.paginatedProducts);
-  console.log("AddProductsInerface Pagination", pagination);
-  console.log("AddProductsInerface Page", page);
-  console.log("AddProductsInerface PaginatedProducts", paginatedProducts);
 
   return (
     <>
