@@ -105,6 +105,7 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
         loading,
         error,
         setTenant,
+        setProducts,
         refresh: fetchTenant,
         loadProducts,
         loadPreview,
