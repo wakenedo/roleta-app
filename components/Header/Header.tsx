@@ -15,7 +15,7 @@ import { useTenantAuth } from "@/context/TenantAuthContext/TenantAuthContext";
 const Header: React.FC = () => {
   const { user } = useAuth();
   const { tenant } = useTenant();
-  const { sessionTenantId } = useTenantAuth();
+  const { sessionTenantId, tenantToken } = useTenantAuth();
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [loginOptionsMenuOpen, setLoginOptionsMenuOpen] = useState(false);
@@ -58,7 +58,7 @@ const Header: React.FC = () => {
               <span>Area do Usuário</span>
             </Link>
           )}
-          {sessionTenantId != null && tenant && (
+          {sessionTenantId != null && tenant && tenantToken && (
             <Link
               href="/TenantArea"
               className="hover:text-[#84e9e4] transition"
