@@ -8,7 +8,7 @@ const MonetizeYourAudience = () => {
     "Crie sua própria plataforma interativa, promova seus produtos ou links afiliados e transforme engajamento em conversão.";
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="cursor-default flex flex-col items-center pt-4">
       <SectionTitle title={title} subTitle={subTitle} />
       <MonetizeYourAudienceAnimation />
       <MonetizeYourAudienceCards />

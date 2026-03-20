@@ -11,7 +11,7 @@ const MonetizeYourAudienceCards = () => {
           Assine um Plano
         </h3>
         <div className="md:py-6">
-          <p className="text-slate-400">
+          <p className="text-slate-200">
             Escolha o plano ideal para seu volume de produtos e necessidade de
             personalização.
           </p>
@@ -24,7 +24,7 @@ const MonetizeYourAudienceCards = () => {
           Configure sua Marca
         </h3>
         <div className="md:py-6">
-          <p className="text-slate-400">
+          <p className="text-slate-200">
             Durante o onboarding você define nome, logo, cores e adiciona seus
             produtos ou links afiliados.
           </p>
@@ -37,7 +37,7 @@ const MonetizeYourAudienceCards = () => {
           Receba sua URL Exclusiva
         </h3>
         <div className="md:py-6">
-          <p className="text-slate-400">
+          <p className="text-slate-200">
             Após concluir, você recebe uma URL própria para promover sua
             experiência gamificada.
           </p>
