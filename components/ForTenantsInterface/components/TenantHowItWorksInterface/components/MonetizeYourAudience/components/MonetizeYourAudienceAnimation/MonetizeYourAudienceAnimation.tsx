@@ -1,6 +1,6 @@
 const MonetizeYourAudienceAnimation = () => {
   return (
-    <section className="mb-6 w-full">
+    <section className="mb-4 w-full">
       <div className="flex items-center justify-center  h-110">
         <span className="text-9xl font-bold">$$$</span>
       </div>
