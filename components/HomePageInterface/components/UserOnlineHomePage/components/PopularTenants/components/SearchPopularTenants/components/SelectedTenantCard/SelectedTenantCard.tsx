@@ -2,6 +2,7 @@ import { Tenant } from "@/context/TenantContext/types";
 import { useRouter } from "next/navigation";
 import { SubscriptionBadge } from "../../../FeaturedTenants/components/SubscriptionBadge";
 import { TenantSubscription } from "../../../FeaturedTenants/components/SubscriptionBadge/SubscriptionBadge";
+import { GiBanana } from "react-icons/gi";
 
 const SelectedTenantCard = ({ tenant }: { tenant: Tenant }) => {
   const router = useRouter();
@@ -31,26 +32,48 @@ const SelectedTenantCard = ({ tenant }: { tenant: Tenant }) => {
 
   return (
     <div
-      className="h-full  border bg-gradient-to-br from-[#111827] to-[#1f2937] shadow-sm  hover:shadow-md transition cursor-default"
+      className=" h-full p-2 border bg-gradient-to-br from-[#111827] to-[#1f2937] shadow-sm  hover:shadow-md transition cursor-default"
       style={{ borderColor: primaryColor }}
       onClick={handleClick}
     >
-      <div className="px-4 h-fit flex flex-col md:gap-20 mt-5 mx-auto">
+      <div className="px-4   flex flex-col  mt-5 mx-auto">
         <div>
-          {tenant.branding?.logoUrl && (
+          {tenant.branding?.logoUrl ? (
             <img
               src={tenant.branding.logoUrl}
               alt={tenant.name}
-              className="h-60 object-contain border rounded-full w-60 mx-auto shadow-2xl"
+              className="h-80 object-contain border  rounded-full w-80 mx-auto shadow-2xl "
               style={{
                 borderColor: primaryColor,
                 backgroundColor: primaryColor,
               }}
             />
+          ) : (
+            <>
+              <div
+                className="h-80 object-contain border  rounded-full w-80 mx-auto shadow-2xl "
+                style={{
+                  borderColor: primaryColor,
+                  backgroundColor: primaryColor,
+                }}
+              >
+                <div className="flex  h-full  justify-center">
+                  <div className="flex flex-col relative justify-center my-auto text-center rotate-[-12deg]">
+                    <GiBanana className="h-24 w-24 mx-auto text-slate-100" />
+                    <span className="md:text-xl text-slate-100 font-bold">
+                      Bananas !
+                    </span>
+                    <span className="md:text-4xl font-extrabold text-slate-100 drop-shadow-2xl ">
+                      SEM LOGO
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </>
           )}
         </div>
 
-        <div>
+        <div className="mt-6">
           <h2 className="text-5xl font-bold" style={{ color: primaryColor }}>
             {tenant.name}
           </h2>
@@ -69,7 +92,7 @@ const SelectedTenantCard = ({ tenant }: { tenant: Tenant }) => {
           </div>
         </div>
 
-        <div className="flex items-center ml-auto space-x-2 drop-shadow-2xl">
+        <div className="flex items-center ml-auto space-x-2 drop-shadow-2xl md:mt-40">
           <div className="mt-5">
             <span
               style={{ color: primaryColor }}
@@ -85,7 +108,7 @@ const SelectedTenantCard = ({ tenant }: { tenant: Tenant }) => {
             x{quota}
           </span>
         </div>
-        <button className=" bg-gradient-to-r from-[#84e9e4] to-amber-500 hover:from-[#44827e]  uppercase mt-auto text-amber-700 px-4 py-2  cursor-pointer shadow-lg font-extrabold text-2xl">
+        <button className="mt-4 bg-gradient-to-r from-[#84e9e4] to-amber-500 hover:from-[#44827e]  uppercase  text-amber-700 px-4 py-2  cursor-pointer shadow-lg font-extrabold text-2xl">
           Jogar
         </button>
       </div>

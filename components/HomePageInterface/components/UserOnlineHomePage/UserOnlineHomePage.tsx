@@ -58,8 +58,11 @@ const UserOnlineHomePage = ({
 
       <ActiveTenantsInterface />
       <AreaBackground>
-        <UserSubscriptionModes userData={userData} />
-        <TenantSubscriptionModes tenant={tenant} />
+        {tenant != null ? (
+          <TenantSubscriptionModes tenant={tenant} />
+        ) : (
+          <UserSubscriptionModes userData={userData} />
+        )}
       </AreaBackground>
     </div>
   );

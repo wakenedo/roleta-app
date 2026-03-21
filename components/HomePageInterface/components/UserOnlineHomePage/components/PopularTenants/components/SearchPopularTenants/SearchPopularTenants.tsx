@@ -33,7 +33,7 @@ const SearchPopularTenants = ({
         Os Mais Populares
       </h3>
 
-      <div className="flex gap-6">
+      <div className="flex gap-6 ">
         {/* LEFT: Search + List */}
         <div className=" w-1/2 p-4">
           <PopularTenantSearchInterface

@@ -23,7 +23,7 @@ const PopularTenantSearchInterface = ({
   loading: boolean;
 }) => {
   return (
-    <div className="bg-gradient-to-br from-amber-300 to-[#84e9e4] p-2 shadow-inner drop-shadow-xl">
+    <div className="bg-gradient-to-br from-amber-300 to-[#84e9e4] p-2 shadow-inner drop-shadow-xl md:min-h-200">
       <SearchbarPopularTenants search={search} setSearch={setSearch} />
       {loading && <LoadingTenantList />}
       {error && <ErrorTenantList error={error} />}
