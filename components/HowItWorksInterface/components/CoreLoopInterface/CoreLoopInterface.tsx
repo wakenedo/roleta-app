@@ -20,7 +20,10 @@ const CoreLoopInterface = () => {
       ].map((item, i) => (
         <div
           key={i}
-          className="p-10 text-center  bg-[#111827] border border-purple-500/20"
+          className="cursor-default group relative flex flex-col items-center  
+      bg-gradient-to-br from-[#111827] to-[#1f2937]
+      border border-purple-500/20 backdrop-blur-md 
+      transition-all duration-300 hover:-translate-y-2 p-10"
         >
           <div className="text-4xl">{item.emoji}</div>
           <h3 className="text-2xl mt-4 font-extrabold tracking-wide text-[#84e9e4]">

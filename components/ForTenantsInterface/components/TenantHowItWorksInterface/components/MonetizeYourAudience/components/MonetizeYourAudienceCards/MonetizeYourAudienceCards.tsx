@@ -5,7 +5,14 @@ import { LuLink2 } from "react-icons/lu";
 const MonetizeYourAudienceCards = () => {
   return (
     <section className="max-w-7xl w-full grid md:grid-cols-3 gap-5 mb-10">
-      <div className="bg-gradient-to-br from-[#111827] to-[#1f2937] border border-slate-800  p-6">
+      <div
+        className="cursor-default group relative flex flex-col items-center  
+      bg-gradient-to-br from-[#111827] to-[#1f2937]
+      border border-amber-500/5
+      backdrop-blur-md
+      transition-all duration-300 
+      hover:-translate-y-2 p-6"
+      >
         <BiRocket className="md:w-22 md:h-22 text-amber-500 mb-6 mx-auto" />
         <h3 className="md:text-2xl font-bold mb-3 uppercase text-amber-500 text-center">
           Assine um Plano
@@ -16,9 +23,22 @@ const MonetizeYourAudienceCards = () => {
             personalização.
           </p>
         </div>
+        <div
+          className="absolute inset-0  opacity-0 transition-opacity duration-300 
+        group-hover:opacity-100 
+        bg-gradient-to-r from-[#84e9e4]/1 to-purple-500/15 
+        pointer-events-none"
+        />
       </div>
 
-      <div className="bg-gradient-to-br from-[#111827] to-[#1f2937] border border-slate-800  p-6">
+      <div
+        className="cursor-default group relative flex flex-col items-center  
+      bg-gradient-to-br from-[#111827] to-[#1f2937]
+      border border-amber-500/5
+      backdrop-blur-md
+      transition-all duration-300 
+      hover:-translate-y-2 p-6"
+      >
         <CiSettings className="md:w-22 md:h-22 text-amber-500 mb-6 mx-auto" />
         <h3 className="md:text-2xl font-bold mb-3 uppercase text-amber-500 text-center">
           Configure sua Marca
@@ -29,9 +49,22 @@ const MonetizeYourAudienceCards = () => {
             produtos ou links afiliados.
           </p>
         </div>
+        <div
+          className="absolute inset-0  opacity-0 transition-opacity duration-300 
+        group-hover:opacity-100 
+        bg-gradient-to-r from-[#84e9e4]/1 to-purple-500/15 
+        pointer-events-none"
+        />
       </div>
 
-      <div className="bg-gradient-to-br from-[#111827] to-[#1f2937] border border-slate-800  p-6">
+      <div
+        className="cursor-default group relative flex flex-col items-center  
+      bg-gradient-to-br from-[#111827] to-[#1f2937]
+      border border-amber-500/5
+      backdrop-blur-md
+      transition-all duration-300 
+      hover:-translate-y-2 p-6"
+      >
         <LuLink2 className="md:w-22 md:h-22 text-amber-500 mb-4 mx-auto" />
         <h3 className="md:text-2xl font-bold mb-3 uppercase text-amber-500 text-center">
           Receba sua URL Exclusiva
@@ -42,6 +75,12 @@ const MonetizeYourAudienceCards = () => {
             experiência gamificada.
           </p>
         </div>
+        <div
+          className="absolute inset-0  opacity-0 transition-opacity duration-300 
+        group-hover:opacity-100 
+        bg-gradient-to-r from-[#84e9e4]/1 to-purple-500/15 
+        pointer-events-none"
+        />
       </div>
     </section>
   );
