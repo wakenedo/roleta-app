@@ -1,42 +1,17 @@
+import { TenantSubscriptionCardProps } from "@/components/HomePageInterface/types";
 import { TenantSubscriptionButton } from "../TenantSubscriptionButton";
 import { useRouter } from "next/navigation";
+import { TenantSubscriptionCardPerks } from "../TenantSubscriptionCardPerks";
+import { SubscriptionCardsFooterDisclaimer } from "../../../SubscriptionCardsFooterDisclaimer";
+import { TenantSubscriptionCardHeader } from "../TenantSubscriptionCardHeader";
 
 const TenantSubscriptionCard = ({
   plan,
   config,
   tenantPlan,
-}: {
-  plan:
-    | {
-        id: string;
-        name: string;
-        price: string;
-        highlight?: undefined;
-      }
-    | {
-        id: string;
-        name: string;
-        price: string;
-        highlight: boolean;
-      };
-  config:
-    | {
-        tenantScopedQuota: number;
-        productLimit: number;
-        monthlySpinsLimit: number;
-      }
-    | {
-        tenantScopedQuota: number;
-        productLimit: number;
-        monthlySpinsLimit: number;
-      }
-    | {
-        tenantScopedQuota: number;
-        productLimit: number;
-        monthlySpinsLimit: number;
-      };
-  tenantPlan: string | undefined;
-}) => {
+}: TenantSubscriptionCardProps) => {
+  const message =
+    "Os limites podem ser extendidos através de pacotes vendidos separadamente.";
   const router = useRouter();
   const handleSubscribe = (planId: string) => {
     router.push(`/ForTenants?plan=${planId}`);
@@ -62,108 +37,14 @@ const TenantSubscriptionCard = ({
           IDEAL PARA GRANDES MARCAS
         </div>
       )}
-
-      <h3 className="text-2xl font-bold tracking-wide mb-4 text-amber-500 cursor-default">
-        {plan.name}
-      </h3>
-
-      <div className="flex space-x-1 items-center cursor-default  mb-6 bg-gradient-to-r from-[#84e9e4] to-amber-500 hover:opacity-90 bg-clip-text text-transparent">
-        <div className="text-4xl font-extrabold">{plan.price}</div>
-        <div className="text-xl font-bold mt-4">99</div>
-      </div>
-
-      <ul className=" text-gray-300 mb-8 cursor-default">
-        <li>
-          <div className="flex space-x-1 items-center justify-between border-b align-text-top">
-            <div className="pt-2">
-              <span className="font-semibold tracking-widest text-slate-300 text-md drop-shadow-2xl">
-                Produtos
-              </span>
-            </div>
-            <div className="flex space-x-2">
-              <div className="pt-2 tracking-widest font-semibold text-[#84e9e4]">
-                <span>Max</span>
-              </div>
-              <span className="text-2xl font-bold tracking-widest text-[#84e9e4]">
-                {config.productLimit}
-              </span>
-            </div>
-          </div>
-        </li>
-        <div className="pt-2">
-          <span className="text-xs font-semibold tracking-widest text-slate-500">
-            Limites
-          </span>
-          <div className="bg-slate-50/2 px-2 pb-1">
-            <li>
-              <div className="flex space-x-1 items-center justify-between">
-                <div className="pt-2">
-                  <span className="font-semibold tracking-widest text-slate-300 text-md drop-shadow-2xl">
-                    Giros Totais
-                  </span>
-                </div>
-                <div className="flex space-x-1 items-center">
-                  <div className="flex space-x-1 items-center ">
-                    <span className="text-2xl font-bold tracking-widest text-[#84e9e4] drop-shadow-2xl">
-                      {config.monthlySpinsLimit}
-                    </span>
-                  </div>
-                  <div className="pt-2">
-                    <span className="text-xs font-semibold tracking-widest text-[#84e9e4]">
-                      x
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </li>
-
-            <li>
-              <div className="flex space-x-1 items-center justify-between">
-                <div className="pt-2">
-                  <span className="font-semibold text-md tracking-widest text-slate-300 drop-shadow-2xl">
-                    Giros por Usuário
-                  </span>
-                </div>
-                <div className="flex space-x-1 items-center ">
-                  <div className="flex space-x-1 items-center ">
-                    <span className="text-2xl font-bold tracking-widest text-[#84e9e4] drop-shadow-2xl">
-                      {config.tenantScopedQuota}
-                    </span>
-                  </div>
-                  <div className="pt-2">
-                    <span className="text-xs font-semibold tracking-widest text-[#84e9e4]">
-                      x
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </li>
-          </div>
-        </div>
-
-        <div className="mt-4">
-          <li>
-            <span className="text-sm tracking-widest text-[#84e9e4]">
-              Dashboard Analítico
-            </span>
-          </li>
-          <li>
-            <span className="text-sm tracking-widest text-[#84e9e4]">
-              Personalização de Marca
-            </span>
-          </li>
-        </div>
-      </ul>
-
+      <TenantSubscriptionCardHeader plan={plan} />
+      <TenantSubscriptionCardPerks config={config} />
       <TenantSubscriptionButton
         handleSubscribe={handleSubscribe}
         isTenantPlan={isTenantPlan}
         plan={plan}
       />
-      <div className="italic pt-4 text-center text-xs text-gray-500 max-w-3xl mx-auto cursor-default">
-        Os limites podem ser extendidos através de pacotes vendidos
-        separadamente.
-      </div>
+      <SubscriptionCardsFooterDisclaimer message={message} />
     </div>
   );
 };

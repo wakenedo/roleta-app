@@ -1,24 +1,10 @@
+import { TenantSubscriptionButtonProps } from "@/components/HomePageInterface/types";
+
 const TenantSubscriptionButton = ({
   plan,
   handleSubscribe,
   isTenantPlan,
-}: {
-  plan:
-    | {
-        id: string;
-        name: string;
-        price: string;
-        highlight?: undefined;
-      }
-    | {
-        id: string;
-        name: string;
-        price: string;
-        highlight: boolean;
-      };
-  handleSubscribe: (planId: string) => void;
-  isTenantPlan: boolean;
-}) => {
+}: TenantSubscriptionButtonProps) => {
   return (
     <button
       onClick={() => handleSubscribe(plan.id)}
