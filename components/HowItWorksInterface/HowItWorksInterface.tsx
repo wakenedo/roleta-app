@@ -5,7 +5,7 @@ import { DetailsInterface } from "./components/DetailsInterface";
 
 const HowItWorksInterface = () => {
   const title = "COMO FUNCIONA";
-  const subTitle = "Uma nova forma de descobrir produtos: jogando.";
+  const subTitle = "Uma nova forma de descobrir produtos, jogando!";
   return (
     <>
       <main className="flex flex-col items-center min-h-screen relative z-10">

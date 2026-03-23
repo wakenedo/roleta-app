@@ -1,5 +1,4 @@
 import { DailyQuota } from "./components/DailyQuota";
-import { Rewards } from "./components/Rewards";
 import { UserCard } from "./components/UserCard";
 import { UserStats } from "./components/UserStats";
 
@@ -26,7 +25,6 @@ const UserAreaInterface: React.FC<UserAreaInterfaceProps> = ({
               data={data}
             />
             <UserStats data={data} />
-            <Rewards />
           </div>
         )}
       </main>

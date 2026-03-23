@@ -1,25 +1,23 @@
 const TenantsBusinessModelCards = () => {
   return (
-    <section className="max-w-5xl text-center">
-      <div className="grid md:grid-cols-2 gap-10 text-left ">
+    <section className="max-w-4xl text-center px-4">
+      <div className="grid md:grid-cols-2 gap-4 text-left ">
         <div
-          className="cursor-default group relative flex flex-col items-center  
+          className="cursor-default group relative flex flex-col items-center justify-between 
       bg-gradient-to-br from-[#111827] to-[#1f2937]
       border border-white/5
       backdrop-blur-md
       transition-all duration-300 
       hover:-translate-y-2 p-6"
         >
-          <div className="border-l border-slate-800 h-full" />
-
-          <div className="flex flex-col space-y-3">
+          <div className="flex flex-col space-y-6">
             <div>
-              <h4 className="font-bold text-amber-500  text-2xl">
+              <h4 className="font-bold text-amber-500 tracking-wide  text-2xl">
                 Produtos ou Links Afiliados
               </h4>
             </div>
             <div>
-              <p className="text-slate-100">
+              <p className="text-slate-400 tracking-widest">
                 Utilize seus próprios links afiliados ou produtos do seu
                 marketplace. Você mantém total controle.
               </p>
@@ -35,23 +33,21 @@ const TenantsBusinessModelCards = () => {
         </div>
 
         <div
-          className="cursor-default group relative flex flex-col items-center  
+          className="cursor-default group relative flex flex-col items-center justify-between 
       bg-gradient-to-br from-[#111827] to-[#1f2937]
       border border-white/5
       backdrop-blur-md
       transition-all duration-300 
       hover:-translate-y-2 p-6"
         >
-          <div className="border-slate-800 border-l h-full" />
-
-          <div className="flex flex-col space-y-3">
+          <div className="flex flex-col space-y-6">
             <div>
-              <h4 className="font-bold text-amber-500  text-2xl">
+              <h4 className="font-bold text-amber-500 tracking-wide text-2xl">
                 Sistema de Tiers Flexível
               </h4>
             </div>
             <div>
-              <p className="text-slate-100">
+              <p className="text-slate-400 tracking-widest">
                 Configure seu próprio sistema de níveis ou deixe que nós
                 configuremos a estrutura ideal para você.
               </p>
@@ -65,25 +61,22 @@ const TenantsBusinessModelCards = () => {
         pointer-events-none"
           />
         </div>
-
         <div
-          className="cursor-default group relative flex flex-col items-center  
+          className="cursor-default group relative flex flex-col items-center justify-between  
       bg-gradient-to-br from-[#111827] to-[#1f2937]
       border border-white/5
       backdrop-blur-md
       transition-all duration-300 
       hover:-translate-y-2 p-6"
         >
-          <div className="border-l border-slate-800 h-full" />
-
-          <div className="flex flex-col space-y-3">
+          <div className="flex flex-col space-y-6">
             <div>
-              <h4 className="font-bold text-amber-500  text-2xl">
+              <h4 className="font-bold text-amber-500 tracking-wide text-2xl">
                 Limite de Produtos por Plano
               </h4>
             </div>
             <div>
-              <p className="text-slate-100 ">
+              <p className="text-slate-400 tracking-widest">
                 Cada plano determina quantos produtos ou links você pode
                 cadastrar na sua experiência.
               </p>
@@ -99,23 +92,21 @@ const TenantsBusinessModelCards = () => {
         </div>
 
         <div
-          className="cursor-default group relative flex flex-col items-center  
+          className="cursor-default group relative flex flex-col items-center justify-between 
       bg-gradient-to-br from-[#111827] to-[#1f2937]
       border border-white/5
       backdrop-blur-md
       transition-all duration-300 
       hover:-translate-y-2 p-6"
         >
-          <div className="border-l border-slate-800 h-full" />
-
-          <div className="flex flex-col space-y-3">
+          <div className="flex flex-col space-y-6">
             <div>
-              <h4 className="font-bold text-amber-500  text-2xl">
+              <h4 className="font-bold tracking-wide text-amber-500  text-2xl">
                 Dashboard com Analytics
               </h4>
             </div>
             <div>
-              <p className="text-slate-100">
+              <p className="text-slate-400 tracking-widest">
                 Acesse o TenantArea para acompanhar métricas, editar
                 configurações, gerenciar produtos e otimizar resultados.
               </p>
