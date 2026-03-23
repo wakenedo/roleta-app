@@ -6,14 +6,17 @@ const TENANT_PLANS = {
   tenant: {
     tenantScopedQuota: 10,
     productLimit: 100,
+    monthlySpinsLimit: 200000,
   },
   tenantPro: {
     tenantScopedQuota: 20,
     productLimit: 250,
+    monthlySpinsLimit: 500000,
   },
   tenantPremium: {
-    tenantScopedQuota: 40,
+    tenantScopedQuota: 30,
     productLimit: 500,
+    monthlySpinsLimit: 850000,
   },
 };
 
@@ -24,17 +27,17 @@ const TenantSubscriptionModes = ({ tenant }: { tenant?: Tenant | null }) => {
     {
       id: "tenant",
       name: "TENANT",
-      price: "R$199/mês",
+      price: "R$299,",
     },
     {
       id: "tenantPro",
       name: "TENANT PRO",
-      price: "R$399/mês",
+      price: "R$499,",
     },
     {
       id: "tenantPremium",
       name: "TENANT PREMIUM",
-      price: "R$699/mês",
+      price: "R$799,",
       highlight: true,
     },
   ];
@@ -65,7 +68,7 @@ const TenantSubscriptionModes = ({ tenant }: { tenant?: Tenant | null }) => {
         </p>
       </div>
 
-      <div className="grid gap-8 md:grid-cols-3 max-w-6xl mx-auto">
+      <div className="grid gap-8 md:grid-cols-3 max-w-7xl mx-auto">
         {plans.map((plan) => {
           const config = TENANT_PLANS[plan.id as keyof typeof TENANT_PLANS];
 

@@ -30,7 +30,7 @@ const TenantSubscriptionButton = ({
                     : "bg-gradient-to-r from-[#84e9e4] to-amber-500 hover:opacity-90 text-slate-800 cursor-pointer"
                 }`}
     >
-      {isTenantPlan ? "Plano Atual" : "Saber Mais"}
+      {isTenantPlan ? "Plano Atual" : "Assinar"}
     </button>
   );
 };

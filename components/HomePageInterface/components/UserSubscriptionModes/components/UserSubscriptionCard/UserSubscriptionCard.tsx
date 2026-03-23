@@ -22,6 +22,8 @@ const UserSubscriptionCard = ({
   config: {
     global: number;
     tenantMultiplier: number;
+    monthlyGlobalTenantsQuota: number;
+    weeklyGlobalTenantsQuota: number;
   };
   userPlan: string | undefined;
 }) => {
@@ -54,24 +56,116 @@ const UserSubscriptionCard = ({
         {plan.name}
       </h3>
 
-      <div className="text-4xl font-extrabold mb-6 bg-gradient-to-r from-[#84e9e4] to-amber-500 bg-clip-text text-transparent cursor-default">
-        {plan.price}
+      <div className="flex space-x-1 items-center cursor-default  mb-6 bg-gradient-to-r from-[#84e9e4] to-amber-500 hover:opacity-90 bg-clip-text text-transparent">
+        <div className="text-4xl font-extrabold">{plan.price}</div>
+        <div className="text-xl font-bold mt-4">99</div>
       </div>
 
-      <ul className="space-y-3 text-gray-300 mb-8 cursor-default">
-        <li>🎰 {config.global} Giros Globais</li>
+      <ul className="space-y-2 text-gray-300 mb-8 cursor-default">
         <li>
-          🏢 Multiplicador Tenant:{" "}
-          {config.tenantMultiplier > 0
-            ? `x${config.tenantMultiplier}`
-            : "Não incluso"}
+          <div className="flex space-x-1 items-center justify-between border-b align-text-top">
+            <div className="pt-2">
+              <span className="font-semibold tracking-widest text-slate-300 text-md drop-shadow-2xl">
+                Giros por Dia
+              </span>
+            </div>
+            <div className="flex space-x-1 items-center">
+              <div className="flex space-x-1 items-center ">
+                <span className="text-3xl font-bold tracking-widest text-[#84e9e4]">
+                  {config.global}
+                </span>
+              </div>
+              <div className="pt-2">
+                <span className="text-xs font-semibold tracking-widest text-[#84e9e4]">
+                  x
+                </span>
+              </div>
+            </div>
+          </div>
         </li>
+        <div>
+          <span className="text-xs font-semibold tracking-widest text-slate-500">
+            Parceiros
+          </span>
+          <div className="bg-slate-50/2 px-2 pb-1">
+            <li>
+              <div className="flex space-x-1 items-center justify-between">
+                <div className="pt-2">
+                  <span className="font-semibold tracking-widest text-slate-300 text-md drop-shadow-2xl">
+                    Giros Extras
+                  </span>
+                </div>
+                <div className="flex space-x-1 items-center">
+                  <div className="flex space-x-1 items-center ">
+                    <span className="text-2xl font-bold tracking-widest text-[#84e9e4] drop-shadow-2xl">
+                      {config.tenantMultiplier > 0
+                        ? `${config.tenantMultiplier === 0.5 ? " 10 " : " 30 "}`
+                        : "Não incluso"}
+                      {""}
+                    </span>
+                  </div>
+                  <div className="pt-2">
+                    <span className="text-xs font-semibold tracking-widest text-[#84e9e4]">
+                      x
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div className="flex space-x-1 items-center justify-between">
+                <div className="pt-2">
+                  <span className="font-semibold tracking-widest text-slate-300 text-md drop-shadow-2xl">
+                    Limite de Giros
+                  </span>
+                </div>
+                <div className="flex space-x-1 items-center">
+                  <div className="flex space-x-1 items-center ">
+                    <span className="text-2xl font-bold tracking-widest text-[#84e9e4] drop-shadow-2xl">
+                      {config.monthlyGlobalTenantsQuota}
+                    </span>
+                  </div>
+                  <div className="pt-2">
+                    <span className="text-xs font-semibold tracking-widest text-[#84e9e4]">
+                      x
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div className="flex space-x-1 items-center justify-between">
+                <div className="pt-2">
+                  <span className="font-semibold tracking-widest text-slate-300 text-xs drop-shadow-2xl">
+                    Limite por semana
+                  </span>
+                </div>
+                <div className="flex space-x-1 items-center">
+                  <div className="flex space-x-1 items-center pt-2">
+                    <span className="text-sm font-bold tracking-widest text-[#84e9e4] drop-shadow-2xl">
+                      {config.weeklyGlobalTenantsQuota}
+                    </span>
+                  </div>
+                  <div className="pt-1">
+                    <span className="text-xs font-semibold tracking-widest text-[#84e9e4]">
+                      x
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </div>
+        </div>
       </ul>
       <UserSubscriptionButton
         handleSubscribe={handleSubscribe}
         isUserPlan={isUserPlan}
         plan={plan}
       />
+      <div className="italic pt-4 text-center text-xs text-gray-500 max-w-3xl mx-auto cursor-default">
+        Os limites podem ser extendidos através de pacotes vendidos
+        separadamente.
+      </div>
     </div>
   );
 };

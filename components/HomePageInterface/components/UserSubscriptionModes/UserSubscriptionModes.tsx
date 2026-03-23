@@ -7,14 +7,20 @@ const USER_SPIN_PLANS = {
   free: {
     global: 10,
     tenantMultiplier: 0,
+    monthlyGlobalTenantsQuota: 100,
+    weeklyGlobalTenantsQuota: 25,
   },
   premium: {
     global: 20,
     tenantMultiplier: 0.5,
+    monthlyGlobalTenantsQuota: 200,
+    weeklyGlobalTenantsQuota: 50,
   },
   "premium+": {
     global: 30,
     tenantMultiplier: 1,
+    monthlyGlobalTenantsQuota: 400,
+    weeklyGlobalTenantsQuota: 100,
   },
 };
 
@@ -28,13 +34,13 @@ const UserSubscriptionModes = ({
     {
       id: "premium",
       name: "PREMIUM",
-      price: "R$29/mês",
+      price: "R$39,",
       highlight: false,
     },
     {
       id: "premium+",
       name: "PREMIUM+",
-      price: "R$49/mês",
+      price: "R$59,",
       highlight: true,
     },
   ];
@@ -77,7 +83,6 @@ const UserSubscriptionModes = ({
           );
         })}
       </div>
-
       <div className="mt-16 text-center text-xs text-gray-500 max-w-3xl mx-auto cursor-default">
         Assinaturas serão processadas via Stripe. Você poderá cancelar ou
         alterar seu plano a qualquer momento.
