@@ -1,44 +1,43 @@
 import { UserAreaSectionBackground } from "@/components/UserAreaInterface/UserAreaSectionBackground";
-import { UserStats } from "@/context/UserContext/types";
 
-const AccountSpinHistory = ({ stats }: { stats: UserStats | undefined }) => {
-  if (!stats) return;
+const AccountUserQuotaInterface = () => {
   return (
     <div className="w-xl">
       <UserAreaSectionBackground>
         <span className="text-lg font-semibold tracking-widest text-amber-500 mb-2 line-clamp-2">
-          Giros Realizados
+          Quotas Parceiros
         </span>
         <hr className="border-t border-slate-300 mb-4" />
         <div className="tracking-widest text-xs text-slate-600 uppercase">
-          <span className="font-bold ">Total</span>
+          <span className="font-bold ">Mês</span>
           <div>
             <span className="text-base font-semibold text-slate-400">
-              {stats.totalSpins}
+              100/100
             </span>
           </div>
         </div>
         <div className="tracking-widest text-xs text-slate-600 uppercase">
-          <span className="font-bold ">Jackpots</span>
+          <span className="font-bold ">Semana</span>
           <div>
             <span className="text-base font-semibold text-slate-400">
-              {stats.jackpots}
+              25/25
+            </span>
+          </div>
+        </div>
+
+        <div className="tracking-widest text-xs text-slate-600 uppercase">
+          <span className="font-bold ">Extras</span>
+          <div>
+            <span className="text-base font-semibold text-slate-400">
+              Atualize sua Assinatura!
             </span>
           </div>
         </div>
         <div className="tracking-widest text-xs text-slate-600 uppercase">
-          <span className="font-bold ">Raros </span>
+          <span className="font-bold ">Adquiridas</span>
           <div>
             <span className="text-base font-semibold text-slate-400">
-              {stats.rare}
-            </span>
-          </div>
-        </div>
-        <div className="tracking-widest text-xs text-slate-600 uppercase">
-          <span className="font-bold ">Comum </span>
-          <div>
-            <span className="text-base font-semibold text-slate-400">
-              {stats.common}
+              Compre Quoas que não expiram!
             </span>
           </div>
         </div>
@@ -46,4 +45,4 @@ const AccountSpinHistory = ({ stats }: { stats: UserStats | undefined }) => {
     </div>
   );
 };
-export default AccountSpinHistory;
+export default AccountUserQuotaInterface;

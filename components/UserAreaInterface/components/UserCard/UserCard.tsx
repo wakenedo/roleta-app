@@ -1,19 +1,18 @@
 import { UserCardProps } from "../../types";
+import { UserStats } from "../UserStats";
 import { UserOptions } from "./components/UserOptions";
 import { FC } from "react";
 
-const UserCard: FC<UserCardProps> = ({ user, logout }) => {
+const UserCard: FC<UserCardProps> = ({ user, logout, data }) => {
+  const subStatus = data?.user.subscription;
   return (
-    <div className="w-full bg-white/90 backdrop-blur rounded-lg shadow-md md:p-4 p-2 ">
+    <div>
       {user && (
-        <div className="flex flex-col gap-3 ">
-          <div>
-            <span className="text-sm font-semibold text-slate-800 line-clamp-2">
-              Bem-vindo, {user.displayName ?? "usuário"} !
-            </span>
+        <div className=" min-w-6xl">
+          <div className="z-20 flex flex-col pb-3 px-6 border-r border-amber-500">
+            <UserOptions user={user} logout={logout} subStatus={subStatus} />
+            <UserStats data={data} />
           </div>
-          <hr className="border-t border-slate-300" />
-          <UserOptions user={user} logout={logout} />
         </div>
       )}
     </div>

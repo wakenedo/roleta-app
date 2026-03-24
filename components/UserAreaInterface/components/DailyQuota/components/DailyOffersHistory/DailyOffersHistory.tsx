@@ -4,6 +4,7 @@ import { UserAreaSectionBackground } from "@/components/UserAreaInterface/UserAr
 import { useRouter } from "next/navigation";
 import { SpinHistoryItem } from "@/context/UserContext/types";
 import { ProductHistoryCard } from "./components/ProductHistoryCard";
+import { BsExclamation } from "react-icons/bs";
 
 const DailyOffersHistory = ({
   historyPreview,
@@ -15,24 +16,27 @@ const DailyOffersHistory = ({
   const isEmpty = historyPreview.length === 0;
   return (
     <UserAreaSectionBackground>
-      <h3 className="text-sm font-semibold text-slate-800 mb-2">
+      <h3 className="text-lg font-semibold tracking-widest text-amber-500 mb-2 line-clamp-2">
         Histórico de Descobertas
       </h3>
       <hr className="border-t border-slate-300 mb-4" />
-      <div className="max-h-75 overflow-scroll   [scrollbar-width:none]">
+      <div className="max-h-100 overflow-scroll   [scrollbar-width:none]">
         {isEmpty ? (
-          <div className="text-center mb-2 space-y-2 flex flex-col max-w-sm mx-auto">
-            <div className="my-4">
-              <span>Sem histórico por enquanto...</span>
+          <div className="text-center space-y-2 flex flex-col max-w-sm mx-auto">
+            <div className="my-4 pb-4 text-slate-600">
+              <BsExclamation size={45} className="mx-auto" />
+              <span className="tracking-widest">
+                Sem histórico por enquanto...
+              </span>
             </div>
 
             <button
-              className="cursor-pointer py-2 drop-shadow-xl text-shadow-2xs
-              bg-green-400 hover:bg-green-200 transition
-              text-slate-50 rounded-xs disabled:bg-slate-400 pb-2 font-semibold"
+              className="cursor-pointer text-lg  py-2 drop-shadow-xl text-shadow-2xs tracking-widest
+              bg-amber-500 hover:bg-yellow-200 transition
+              text-[#84e9e4] rounded-xs disabled:bg-slate-400 pb-2 font-bold "
               onClick={() => router.push("/Games")}
             >
-              Começe a Jogar
+              Jogar
             </button>
           </div>
         ) : (

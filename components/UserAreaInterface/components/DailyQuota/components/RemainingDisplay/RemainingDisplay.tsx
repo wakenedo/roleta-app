@@ -29,7 +29,7 @@ const RemainingDisplay = ({
 
   const barColor =
     progress > 60
-      ? "bg-green-400"
+      ? "bg-amber-500"
       : progress > 30
         ? "bg-yellow-400"
         : "bg-red-400";
@@ -55,16 +55,18 @@ const RemainingDisplay = ({
   }, [resetsAt, isEmpty]);
   return (
     <UserAreaSectionBackground>
-      <span className="text-sm font-semibold text-slate-800 mb-2 line-clamp-2">
+      <span className="text-lg font-semibold tracking-widest text-amber-500 mb-2 line-clamp-2">
         Rodadas de hoje
       </span>
       <hr className="border-t border-slate-300 mb-4" />
       <div className="flex items-center justify-between mb-1">
-        <span className="text-xs text-slate-700">Restantes</span>
+        <span className="text-xs tracking-widest text-slate-400">
+          Restantes
+        </span>
 
         <span
           className={`text-lg font-bold ${
-            isEmpty ? "text-red-600" : "text-slate-800"
+            isEmpty ? "text-red-600" : "text-amber-500"
           }`}
         >
           {remaining} / {dailyLimit}
