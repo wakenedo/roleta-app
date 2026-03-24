@@ -9,7 +9,7 @@ const UserCard: FC<UserCardProps> = ({ user, logout, data }) => {
     <div>
       {user && (
         <div className=" min-w-6xl">
-          <div className="z-20 flex flex-col pb-3 px-6 border-r border-amber-500">
+          <div className="z-20 flex flex-col px-6 border-r border-amber-500">
             <UserOptions user={user} logout={logout} subStatus={subStatus} />
             <UserStats data={data} />
           </div>

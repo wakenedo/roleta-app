@@ -13,7 +13,7 @@ const UserAreaInterface: React.FC<UserAreaInterfaceProps> = ({
 }) => {
   return (
     <div className="relative  overflow-hidden ">
-      <main className="mx-auto relative z-10 flex flex-col items-center pt-2 md:px-4 px-1">
+      <main className="relative z-10 flex flex-col items-center py-2 ">
         {user && (
           <div>
             <div className=" md:justify-center space-x-1 md:flex  ">

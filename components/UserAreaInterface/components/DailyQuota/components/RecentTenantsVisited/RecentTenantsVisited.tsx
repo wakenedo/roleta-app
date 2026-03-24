@@ -9,12 +9,15 @@ const RecentTenantsVisited = ({
   historyPreview: SpinHistoryItem[] | undefined;
 }) => {
   const router = useRouter();
-  const formatTenantName = (tenantId: string) => {
-    return tenantId.split("-")[0];
+  const formatTenantName = (tenantId: string | undefined) => {
+    return tenantId?.split("-")[0];
   };
   const tenants = historyPreview
-    ?.map((spin) => spin.tenantId)
-    .filter((id) => id !== null && id !== undefined);
+    ?.filter((spin) => spin.tenantId != null)
+    .map((spin) => ({
+      tenantId: spin.tenantId,
+      createdAt: spin.createdAt,
+    }));
 
   console.log("RecentTenantsVisited tenants", tenants);
   return (
@@ -34,27 +37,42 @@ const RecentTenantsVisited = ({
                 </span>
               </>
             )}
-            {tenants?.map((tenantId) => {
+            {tenants?.map(({ tenantId, createdAt }) => {
               const displayName = formatTenantName(tenantId);
+              const date = new Date(createdAt).toLocaleString();
 
               return (
                 <div
                   key={tenantId}
-                  className="flex justify-between p-3 bg-slate-600 shadow-2xs w-full"
+                  className="flex justify-between items-center p-3 bg-slate-600 shadow-2xs w-full"
                 >
-                  <div>
-                    <span className="text-lg font-extrabold text-slate-300">
-                      {displayName}
-                    </span>
+                  <div className="flex flex-col">
+                    <div className="flex">
+                      <span className="text-lg font-extrabold text-slate-300">
+                        {displayName}
+                      </span>
+                    </div>
+                    <div className="flex space-x-2">
+                      <div>
+                        <span className="text-xs text-slate-300">
+                          Ultima Rodada :
+                        </span>
+                      </div>
+                      <div>
+                        <span className="text-sm text-slate-300">{date}</span>
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="border border-amber-500 px-2 ">
-                    <span
-                      className="text-xs font-semibold text-slate-300 cursor-pointer tracking-wide "
-                      onClick={() => router.push(`/${tenantId}/slots`)}
-                    >
-                      Jogar Novamente
-                    </span>
+                  <div className="border border-amber-500 px-2 pb-1 items-center ">
+                    <div>
+                      <span
+                        className="text-xs align-text-bottom font-semibold text-slate-300 cursor-pointer tracking-wide "
+                        onClick={() => router.push(`/${tenantId}/slots`)}
+                      >
+                        Jogar Novamente
+                      </span>
+                    </div>
                   </div>
                 </div>
               );
