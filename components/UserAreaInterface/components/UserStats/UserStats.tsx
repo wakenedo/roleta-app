@@ -8,13 +8,18 @@ import { UserState } from "@/context/UserContext/types";
 
 const UserStats = ({ data }: { data: UserState | null }) => {
   const accountStats = data?.stats;
+  const accountLimitQuotas = data?.limits;
+  const accountSubscriptionStatus = data?.user.subscription;
   return (
     <div>
       <div className=" flex flex-col space-y-2 ">
         <AccountLastOffersClickedInterface />
         <div className="flex w-full space-x-2">
           <AccountSpinHistory stats={accountStats} />
-          <AccountUserQuotaInterface />
+          <AccountUserQuotaInterface
+            accountSubscriptionStatus={accountSubscriptionStatus}
+            accountLimitQuotas={accountLimitQuotas}
+          />
         </div>
         <TrophiesAcquired />
       </div>

@@ -29,6 +29,20 @@ type UserState = {
   stats: UserStats;
   rewards: unknown[];
   historyPreview: SpinHistoryItem[];
+  limits: {
+    tenantGlobal: {
+      monthly: {
+        limit: number;
+        remaining: number;
+        used: number;
+      };
+      weekly: {
+        limit: number;
+        remaining: number;
+        used: number;
+      };
+    };
+  };
 };
 
 interface SpinHistoryItem {
