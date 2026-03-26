@@ -8,6 +8,8 @@ const SlotsGame: React.FC<SlotsGameProps & { onSpin: () => void }> = ({
   spinning,
   onSpin,
   quota,
+  currentSpinId,
+  selectedProducts,
   tenantBranding,
   tenantSettings,
 }) => {
@@ -33,7 +35,10 @@ const SlotsGame: React.FC<SlotsGameProps & { onSpin: () => void }> = ({
 
   return (
     <div className="flex flex-col items-center w-full md:w-fit">
-      <ProductSlotsReels />
+      <ProductSlotsReels
+        currentSpinId={currentSpinId}
+        selectedProducts={selectedProducts}
+      />
 
       <div className="md:min-w-xl min-w-full px-4">
         <SpinInterface
