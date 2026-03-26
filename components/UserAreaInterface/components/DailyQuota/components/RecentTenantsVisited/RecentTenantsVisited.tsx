@@ -14,10 +14,26 @@ const RecentTenantsVisited = ({
   };
   const tenants = historyPreview
     ?.filter((spin) => spin.tenantId != null)
-    .map((spin) => ({
-      tenantId: spin.tenantId,
-      createdAt: spin.createdAt,
-    }));
+    ?.reduce((acc, spin) => {
+      const existing = acc.get(spin.tenantId as string);
+
+      if (!existing) {
+        acc.set(spin.tenantId as string, spin);
+        return acc;
+      }
+
+      // keep the most recent one
+      if (new Date(spin.createdAt) > new Date(existing.createdAt)) {
+        acc.set(spin.tenantId as string, spin);
+      }
+
+      return acc;
+    }, new Map<string, SpinHistoryItem>())
+    ?.values();
+
+  const uniqueTenants = Array.from(tenants || []).sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+  );
 
   console.log("RecentTenantsVisited tenants", tenants);
   return (
@@ -29,7 +45,7 @@ const RecentTenantsVisited = ({
       <div className="text-center space-y-2 flex flex-col mx-auto">
         <div className="mb-6 max-h-30 overflow-scroll [scrollbar-width:none]   pb-4 text-slate-600">
           <div className=" overflow-scroll flex flex-col space-y-2 [scrollbar-width:none]">
-            {!tenants && (
+            {(!uniqueTenants || uniqueTenants.length === 0) && (
               <>
                 <BsExclamationDiamond size={45} className="mx-auto mb-4" />
                 <span className="tracking-widest">
@@ -37,7 +53,7 @@ const RecentTenantsVisited = ({
                 </span>
               </>
             )}
-            {tenants?.map(({ tenantId, createdAt }) => {
+            {uniqueTenants?.map(({ tenantId, createdAt }) => {
               const displayName = formatTenantName(tenantId);
               const date = new Date(createdAt).toLocaleString();
 
