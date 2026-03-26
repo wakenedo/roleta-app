@@ -24,11 +24,20 @@ type BackendUser = {
   subscription: string;
 };
 
+type ClickEvent = {
+  name: string;
+  image: string;
+  url: string;
+  createdAt: string;
+  tenantId: string;
+};
+
 type UserState = {
   user: BackendUser;
   stats: UserStats;
   rewards: unknown[];
   historyPreview: SpinHistoryItem[];
+  clickEvents: ClickEvent[];
   limits: {
     tenantGlobal: {
       monthly: {
@@ -85,4 +94,5 @@ export type {
   SpinQuota,
   UserStats,
   SpinHistoryItem,
+  ClickEvent,
 };
