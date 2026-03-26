@@ -35,7 +35,6 @@ const RecentTenantsVisited = ({
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
   );
 
-  console.log("RecentTenantsVisited tenants", tenants);
   return (
     <UserAreaSectionBackground>
       <h3 className="text-lg font-semibold tracking-widest text-amber-500 mb-2 line-clamp-2">
