@@ -87,7 +87,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const requireAuth = () => {
-    if (!user) {
+    if (!user && !loading) {
       throw new Error("User is not authenticated");
     }
     return user;
@@ -97,7 +97,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const currentUser = requireAuth();
 
     try {
-      return await getIdToken(currentUser, forceRefresh);
+      if (!loading) return await getIdToken(currentUser as User, forceRefresh);
     } catch (err) {
       console.error("Failed to retrieve ID token", err);
       throw new Error("AUTH_TOKEN_ERROR");
