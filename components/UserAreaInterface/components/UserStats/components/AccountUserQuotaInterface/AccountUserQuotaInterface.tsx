@@ -68,7 +68,7 @@ const AccountUserQuotaInterface = ({
           <div>
             {accountSubscriptionStatus != "free" ? (
               <span className="text-base font-semibold text-slate-400">
-                {config.tenantMultiplier}
+                {config?.tenantMultiplier}
               </span>
             ) : (
               <div>
