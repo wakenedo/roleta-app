@@ -63,6 +63,19 @@ interface UserContextProps {
   refresh: () => Promise<void>;
   optimisticSpin: (tenantId?: string | null) => void;
   historyPreview?: SpinHistoryItem[];
+  clickedProduct: ({
+    spinId,
+    productUrl,
+    position,
+  }: {
+    spinId: string;
+    productUrl: string;
+    position?: number;
+  }) => Promise<{
+    spinId: string;
+    productUrl: string;
+    position?: number;
+  }>;
 }
 
 export type {
