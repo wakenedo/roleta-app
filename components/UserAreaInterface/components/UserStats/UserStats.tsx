@@ -10,10 +10,13 @@ const UserStats = ({ data }: { data: UserState | null }) => {
   const accountStats = data?.stats;
   const accountLimitQuotas = data?.limits;
   const accountSubscriptionStatus = data?.user.subscription;
+  const accountClickEvents = data?.clickEvents;
   return (
     <div>
       <div className=" flex flex-col space-y-2 ">
-        <AccountLastOffersClickedInterface />
+        <AccountLastOffersClickedInterface
+          accountClickEvents={accountClickEvents}
+        />
         <div className="flex w-full space-x-2">
           <AccountSpinHistory stats={accountStats} />
           <AccountUserQuotaInterface
