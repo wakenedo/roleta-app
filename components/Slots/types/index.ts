@@ -45,6 +45,8 @@ interface CampaignProps {
 
 interface ProductCardProps {
   product: Product;
+  currentSpinId: string | null;
+  selectedProducts: Product[];
 }
 
 interface ProductReelsProps {
@@ -63,6 +65,8 @@ interface SlotsGameProps {
   quota: SpinQuota | null;
   tenantBranding?: TenantBranding;
   tenantSettings?: TenantSettings;
+  currentSpinId: string | null;
+  selectedProducts: Product[];
 }
 
 interface TierBadgeProps {
