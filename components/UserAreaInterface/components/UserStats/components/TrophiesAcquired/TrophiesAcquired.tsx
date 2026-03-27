@@ -3,7 +3,7 @@ import { BsFillTrophyFill } from "react-icons/bs";
 
 const TrophiesAcquired = () => {
   return (
-    <>
+    <div className="cursor-default">
       <UserAreaSectionBackground>
         <span className="text-lg font-semibold tracking-widest text-amber-500 mb-2 line-clamp-2">
           Troféus Conquistados
@@ -16,7 +16,7 @@ const TrophiesAcquired = () => {
           </div>
         </div>
       </UserAreaSectionBackground>
-    </>
+    </div>
   );
 };
 export default TrophiesAcquired;

@@ -37,20 +37,20 @@ const RecentTenantsVisited = ({
 
   return (
     <UserAreaSectionBackground>
-      <h3 className="text-lg font-semibold tracking-widest text-amber-500 mb-2 line-clamp-2">
+      <h3 className="cursor-default text-lg font-semibold tracking-widest text-amber-500 mb-2 line-clamp-2">
         Parceiros Recentes
       </h3>
       <hr className="border-t border-slate-300 mb-4" />
       <div className="text-center space-y-2 flex flex-col mx-auto">
-        <div className="mb-6 max-h-30 overflow-scroll [scrollbar-width:none]   pb-4 text-slate-600">
+        <div className="mb-6 max-h-30 overflow-scroll [scrollbar-width:none]   pb-4 text-slate-500">
           <div className=" overflow-scroll flex flex-col space-y-2 [scrollbar-width:none]">
             {(!uniqueTenants || uniqueTenants.length === 0) && (
-              <>
-                <BsExclamationDiamond size={45} className="mx-auto mb-4" />
+              <div className="mt-6  cursor-default">
+                <BsExclamationDiamond size={45} className="mx-auto mb-2" />
                 <span className="tracking-widest">
                   Sem Parceiros visitados por enquanto...
                 </span>
-              </>
+              </div>
             )}
             {uniqueTenants?.map(({ tenantId, createdAt }) => {
               const displayName = formatTenantName(tenantId);

@@ -35,18 +35,24 @@ const AccountUserQuotaInterface = ({
   const config =
     USER_SPIN_PLANS[accountSubscriptionStatus as keyof typeof USER_SPIN_PLANS];
 
-  const handleClick = () => {
+  const mockPromoSpin = 1000;
+  const show = false;
+
+  const handleUpdateSubscriptionClick = () => {
     router.push(`/UserSubscriptions`);
+  };
+  const handleAcquirePromoSpinClick = () => {
+    console.log("Next Implementation");
   };
 
   return (
     <div className="w-xl">
       <UserAreaSectionBackground>
-        <span className="text-lg font-semibold tracking-widest text-amber-500 mb-2 line-clamp-2">
+        <span className="cursor-default text-lg font-semibold tracking-widest text-amber-500 mb-2 line-clamp-2">
           Quotas Parceiros
         </span>
         <hr className="border-t border-slate-300 mb-4" />
-        <div className="tracking-widest text-xs text-slate-600 uppercase">
+        <div className="cursor-default tracking-widest text-xs text-slate-600 uppercase">
           <span className="font-bold ">Mês</span>
           <div>
             <span className="text-base font-semibold text-slate-400">
@@ -54,7 +60,7 @@ const AccountUserQuotaInterface = ({
             </span>
           </div>
         </div>
-        <div className="tracking-widest text-xs text-slate-600 uppercase">
+        <div className="cursor-default tracking-widest text-xs text-slate-600 uppercase">
           <span className="font-bold ">Semana</span>
           <div>
             <span className="text-base font-semibold text-slate-400">
@@ -62,30 +68,42 @@ const AccountUserQuotaInterface = ({
             </span>
           </div>
         </div>
-
         <div className="tracking-widest text-xs text-slate-600 uppercase">
-          <span className="font-bold ">Extras</span>
+          <span className="font-bold cursor-default">Adquiridas</span>
+          <div>
+            {show === false ? (
+              <div>
+                <a
+                  onClick={handleAcquirePromoSpinClick}
+                  className="text-base font-semibold text-amber-500 cursor-pointer"
+                >
+                  Adquira PROMOGIROS
+                </a>
+              </div>
+            ) : (
+              <span className="text-base font-semibold text-slate-400 cursor-default">
+                {mockPromoSpin}
+              </span>
+            )}
+          </div>
+        </div>
+        <div className="tracking-widest text-xs text-slate-600 uppercase">
+          <span className="cursor-default font-bold ">Extras</span>
           <div>
             {accountSubscriptionStatus != "free" ? (
-              <span className="text-base font-semibold text-slate-400">
+              <span className="cursor-default text-base font-semibold text-slate-400">
                 {config?.tenantMultiplier}
               </span>
             ) : (
               <div>
                 <a
-                  onClick={handleClick}
+                  onClick={handleUpdateSubscriptionClick}
                   className="text-base font-semibold text-amber-500 cursor-pointer"
                 >
                   Atualize sua Assinatura
                 </a>
               </div>
             )}
-          </div>
-        </div>
-        <div className="tracking-widest text-xs text-slate-600 uppercase">
-          <span className="font-bold ">Adquiridas</span>
-          <div>
-            <span className="text-base font-semibold text-slate-400">0</span>
           </div>
         </div>
       </UserAreaSectionBackground>

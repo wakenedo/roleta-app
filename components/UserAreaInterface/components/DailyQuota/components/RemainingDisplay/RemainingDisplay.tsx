@@ -55,11 +55,11 @@ const RemainingDisplay = ({
   }, [resetsAt, isEmpty]);
   return (
     <UserAreaSectionBackground>
-      <span className="text-lg font-semibold tracking-widest text-amber-500 mb-2 line-clamp-2">
+      <span className="cursor-default text-lg font-semibold tracking-widest text-amber-500 mb-2 line-clamp-2">
         Rodadas de hoje
       </span>
       <hr className="border-t border-slate-300 mb-4" />
-      <div className="flex items-center justify-between mb-1">
+      <div className="cursor-default flex items-center justify-between mb-1">
         <span className="text-xs tracking-widest text-slate-400">
           Restantes
         </span>

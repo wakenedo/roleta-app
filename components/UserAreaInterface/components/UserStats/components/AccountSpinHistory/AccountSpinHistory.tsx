@@ -4,7 +4,7 @@ import { UserStats } from "@/context/UserContext/types";
 const AccountSpinHistory = ({ stats }: { stats: UserStats | undefined }) => {
   if (!stats) return;
   return (
-    <div className="w-xl">
+    <div className="w-xl cursor-default">
       <UserAreaSectionBackground>
         <span className="text-lg font-semibold tracking-widest text-amber-500 mb-2 line-clamp-2">
           Giros Realizados
