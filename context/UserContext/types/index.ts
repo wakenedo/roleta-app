@@ -26,6 +26,7 @@ type BackendUser = {
 
 type ClickEvent = {
   name: string;
+  price: string;
   image: string;
   url: string;
   createdAt: string;
