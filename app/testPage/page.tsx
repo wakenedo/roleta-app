@@ -15,6 +15,8 @@ const TestPage = () => {
             <div className="flex flex-col   items-center  mt-10 mx-2">
               <div className="flex gap-1">
                 <ProductCard
+                  currentSpinId={""}
+                  selectedProducts={[]}
                   product={{
                     id: "1",
                     name: "Sample Product - Long Name",
@@ -33,6 +35,8 @@ const TestPage = () => {
                   }}
                 />
                 <ProductCard
+                  currentSpinId={""}
+                  selectedProducts={[]}
                   product={{
                     id: "1",
                     name: "Sample Product",
@@ -51,6 +55,8 @@ const TestPage = () => {
                   }}
                 />
                 <ProductCard
+                  currentSpinId={""}
+                  selectedProducts={[]}
                   product={{
                     id: "1",
                     name: "Sample Product",
