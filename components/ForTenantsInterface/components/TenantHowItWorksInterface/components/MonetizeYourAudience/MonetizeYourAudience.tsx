@@ -5,7 +5,7 @@ import { MonetizeYourAudienceCards } from "./components/MonetizeYourAudienceCard
 const MonetizeYourAudience = () => {
   const title = "Monetize sua audiência";
   const subTitle =
-    "Crie sua própria plataforma interativa, promova seus produtos ou links afiliados e transforme engajamento em conversão.";
+    "Crie sua própria plataforma interativa, promova seus produtos ou links afiliados, transforme engajamento em conversão!";
 
   return (
     <div className="cursor-default flex flex-col items-center ">

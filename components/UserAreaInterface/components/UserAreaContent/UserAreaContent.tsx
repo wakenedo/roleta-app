@@ -20,6 +20,11 @@ const UserAreaContent = () => {
     refresh({ tenantId: null });
   }, [refresh]);
 
+  console.log("UserAreaContent useAuth user", user);
+  console.log("UserAreaContent useUser data", data);
+  console.log("UserAreaContent useUser historyPreview", historyPreview);
+  console.log("UserAreaContent GlobalQuota quota", quota);
+
   return (
     <AreaBackground>
       <UserAreaInterface

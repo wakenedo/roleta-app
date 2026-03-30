@@ -17,6 +17,12 @@ interface UserAreaInterfaceProps {
 type UserCardProps = {
   user: User | null;
   logout: () => void;
+  data: UserState | null;
+};
+type UserOptionsProps = {
+  user: User | null;
+  logout: () => void;
+  subStatus: string | undefined;
 };
 
 type DailyQuotaProps = {
@@ -26,4 +32,9 @@ type DailyQuotaProps = {
   loading: boolean;
 };
 
-export type { UserAreaInterfaceProps, UserCardProps, DailyQuotaProps };
+export type {
+  UserAreaInterfaceProps,
+  UserCardProps,
+  DailyQuotaProps,
+  UserOptionsProps,
+};

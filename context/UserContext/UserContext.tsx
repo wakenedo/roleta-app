@@ -11,6 +11,7 @@ import {
 } from "react";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { SpinHistoryItem, UserContextProps, UserState } from "./types";
+import { useParams } from "next/navigation";
 
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
@@ -29,7 +30,7 @@ const buildNextHistory = (prev: UserState): SpinHistoryItem[] => {
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const { user, authorizedFetch, loading: authLoading } = useAuth();
-
+  const { tenantId } = useParams();
   const [data, setData] = useState<UserState | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -108,6 +109,41 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
+  const clickedProduct = async ({
+    spinId,
+    productUrl,
+    position,
+  }: {
+    spinId: string;
+    productUrl: string;
+    position?: number;
+  }) => {
+    try {
+      const res = await authorizedFetch(`${API_URL}/spin/${tenantId}/click`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          spinId,
+          productClicked: {
+            productUrl,
+          },
+          positionClicked: position ?? null,
+        }),
+      });
+
+      if (!res?.ok) throw new Error("Click Failed");
+
+      const json = await res.json();
+      console.log("✅ click tracked", json);
+
+      return json;
+    } catch (err) {
+      console.error("❌ click error", err);
+    }
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -117,6 +153,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         error,
         refresh: fetchMe,
         optimisticSpin,
+        clickedProduct,
       }}
     >
       {children}

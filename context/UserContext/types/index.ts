@@ -24,11 +24,35 @@ type BackendUser = {
   subscription: string;
 };
 
+type ClickEvent = {
+  name: string;
+  price: string;
+  image: string;
+  url: string;
+  createdAt: string;
+  tenantId: string;
+};
+
 type UserState = {
   user: BackendUser;
   stats: UserStats;
   rewards: unknown[];
   historyPreview: SpinHistoryItem[];
+  clickEvents: ClickEvent[];
+  limits: {
+    tenantGlobal: {
+      monthly: {
+        limit: number;
+        remaining: number;
+        used: number;
+      };
+      weekly: {
+        limit: number;
+        remaining: number;
+        used: number;
+      };
+    };
+  };
 };
 
 interface SpinHistoryItem {
@@ -49,6 +73,19 @@ interface UserContextProps {
   refresh: () => Promise<void>;
   optimisticSpin: (tenantId?: string | null) => void;
   historyPreview?: SpinHistoryItem[];
+  clickedProduct: ({
+    spinId,
+    productUrl,
+    position,
+  }: {
+    spinId: string;
+    productUrl: string;
+    position?: number;
+  }) => Promise<{
+    spinId: string;
+    productUrl: string;
+    position?: number;
+  }>;
 }
 
 export type {
@@ -58,4 +95,5 @@ export type {
   SpinQuota,
   UserStats,
   SpinHistoryItem,
+  ClickEvent,
 };

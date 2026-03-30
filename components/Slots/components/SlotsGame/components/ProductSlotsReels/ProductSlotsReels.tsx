@@ -3,7 +3,14 @@ import React from "react";
 import { ProductCard } from "../ProductCard";
 import { ProductSlotsReelsPlaceholderInterface } from "../ProductSlotsReelsPlaceholderInterface";
 import { useProductSlotsReels } from "@/context/ProductSlotsReelsContext/ProductSlotsReelsContext";
-const ProductSlotsReels: React.FC = () => {
+import { Product } from "@/components/Slots/types";
+const ProductSlotsReels = ({
+  currentSpinId,
+  selectedProducts,
+}: {
+  currentSpinId: string | null;
+  selectedProducts: Product[];
+}) => {
   const {
     reels,
     pos,
@@ -47,7 +54,11 @@ const ProductSlotsReels: React.FC = () => {
                       className="flex items-center justify-center overflow-hidden"
                     >
                       <div className=" flex items-center justify-center mx-auto my-2">
-                        <ProductCard product={product} />
+                        <ProductCard
+                          product={product}
+                          currentSpinId={currentSpinId}
+                          selectedProducts={selectedProducts}
+                        />
                       </div>
                     </div>
                   ),

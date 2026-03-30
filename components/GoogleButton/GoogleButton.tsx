@@ -27,7 +27,7 @@ const GoogleButton = () => {
       className="p-1 px-2  rounded-full border border-slate-400 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
     >
       <Image src={GIcon} alt="google" width={24} height={24} />
-      <span>{loading ? "Carregando..." : "Entrar com Google"}</span>
+      <span>{loading ? "Carregando..." : "Entrar"}</span>
     </button>
   );
 };

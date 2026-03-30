@@ -29,10 +29,12 @@ const DetailsInterface = () => {
       <section className="border border-purple-500/20 bg-gradient-to-br from-[#111827] to-[#1f2937] min-w-xl  flex flex-col items-center justify-between text-gray-300 text-sm  p-6 space-y-6">
         <div>
           <div className="max-w-xl space-y-4  ">
-            <h3 className=" text-3xl font-extrabold tracking-wide text-amber-500 uppercase">
+            <h3 className=" text-3xl font-extrabold tracking-widest text-amber-500 uppercase">
               {activeSection.title}
             </h3>
-            <p className="text-base">{activeSection.description}</p>
+            <p className="text-md text-slate-400 font-medium tracking-widest ">
+              {activeSection.description}
+            </p>
           </div>
         </div>
         {/* CONTENT */}

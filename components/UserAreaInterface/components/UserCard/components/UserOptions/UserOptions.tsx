@@ -1,39 +1,52 @@
-import { UserCardProps } from "@/components/UserAreaInterface/types";
-import { UserAreaSectionBackground } from "@/components/UserAreaInterface/UserAreaSectionBackground";
+import { UserOptionsProps } from "@/components/UserAreaInterface/types";
 import { FC } from "react";
 import { FaPowerOff } from "react-icons/fa";
+import { SubscriptionTag } from "../../../UserStats/components/SubscriptionTag";
 
-const UserOptions: FC<UserCardProps> = ({ user, logout }) => {
+const UserOptions: FC<UserOptionsProps> = ({ user, logout, subStatus }) => {
   return (
-    <UserAreaSectionBackground>
-      <div className="flex justify-between gap-3">
+    <div className="    p-4 ">
+      <div className=" flex justify-between gap-3 items-center">
         {user && (
           <>
             {user.photoURL && (
               <img
                 src={user.photoURL}
                 alt={user.displayName ?? "User"}
-                className="w-10 h-10 rounded-full"
+                className="w-14 h-14 rounded-full"
               />
             )}
-            <div className="flex justify-between w-full items-center">
-              <div>
-                <p className="text-sm font-semibold text-slate-800">
-                  {user.displayName ?? "Usuário"}
+            <div className="flex justify-between w-full items-center border-amber-200">
+              <div className="cursor-default">
+                <div className="flex space-x-2 items-center">
+                  <p className="text-lg tracking-wide font-semibold text-[#84e9e4]">
+                    {user.displayName ?? "Usuário"}
+                  </p>
+
+                  <SubscriptionTag subStatus={subStatus} />
+                </div>
+                <p className="text-md tracking-wide text-slate-300">
+                  {user.email}
                 </p>
-                <p className="text-xs text-slate-600">{user.email}</p>
               </div>
-              <FaPowerOff
-                color="#aeb3b8"
-                size={14}
-                className="mr-1 w-fit"
-                onClick={logout}
-              />
+              <div className="flex flex-col items-center hover:opacity-85 cursor-pointer ">
+                <FaPowerOff
+                  color="#84e9e4"
+                  size={18}
+                  className="mr-1 w-fit "
+                  onClick={logout}
+                />
+                <div>
+                  <span className="tracking-widest text-center text-xs font-semibold text-[#84e9e4]">
+                    Sair
+                  </span>
+                </div>
+              </div>
             </div>
           </>
         )}
       </div>
-    </UserAreaSectionBackground>
+    </div>
   );
 };
 export default UserOptions;

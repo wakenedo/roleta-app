@@ -18,15 +18,19 @@ const ProductHistoryCard = ({ spin }: { spin: SpinHistoryItem }) => {
   const tenantId = spin.tenantId;
   const isTenantPayer = tenantId != null;
 
+  const formatTenantName = (tenantId: string) => {
+    return tenantId.split("-")[0];
+  };
+
   return (
-    <div key={spin.id} className="rounded-md  bg-slate-200 p-3  md:mx-2">
+    <div key={spin.id} className="  bg-slate-200 p-3  md:mx-2">
       {/* Header */}
       <div className="flex items-center justify-between mb-2">
         <div className="flex space-x-2 items-center cursor-default">
           {isTenantPayer && (
             <div className="flex space-x-1 p-1 bg-slate-600 rounded">
               <span className="text-xs font-extrabold text-slate-300">
-                {tenantId}
+                {formatTenantName(tenantId)}
               </span>
             </div>
           )}

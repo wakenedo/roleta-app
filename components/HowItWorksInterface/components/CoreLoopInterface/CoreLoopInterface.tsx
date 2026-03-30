@@ -26,10 +26,12 @@ const CoreLoopInterface = () => {
       transition-all duration-300 hover:-translate-y-2 p-10"
         >
           <div className="text-4xl">{item.emoji}</div>
-          <h3 className="text-2xl mt-4 font-extrabold tracking-wide text-[#84e9e4]">
+          <h3 className="text-2xl mt-4 font-extrabold tracking-widest text-[#84e9e4]">
             {item.title}
           </h3>
-          <p className="text-gray-400 text-base mt-2">{item.desc}</p>
+          <p className="text-slate-400 tracking-wide font-semibold text-sm mt-2">
+            {item.desc}
+          </p>
         </div>
       ))}
     </section>

@@ -25,6 +25,7 @@ const Slots: FC<SlotsConfig> = ({
 }) => {
   const [spinning, setSpinning] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
+  const [currentSpinId, setCurrentSpinId] = useState<string | null>(null);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -50,6 +51,7 @@ const Slots: FC<SlotsConfig> = ({
 
       // 🎯 Backend is the authority
       setSelectedProducts(data.products ?? []);
+      setCurrentSpinId(data.spinId);
       if (tenantId && refreshQuota) {
         optimisticSpin(tenantId);
         refreshQuota();
@@ -94,6 +96,8 @@ const Slots: FC<SlotsConfig> = ({
               spinning={spinning}
               onSpin={spin}
               quota={quota as SpinQuota}
+              currentSpinId={currentSpinId}
+              selectedProducts={selectedProducts}
             />
           </ProductSlotsReelsProvider>
         )}

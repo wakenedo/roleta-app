@@ -5,9 +5,9 @@ const SubscriptionTag = ({ subStatus }: { subStatus: string | undefined }) => {
   };
   const status = (subStatus || "free") as keyof typeof styles;
   return (
-    <div>
+    <div className="drop-shadow mb-1">
       <span
-        className={`text-xs font-semibold px-2 py-1 rounded-full ${styles[status]}`}
+        className={`text-xs font-bold px-3 py-1 rounded-full tracking-widest ${styles[status]}`}
       >
         {subStatus?.toUpperCase()}
       </span>

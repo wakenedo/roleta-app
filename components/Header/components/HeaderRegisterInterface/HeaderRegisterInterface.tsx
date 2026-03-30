@@ -1,7 +1,7 @@
 import { Tenant } from "@/context/TenantContext/types";
 import { User } from "firebase/auth";
 import { TenantRegisterInterface } from "../TenantHeaderArea/components/TenantRegisterInterface";
-import { GoogleButton } from "@/components/GoogleButton";
+import { GoogleRegisterButton } from "@/components/GoogleRegisterButton";
 
 const HeaderRegisterInterface = ({
   toggleRegisterOptionsMenu,
@@ -29,7 +29,7 @@ const HeaderRegisterInterface = ({
             Usuários Promobet
           </span>
           <div className="flex flex-col space-y-2 pb-3 border p-4">
-            {user === null && tenant === null && <GoogleButton />}
+            {user === null && tenant === null && <GoogleRegisterButton />}
           </div>
           <span className="text-[#84e9e4] font-semibold tracking-wide">
             Parceiros Promobet

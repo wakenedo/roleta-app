@@ -1,30 +1,17 @@
-import UserSubscriptionButton from "../UserSubscriptionButton/UserSubscriptionButton";
+import { UserSubscriptionCardProps } from "@/components/HomePageInterface/types";
 import { useRouter } from "next/navigation";
+import { SubscriptionCardsFooterDisclaimer } from "../../../SubscriptionCardsFooterDisclaimer";
+import { UserSubscriptionButton } from "../UserSubscriptionButton";
+import { UserSubscriptionCardPerks } from "../UserSubscriptionCardPerks";
+import { UserSubscriptionCardHeader } from "../UserSubscriptionCardHeader";
 
 const UserSubscriptionCard = ({
   plan,
   config,
   userPlan,
-}: {
-  plan:
-    | {
-        id: string;
-        name: string;
-        price: string;
-        highlight?: undefined;
-      }
-    | {
-        id: string;
-        name: string;
-        price: string;
-        highlight: boolean;
-      };
-  config: {
-    global: number;
-    tenantMultiplier: number;
-  };
-  userPlan: string | undefined;
-}) => {
+}: UserSubscriptionCardProps) => {
+  const message =
+    "Os limites podem ser extendidos através de pacotes vendidos separadamente.";
   const router = useRouter();
   const handleSubscribe = (planId: string) => {
     console.log("Subscribe to:", planId);
@@ -50,28 +37,14 @@ const UserSubscriptionCard = ({
         </div>
       )}
 
-      <h3 className="text-2xl font-bold tracking-wide mb-4 text-amber-500 cursor-default">
-        {plan.name}
-      </h3>
-
-      <div className="text-4xl font-extrabold mb-6 bg-gradient-to-r from-[#84e9e4] to-amber-500 bg-clip-text text-transparent cursor-default">
-        {plan.price}
-      </div>
-
-      <ul className="space-y-3 text-gray-300 mb-8 cursor-default">
-        <li>🎰 {config.global} Giros Globais</li>
-        <li>
-          🏢 Multiplicador Tenant:{" "}
-          {config.tenantMultiplier > 0
-            ? `x${config.tenantMultiplier}`
-            : "Não incluso"}
-        </li>
-      </ul>
+      <UserSubscriptionCardHeader plan={plan} />
+      <UserSubscriptionCardPerks config={config} />
       <UserSubscriptionButton
         handleSubscribe={handleSubscribe}
         isUserPlan={isUserPlan}
         plan={plan}
       />
+      <SubscriptionCardsFooterDisclaimer message={message} />
     </div>
   );
 };

@@ -18,9 +18,11 @@ import { AuthContextProps } from "./types";
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [acceptedToS, setAcceptedToS] = useState(false);
 
   useEffect(() => {
     if (!auth) return;
@@ -55,8 +57,37 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const registerWithGoogle = async (acceptedToS: boolean) => {
+    if (!auth) return;
+
+    try {
+      setLoading(true);
+
+      gAuthProvider.setCustomParameters({
+        prompt: "select_account",
+      });
+
+      const result = await signInWithPopup(auth, gAuthProvider);
+
+      // 🔥 IMPORTANT: persist ToS acceptance
+      const token = await result.user.getIdToken();
+
+      await fetch(`${API_URL}/users/acceptToS`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ acceptedToS }),
+      });
+    } finally {
+      setAcceptedToS(acceptedToS);
+      setLoading(false);
+    }
+  };
+
   const requireAuth = () => {
-    if (!user) {
+    if (!user && !loading) {
       throw new Error("User is not authenticated");
     }
     return user;
@@ -66,7 +97,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const currentUser = requireAuth();
 
     try {
-      return await getIdToken(currentUser, forceRefresh);
+      if (!loading) return await getIdToken(currentUser as User, forceRefresh);
     } catch (err) {
       console.error("Failed to retrieve ID token", err);
       throw new Error("AUTH_TOKEN_ERROR");
@@ -96,10 +127,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       value={{
         user,
         loading,
+        acceptedToS,
         logout,
         getToken,
         requireAuth,
         loginWithGoogle,
+        registerWithGoogle,
         authorizedFetch,
       }}
     >
