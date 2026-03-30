@@ -45,6 +45,16 @@ const AccountUserQuotaInterface = ({
     console.log("Next Implementation");
   };
 
+  const getTenantMultiplierLabel = (multiplier?: number) => {
+    switch (multiplier) {
+      case 0.5:
+        return 10;
+      case 1:
+        return 30;
+      default:
+        return 0; // fallback (or null if you prefer)
+    }
+  };
   return (
     <div className="w-xl">
       <UserAreaSectionBackground>
@@ -92,7 +102,7 @@ const AccountUserQuotaInterface = ({
           <div>
             {accountSubscriptionStatus != "free" ? (
               <span className="cursor-default text-base font-semibold text-slate-400">
-                {config?.tenantMultiplier}
+                {getTenantMultiplierLabel(config?.tenantMultiplier)}
               </span>
             ) : (
               <div>
