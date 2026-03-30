@@ -42,17 +42,14 @@ const AccountLastOffersClickedInterface = ({
 
       <hr className="border-t border-slate-300 mb-4" />
       <div className=" max-w-full  overflow-x-auto">
+        {/* ❌ Empty state */}
+        {(!clicks || clicks.length === 0) && (
+          <div className="flex absolute w-full flex-col items-center justify-center text-slate-500 pt-20">
+            <BsCompass size={45} className="mb-2" />
+            <span className="tracking-widest">Ainda nenhuma descoberta !</span>
+          </div>
+        )}
         <div className="h-65 max-w-5  flex  flex-nowrap space-x-4  scroll-smooth [scrollbar-width:none]">
-          {/* ❌ Empty state */}
-          {(!clicks || clicks.length === 0) && (
-            <div className="flex h-full w-full flex-col items-center justify-center text-slate-500">
-              <BsCompass size={45} className="mb-2" />
-              <span className="tracking-widest">
-                Ainda nenhuma descoberta !
-              </span>
-            </div>
-          )}
-
           {/* ✅ Click events */}
           {clicks.map((click) => {
             const date = new Date(click.createdAt).toLocaleString();
