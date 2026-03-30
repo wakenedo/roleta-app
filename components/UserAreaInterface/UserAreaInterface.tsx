@@ -16,7 +16,7 @@ const UserAreaInterface: React.FC<UserAreaInterfaceProps> = ({
       <main className="relative z-10 flex flex-col items-center py-2 ">
         {user && (
           <div>
-            <div className=" md:justify-center space-x-1 md:flex  ">
+            <div className=" lg:justify-center xl:space-x-1 flex  xl:flex-row flex-col items-center">
               <UserCard user={user} logout={logout} data={data} />
               <DailyQuota
                 historyPreview={historyPreview}

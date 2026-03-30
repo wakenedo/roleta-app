@@ -8,8 +8,8 @@ const UserCard: FC<UserCardProps> = ({ user, logout, data }) => {
   return (
     <div>
       {user && (
-        <div className=" min-w-6xl">
-          <div className="z-20 flex flex-col px-6 border-r border-amber-500">
+        <div className="2xl:max-w-6xl md:max-w-3xl">
+          <div className="z-20 flex flex-col px-6 ">
             <UserOptions user={user} logout={logout} subStatus={subStatus} />
             <UserStats data={data} />
           </div>

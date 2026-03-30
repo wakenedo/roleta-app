@@ -5,7 +5,7 @@ import { SubscriptionTag } from "../../../UserStats/components/SubscriptionTag";
 
 const UserOptions: FC<UserOptionsProps> = ({ user, logout, subStatus }) => {
   return (
-    <div className="    p-4 ">
+    <div className=" p-4 ">
       <div className=" flex justify-between gap-3 items-center">
         {user && (
           <>
