@@ -17,7 +17,7 @@ const UserStats = ({ data }: { data: UserState | null }) => {
         <AccountLastOffersClickedInterface
           accountClickEvents={accountClickEvents}
         />
-        <div className="flex w-full space-x-2">
+        <div className="flex flex-col space-y-2 xl:flex-row w-full xl:space-x-2 xl:space-y-0">
           <AccountSpinHistory stats={accountStats} />
           <AccountUserQuotaInterface
             accountSubscriptionStatus={accountSubscriptionStatus}
