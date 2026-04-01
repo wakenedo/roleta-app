@@ -1,7 +1,8 @@
 import { Tenant } from "@/context/TenantContext/types";
 import { FeaturedTenants } from "./components/FeaturedTenants";
 import { SearchPopularTenants } from "./components/SearchPopularTenants";
-import { mockTenants } from "@/___mocks___/tenantsMock/tenants.mock";
+//import { mockTenants } from "@/___mocks___/tenantsMock/tenants.mock";
+import { useSeasonLeaderboard } from "@/hooks/useSeasonLeaderboard";
 
 const PopularTenants = ({
   featured,
@@ -18,9 +19,15 @@ const PopularTenants = ({
   search: string;
   setSearch: (value: string) => void;
 }) => {
-  const mockedTenants = mockTenants;
-  const mockedTop3 = mockedTenants.slice(0, 3);
-  const mockedRest = mockedTenants.slice(3);
+  const { data, leaderboardLoading } = useSeasonLeaderboard(50);
+  //const mockedTenants = mockTenants;
+  const leaderboardTop3 = data.slice(0, 3);
+  const leaderboardRest = data.slice(3);
+
+  console.log("Leaderboard Data:", data);
+  console.log("Top 3:", leaderboardTop3);
+  console.log("Rest:", leaderboardRest);
+  console.log("Loading:", leaderboardLoading);
   const top3 = tenants.slice(0, 3);
   const rest = tenants.slice(3);
 
