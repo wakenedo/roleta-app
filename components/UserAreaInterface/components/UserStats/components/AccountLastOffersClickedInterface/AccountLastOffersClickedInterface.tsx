@@ -70,20 +70,22 @@ const AccountLastOffersClickedInterface = ({
 
                 {/* TEXT */}
                 <div className="flex flex-col flex-1 cursor-default space-y-1">
-                  <span className="text-sm font-semibold text-slate-100 line-clamp-2">
-                    <a
-                      href={click.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className=" text-center text-xs border border-amber-500 px-2 py-1  text-slate-200 hover:bg-amber-500 hover:text-black transition"
-                    >
-                      {click.name}
-                    </a>
-                  </span>
-                  <span className="text-sm font-semibold text-slate-100 line-clamp-2">
+                  <div className="w-full border-x border-amber-500 hover:bg-amber-500 hover:text-black transition  px-2 py-1">
+                    <span className="text-sm font-semibold text-slate-100 line-clamp-1">
+                      <a
+                        href={click.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-center text-xs    text-slate-200 "
+                      >
+                        {click.name}
+                      </a>
+                    </span>
+                  </div>
+                  <span className="text-xs text-slate-400 ">{date}</span>
+                  <span className="text-sm font-semibold text-[#84e9e4] line-clamp-2">
                     {formatPriceBRL(click.price)}
                   </span>
-                  <span className="text-xs text-slate-400 ">{date}</span>
                 </div>
 
                 {/* ACTION */}

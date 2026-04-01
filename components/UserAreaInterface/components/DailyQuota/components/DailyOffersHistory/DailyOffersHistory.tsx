@@ -36,11 +36,11 @@ const DailyOffersHistory = ({
 
   return (
     <UserAreaSectionBackground>
-      <h3 className="cursor-default text-lg font-semibold tracking-widest text-amber-500 mb-2 line-clamp-2">
+      <h3 className="cursor-default text-lg font-semibold tracking-widest text-amber-500 mb-2 line-clamp-1">
         Histórico de Descobertas
       </h3>
       <hr className="border-t border-slate-300 mb-4" />
-      <div className="max-h-100 overflow-scroll   [scrollbar-width:none]">
+      <div className="max-h-105 overflow-scroll [scrollbar-width:none]">
         {isEmpty ? (
           <div className="cursor-default text-center space-y-2 flex flex-col max-w-sm mx-auto">
             <div className="my-4 pb-4 text-slate-500">
