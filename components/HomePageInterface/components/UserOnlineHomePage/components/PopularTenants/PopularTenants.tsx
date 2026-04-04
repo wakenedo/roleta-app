@@ -1,8 +1,9 @@
-import { Tenant } from "@/context/TenantContext/types";
 import { FeaturedTenants } from "./components/FeaturedTenants";
 import { SearchPopularTenants } from "./components/SearchPopularTenants";
 //import { mockTenants } from "@/___mocks___/tenantsMock/tenants.mock";
 import { useSeasonLeaderboard } from "@/hooks/useSeasonLeaderboard";
+import { PopularTenantsProps } from "@/components/HomePageInterface/types";
+import { mergeTenantsWithLeaderboard } from "./utils";
 
 const PopularTenants = ({
   featured,
@@ -11,18 +12,17 @@ const PopularTenants = ({
   error,
   search,
   setSearch,
-}: {
-  featured: Tenant | null;
-  tenants: Tenant[];
-  loading: boolean;
-  error: string | null;
-  search: string;
-  setSearch: (value: string) => void;
-}) => {
+}: PopularTenantsProps) => {
   const { data, leaderboardLoading } = useSeasonLeaderboard(50);
+
+  const mergedTenants = mergeTenantsWithLeaderboard(tenants, data);
+
+  const sorted = mergedTenants.sort(
+    (a, b) => (b.ranking?.score ?? 0) - (a.ranking?.score ?? 0),
+  );
   //const mockedTenants = mockTenants;
-  const leaderboardTop3 = data.slice(0, 3);
-  const leaderboardRest = data.slice(3);
+  const leaderboardTop3 = sorted.slice(0, 3);
+  const leaderboardRest = sorted.slice(3);
 
   console.log("Leaderboard Data:", data);
   console.log("Top 3:", leaderboardTop3);
@@ -40,7 +40,7 @@ const PopularTenants = ({
       </div>
       <div className=" pt-2  space-y-2 relative md:mx-2   overflow-hidden   h-full">
         {/* Search */}
-        {featured && <FeaturedTenants featured={top3} />}
+        {featured && <FeaturedTenants featured={leaderboardTop3} />}
         <SearchPopularTenants
           error={error}
           loading={loading}
