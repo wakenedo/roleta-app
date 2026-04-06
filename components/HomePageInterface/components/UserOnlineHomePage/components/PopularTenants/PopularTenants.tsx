@@ -46,7 +46,7 @@ const PopularTenants = ({
           loading={loading}
           search={search}
           setSearch={setSearch}
-          tenants={rest}
+          tenants={leaderboardRest}
         />
       </div>
     </div>

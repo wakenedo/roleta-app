@@ -1,8 +1,8 @@
-import { Tenant } from "@/context/TenantContext/types";
 import { FeaturedTenantCard } from "./components/FeaturedTenantCard";
 import { getMedal } from "../../utils";
+import { TenantWithSeason } from "@/components/HomePageInterface/types";
 
-const FeaturedTenants = ({ featured }: { featured: Tenant[] }) => {
+const FeaturedTenants = ({ featured }: { featured: TenantWithSeason[] }) => {
   if (!featured.length) return null;
 
   return (
