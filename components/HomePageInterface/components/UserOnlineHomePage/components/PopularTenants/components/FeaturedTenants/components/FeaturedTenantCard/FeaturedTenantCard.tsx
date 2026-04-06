@@ -30,8 +30,6 @@ const FeaturedTenantCard = ({ tenant }: { tenant: TenantWithSeason }) => {
   }
   const quota = resolveTenantQuota(tenant.subscriptionMode);
 
-  console.log("FTC Tenant: ", tenant);
-
   return (
     <div
       className="border bg-gradient-to-br from-[#111827] to-[#1f2937]  p-8 flex flex-col gap-5  cursor-default drop-shadow-lg lg:min-h-180"
