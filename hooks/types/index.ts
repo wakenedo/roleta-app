@@ -23,9 +23,23 @@ interface UseTenantsReturn {
   refetch: () => Promise<void>;
 }
 
+type SeasonTenant = {
+  id: string;
+  tenantId: string;
+  ranking?: {
+    score: number;
+  };
+  stats?: {
+    totalSpins: number;
+    totalUsers: number;
+    totalRewardsShown: number;
+  };
+};
+
 export type {
   RawProductsProps,
   StepHeaderProps,
   UseTenantsReturn,
   StepHeaderInterfaceProps,
+  SeasonTenant,
 };

@@ -52,7 +52,7 @@ const ProductHistoryCard = ({ spin }: { spin: SpinHistoryItem }) => {
       <div className="space-y-1">
         {spin.products.map((product) => (
           <div
-            key={product.id}
+            key={product.name}
             className={`md:text-sm text-xs text-slate-800 ${borderTierStyles[product.tier]} border rounded-md `}
           >
             <HistoryProductItem product={product} />

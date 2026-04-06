@@ -59,11 +59,14 @@ const RecentTenantsVisited = ({
               return (
                 <div
                   key={tenantId}
-                  className="flex justify-between items-center p-3 bg-slate-600 shadow-2xs w-full"
+                  className="flex border-l-2 border-[#84e9e4] justify-between items-center p-3 bg-slate-600 shadow-2xs w-full
+                  hover:shadow-lg transition
+                hover:bg-gradient-to-r from-[#84e9e4]/1 to-purple-500/15 
+                  "
                 >
                   <div className="flex flex-col">
                     <div className="flex">
-                      <span className="text-lg font-extrabold text-slate-300">
+                      <span className="text-md font-extrabold text-slate-300">
                         {displayName}
                       </span>
                     </div>
@@ -79,13 +82,13 @@ const RecentTenantsVisited = ({
                     </div>
                   </div>
 
-                  <div className="border border-amber-500 px-2 pb-1 items-center ">
+                  <div className="border-x border-amber-500 hover:bg-amber-500 hover:text-black transition  px-2 pb-1 items-center ">
                     <div>
                       <span
-                        className="text-xs align-text-bottom font-semibold text-slate-300 cursor-pointer tracking-wide "
+                        className="text-xs align-text-bottom font-bold text-slate-50 cursor-pointer tracking-widest "
                         onClick={() => router.push(`/${tenantId}/slots`)}
                       >
-                        Jogar Novamente
+                        Jogar
                       </span>
                     </div>
                   </div>

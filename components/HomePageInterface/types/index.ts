@@ -1,3 +1,5 @@
+import { Tenant } from "@/context/TenantContext/types";
+
 type UserSubscriptionCardProps = {
   plan:
     | {
@@ -150,6 +152,26 @@ type TenantSubscriptionButtonProps = {
   isTenantPlan: boolean;
 };
 
+type PopularTenantsProps = {
+  featured: Tenant | null;
+  tenants: Tenant[];
+  loading: boolean;
+  error: string | null;
+  search: string;
+  setSearch: (value: string) => void;
+};
+
+type TenantWithSeason = Tenant & {
+  ranking?: {
+    score: number;
+  };
+  stats?: {
+    totalSpins: number;
+    totalUsers: number;
+    totalRewardsShown: number;
+  };
+};
+
 export type {
   UserSubscriptionCardProps,
   UserPlansProps,
@@ -159,4 +181,6 @@ export type {
   TenantPlansProps,
   TenantPlansConfigProps,
   TenantSubscriptionButtonProps,
+  PopularTenantsProps,
+  TenantWithSeason,
 };
