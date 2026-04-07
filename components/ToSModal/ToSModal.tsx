@@ -1,14 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
 type Props = {
+  termsContent: ReactNode;
+  title: string;
   open: boolean;
   onClose: () => void;
   onAccept: () => void;
 };
 
-const ToSModal = ({ open, onClose, onAccept }: Props) => {
+const ToSModal = ({ open, onClose, onAccept, termsContent, title }: Props) => {
   const [checked, setChecked] = useState(false);
 
   if (!open) return null;
@@ -16,11 +18,11 @@ const ToSModal = ({ open, onClose, onAccept }: Props) => {
   return (
     <div className="absolute bg-black/60 flex justify-center z-50 ">
       <div className="bg-white  p-6 w-[650px] space-y-5 absolute ">
-        <h2 className="text-xl font-bold text-slate-800">Termos de Uso</h2>
+        <h2 className="text-xl font-bold text-slate-800">{title}</h2>
 
         <div className="h-40 overflow-y-auto text-sm text-gray-600 border p-2 rounded">
           {/* placeholder */}
-          <p>Ao utilizar a plataforma, você concorda com os termos...</p>
+          <>{termsContent}</>
         </div>
 
         <label className="flex items-center gap-2 text-sm">
@@ -28,6 +30,7 @@ const ToSModal = ({ open, onClose, onAccept }: Props) => {
             type="checkbox"
             checked={checked}
             onChange={(e) => setChecked(e.target.checked)}
+            className="cursor-pointer"
           />
           <span className="text-slate-800">Eu aceito os Termos de Uso</span>
         </label>
@@ -40,7 +43,7 @@ const ToSModal = ({ open, onClose, onAccept }: Props) => {
           <button
             disabled={!checked}
             onClick={onAccept}
-            className="px-3 py-1 bg-blue-600 text-white rounded disabled:opacity-50"
+            className="px-3 py-1 bg-blue-600 cursor-pointer disabled:cursor-default text-white rounded disabled:opacity-50"
           >
             Continuar
           </button>
