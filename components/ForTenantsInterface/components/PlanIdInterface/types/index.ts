@@ -2,6 +2,20 @@ import { TenantBranding, TenantProduct } from "@/context/TenantContext/types";
 import { StepHeaderProps } from "@/hooks/types";
 import { Dispatch, SetStateAction } from "react";
 
+type RegisterStepProps = {
+  name: string;
+  setName: Dispatch<SetStateAction<string>>;
+  email: string;
+  setEmail: Dispatch<SetStateAction<string>>;
+  password: string;
+  setPassword: Dispatch<SetStateAction<string>>;
+  registerTenant: (
+    name: string,
+    email: string,
+    password: string,
+  ) => Promise<void>;
+};
+
 type CompleteStepProps = {
   name: string;
   email: string;
@@ -144,6 +158,7 @@ type ProductImportRowProps = {
 };
 
 export type {
+  RegisterStepProps,
   CompleteStepProps,
   BrandingStepProps,
   PaymentStepProps,

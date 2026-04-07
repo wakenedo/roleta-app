@@ -1,4 +1,18 @@
-import { Dispatch, SetStateAction } from "react";
+import { TenantsTermsInterface } from "@/components/TenantsTermsInterface";
+import { ToSModal } from "@/components/ToSModal";
+import { useState } from "react";
+import { RegisterStepProps } from "../../types";
+import {
+  BsCheckCircle,
+  BsCircle,
+  BsExclamationCircle,
+  BsEye,
+  BsEyeSlash,
+} from "react-icons/bs";
+import { TenantEmailInput } from "./components/TenantEmailInput";
+import { TenantNameInput } from "./components/TenantNameInput";
+import { TenantPasswordInput } from "./components/TenantPasswordInput";
+import { TenantTermsInput } from "./components/TenantTermsInput";
 
 const RegisterStep = ({
   name,
@@ -8,63 +22,75 @@ const RegisterStep = ({
   password,
   setPassword,
   registerTenant,
-}: {
-  name: string;
-  setName: Dispatch<SetStateAction<string>>;
-  email: string;
-  setEmail: Dispatch<SetStateAction<string>>;
-  password: string;
-  setPassword: Dispatch<SetStateAction<string>>;
-  registerTenant: (
-    name: string,
-    email: string,
-    password: string,
-  ) => Promise<void>;
-}) => {
+}: RegisterStepProps) => {
+  const [showToS, setShowToS] = useState(false);
+  const [acceptedToS, setAcceptedToS] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const passwordsMatch = password === confirmPassword;
+
+  const passwordRules = {
+    length: (v: string) => v.length >= 8,
+    uppercase: (v: string) => /[A-Z]/.test(v),
+    lowercase: (v: string) => /[a-z]/.test(v),
+    number: (v: string) => /[0-9]/.test(v),
+    symbol: (v: string) => /[^A-Za-z0-9]/.test(v),
+  };
+
+  const validations = {
+    length: passwordRules.length(password),
+    uppercase: passwordRules.uppercase(password),
+    lowercase: passwordRules.lowercase(password),
+    number: passwordRules.number(password),
+    symbol: passwordRules.symbol(password),
+  };
+
+  const isPasswordValid = Object.values(validations).every(Boolean);
+
+  const handleAcceptToS = () => {
+    setAcceptedToS(true);
+    setShowToS(false);
+  };
+
   return (
-    <div className="flex flex-col space-y-2 mt-6 mb-4">
-      <>
-        <div className="mb-0">
-          <span className="text-xs">Nome </span>
-        </div>
-
-        <input
-          type="text"
-          placeholder="Nome do parceiro"
-          onChange={(e) => setName(e.target.value)}
-          className="p-2 text-black bg-slate-100"
+    <>
+      <ToSModal
+        title="Parceiros"
+        termsContent={<TenantsTermsInterface />}
+        open={showToS}
+        onClose={() => setShowToS(false)}
+        onAccept={handleAcceptToS}
+      />
+      <div className="flex flex-col space-y-4  my-4">
+        <TenantTermsInput acceptedToS={acceptedToS} setShowToS={setShowToS} />
+        <TenantNameInput setName={setName} />
+        <TenantEmailInput setEmail={setEmail} />
+        <TenantPasswordInput
+          confirmPassword={confirmPassword}
+          setShowPassword={setShowPassword}
+          showPassword={showPassword}
+          setPassword={setPassword}
+          setConfirmPassword={setConfirmPassword}
+          password={password}
+          validations={validations}
         />
-      </>
-      <>
-        <div className="mb-0">
-          <span className="text-xs">Email </span>
-        </div>
-        <input
-          placeholder="Email"
-          onChange={(e) => setEmail(e.target.value)}
-          className="p-2 text-black italic"
-        />
-      </>
-
-      <>
-        <div className="mb-0">
-          <span className="text-xs">Password </span>
-        </div>
-        <input
-          type="password"
-          placeholder="Senha"
-          onChange={(e) => setPassword(e.target.value)}
-          className="p-2 text-black italic"
-        />
-      </>
-
-      <button
-        onClick={() => registerTenant(name, email, password)}
-        className="bg-indigo-500 py-3 rounded-lg mt-4"
-      >
-        Criar Conta
-      </button>
-    </div>
+        <button
+          onClick={() => registerTenant(name, email, password)}
+          className="bg-indigo-500 py-3 rounded-lg mt-2 cursor-pointer disabled:bg-slate-500 disabled:cursor-default"
+          disabled={
+            !acceptedToS ||
+            !name ||
+            !email ||
+            !password ||
+            !isPasswordValid ||
+            !passwordsMatch
+          }
+        >
+          Criar Conta
+        </button>
+      </div>
+    </>
   );
 };
 export default RegisterStep;
