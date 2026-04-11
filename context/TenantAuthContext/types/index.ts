@@ -4,7 +4,6 @@ import {
 } from "@/context/TenantContext/types";
 
 interface TenantAuthContextProps {
-  tenantToken: string | null;
   sessionTenantId: string | null;
   tenantRegister: (name: string, planId: string) => Promise<RegisterTenant>;
   tenantLogout: () => void;
