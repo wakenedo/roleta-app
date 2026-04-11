@@ -2,13 +2,6 @@ import { TenantsTermsInterface } from "@/components/TenantsTermsInterface";
 import { ToSModal } from "@/components/ToSModal";
 import { useState } from "react";
 import { RegisterStepProps } from "../../types";
-import {
-  BsCheckCircle,
-  BsCircle,
-  BsExclamationCircle,
-  BsEye,
-  BsEyeSlash,
-} from "react-icons/bs";
 import { TenantEmailInput } from "./components/TenantEmailInput";
 import { TenantNameInput } from "./components/TenantNameInput";
 import { TenantPasswordInput } from "./components/TenantPasswordInput";
@@ -22,6 +15,10 @@ const RegisterStep = ({
   password,
   setPassword,
   registerTenant,
+  checkEmailVerification,
+  createAndSendVerification,
+  checkingVerification,
+  isEmailVerified,
 }: RegisterStepProps) => {
   const [showToS, setShowToS] = useState(false);
   const [acceptedToS, setAcceptedToS] = useState(false);
@@ -65,7 +62,14 @@ const RegisterStep = ({
       <div className="flex flex-col space-y-4  my-4">
         <TenantTermsInput acceptedToS={acceptedToS} setShowToS={setShowToS} />
         <TenantNameInput setName={setName} />
-        <TenantEmailInput setEmail={setEmail} />
+        <TenantEmailInput
+          setEmail={setEmail}
+          email={email}
+          isVerified={isEmailVerified}
+          onCheckVerification={checkEmailVerification}
+          onSendVerification={createAndSendVerification}
+          loading={checkingVerification}
+        />
         <TenantPasswordInput
           confirmPassword={confirmPassword}
           setShowPassword={setShowPassword}
@@ -84,7 +88,8 @@ const RegisterStep = ({
             !email ||
             !password ||
             !isPasswordValid ||
-            !passwordsMatch
+            !passwordsMatch ||
+            !isEmailVerified
           }
         >
           Criar Conta
