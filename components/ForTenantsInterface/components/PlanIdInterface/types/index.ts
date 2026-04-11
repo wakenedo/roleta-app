@@ -14,6 +14,10 @@ type RegisterStepProps = {
     email: string,
     password: string,
   ) => Promise<void>;
+  checkEmailVerification: () => Promise<void>;
+  createAndSendVerification: () => Promise<void>;
+  checkingVerification: boolean;
+  isEmailVerified: boolean;
 };
 
 type CompleteStepProps = {
@@ -157,6 +161,17 @@ type ProductImportRowProps = {
   ) => void;
 };
 
+type TenantEmailInputProps = {
+  email: string;
+  setEmail: (value: SetStateAction<string>) => void;
+
+  onSendVerification: () => Promise<void>;
+  onCheckVerification: () => Promise<boolean | void>;
+
+  isVerified: boolean;
+  loading: boolean;
+};
+
 export type {
   RegisterStepProps,
   CompleteStepProps,
@@ -169,4 +184,5 @@ export type {
   HandleFileUploadInputProps,
   ProductImportPreviewTableProps,
   ProductImportRowProps,
+  TenantEmailInputProps,
 };
