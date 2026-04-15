@@ -1,5 +1,7 @@
 "use client";
 
+import { GoldCoin } from "@/components/ArtAssets/GoldCoin";
+import { SilverCoin } from "@/components/ArtAssets/SilverCoin";
 import { motion } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 
@@ -7,10 +9,15 @@ const emojis = ["🎧", "👟", "📱", "🎮", "💄"];
 const emojisTop = ["🎁", "💎", "🔥", "🏆", "🛍️"];
 
 const confettiEmojis = ["🎉", "✨", "🎊"];
+const coinsArt = [
+  <GoldCoin key="gold-coin" />,
+  <SilverCoin key="silver-coin" />,
+];
 
 const AnimationProducts = () => {
   const [mounted, setMounted] = useState(false);
   const [confetti, setConfetti] = useState<number[]>([]);
+  const [coins, setCoins] = useState(coinsArt);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -21,6 +28,7 @@ const AnimationProducts = () => {
     const positions = Array.from({ length: 40 }, () => Math.random() * width);
 
     setConfetti(positions);
+    setCoins((prev) => [...prev, ...coinsArt]);
   }, []);
 
   if (!mounted) return null;
@@ -47,7 +55,7 @@ const AnimationProducts = () => {
             delay: i * 0.1,
           }}
         >
-          {confettiEmojis[i % confettiEmojis.length]}
+          {coins[i % coins.length]}
         </motion.div>
       ))}
       {/* 🌊 ARC LAYER 1 */}
@@ -105,7 +113,7 @@ const AnimationProducts = () => {
       </motion.div>
       {/* 🔥 PROMOBET */}
       <motion.div
-        className="absolute inset-0 flex items-center justify-center z-10"
+        className="absolute inset-0 flex items-center justify-center z-10 cursor-default "
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 2.2 }}
@@ -115,7 +123,7 @@ const AnimationProducts = () => {
         </h1>
       </motion.div>
       <motion.div
-        className="absolute bottom-25 left-0 w-full text-center px-4 z-20"
+        className="absolute bottom-25 left-0 w-full text-center px-4 z-20 cursor-default"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 3 }}
