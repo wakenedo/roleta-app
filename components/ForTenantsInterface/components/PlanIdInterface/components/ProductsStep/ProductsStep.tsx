@@ -6,6 +6,7 @@ import { AddProductsContent } from "./components/AddProductsContent";
 import { CompleteProductsStepButton } from "./components/AddProductsInterface/components/CompleteProductsStepButton";
 import { useProductsImport } from "@/hooks/useProductsImport";
 import { ProductsStepProps } from "../../types";
+import { useTenant } from "@/context/TenantContext/TenantContext";
 
 const ProductsStep: React.FC<ProductsStepProps> = ({
   name,
@@ -14,10 +15,17 @@ const ProductsStep: React.FC<ProductsStepProps> = ({
   logoUrl,
   primaryColor,
   importProducts,
+  importProductsCSV,
   onSave,
   setStepHeader,
 }) => {
-  const productsImport = useProductsImport(selectedPlan);
+  const { products } = useTenant();
+  const productsImport = useProductsImport({ selectedPlan, importProductsCSV });
+
+  const pickProducts =
+    productsImport.products.length > 0 ? productsImport.products : products;
+  console.log("ProductsStep rendered with productsImport:", pickProducts);
+
   useEffect(() => {
     setStepHeader({
       stepNumber: 4,
@@ -37,10 +45,11 @@ const ProductsStep: React.FC<ProductsStepProps> = ({
         productsImport={productsImport}
         selectedPlan={selectedPlan}
         importProducts={importProducts}
+        importProductsCSV={importProductsCSV}
       />
       <CompleteProductsStepButton
         onSave={onSave}
-        products={productsImport.products}
+        products={pickProducts}
         areProductsValidated={productsImport.isValidated}
       />
     </div>

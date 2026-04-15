@@ -5,6 +5,7 @@ const CompleteProductsStepButton: React.FC<CompleteProductsStepButtonProps> = ({
   onSave,
   areProductsValidated,
 }) => {
+  console.log("Products in CompleteProductsStepButton:", products);
   return (
     <button
       disabled={products.length === 0}

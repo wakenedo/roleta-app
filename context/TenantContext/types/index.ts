@@ -1,4 +1,3 @@
-import { SpinQuota } from "@/context/UserContext/types";
 import { Dispatch, SetStateAction } from "react";
 
 type TenantBranding = {

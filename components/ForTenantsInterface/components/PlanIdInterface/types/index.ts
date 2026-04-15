@@ -47,7 +47,7 @@ type BrandingStepProps = {
     name: string;
     price: string;
   };
-  onSave: (branding: TenantBranding) => void;
+  onSave: (branding: TenantBranding, file?: File) => Promise<void>;
   setStepHeader: Dispatch<SetStateAction<StepHeaderProps>>;
   setLogoUrl: Dispatch<SetStateAction<string>>;
   setPrimaryColor: Dispatch<SetStateAction<string>>;
@@ -82,6 +82,7 @@ type ProductsStepProps = {
   onSave: (products: TenantProduct[]) => void;
   setStepHeader: Dispatch<SetStateAction<StepHeaderProps>>;
   importProducts: (products: TenantProduct[]) => Promise<void>;
+  importProductsCSV: (file: File, dryRun?: boolean) => Promise<unknown>;
 };
 
 type AddProductsContentProps = {
@@ -91,6 +92,21 @@ type AddProductsContentProps = {
     price: string;
   };
   productsImport: {
+    file: File | null;
+    csvPreview: {
+      preview: unknown[];
+      errors: string[];
+      total: number;
+      valid: number;
+    } | null;
+    setCsvPreview: Dispatch<
+      SetStateAction<{
+        preview: unknown[];
+        errors: string[];
+        total: number;
+        valid: number;
+      } | null>
+    >;
     fileName: string | null;
     rawProducts: [][];
     products: TenantProduct[];
@@ -112,6 +128,7 @@ type AddProductsContentProps = {
     };
   };
   importProducts: (products: TenantProduct[]) => Promise<void>;
+  importProductsCSV: (file: File, dryRun?: boolean) => Promise<unknown>;
 };
 
 type CompleteProductsStepButtonProps = {
@@ -122,6 +139,7 @@ type CompleteProductsStepButtonProps = {
 
 type SaveProductsButtonProps = {
   onClick: () => void;
+  label: string;
 };
 
 type HandleFileUploadInputProps = {

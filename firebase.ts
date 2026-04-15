@@ -1,6 +1,7 @@
 // firebase.ts
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 
 // Only run this on the client
 const firebaseConfig = {
@@ -16,6 +17,7 @@ const firebaseConfig = {
 const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
+export const storage = getStorage(app);
 const gAuthProvider = new GoogleAuthProvider();
 
 export { app, auth, gAuthProvider };

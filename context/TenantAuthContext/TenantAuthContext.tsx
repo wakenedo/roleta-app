@@ -86,12 +86,14 @@ export const TenantAuthProvider = ({ children }: { children: ReactNode }) => {
   const tenantFetch = async (path: string, options: RequestInit = {}) => {
     const token = await getAuthToken();
 
+    const isFormData = options.body instanceof FormData;
+
     return fetch(`${API_URL}${path}`, {
       ...options,
       headers: {
         ...(options.headers || {}),
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+        ...(isFormData ? {} : { "Content-Type": "application/json" }),
       },
     });
   };

@@ -15,6 +15,7 @@ const HandleFileUploadInput: React.FC<HandleFileUploadInputProps> = ({
           onChange={(e) => {
             const file = e.target.files?.[0];
             if (file) handleFileUpload(file);
+            console.log("File selected:", file);
           }}
         />
       </div>

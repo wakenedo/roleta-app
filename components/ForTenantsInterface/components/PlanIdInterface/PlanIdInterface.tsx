@@ -33,6 +33,7 @@ const PlanIdInterface = ({ planId }: { planId: string }) => {
     setStepHeader,
     setSelectedPlan,
     importProducts,
+    importProductsCSV,
     checkEmailVerification,
     createAndSendVerification,
     checkingVerification,
@@ -90,6 +91,7 @@ const PlanIdInterface = ({ planId }: { planId: string }) => {
           <ProductsStep
             onSave={saveProducts}
             importProducts={importProducts}
+            importProductsCSV={importProductsCSV}
             setStepHeader={setStepHeader}
             selectedPlan={selectedPlan}
             logoUrl={logoUrl}

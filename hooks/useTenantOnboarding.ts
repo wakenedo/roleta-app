@@ -15,6 +15,7 @@ import {
 } from "firebase/auth";
 
 import { auth } from "../firebase"; // adjust path
+import { uploadTenantLogo } from "./utils/brandingLogoHelpers";
 
 export const useTenantOnboarding = (planId?: string | null) => {
   const { tenantRegister, tenantFetch, tenantMe } = useTenantAuth();
@@ -97,10 +98,16 @@ export const useTenantOnboarding = (planId?: string | null) => {
     setStep("branding");
   };
 
-  const saveBranding = async (branding: TenantBranding) => {
+  const saveBranding = async (branding: TenantBranding, file?: File) => {
+    let logoUrl = branding.logoUrl;
+
+    if (file) {
+      logoUrl = await uploadTenantLogo(file, tenantId);
+      setLogoUrl(logoUrl);
+    }
     await tenantFetch(`/tenants/onboard/branding/${tenantId}`, {
       method: "POST",
-      body: JSON.stringify(branding),
+      body: JSON.stringify({ ...branding, logoUrl }),
     });
 
     setStep("products");
@@ -120,6 +127,25 @@ export const useTenantOnboarding = (planId?: string | null) => {
     const data = await res.json();
 
     console.log("Import result:", data);
+  };
+
+  const importProductsCSV = async (file: File, dryRun = false) => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = await tenantFetch(
+      `/tenants/${tenantId}/onboard/import/csv${dryRun ? "?dryRun=true" : ""}`,
+      {
+        method: "POST",
+        body: formData,
+      },
+    );
+
+    const data = await res.json();
+
+    console.log("CSV import result:", data);
+
+    return data;
   };
 
   const saveProducts = async (products: TenantProduct[]) => {
@@ -165,6 +191,7 @@ export const useTenantOnboarding = (planId?: string | null) => {
     completePayment,
     saveBranding,
     importProducts,
+    importProductsCSV,
     saveProducts,
     resolveComplete,
 
