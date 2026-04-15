@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTenantAuth } from "@/context/TenantAuthContext/TenantAuthContext";
 import {
   TenantBranding,
@@ -9,9 +9,19 @@ import {
 } from "@/context/TenantContext/types";
 import { StepHeaderProps } from "./types";
 
-export const useTenantOnboarding = (planId?: string | null) => {
-  const { tenantRegister, tenantFetch } = useTenantAuth();
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 
+import { auth } from "../firebase"; // adjust path
+import { uploadTenantLogo } from "./utils/brandingLogoHelpers";
+
+export const useTenantOnboarding = (planId?: string | null) => {
+  const { tenantRegister, tenantFetch, tenantMe } = useTenantAuth();
+  const [verificationSent, setVerificationSent] = useState(false);
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [checkingVerification, setCheckingVerification] = useState(false);
   const [tenantId, setTenantId] = useState<string>("");
   const [step, setStep] = useState<TenantRegisterStep>("register");
   const [name, setName] = useState("");
@@ -29,12 +39,52 @@ export const useTenantOnboarding = (planId?: string | null) => {
     price: "",
   });
 
-  const registerTenant = async (
-    name: string,
-    email: string,
-    password: string,
-  ) => {
-    const res = await tenantRegister(name, email, password, planId as string);
+  const createAndSendVerification = async () => {
+    try {
+      const userCred = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+
+      await sendEmailVerification(userCred.user);
+
+      setVerificationSent(true);
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  };
+
+  const checkEmailVerification = async () => {
+    if (!auth.currentUser) return;
+
+    setCheckingVerification(true);
+
+    await auth.currentUser.reload();
+    await auth.currentUser.getIdToken(true);
+
+    if (auth.currentUser.emailVerified) {
+      setIsEmailVerified(true);
+    }
+
+    setCheckingVerification(false);
+  };
+
+  const resendVerification = async () => {
+    if (!auth.currentUser) return;
+
+    await sendEmailVerification(auth.currentUser);
+  };
+
+  const registerTenant = async (name: string) => {
+    if (!isEmailVerified) {
+      throw new Error("Email not verified");
+    }
+
+    if (!planId) throw new Error("Plan not selected");
+
+    const res = await tenantRegister(name, planId);
 
     setTenantId(res.tenantId);
     setStep(res.onboardingStep); // payment
@@ -48,32 +98,54 @@ export const useTenantOnboarding = (planId?: string | null) => {
     setStep("branding");
   };
 
-  const saveBranding = async (branding: TenantBranding) => {
+  const saveBranding = async (branding: TenantBranding, file?: File) => {
+    let logoUrl = branding.logoUrl;
+
+    if (file) {
+      logoUrl = await uploadTenantLogo(file, tenantId);
+      setLogoUrl(logoUrl);
+    }
     await tenantFetch(`/tenants/onboard/branding/${tenantId}`, {
       method: "POST",
-      body: JSON.stringify(branding),
+      body: JSON.stringify({ ...branding, logoUrl }),
     });
 
     setStep("products");
   };
 
   const importProducts = async (products: TenantProduct[]) => {
+    const res = await tenantFetch(`/tenants/${tenantId}/onboard/import`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        products: [...products],
+      }),
+    });
+
+    const data = await res.json();
+
+    console.log("Import result:", data);
+  };
+
+  const importProductsCSV = async (file: File, dryRun = false) => {
+    const formData = new FormData();
+    formData.append("file", file);
+
     const res = await tenantFetch(
-      `/tenants/${tenantId}/admin/products/import`,
+      `/tenants/${tenantId}/onboard/import/csv${dryRun ? "?dryRun=true" : ""}`,
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          products: [...products],
-        }),
+        body: formData,
       },
     );
 
     const data = await res.json();
 
-    console.log("Import result:", data);
+    console.log("CSV import result:", data);
+
+    return data;
   };
 
   const saveProducts = async (products: TenantProduct[]) => {
@@ -91,6 +163,19 @@ export const useTenantOnboarding = (planId?: string | null) => {
     });
   };
 
+  const syncTenantState = async () => {
+    const me = await tenantMe();
+
+    if (!me) return;
+
+    setTenantId(me.tenantId);
+    setStep(me.onboardingStep);
+  };
+
+  useEffect(() => {
+    syncTenantState();
+  }, []);
+
   return {
     step,
     name,
@@ -106,8 +191,16 @@ export const useTenantOnboarding = (planId?: string | null) => {
     completePayment,
     saveBranding,
     importProducts,
+    importProductsCSV,
     saveProducts,
     resolveComplete,
+
+    createAndSendVerification,
+    checkEmailVerification,
+    resendVerification,
+    verificationSent,
+    isEmailVerified,
+    checkingVerification,
 
     setName,
     setEmail,

@@ -5,6 +5,7 @@ const AddProductsContent: React.FC<AddProductsContentProps> = ({
   selectedPlan,
   productsImport,
   importProducts,
+  importProductsCSV,
 }) => {
   return (
     <>
@@ -12,6 +13,7 @@ const AddProductsContent: React.FC<AddProductsContentProps> = ({
         selectedPlan={selectedPlan}
         productsImport={productsImport}
         importProducts={importProducts}
+        importProductsCSV={importProductsCSV}
       />
     </>
   );

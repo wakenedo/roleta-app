@@ -15,7 +15,7 @@ import { useTenantAuth } from "@/context/TenantAuthContext/TenantAuthContext";
 const Header: React.FC = () => {
   const { user } = useAuth();
   const { tenant } = useTenant();
-  const { sessionTenantId, tenantToken } = useTenantAuth();
+  const { sessionTenantId } = useTenantAuth();
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [loginOptionsMenuOpen, setLoginOptionsMenuOpen] = useState(false);
@@ -47,20 +47,20 @@ const Header: React.FC = () => {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex gap-6 text-sm w-full justify-end">
-          {user != null && (
+          {user != null && sessionTenantId === null && (
             <Link href="/Games" className="hover:text-[#84e9e4] transition">
               <span>Games</span>
             </Link>
           )}
 
-          {user != null && (
+          {user != null && sessionTenantId === null && (
             <Link href="/UserArea" className="hover:text-[#84e9e4] transition">
               <span>Area do Usuário</span>
             </Link>
           )}
-          {sessionTenantId != null && tenant && tenantToken && (
+          {user != null && sessionTenantId && (
             <Link
-              href="/TenantArea"
+              href={`/TenantArea`}
               className="hover:text-[#84e9e4] transition"
             >
               <span>Area do Parceiro</span>

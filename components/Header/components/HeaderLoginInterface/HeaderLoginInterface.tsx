@@ -16,7 +16,6 @@ const HeaderLoginInterface = ({
 }) => {
   if (user != null) return null;
   console.log("Header Login Interface", user);
-  if (tenant != null) return null;
   return (
     <>
       <div onClick={toggleLoginOptionsMenu}>

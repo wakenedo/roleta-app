@@ -2,6 +2,24 @@ import { TenantBranding, TenantProduct } from "@/context/TenantContext/types";
 import { StepHeaderProps } from "@/hooks/types";
 import { Dispatch, SetStateAction } from "react";
 
+type RegisterStepProps = {
+  name: string;
+  setName: Dispatch<SetStateAction<string>>;
+  email: string;
+  setEmail: Dispatch<SetStateAction<string>>;
+  password: string;
+  setPassword: Dispatch<SetStateAction<string>>;
+  registerTenant: (
+    name: string,
+    email: string,
+    password: string,
+  ) => Promise<void>;
+  checkEmailVerification: () => Promise<void>;
+  createAndSendVerification: () => Promise<void>;
+  checkingVerification: boolean;
+  isEmailVerified: boolean;
+};
+
 type CompleteStepProps = {
   name: string;
   email: string;
@@ -29,7 +47,7 @@ type BrandingStepProps = {
     name: string;
     price: string;
   };
-  onSave: (branding: TenantBranding) => void;
+  onSave: (branding: TenantBranding, file?: File) => Promise<void>;
   setStepHeader: Dispatch<SetStateAction<StepHeaderProps>>;
   setLogoUrl: Dispatch<SetStateAction<string>>;
   setPrimaryColor: Dispatch<SetStateAction<string>>;
@@ -64,6 +82,7 @@ type ProductsStepProps = {
   onSave: (products: TenantProduct[]) => void;
   setStepHeader: Dispatch<SetStateAction<StepHeaderProps>>;
   importProducts: (products: TenantProduct[]) => Promise<void>;
+  importProductsCSV: (file: File, dryRun?: boolean) => Promise<unknown>;
 };
 
 type AddProductsContentProps = {
@@ -73,6 +92,21 @@ type AddProductsContentProps = {
     price: string;
   };
   productsImport: {
+    file: File | null;
+    csvPreview: {
+      preview: unknown[];
+      errors: string[];
+      total: number;
+      valid: number;
+    } | null;
+    setCsvPreview: Dispatch<
+      SetStateAction<{
+        preview: unknown[];
+        errors: string[];
+        total: number;
+        valid: number;
+      } | null>
+    >;
     fileName: string | null;
     rawProducts: [][];
     products: TenantProduct[];
@@ -94,6 +128,7 @@ type AddProductsContentProps = {
     };
   };
   importProducts: (products: TenantProduct[]) => Promise<void>;
+  importProductsCSV: (file: File, dryRun?: boolean) => Promise<unknown>;
 };
 
 type CompleteProductsStepButtonProps = {
@@ -104,6 +139,7 @@ type CompleteProductsStepButtonProps = {
 
 type SaveProductsButtonProps = {
   onClick: () => void;
+  label: string;
 };
 
 type HandleFileUploadInputProps = {
@@ -143,7 +179,19 @@ type ProductImportRowProps = {
   ) => void;
 };
 
+type TenantEmailInputProps = {
+  email: string;
+  setEmail: (value: SetStateAction<string>) => void;
+
+  onSendVerification: () => Promise<void>;
+  onCheckVerification: () => Promise<boolean | void>;
+
+  isVerified: boolean;
+  loading: boolean;
+};
+
 export type {
+  RegisterStepProps,
   CompleteStepProps,
   BrandingStepProps,
   PaymentStepProps,
@@ -154,4 +202,5 @@ export type {
   HandleFileUploadInputProps,
   ProductImportPreviewTableProps,
   ProductImportRowProps,
+  TenantEmailInputProps,
 };

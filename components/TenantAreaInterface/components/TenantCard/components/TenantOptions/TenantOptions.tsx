@@ -19,10 +19,12 @@ const InfoRow = ({
 
 const TenantOptions = ({
   tenant,
+  setTenant,
   quota,
   logout,
 }: {
   tenant: Tenant;
+  setTenant: (t: Tenant | null) => void;
   quota: SpinQuota | TenantQuota;
   logout: () => void;
 }) => {
@@ -30,6 +32,7 @@ const TenantOptions = ({
   if (!tenant) return null;
 
   const handleLogout = () => {
+    setTenant(null);
     logout();
     router.push("/");
   };

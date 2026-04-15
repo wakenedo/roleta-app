@@ -5,6 +5,7 @@ import { useState } from "react";
 import GIcon from "@/public/google-icon.png";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { ToSModal } from "../ToSModal";
+import { UserTermsInterface } from "../UserTermsInterface";
 
 const GoogleRegisterButton = () => {
   const { registerWithGoogle } = useAuth();
@@ -41,6 +42,8 @@ const GoogleRegisterButton = () => {
       </button>
 
       <ToSModal
+        title="Usuário"
+        termsContent={<UserTermsInterface />}
         open={showToS}
         onClose={() => setShowToS(false)}
         onAccept={handleAcceptToS}

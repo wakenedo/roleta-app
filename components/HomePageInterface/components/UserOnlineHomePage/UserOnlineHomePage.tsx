@@ -7,8 +7,14 @@ import { ActiveTenantsInterface } from "./components/ActiveTenantsInterface";
 import { UserState } from "@/context/UserContext/types";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { GoldCoin } from "@/components/ArtAssets/GoldCoin";
+import { SilverCoin } from "@/components/ArtAssets/SilverCoin";
 
 const confettiEmojis = ["🎉", "✨", "🎊"];
+const coinsArt = [
+  <GoldCoin key="gold-coin" />,
+  <SilverCoin key="silver-coin" />,
+];
 const UserOnlineHomePage = ({
   userData,
   tenant,
@@ -18,6 +24,7 @@ const UserOnlineHomePage = ({
 }) => {
   const [mounted, setMounted] = useState(false);
   const [confetti, setConfetti] = useState<number[]>([]);
+  const [coins, setCoins] = useState(coinsArt);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -28,6 +35,7 @@ const UserOnlineHomePage = ({
     const positions = Array.from({ length: 40 }, () => Math.random() * width);
 
     setConfetti(positions);
+    setCoins((prev) => [...prev, ...coinsArt]);
   }, []);
 
   if (!mounted) return null;
@@ -52,7 +60,7 @@ const UserOnlineHomePage = ({
             delay: i * 0.1,
           }}
         >
-          {confettiEmojis[i % confettiEmojis.length]}
+          {coins[i % coins.length]}
         </motion.div>
       ))}
 

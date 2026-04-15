@@ -1,4 +1,5 @@
 import { User } from "firebase/auth";
+import { Dispatch, SetStateAction } from "react";
 
 interface AuthContextProps {
   user: User | null;
@@ -10,6 +11,7 @@ interface AuthContextProps {
   getToken: (forceRefresh?: boolean) => Promise<string | undefined>;
   requireAuth: () => User | null;
   authorizedFetch: typeof fetch;
+  setUser: Dispatch<SetStateAction<User | null>>;
 }
 
 export type { AuthContextProps };

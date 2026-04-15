@@ -10,7 +10,7 @@ const SelectedTenantCard = ({ tenant }: { tenant: Tenant }) => {
   const primaryColor = tenant.branding?.primaryColor || "#111";
 
   const handleClick = () => {
-    router.push(`/tenant/${tenant.id}`);
+    router.push(`/${tenant.id}/slots`);
   };
 
   function resolveTenantQuota(subscription?: string): number {

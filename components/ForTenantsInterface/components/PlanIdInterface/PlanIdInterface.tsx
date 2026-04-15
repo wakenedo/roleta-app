@@ -33,6 +33,11 @@ const PlanIdInterface = ({ planId }: { planId: string }) => {
     setStepHeader,
     setSelectedPlan,
     importProducts,
+    importProductsCSV,
+    checkEmailVerification,
+    createAndSendVerification,
+    checkingVerification,
+    isEmailVerified,
   } = useTenantOnboarding(planId);
 
   const renderStep = () => {
@@ -47,6 +52,10 @@ const PlanIdInterface = ({ planId }: { planId: string }) => {
             setEmail={setEmail}
             setName={setName}
             setPassword={setPassword}
+            checkEmailVerification={checkEmailVerification}
+            createAndSendVerification={createAndSendVerification}
+            checkingVerification={checkingVerification}
+            isEmailVerified={isEmailVerified}
           />
         );
 
@@ -82,6 +91,7 @@ const PlanIdInterface = ({ planId }: { planId: string }) => {
           <ProductsStep
             onSave={saveProducts}
             importProducts={importProducts}
+            importProductsCSV={importProductsCSV}
             setStepHeader={setStepHeader}
             selectedPlan={selectedPlan}
             logoUrl={logoUrl}

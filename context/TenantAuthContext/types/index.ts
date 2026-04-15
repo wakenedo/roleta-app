@@ -1,18 +1,21 @@
-import { RegisterTenant } from "@/context/TenantContext/types";
+import {
+  RegisterTenant,
+  TenantRegisterStep,
+} from "@/context/TenantContext/types";
 
 interface TenantAuthContextProps {
-  tenantToken: string | null;
   sessionTenantId: string | null;
-  tenantLogin: (email: string, password: string) => Promise<void>;
-  tenantRegister: (
-    name: string,
-    email: string,
-    password: string,
-    planId: string,
-  ) => Promise<RegisterTenant>;
-
+  tenantRegister: (name: string, planId: string) => Promise<RegisterTenant>;
   tenantLogout: () => void;
   tenantFetch: (url: string, options?: RequestInit) => Promise<Response>;
+  tenantLogin: (email: string, password: string) => Promise<TenantMeResponse>;
+  tenantMe: () => Promise<TenantMeResponse | null | undefined>;
 }
 
-export type { TenantAuthContextProps };
+type TenantMeResponse = {
+  tenantId: string;
+  onboardingStep: TenantRegisterStep;
+  status: string;
+};
+
+export type { TenantAuthContextProps, TenantMeResponse };

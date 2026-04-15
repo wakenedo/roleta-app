@@ -15,7 +15,6 @@ const HeaderRegisterInterface = ({
   user: User | null;
 }) => {
   if (user != null) return null;
-  if (tenant != null) return null;
   return (
     <>
       <div onClick={toggleRegisterOptionsMenu}>

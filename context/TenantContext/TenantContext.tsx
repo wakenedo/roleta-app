@@ -16,7 +16,7 @@ import { useTenantAuth } from "../TenantAuthContext/TenantAuthContext";
 const TenantContext = createContext<TenantContextProps | undefined>(undefined);
 
 export const TenantProvider = ({ children }: { children: ReactNode }) => {
-  const { tenantFetch, tenantToken, sessionTenantId } = useTenantAuth();
+  const { tenantFetch, sessionTenantId } = useTenantAuth();
   const { tenantId } = useParams();
   const [tenant, setTenant] = useState<Tenant | null>(null);
   const [products, setProducts] = useState<TenantProduct[]>([]);
@@ -29,7 +29,7 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
   const resolvedTenantId = !sessionTenantId ? tenantId : sessionTenantId;
 
   const fetchTenant = useCallback(async () => {
-    if (!tenantToken && !sessionTenantId && !resolvedTenantId) return;
+    if (!sessionTenantId && !resolvedTenantId) return;
     try {
       setLoading(true);
       setError(null);
@@ -50,11 +50,7 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
   }, [tenantFetch, resolvedTenantId]);
 
   const loadProducts = async () => {
-    if (
-      (!tenantToken && !sessionTenantId && !resolvedTenantId) ||
-      productsLoaded
-    )
-      return;
+    if (!resolvedTenantId || productsLoaded) return;
     try {
       const res = await tenantFetch(
         `/tenants/${resolvedTenantId}/admin/products`,
@@ -93,8 +89,8 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
     setTenantId(tenant?.id ?? null);
   }, [tenant]);
   useEffect(() => {
-    tenantToken === null && setTenant(null);
-  }, [tenantToken, setTenant]);
+    resolvedTenantId === null && setTenant(null);
+  }, [resolvedTenantId, setTenant]);
 
   return (
     <TenantContext.Provider

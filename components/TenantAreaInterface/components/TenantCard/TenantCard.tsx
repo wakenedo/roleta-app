@@ -6,6 +6,7 @@ import { TenantCardProps } from "../../types";
 
 const TenantCard: FC<TenantCardProps> = ({
   tenant,
+  setTenant,
   loading,
   error,
   tenantQuota,
@@ -30,7 +31,12 @@ const TenantCard: FC<TenantCardProps> = ({
             </span>
           </div>
           <hr className="border-t border-slate-300" />
-          <TenantOptions tenant={tenant} quota={tenantQuota} logout={logout} />
+          <TenantOptions
+            tenant={tenant}
+            quota={tenantQuota}
+            logout={logout}
+            setTenant={setTenant}
+          />
         </div>
       )}
       <TenantOptionsAnalytics />

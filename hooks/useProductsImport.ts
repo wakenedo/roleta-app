@@ -10,11 +10,24 @@ import {
 import { RawProductsProps } from "./types";
 import { selectedPlanMaxProducts } from "@/components/ForTenantsInterface/components/PlanIdInterface/utils";
 
-export const useProductsImport = (selectedPlan: {
-  id: string;
-  name: string;
-  price: string;
+export const useProductsImport = ({
+  selectedPlan,
+  importProductsCSV,
+}: {
+  selectedPlan: {
+    id: string;
+    name: string;
+    price: string;
+  };
+  importProductsCSV?: (file: File, dryRun?: boolean) => Promise<unknown>;
 }) => {
+  const [file, setFile] = useState<File | null>(null);
+  const [csvPreview, setCsvPreview] = useState<{
+    preview: unknown[];
+    errors: string[];
+    total: number;
+    valid: number;
+  } | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
   const [rawProducts, setRawProducts] = useState<RawProductsProps[]>([]);
   const [products, setProducts] = useState<TenantProduct[]>([]);
@@ -77,9 +90,19 @@ export const useProductsImport = (selectedPlan: {
   const handleFileUpload = async (file: File) => {
     setErrors([]);
     setFileName(file.name);
+    setFile(file);
 
     if (file.name.endsWith(".json")) {
       await parseJSON(file);
+    }
+    if (file.name.endsWith(".csv") && importProductsCSV) {
+      const preview = (await importProductsCSV(file, true)) as {
+        preview: unknown[];
+        errors: string[];
+        total: number;
+        valid: number;
+      };
+      setCsvPreview(preview);
     }
   };
 
@@ -105,8 +128,11 @@ export const useProductsImport = (selectedPlan: {
   };
 
   return {
+    file,
     fileName,
     rawProducts,
+    csvPreview,
+    setCsvPreview,
     products,
     errors,
     isValidated,
