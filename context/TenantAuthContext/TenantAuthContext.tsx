@@ -3,7 +3,8 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import { TenantAuthContextProps, TenantMeResponse } from "./types";
 import { auth } from "@/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { useAuth } from "../AuthContext/AuthContext";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -12,6 +13,7 @@ const TenantAuthContext = createContext<TenantAuthContextProps | undefined>(
 );
 
 export const TenantAuthProvider = ({ children }: { children: ReactNode }) => {
+  const { setUser } = useAuth();
   const [tenantId, setTenantId] = useState<string | null>(() => {
     if (typeof window !== "undefined") {
       return localStorage.getItem("tenantId");
@@ -62,15 +64,20 @@ export const TenantAuthProvider = ({ children }: { children: ReactNode }) => {
     return json;
   };
 
-  const tenantMe = async (): Promise<TenantMeResponse | null> => {
-    const res = await tenantFetch(`/tenants/auth/me`);
+  const tenantMe = async (): Promise<TenantMeResponse | null | undefined> => {
+    try {
+      const res = await tenantFetch(`/tenants/auth/me`);
 
-    if (!res.ok) {
-      if (res.status === 404) return null; // no tenant yet
-      throw new Error("Failed to fetch tenant");
+      if (!res.ok) {
+        if (res.status === 404) return null; // no tenant yet
+        return undefined; // ⚠️ don't throw
+      }
+
+      return await res.json();
+    } catch (err) {
+      console.warn("tenantMe soft error:", err);
+      return undefined; // ⚠️ important
     }
-
-    return await res.json();
   };
 
   /**
@@ -113,15 +120,11 @@ export const TenantAuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const tenantLogout = async () => {
-    try {
-      await auth.signOut();
-      localStorage.removeItem("tenantId");
-      localStorage.clear();
-    } catch (err) {
-      console.error("❌ Tenant logout failed:", err);
-    } finally {
-      setTenantId(null);
-    }
+    if (!auth) return;
+    await signOut(auth);
+    localStorage.removeItem("tenantId");
+    setTenantId(null);
+    setUser(null);
   };
 
   return (

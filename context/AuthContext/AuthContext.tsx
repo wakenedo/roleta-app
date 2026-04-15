@@ -134,6 +134,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         loginWithGoogle,
         registerWithGoogle,
         authorizedFetch,
+        setUser,
       }}
     >
       {children}

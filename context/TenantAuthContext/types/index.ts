@@ -9,7 +9,7 @@ interface TenantAuthContextProps {
   tenantLogout: () => void;
   tenantFetch: (url: string, options?: RequestInit) => Promise<Response>;
   tenantLogin: (email: string, password: string) => Promise<TenantMeResponse>;
-  tenantMe: () => Promise<TenantMeResponse | null>;
+  tenantMe: () => Promise<TenantMeResponse | null | undefined>;
 }
 
 type TenantMeResponse = {

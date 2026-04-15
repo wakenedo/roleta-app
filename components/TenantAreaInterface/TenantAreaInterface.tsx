@@ -5,10 +5,10 @@ import { TenantPreview } from "./components/TenantPreview";
 
 const TenantAreaInterface: React.FC<TenantAreaInterfaceProps> = ({
   tenant,
+  setTenant,
   loading,
   error,
   products,
-
   preview,
   logout,
 }) => {
@@ -23,6 +23,7 @@ const TenantAreaInterface: React.FC<TenantAreaInterfaceProps> = ({
       {tenant && (
         <div className="w-full md:space-y-4 space-y-1 md:grid  mb-6">
           <TenantCard
+            setTenant={setTenant}
             tenant={tenant}
             loading={loading}
             error={error}

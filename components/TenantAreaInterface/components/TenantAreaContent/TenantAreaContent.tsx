@@ -18,6 +18,7 @@ const TenantAreaContent = () => {
     refresh,
     loadProducts,
     loadPreview,
+    setTenant,
   } = useTenant();
 
   useEffect(() => {
@@ -39,6 +40,7 @@ const TenantAreaContent = () => {
         logout={tenantLogout}
         loading={loading}
         tenant={tenant}
+        setTenant={setTenant}
         error={error}
         products={products}
         preview={preview}
