@@ -1,14 +1,34 @@
 "use client";
 
 import { GoldCoin } from "@/components/ArtAssets/GoldCoin";
+import { MakeUp } from "@/components/ArtAssets/HomeProducts/MakeUp";
+import { ShoppingBags } from "@/components/ArtAssets/HomeProducts/ShoppingBags";
+import { GameController } from "@/components/ArtAssets/HomeProducts/GameController";
+
 import { SilverCoin } from "@/components/ArtAssets/SilverCoin";
 import { motion } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
+import { Smartphone } from "@/components/ArtAssets/HomeProducts/Smartphone";
+import { Television } from "@/components/ArtAssets/HomeProducts/Television";
+import { Purse } from "@/components/ArtAssets/HomeProducts/Purse";
+import { Smartwatch } from "@/components/ArtAssets/HomeProducts/Smartwatch";
+import { ComputerScreen } from "@/components/ArtAssets/HomeProducts/ComputerScreen";
+import { Sneakers } from "@/components/ArtAssets/HomeProducts/Sneakers";
 
-const emojis = ["🎧", "👟", "📱", "🎮", "💄"];
-const emojisTop = ["🎁", "💎", "🔥", "🏆", "🛍️"];
+const emojis = [
+  <GameController key={"game-controller"} />,
+  <Smartwatch key={"smartwatch"} />,
+  <Television key={"television"} />,
+  <Sneakers key={"sneakers"} />,
+  <ShoppingBags key={"shopping-bags"} />,
+];
+const emojisTop = [
+  <Purse key={"purse"} />,
+  <Smartphone key={"smartphone"} />,
+  <ComputerScreen key={"computer-screen"} />,
+  <MakeUp key={"makeup"} />,
+];
 
-const confettiEmojis = ["🎉", "✨", "🎊"];
 const coinsArt = [
   <GoldCoin key="gold-coin" />,
   <SilverCoin key="silver-coin" />,
