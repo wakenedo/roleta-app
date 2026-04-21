@@ -38,7 +38,7 @@ const Header: React.FC = () => {
         <div className="ml-2">
           <Link href="/" className="w-fit">
             {user === null ? (
-              <Image src={PromoLogo} alt="promo" width={26} />
+              <Image src={PromoLogo} alt="promo" width={30} />
             ) : (
               <AnimatedTitle small={true} />
             )}
