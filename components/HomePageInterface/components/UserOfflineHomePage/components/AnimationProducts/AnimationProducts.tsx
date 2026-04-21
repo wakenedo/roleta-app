@@ -54,8 +54,8 @@ const AnimationProducts = () => {
 
   if (!mounted) return null;
 
-  const arcOffsets1 = [-610, -630, -650, -630, -610];
-  const arcOffsets2 = [-690, -700, -750, -700, -690];
+  const arcOffsets1 = [-510, -470, -550, -520, -510];
+  const arcOffsets2 = [-600, -700, -700, -600, -690];
 
   return (
     <div ref={containerRef} className="relative mx-2 h-230 overflow-hidden">
