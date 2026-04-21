@@ -23,32 +23,43 @@ const TenantLoginInterface = () => {
   };
 
   return (
-    <div className="w-full space-y-2">
-      <div className=" flex flex-col">
-        <span className="text-xs">Email</span>
-        <input
-          type="text"
-          placeholder="E-mail Parceiro"
-          className="bg-slate-100 text-slate-800 p-1 italic"
-          onChange={(e) => setTenantEmail(e.target.value)}
-        />
+    <div className="w-full ">
+      <div className="-mt-2 mb-2">
+        <span className="text-[#84e9e4] font-bold tracking-widest uppercase">
+          Parceiros
+        </span>
       </div>
-      <div className=" flex flex-col">
-        <span className="text-xs">Password</span>
-        <input
-          type="text"
-          placeholder="Password Parceiro"
-          className="bg-slate-100 text-slate-800 p-1 italic"
-          onChange={(e) => setTenantPassword(e.target.value)}
-        />
+      <div className="space-y-6 pb-4">
+        <div className=" flex flex-col">
+          <input
+            type="text"
+            inputMode="email"
+            placeholder="E-mail"
+            className="bg-transparent border-b border-slate-400 text-slate-400 p-1 italic "
+            onChange={(e) => setTenantEmail(e.target.value)}
+          />
+        </div>
+        <div className=" flex flex-col">
+          <input
+            type="password"
+            placeholder="Password"
+            className="bg-transparent border-b border-slate-400 text-slate-400 p-1 italic"
+            onChange={(e) => setTenantPassword(e.target.value)}
+          />
+        </div>
       </div>
-      <button
-        onClick={handleTenantLogin}
-        disabled={loading}
-        className="p-1 px-2 w-full my-2 rounded-full border border-slate-400   cursor-pointer disabled:opacity-60 text-center"
-      >
-        <span>{loading ? "Carregando..." : "Entrar"}</span>
-      </button>
+      <div>
+        <div className="mb-5 mt-4 cursor-default group relative flex flex-col items-center rounded-full bg-gradient-to-br from-[#111827] to-[#1f2937]  transition-all duration-300  hover:-translate-y-1  hover:shadow-[0_0_5px_rgba(132,233,228,0.35)]">
+          <button
+            onClick={handleTenantLogin}
+            disabled={loading}
+            className="p-1 px-2 w-full hover:text-[#84e9e4] text-slate-400    rounded-full border border-slate-600   cursor-pointer disabled:opacity-60 text-center"
+          >
+            <span>{loading ? "Carregando..." : "Entrar"}</span>
+          </button>
+          <div className="absolute inset-0 rounded-full opacity-0 transition-opacity duration-300  group-hover:opacity-100  bg-gradient-to-r from-[#84e9e4]/1 to-purple-500/15  pointer-events-none"></div>
+        </div>
+      </div>
     </div>
   );
 };
