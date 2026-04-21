@@ -3,7 +3,7 @@ import { useState } from "react";
 import { IoMenu, IoClose } from "react-icons/io5";
 import Link from "next/link";
 import Image from "next/image";
-import PromoLogo from "@/public/logo.png";
+import PromoLogo from "@/public/Logo/smallLogo.png";
 import { GoogleButton } from "../GoogleButton";
 import { AnimatedTitle } from "../AnimatedTitle";
 import { useAuth } from "@/context/AuthContext/AuthContext";
@@ -38,7 +38,7 @@ const Header: React.FC = () => {
         <div className="ml-2">
           <Link href="/" className="w-fit">
             {user === null ? (
-              <Image src={PromoLogo} alt="promo" width={24} />
+              <Image src={PromoLogo} alt="promo" width={26} />
             ) : (
               <AnimatedTitle small={true} />
             )}

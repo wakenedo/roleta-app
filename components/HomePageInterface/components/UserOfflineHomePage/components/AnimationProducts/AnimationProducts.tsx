@@ -14,6 +14,7 @@ import { Purse } from "@/components/ArtAssets/HomeProducts/Purse";
 import { Smartwatch } from "@/components/ArtAssets/HomeProducts/Smartwatch";
 import { ComputerScreen } from "@/components/ArtAssets/HomeProducts/ComputerScreen";
 import { Sneakers } from "@/components/ArtAssets/HomeProducts/Sneakers";
+import { LogoAlternative } from "@/components/ArtAssets/LogoAlternative";
 
 const emojis = [
   <GameController key={"game-controller"} />,
@@ -138,9 +139,7 @@ const AnimationProducts = () => {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 2.2 }}
       >
-        <h1 className=" mb-40 text-4xl md:text-8xl font-extrabold tracking-wide  text-[#84e9e4] drop-shadow-xl">
-          PROMOBET
-        </h1>
+        <LogoAlternative />
       </motion.div>
       <motion.div
         className="absolute bottom-25 left-0 w-full text-center px-4 z-20 cursor-default"

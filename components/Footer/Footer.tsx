@@ -1,4 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
+import ArtTitleSm from "@/public/Logo/logoAlternativo.png";
 
 const Footer = () => {
   return (
@@ -9,9 +11,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6 py-16 grid gap-12 md:grid-cols-3">
         {/* Brand Section */}
         <div className="cursor-default">
-          <h3 className="text-2xl font-extrabold text-[#84e9e4] tracking-wider">
-            PROMOBET
-          </h3>
+          <Image src={ArtTitleSm} alt="promo" width={150} />
           <p className="mt-4 text-sm text-gray-400">
             Transformando a descoberta de ofertas em uma experiência divertida e
             interativa.
