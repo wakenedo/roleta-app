@@ -1,14 +1,35 @@
 "use client";
 
 import { GoldCoin } from "@/components/ArtAssets/GoldCoin";
+import { MakeUp } from "@/components/ArtAssets/HomeProducts/MakeUp";
+import { ShoppingBags } from "@/components/ArtAssets/HomeProducts/ShoppingBags";
+import { GameController } from "@/components/ArtAssets/HomeProducts/GameController";
+
 import { SilverCoin } from "@/components/ArtAssets/SilverCoin";
 import { motion } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
+import { Smartphone } from "@/components/ArtAssets/HomeProducts/Smartphone";
+import { Television } from "@/components/ArtAssets/HomeProducts/Television";
+import { Purse } from "@/components/ArtAssets/HomeProducts/Purse";
+import { Smartwatch } from "@/components/ArtAssets/HomeProducts/Smartwatch";
+import { ComputerScreen } from "@/components/ArtAssets/HomeProducts/ComputerScreen";
+import { Sneakers } from "@/components/ArtAssets/HomeProducts/Sneakers";
+import { LogoAlternative } from "@/components/ArtAssets/LogoAlternative";
 
-const emojis = ["🎧", "👟", "📱", "🎮", "💄"];
-const emojisTop = ["🎁", "💎", "🔥", "🏆", "🛍️"];
+const emojis = [
+  <GameController key={"game-controller"} />,
+  <Smartwatch key={"smartwatch"} />,
+  <Television key={"television"} />,
+  <Sneakers key={"sneakers"} />,
+  <ShoppingBags key={"shopping-bags"} />,
+];
+const emojisTop = [
+  <Purse key={"purse"} />,
+  <Smartphone key={"smartphone"} />,
+  <ComputerScreen key={"computer-screen"} />,
+  <MakeUp key={"makeup"} />,
+];
 
-const confettiEmojis = ["🎉", "✨", "🎊"];
 const coinsArt = [
   <GoldCoin key="gold-coin" />,
   <SilverCoin key="silver-coin" />,
@@ -33,8 +54,8 @@ const AnimationProducts = () => {
 
   if (!mounted) return null;
 
-  const arcOffsets1 = [-610, -630, -650, -630, -610];
-  const arcOffsets2 = [-690, -700, -750, -700, -690];
+  const arcOffsets1 = [-510, -470, -550, -520, -510];
+  const arcOffsets2 = [-600, -700, -700, -600, -690];
 
   return (
     <div ref={containerRef} className="relative mx-2 h-230 overflow-hidden">
@@ -118,9 +139,7 @@ const AnimationProducts = () => {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 2.2 }}
       >
-        <h1 className=" mb-40 text-4xl md:text-8xl font-extrabold tracking-wide  text-[#84e9e4] drop-shadow-xl">
-          PROMOBET
-        </h1>
+        <LogoAlternative />
       </motion.div>
       <motion.div
         className="absolute bottom-25 left-0 w-full text-center px-4 z-20 cursor-default"

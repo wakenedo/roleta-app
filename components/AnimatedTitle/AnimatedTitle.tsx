@@ -1,10 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import ArtTitle from "@/public/PROMOBET.png";
-import FArtTitle from "@/public/PROMOBETFULL.png";
-import ArtTitleSm from "@/public/PROMOBETSM.png";
-import FArtTitleSm from "@/public/PROMOBETFULLSM.png";
+import ArtTitle from "@/public/Logo/logoAlternativo.png";
+import FArtTitle from "@/public/Logo/logoAlternativoAnimated.png";
+import ArtTitleSm from "@/public/Logo/logoAlternativo.png";
+import FArtTitleSm from "@/public/Logo/logoAlternativoAnimated.png";
 
 interface AnimatedTitleProps {
   small?: boolean;

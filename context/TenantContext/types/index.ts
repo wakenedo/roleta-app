@@ -25,15 +25,26 @@ type RegisterTenant = {
   onboardingStep: TenantRegisterStep;
 };
 
+type TenantSpinPool = {
+  monthlyLimit: number;
+  used: number;
+};
+
+type Payment = {
+  paid: boolean;
+};
+
 type Tenant = {
   id: string;
   name: string;
   ownerUid: string;
   subscriptionMode: string;
   status: "active" | "inactive";
+  payment?: Payment;
   branding?: TenantBranding;
   settings?: TenantSettings;
   affiliate?: string | null;
+  spinPool?: TenantSpinPool;
   createdAt?: string;
   updatedAt?: string;
 };

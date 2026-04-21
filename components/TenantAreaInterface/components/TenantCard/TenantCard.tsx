@@ -1,19 +1,16 @@
 import { TenantOptions } from "./components/TenantOptions";
 import { TenantError } from "../TenantError";
-import { TenantOptionsAnalytics } from "./components/TenantOptionsAnalytics";
 import { FC } from "react";
 import { TenantCardProps } from "../../types";
 
 const TenantCard: FC<TenantCardProps> = ({
   tenant,
-  setTenant,
   loading,
   error,
-  tenantQuota,
-  logout,
+  registeredProductsAmount,
 }) => {
   return (
-    <div className="w-full bg-white/90 backdrop-blur rounded-lg shadow-md md:p-4 p-2 space-y-2">
+    <div className="w-full bg-white/90 backdrop-blur  shadow-md ">
       {error && <TenantError error={error} />}
       {loading && (
         <div className="flex flex-col gap-3 ">
@@ -24,22 +21,13 @@ const TenantCard: FC<TenantCardProps> = ({
         </div>
       )}
       {tenant && (
-        <div className="flex flex-col gap-3 ">
-          <div>
-            <span className="text-sm font-semibold text-slate-800 line-clamp-2">
-              Bem-vindo, {tenant.name ?? "Tenant"} !
-            </span>
-          </div>
-          <hr className="border-t border-slate-300" />
+        <div className=" flex flex-col mx-1">
           <TenantOptions
+            registeredProductsAmount={registeredProductsAmount}
             tenant={tenant}
-            quota={tenantQuota}
-            logout={logout}
-            setTenant={setTenant}
           />
         </div>
       )}
-      <TenantOptionsAnalytics />
     </div>
   );
 };
