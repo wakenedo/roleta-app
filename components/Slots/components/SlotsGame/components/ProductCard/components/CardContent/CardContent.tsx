@@ -16,7 +16,7 @@ const CardContent: FC<ProductCardProps> = ({ product }) => {
       <div className="w-fit flex flex-col items-center text-center md:px-2 md:py-1">
         <span
           className={`
-            text-xs  font-semibold truncate w-25 md:w-full h-5
+            text-sm tracking-wide  font-semibold line-clamp-2 w-25 md:w-full h-fit
             text-shadow-2xs
             ${tierStyle(product).name} ${tierStyle(product).glow}
           `}
