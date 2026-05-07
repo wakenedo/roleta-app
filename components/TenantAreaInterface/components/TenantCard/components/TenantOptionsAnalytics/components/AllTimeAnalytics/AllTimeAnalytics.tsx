@@ -7,7 +7,7 @@ const AllTimeAnalytics = ({
 }) => {
   console.log("AllTimeAnalytics tenantGlobalStats", tenantGlobalStats);
   return (
-    <div className=" border border-slate-400 px-2 mr-2 ml-1 mt-2">
+    <div className=" border border-slate-400 px-2 mx-1 mt-2">
       {tenantGlobalStats ? (
         <>
           <div className="border border-slate-400 p-4 mt-2">
