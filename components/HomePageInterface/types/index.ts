@@ -169,6 +169,7 @@ type TenantWithSeason = Tenant & {
     totalSpins: number;
     totalUsers: number;
     totalRewardsShown: number;
+    totalClicks: number;
   };
 };
 

@@ -33,6 +33,7 @@ type SeasonTenant = {
     totalSpins: number;
     totalUsers: number;
     totalRewardsShown: number;
+    totalClicks: number;
   };
 };
 
