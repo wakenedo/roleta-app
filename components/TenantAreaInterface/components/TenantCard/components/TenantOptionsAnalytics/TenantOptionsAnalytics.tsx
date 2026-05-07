@@ -18,11 +18,13 @@ const TenantOptionsAnalytics = ({ tenant }: { tenant: Tenant }) => {
   };
 
   return (
-    <div className="w-full md:w-1/2 border border-slate-300">
-      <span className=" pb-1  px-2 md:text-md tracking-widest font-bold text-slate-800  line-clamp-1  ">
-        Estatisticas
-      </span>
-      <div className="mx-1 -mt-5">
+    <div className="w-full md:w-1/2 flex flex-col ">
+      <div className="border border-slate-400  py-2 ml-1 mr-1">
+        <span className="px-2 text-md tracking-widest font-bold line-clamp-1">
+          Estatísticas
+        </span>
+      </div>
+      <div className="items-center -mt-2">
         <InterfaceSwitch
           leftComponent={
             <AllTimeAnalytics tenantGlobalStats={tenantGlobalStats} />
