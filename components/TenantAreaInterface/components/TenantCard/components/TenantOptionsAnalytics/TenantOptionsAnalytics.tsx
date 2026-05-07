@@ -2,11 +2,16 @@ import { InterfaceSwitch } from "@/components/InterfaceSwitch";
 import { useState } from "react";
 import { AllTimeAnalytics } from "./components/AllTimeAnalytics";
 import { SeasonalAnalytics } from "./components/SeasonalAnalytics";
+import { Tenant } from "@/context/TenantContext/types";
+import { useTenantSeasonStats } from "@/hooks/useTenantSeasonStats";
 
-const TenantOptionsAnalytics = () => {
+const TenantOptionsAnalytics = ({ tenant }: { tenant: Tenant }) => {
+  const { seasonStats, loading } = useTenantSeasonStats(tenant.id);
+
   const [onToggleChange, setOnToggleChange] = useState(
     "left" as "left" | "right",
   );
+  const tenantGlobalStats = tenant?.stats;
 
   const handleToggle = (side: "left" | "right") => {
     setOnToggleChange(side);
@@ -19,8 +24,12 @@ const TenantOptionsAnalytics = () => {
       </span>
       <div className="mx-1 -mt-5">
         <InterfaceSwitch
-          leftComponent={<AllTimeAnalytics />}
-          rightComponent={<SeasonalAnalytics />}
+          leftComponent={
+            <AllTimeAnalytics tenantGlobalStats={tenantGlobalStats} />
+          }
+          rightComponent={
+            <SeasonalAnalytics seasonStats={seasonStats} loading={loading} />
+          }
           leftLabel="All Time"
           rightLabel="Temporadas"
           onToggleChange={handleToggle}

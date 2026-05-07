@@ -34,6 +34,13 @@ type Payment = {
   paid: boolean;
 };
 
+type TenantGlobalStats = {
+  totalClicks: number;
+  totalRewardsShown: number;
+  totalSpins: number;
+  totalUsers: number;
+};
+
 type Tenant = {
   id: string;
   name: string;
@@ -42,6 +49,7 @@ type Tenant = {
   status: "active" | "inactive";
   payment?: Payment;
   branding?: TenantBranding;
+  stats?: TenantGlobalStats;
   settings?: TenantSettings;
   affiliate?: string | null;
   spinPool?: TenantSpinPool;
@@ -101,4 +109,5 @@ export type {
   TenantQuota,
   RegisterTenant,
   QuotaProps,
+  TenantGlobalStats,
 };

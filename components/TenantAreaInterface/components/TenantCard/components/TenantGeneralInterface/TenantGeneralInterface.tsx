@@ -34,7 +34,7 @@ const TenantGeneralInterface = ({
 
   const createdAt = tenant.createdAt as string;
   return (
-    <div className="flex-col space-y-4 border border-slate-300  px-4 pb-4 pt-2 w-full md:w-1/2">
+    <div className="flex-col space-y-4 pr-2 pb-4  w-full md:w-1/2">
       <div className="space-y-1 ">
         <TenantPartnerSection
           tenant={tenant}

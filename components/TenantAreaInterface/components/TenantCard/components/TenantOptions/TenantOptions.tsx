@@ -13,7 +13,7 @@ const TenantOptions = ({
 }) => {
   const { user } = useAuth();
   const tenantEmail = user?.email;
-  console.log("TenantOptions user", user);
+  console.log("TenantOptions user", tenant);
   if (!tenant) return null;
 
   return (
@@ -25,7 +25,7 @@ const TenantOptions = ({
             tenantEmail={tenantEmail}
             registeredProductsAmount={registeredProductsAmount}
           />
-          <TenantOptionsAnalytics />
+          <TenantOptionsAnalytics tenant={tenant} />
         </div>
       </div>
     </TenantAreaSectionBackground>

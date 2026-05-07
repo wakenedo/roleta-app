@@ -1,7 +1,23 @@
-const AllTimeAnalytics = () => {
+import { TenantGlobalStats } from "@/context/TenantContext/types";
+
+const AllTimeAnalytics = ({
+  tenantGlobalStats,
+}: {
+  tenantGlobalStats: TenantGlobalStats | undefined;
+}) => {
+  console.log("AllTimeAnalytics tenantGlobalStats", tenantGlobalStats);
   return (
     <div className=" border border-slate-400 px-2 mx-1 mt-2">
-      All Time Analytics
+      {tenantGlobalStats ? (
+        <div className="mt-2">
+          <p>Total Clicks: {tenantGlobalStats.totalClicks}</p>
+          <p>Total Rewards Shown: {tenantGlobalStats.totalRewardsShown}</p>
+          <p>Total Spins: {tenantGlobalStats.totalSpins}</p>
+          <p>Total Users: {tenantGlobalStats.totalUsers}</p>
+        </div>
+      ) : (
+        <p className="mt-2">No analytics data available.</p>
+      )}
     </div>
   );
 };
