@@ -16,7 +16,7 @@ const TenantProductCatalog = ({
   if (!products) return error;
   return (
     <div className="bg-white/90 backdrop-blur shadow-md px-2 w-full h-fit ">
-      <div className=" bg-white/90 backdrop-blur shadow-md md:px-4 md:py-4 px-3 py-3 ">
+      <div className=" bg-white/90 backdrop-blur shadow-md md:px-3 md:py-4 px-3 py-3 ">
         {error && <TenantError error={error} />}
         {loading && <span>Loading tenant...</span>}
         {!loading && !error && (

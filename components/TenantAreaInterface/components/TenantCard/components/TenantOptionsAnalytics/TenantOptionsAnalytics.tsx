@@ -18,9 +18,9 @@ const TenantOptionsAnalytics = ({ tenant }: { tenant: Tenant }) => {
   };
 
   return (
-    <div className="w-full md:w-1/2 flex flex-col ">
-      <div className="border border-slate-400  py-2 ml-1 mr-1">
-        <span className="px-2 text-md tracking-widest font-bold line-clamp-1">
+    <div className="w-full h-full md:w-1/2 flex flex-col ">
+      <div className="border border-slate-400 bg-slate-400 py-2 ml-1 mr-1">
+        <span className="px-2 text-md tracking-widest font-bold line-clamp-1 text-slate-50">
           Estatísticas
         </span>
       </div>

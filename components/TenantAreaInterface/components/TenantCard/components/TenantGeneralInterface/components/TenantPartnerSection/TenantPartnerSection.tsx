@@ -12,8 +12,8 @@ const TenantPartnerSection = ({
 }) => {
   return (
     <>
-      <div className="border border-slate-400  py-2">
-        <span className="px-2 text-md tracking-widest font-bold line-clamp-1">
+      <div className="border border-slate-400 bg-slate-400  py-2">
+        <span className="px-2 text-md tracking-widest font-bold line-clamp-1 text-slate-50">
           Parceiro
         </span>
       </div>

@@ -1,4 +1,5 @@
 import { SeasonTenantStats } from "@/hooks/useTenantSeasonStats";
+import { InfoRow } from "../../../TenantGeneralInterface/components/InfoRow";
 
 const SeasonalAnalytics = ({
   seasonStats,
@@ -9,30 +10,33 @@ const SeasonalAnalytics = ({
 }) => {
   console.log("SeasonalAnalytics seasonStats", seasonStats);
   return (
-    <div className="border border-slate-400  px-2 mx-1 mt-2">
+    <div className="flex flex-col justify-between   px-1 mx-1 mt-2 md:max-h-160">
       {loading ? (
         <p>Carregando...</p>
       ) : (
-        <>
-          <div className="border border-slate-400 p-4 mt-2">
-            Graph Component
+        <div className="flex flex-col justify-between    md:max-h-160 ">
+          <div className="border border-slate-200 bg-slate-200 p-4 mt-2 md:h-dvh">
+            Dynamic Component
           </div>
           <div className="mt-2">
-            <p className="text-md text-slate-700">
-              Total Spins: {seasonStats.stats?.totalSpins ?? "N/A"}
-            </p>
-            <p className="text-md text-slate-700">
-              Total Users: {seasonStats.stats?.totalUsers ?? "N/A"}
-            </p>
-            <p className="text-md text-slate-700">
-              Total Rewards Shown:{" "}
-              {seasonStats.stats?.totalRewardsShown ?? "N/A"}
-            </p>
-            <p className="text-lg font-bold">
-              Ranking Score: {seasonStats.ranking?.score ?? "N/A"}
-            </p>
+            <InfoRow
+              label="Giros"
+              value={seasonStats.stats?.totalSpins ?? "N/A"}
+            />
+            <InfoRow
+              label="Novos Usuários"
+              value={seasonStats.stats?.totalUsers ?? "N/A"}
+            />
+            <InfoRow
+              label="Recompensas Exibidas"
+              value={seasonStats.stats?.totalRewardsShown ?? "N/A"}
+            />
+            <InfoRow
+              label="Pontuação do Ranking"
+              value={seasonStats.ranking?.score ?? "N/A"}
+            />
           </div>
-        </>
+        </div>
       )}
     </div>
   );

@@ -1,4 +1,5 @@
 import { TenantGlobalStats } from "@/context/TenantContext/types";
+import { InfoRow } from "../../../TenantGeneralInterface/components/InfoRow";
 
 const AllTimeAnalytics = ({
   tenantGlobalStats,
@@ -7,17 +8,29 @@ const AllTimeAnalytics = ({
 }) => {
   console.log("AllTimeAnalytics tenantGlobalStats", tenantGlobalStats);
   return (
-    <div className=" border border-slate-400 px-2 mx-1 mt-2">
+    <div className="flex flex-col justify-between  px-1 mx-1 mt-2 md:max-h-160 ">
       {tenantGlobalStats ? (
         <>
-          <div className="border border-slate-400 p-4 mt-2">
-            Graph Component
+          <div className="border border-slate-200 bg-slate-200 p-4 mt-2 md:h-dvh">
+            Dynamic Component
           </div>
           <div className="mt-2">
-            <p>Total Clicks: {tenantGlobalStats.totalClicks}</p>
-            <p>Total Rewards Shown: {tenantGlobalStats.totalRewardsShown}</p>
-            <p>Total Spins: {tenantGlobalStats.totalSpins}</p>
-            <p>Total Users: {tenantGlobalStats.totalUsers}</p>
+            <InfoRow
+              label="Giros"
+              value={tenantGlobalStats.totalSpins.toString()}
+            />
+            <InfoRow
+              label="Clicks"
+              value={tenantGlobalStats.totalClicks.toString()}
+            />
+            <InfoRow
+              label="Usuários"
+              value={tenantGlobalStats.totalUsers.toString()}
+            />
+            <InfoRow
+              label="Recompensas Exibidas"
+              value={tenantGlobalStats.totalRewardsShown.toString()}
+            />
           </div>
         </>
       ) : (
