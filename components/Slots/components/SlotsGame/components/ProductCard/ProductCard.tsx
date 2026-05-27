@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ProductCardProps } from "@/components/Slots/types";
+import { Product, ProductCardProps } from "@/components/Slots/types";
 import { CardContent } from "./components/CardContent";
 import { CardDynamicGradient } from "./components/CardDynamicGradient";
 import { useUser } from "@/context/UserContext/UserContext";
@@ -36,6 +36,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
     </motion.div>
   );
 
+  const urlManager = (product: Product) => {
+    if (product.offerUrl) {
+      return product.offerUrl;
+    } else {
+      return product.url;
+    }
+  };
+
+  const url = urlManager(product);
   const handleClick = async (e: React.MouseEvent) => {
     e.preventDefault();
 
@@ -57,14 +66,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
       console.error(err);
     }
 
-    window.open(product.url, "_blank", "noopener,noreferrer");
+    window.open(url, "_blank", "noopener,noreferrer");
   };
 
   return isFiller ? (
     cardContent
   ) : (
     <a
-      href={product.url}
+      href={url}
       onClick={handleClick}
       target="_blank"
       rel="noopener noreferrer"
