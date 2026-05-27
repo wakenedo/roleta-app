@@ -62,6 +62,9 @@ type TenantProduct = {
   name: string;
   image: string;
   url: string;
+  offerUrl: string;
+  commission?: number | null;
+  commissionRate?: string | null;
   tier: "common" | "rare" | "jackpot";
   description?: string | null;
   price?: number | null;
