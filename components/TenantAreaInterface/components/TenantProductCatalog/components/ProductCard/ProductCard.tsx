@@ -26,6 +26,12 @@ const ProductCard = ({ product }: { product: TenantProduct }) => {
           <span className="text-[10px] bg-slate-200 px-2 py-1 rounded capitalize">
             {product.tier}
           </span>
+          <span className="text-[10px] bg-slate-200 px-2 py-1 rounded capitalize">
+            {product.commission}
+          </span>
+          <span className="text-[10px] bg-slate-200 px-2 py-1 rounded capitalize">
+            {product.commissionRate}
+          </span>
         </div>
       </div>
     </div>
