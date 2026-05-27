@@ -29,6 +29,7 @@ interface Product {
   name: string;
   image: string;
   url: string;
+  offerUrl: string;
   price: string;
   discount: string;
   discountedPrice: string;
