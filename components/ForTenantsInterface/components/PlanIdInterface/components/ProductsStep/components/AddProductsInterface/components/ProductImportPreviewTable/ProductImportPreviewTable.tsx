@@ -77,12 +77,14 @@ const ProductImportPreviewTable = ({
           Next
         </button>
       </div>
-      <div className="grid grid-cols-5 text-xs font-semibold p-2 border-b">
+      <div className="grid grid-cols-7  text-xs font-semibold m-2 border-b">
         <span>Name</span>
         <span>Image</span>
         <span>URL</span>
         <span>Tier</span>
+        <span>Commission Rate</span>
         <span>Price</span>
+        <span>Commission</span>
       </div>
 
       {paginatedProducts.map((product, index) => (
