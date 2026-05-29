@@ -24,6 +24,16 @@ interface SlotsConfig {
   };
 }
 
+type ProductMetadata = {
+  store?: string;
+  category?: string;
+  commission?: number;
+  commissionRate?: string;
+  campaign?: string;
+  affiliateProvider?: string;
+  stock?: null;
+};
+
 interface Product {
   id: string;
   name: string;
@@ -33,6 +43,7 @@ interface Product {
   price: string;
   discount: string;
   discountedPrice: string;
+  metadata?: ProductMetadata;
   tier: Tier;
   store: string;
   campaign: CampaignProps;
