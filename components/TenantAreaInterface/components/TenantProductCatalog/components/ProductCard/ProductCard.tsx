@@ -6,11 +6,13 @@ const ProductCard = ({ product }: { product: TenantProduct }) => {
       <img
         src={product.image}
         alt={product.name}
-        className="w-full h-30 object-cover rounded"
+        className="w-full max-h-30 object-cover rounded line-clamp-1"
       />
 
       <div className="flex flex-col gap-1">
-        <span className="font-semibold text-sm">{product.name}</span>
+        <span className="font-semibold text-sm line-clamp-1">
+          {product.name}
+        </span>
 
         {product.description && (
           <span className="text-xs text-gray-500 line-clamp-2">
@@ -18,20 +20,37 @@ const ProductCard = ({ product }: { product: TenantProduct }) => {
           </span>
         )}
 
-        <div className="flex items-center justify-between mt-2">
+        <div className="flex items-center space-x-2 w-full">
           <span className="text-xs text-indigo-600 font-bold">
-            R$ {Number(product.price).toFixed(2)}
+            {product.metadata?.affiliateProvider || product.affiliate || "N/A"}
           </span>
+          <span className="text-xs text-indigo-600 font-bold line-clamp-1">
+            {product.metadata?.store || product.store || "N/A"}
+          </span>
+        </div>
+        <div></div>
 
-          <span className="text-[10px] bg-slate-200 px-2 py-1 rounded capitalize">
-            {product.tier}
-          </span>
-          <span className="text-[10px] bg-slate-200 px-2 py-1 rounded capitalize">
-            {product.commission}
-          </span>
-          <span className="text-[10px] bg-slate-200 px-2 py-1 rounded capitalize">
-            {product.commissionRate}
-          </span>
+        <div className="flex items-center justify-between ">
+          <div className="flex flex-col space-y-1">
+            <span className="text-xs text-indigo-600 font-bold">
+              Valor: R$ {Number(product.price).toFixed(2)}
+            </span>
+            <div className="flex items-center space-x-2">
+              <span className="text-xs text-indigo-600 font-bold">
+                Comissão: R$ {Number(product.commission).toFixed(2)}
+              </span>
+              <span className="text-[10px] bg-slate-200 px-2 py-1 rounded capitalize">
+                {product.commissionRate}
+              </span>
+            </div>
+            <span className="text-[10px] bg-slate-200 px-2 py-1 rounded capitalize text-center">
+              {product.tier}
+            </span>
+
+            <span className="text-[10px] bg-slate-200 px-2 py-1 rounded capitalize text-center">
+              {product.metadata?.category || product.category || "N/A"}
+            </span>
+          </div>
         </div>
       </div>
     </div>
