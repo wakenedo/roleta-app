@@ -7,10 +7,10 @@ import { tierStyle } from "../../../../utils";
 const BadgeContent = ({ product }: { product: Product }) => {
   return (
     <div
-      className={`relative z-10 text-md p-2 font-bold  ${tierStyle(product).name}`}
+      className={`relative z-20 text-md p-2 font-bold  ${tierStyle(product).name}`}
     >
       {product.tier === "jackpot" ? (
-        <div className="flex justify-center space-x-1">
+        <div className="flex justify-center items-center space-x-1">
           <TbConfetti size={21} className="hidden md:block " />
           <span
             className={`${tierStyle(product).glow} text-shadow-2xs text-xs`}

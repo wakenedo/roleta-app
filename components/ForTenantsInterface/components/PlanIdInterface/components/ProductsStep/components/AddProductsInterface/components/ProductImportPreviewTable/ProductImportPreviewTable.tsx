@@ -77,22 +77,17 @@ const ProductImportPreviewTable = ({
           Next
         </button>
       </div>
-      <div className="grid grid-cols-5 text-xs font-semibold p-2 border-b">
-        <span>Name</span>
-        <span>Image</span>
-        <span>URL</span>
-        <span>Tier</span>
-        <span>Price</span>
-      </div>
 
-      {paginatedProducts.map((product, index) => (
-        <ProductImportRow
-          key={index}
-          product={product}
-          index={index}
-          updateProductField={updateProductField}
-        />
-      ))}
+      <div className="grid grid-cols-4 gap-1 p-2 border-b ">
+        {paginatedProducts.map((product, index) => (
+          <ProductImportRow
+            key={index}
+            product={product}
+            index={index}
+            updateProductField={updateProductField}
+          />
+        ))}
+      </div>
     </div>
   );
 };

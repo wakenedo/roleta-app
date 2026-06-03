@@ -122,7 +122,7 @@ const PlanIdInterface = ({ planId }: { planId: string }) => {
   return (
     <div className="min-h-screen">
       <main
-        className="flex flex-col items-center w-lg mx-auto  mt-10 text-white
+        className="flex flex-col items-center md:w-6xl mx-auto  mt-10 text-white
                   border-amber-50 border rounded-xl p-4 "
       >
         <StepHeaderInterface

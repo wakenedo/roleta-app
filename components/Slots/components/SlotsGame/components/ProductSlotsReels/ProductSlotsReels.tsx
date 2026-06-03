@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import { ProductCard } from "../ProductCard";
 import { ProductSlotsReelsPlaceholderInterface } from "../ProductSlotsReelsPlaceholderInterface";
 import { useProductSlotsReels } from "@/context/ProductSlotsReelsContext/ProductSlotsReelsContext";

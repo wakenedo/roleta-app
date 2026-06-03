@@ -36,7 +36,7 @@ export const useProductsImport = ({
   const [page, setPage] = useState(1);
 
   const MAX_PRODUCTS = selectedPlanMaxProducts(selectedPlan);
-  const PRODUCTS_PER_PAGE = 25;
+  const PRODUCTS_PER_PAGE = 20;
 
   const paginatedProducts = paginateProducts(products, page, PRODUCTS_PER_PAGE);
 

@@ -14,7 +14,6 @@ const Slots: FC<SlotsConfig> = ({
   tenantBranding,
   tenantSettings,
   tenantName,
-  refreshQuota,
   authorizedFetch,
   globalQuotaLoading,
   loading,
@@ -52,10 +51,10 @@ const Slots: FC<SlotsConfig> = ({
       // 🎯 Backend is the authority
       setSelectedProducts(data.products ?? []);
       setCurrentSpinId(data.spinId);
-      if (tenantId && refreshQuota) {
+      if (tenantId && (await refresh({ tenantId: tenantId }))) {
         optimisticSpin(tenantId);
-        refreshQuota();
-      } else optimisticSpin();
+        refresh({ tenantId: tenantId });
+      } else refresh({ tenantId: null });
     } catch (err) {
       console.error("Spin error:", err);
     } finally {

@@ -94,6 +94,7 @@ const normalizeProduct = (p: Record<string, unknown>): TenantProduct => {
     name,
     image,
     url,
+    offerUrl: url,
     tier:
       typeof p.tier === "string" &&
       ["common", "rare", "jackpot"].includes(p.tier)

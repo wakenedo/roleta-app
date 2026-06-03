@@ -16,7 +16,7 @@ const ToSModal = ({ open, onClose, onAccept, termsContent, title }: Props) => {
   if (!open) return null;
 
   return (
-    <div className="absolute bg-black/60 flex justify-center z-50 ">
+    <div className="absolute bg-black/60 flex justify-center z-50 right-0 left-0 top-0 bottom-0 items-center">
       <div className="bg-white  p-6 w-[650px] space-y-5 absolute ">
         <h2 className="text-xl font-bold text-slate-800">{title}</h2>
 

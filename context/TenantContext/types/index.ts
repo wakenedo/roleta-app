@@ -57,17 +57,33 @@ type Tenant = {
   updatedAt?: string;
 };
 
+type TenantProductMetadata = {
+  store?: string;
+  category?: string;
+  commission?: number;
+  commissionRate?: string;
+  campaign?: string;
+  affiliateProvider?: string;
+  stock?: null;
+};
+
 type TenantProduct = {
   id: string;
   name: string;
   image: string;
   url: string;
+  offerUrl: string;
+  commission?: number | null;
+  commissionRate?: string | null;
   tier: "common" | "rare" | "jackpot";
   description?: string | null;
+  category?: string | null;
+  affiliate?: string | null;
+  store?: string | null;
   price?: number | null;
-  compareAt?: number | null;
   priority?: number;
   stock?: number | null;
+  metadata?: TenantProductMetadata;
   active: boolean;
   createdAt: string;
   updatedAt: string;

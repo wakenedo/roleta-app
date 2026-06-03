@@ -5,7 +5,7 @@ const TheGameExperience = () => {
     {
       title: "ENTRE NA PROMOBET",
       description:
-        "Crie sua conta gratuitamente e garanta acesso as experiências de Roletas.",
+        "Crie sua conta usuário gratuitamente e garanta acesso as experiências de Roletas.",
       emoji: "🚀",
     },
     {
