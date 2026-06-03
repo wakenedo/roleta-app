@@ -29,15 +29,14 @@ const UserOptions: FC<UserOptionsProps> = ({ user, logout, subStatus }) => {
                   {user.email}
                 </p>
               </div>
-              <div className="flex flex-col items-center hover:opacity-85 cursor-pointer ">
+              <div className="flex flex-col items-center text-[#84e9e4] hover:text-red-400 transition cursor-pointer ">
                 <FaPowerOff
-                  color="#84e9e4"
                   size={18}
-                  className="mr-1 w-fit "
+                  className="mr-1 w-fit  "
                   onClick={logout}
                 />
                 <div>
-                  <span className="tracking-widest text-center text-xs font-semibold text-[#84e9e4]">
+                  <span className="tracking-widest text-center text-xs font-semibold ">
                     Sair
                   </span>
                 </div>
