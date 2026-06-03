@@ -10,6 +10,7 @@ const FILLER: Product = {
   image: "/",
   tier: "common",
   url: "",
+  offerUrl: "",
   price: "????",
   discountedPrice: "????",
   discount: "????",
