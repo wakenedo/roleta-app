@@ -27,6 +27,11 @@ export default function HistoryProductItem({ product }: { product: Product }) {
         <span className="text-xs text-slate-500 cursor-default">
           {product.store}
         </span>
+        {product.metadata && (
+          <span className="text-xs text-slate-500 cursor-default capitalize">
+            {product.metadata.affiliateProvider} - {product.metadata.store}
+          </span>
+        )}
       </div>
 
       {/* Right */}
@@ -42,7 +47,7 @@ export default function HistoryProductItem({ product }: { product: Product }) {
           </div>
         ) : (
           <div className="flex flex-col w-fit items-center ">
-            <span className="text-xs text-emerald-600 font-semibold ">
+            <span className="md:text-sm text-xs text-emerald-600 font-semibold ">
               {formatPriceBRL(product.price)}
             </span>
           </div>
