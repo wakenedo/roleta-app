@@ -40,22 +40,22 @@ const FeaturedTenantCard = ({ tenant }: { tenant: TenantWithSeason }) => {
         <img
           src={tenant.branding.logoUrl}
           alt={tenant.name}
-          className="h-80 object-contain border  rounded-full w-80 mx-auto shadow-2xl "
+          className="lg:h-80 h-40 w-40 object-contain border  rounded-full lg:w-80 mx-auto shadow-2xl "
           style={{ borderColor: primaryColor, backgroundColor: primaryColor }}
         />
       ) : (
         <>
           <div
-            className="h-75 object-contain border  rounded-full w-80 mx-auto shadow-2xl "
+            className="h-40 lg:h-80 w-40 lg:w-80 object-contain border  rounded-full  mx-auto shadow-2xl "
             style={{ borderColor: primaryColor, backgroundColor: primaryColor }}
           >
             <div className="flex  h-full  justify-center">
               <div className="flex flex-col relative justify-center my-auto text-center rotate-[-12deg]">
-                <GiBanana className="h-22 w-22 mx-auto text-slate-100" />
+                <GiBanana className="lg:h-22 h-11 w-11 lg:w-22 mx-auto text-slate-100" />
                 <span className="md:text-xl text-slate-100 font-bold">
                   Bananas !
                 </span>
-                <span className="md:text-4xl font-extrabold text-slate-100 drop-shadow-2xl ">
+                <span className="lg:text-4xl text-xl font-extrabold text-slate-100 drop-shadow-2xl ">
                   SEM LOGO
                 </span>
               </div>
@@ -74,7 +74,9 @@ const FeaturedTenantCard = ({ tenant }: { tenant: TenantWithSeason }) => {
           subscription={tenant.subscriptionMode as TenantSubscription}
         />
         <div>
-          <span className="text-gray-500">Pontos: {tenant.ranking?.score}</span>
+          <span className="text-gray-500 line-clamp-2">
+            Pontos: {tenant.ranking?.score}
+          </span>
         </div>
         <div>
           <span className="text-gray-500">
