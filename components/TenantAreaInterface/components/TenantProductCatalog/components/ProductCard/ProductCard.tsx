@@ -19,37 +19,48 @@ const ProductCard = ({ product }: { product: TenantProduct }) => {
             {product.description}
           </span>
         )}
-
-        <div className="flex items-center space-x-2 w-full">
-          <span className="text-xs text-indigo-600 font-bold">
-            {product.metadata?.affiliateProvider || product.affiliate || "N/A"}
-          </span>
-          <span className="text-xs text-indigo-600 font-bold line-clamp-1">
-            {product.metadata?.store || product.store || "N/A"}
-          </span>
-        </div>
-        <div></div>
+        {product.metadata && (
+          <>
+            <div className="flex items-center space-x-2 w-full">
+              <span className="text-xs text-indigo-600 font-bold">
+                {product.metadata?.affiliateProvider ||
+                  product.affiliate ||
+                  "N/A"}
+              </span>
+            </div>
+            <div>
+              <span className="text-xs text-indigo-600 font-bold line-clamp-1">
+                {product.metadata?.store || product.store || "N/A"}
+              </span>
+            </div>
+          </>
+        )}
 
         <div className="flex items-center justify-between ">
           <div className="flex flex-col space-y-1">
             <span className="text-xs text-indigo-600 font-bold">
               Valor: R$ {Number(product.price).toFixed(2)}
             </span>
-            <div className="flex items-center space-x-2">
-              <span className="text-xs text-indigo-600 font-bold">
-                Comissão: R$ {Number(product.commission).toFixed(2)}
-              </span>
-              <span className="text-[10px] bg-slate-200 px-2 py-1 rounded capitalize">
-                {product.commissionRate}
-              </span>
-            </div>
+            {product.commission && (
+              <>
+                <div className="flex items-center space-x-2">
+                  <span className="text-xs text-indigo-600 font-bold">
+                    Comissão: R$ {Number(product.commission).toFixed(2)}
+                  </span>
+                  <span className="text-[10px] bg-slate-200 px-2 py-1 rounded capitalize">
+                    {product.commissionRate}
+                  </span>
+                </div>
+              </>
+            )}
             <span className="text-[10px] bg-slate-200 px-2 py-1 rounded capitalize text-center">
               {product.tier}
             </span>
-
-            <span className="text-[10px] bg-slate-200 px-2 py-1 rounded capitalize text-center">
-              {product.metadata?.category || product.category || "N/A"}
-            </span>
+            {product.metadata && (
+              <span className="text-[10px] bg-slate-200 px-2 py-1 rounded capitalize text-center">
+                {product.metadata?.category || product.category || "N/A"}
+              </span>
+            )}
           </div>
         </div>
       </div>
