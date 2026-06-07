@@ -22,6 +22,7 @@ interface SlotsConfig {
       init?: RequestInit,
     ): Promise<Response>;
   };
+  previewMode?: boolean; // Optional prop to indicate if it's in preview mode
 }
 
 type ProductMetadata = {
