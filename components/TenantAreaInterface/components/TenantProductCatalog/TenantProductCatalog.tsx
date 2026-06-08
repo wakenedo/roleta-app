@@ -1,18 +1,14 @@
-import { TenantProduct } from "@/context/TenantContext/types";
 import { TenantError } from "../TenantError";
 import { ProductGrid } from "./components/ProductGrid";
 import { ProductJsonViewer } from "./components/ProductJsonViewer";
 import { ProductEditSection } from "./components/ProductEditSection";
+import { TenantProductCatalogProps } from "../../types";
 
 const TenantProductCatalog = ({
   products,
   loading,
   error,
-}: {
-  products: TenantProduct[];
-  loading: boolean;
-  error: string | null;
-}) => {
+}: TenantProductCatalogProps) => {
   if (!products) return error;
   return (
     <div className="bg-white/90 backdrop-blur shadow-md px-1 w-full h-fit pb-1">

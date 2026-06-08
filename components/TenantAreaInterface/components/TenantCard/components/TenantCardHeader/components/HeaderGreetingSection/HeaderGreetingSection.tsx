@@ -1,15 +1,12 @@
 import { FaPowerOff } from "react-icons/fa";
 import { HeaderAdvancedSettings } from "../HeaderAdvancedSettings";
+import { HeaderSectionGreetingsProps } from "@/components/TenantAreaInterface/types";
 
 const HeaderGreetingSection = ({
   tenantName,
   handleLogout,
   setActiveModal,
-}: {
-  tenantName: string;
-  handleLogout: () => void;
-  setActiveModal: (modal: "advanced" | "bug" | "suggestion" | null) => void;
-}) => {
+}: HeaderSectionGreetingsProps) => {
   return (
     <div className="flex justify-between items-center px-1 mx-1 py-1 ">
       <div className="flex flex-col ">

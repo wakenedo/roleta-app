@@ -1,7 +1,7 @@
-import { TenantProduct } from "@/context/TenantContext/types";
 import { ProductCard } from "../ProductCard";
+import { TenantProductCatalogProductGridProps } from "@/components/TenantAreaInterface/types";
 
-const ProductGrid = ({ products }: { products: TenantProduct[] }) => {
+const ProductGrid = ({ products }: TenantProductCatalogProductGridProps) => {
   if (products === null) return null;
   return (
     <div className="flex flex-col  ">

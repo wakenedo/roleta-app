@@ -1,10 +1,9 @@
+import { HeaderAdvancedSettingsModalProps } from "@/components/TenantAreaInterface/types";
+
 const HeaderAdvancedSettingsModal = ({
   activeModal,
   closeModal,
-}: {
-  activeModal: "advanced" | "bug" | "suggestion";
-  closeModal: () => void;
-}) => {
+}: HeaderAdvancedSettingsModalProps) => {
   return (
     <div className="mx-4 absolute inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="bg-white rounded-lg p-6 min-w-[400px] shadow-lg">

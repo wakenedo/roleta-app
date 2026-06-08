@@ -1,8 +1,7 @@
-import { Tenant } from "@/context/TenantContext/types";
-import { Dispatch, SetStateAction } from "react";
 import { TenantShareExperienceLink } from "../../../TenantShareExperienceLink";
 import { HeaderGreetingSection } from "./components/HeaderGreetingSection";
 import { HeaderSectionTab } from "./components/HeaderSectionTab";
+import { TenantCardHeaderProps } from "@/components/TenantAreaInterface/types";
 
 const TenantCardHeader = ({
   tenant,
@@ -10,13 +9,7 @@ const TenantCardHeader = ({
   setActiveTab,
   activeTab,
   setActiveModal,
-}: {
-  tenant: Tenant;
-  handleLogout: () => void;
-  activeTab: "preview" | "general" | "catalog";
-  setActiveTab: Dispatch<SetStateAction<"preview" | "general" | "catalog">>;
-  setActiveModal: (modal: "advanced" | "bug" | "suggestion" | null) => void;
-}) => {
+}: TenantCardHeaderProps) => {
   const tenantName = tenant.name;
   return (
     <div className=" bg-white/90 backdrop-blur rounded-tr-2xl ">

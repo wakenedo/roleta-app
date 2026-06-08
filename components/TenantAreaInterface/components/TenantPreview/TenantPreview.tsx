@@ -1,29 +1,20 @@
-import { TenantProduct } from "@/context/TenantContext/types";
 import { TenantError } from "../TenantError";
-import { useTenantAuth } from "@/context/TenantAuthContext/TenantAuthContext";
-import { useTenant } from "@/context/TenantContext/TenantContext";
-import { useGlobalQuota } from "@/context/GlobalQuotaContext/GlobalQuotaContext";
-import { useAuth } from "@/context/AuthContext/AuthContext";
 import TenantPreviewContent from "./components/TenantPreviewContent/TenantPreviewContent";
+import { TenantPreviewProps } from "../../types";
 
 const TenantPreview = ({
+  tenant,
   preview,
   loading,
   error,
-}: {
-  preview: TenantProduct[];
-  loading: boolean;
-  error: string | null;
-}) => {
-  const { tenant } = useTenant();
-  const { sessionTenantId } = useTenantAuth();
-  const { refresh, quota, globalQuotaLoading } = useGlobalQuota();
-  const { authorizedFetch } = useAuth();
-
+  sessionTenantId,
+  globalQuotaLoading,
+  globalRefresh,
+  authorizedFetch,
+}: TenantPreviewProps) => {
   if (!tenant) return;
 
   const tenantName = tenant.name;
-  const tenantIdentifier = tenant.id;
   const tenantBranding = tenant.branding;
   const primaryColor = tenantBranding?.primaryColor;
   return (
@@ -46,8 +37,7 @@ const TenantPreview = ({
               sessionTenantId={sessionTenantId}
               globalQuotaLoading={globalQuotaLoading}
               authorizedFetch={authorizedFetch}
-              refresh={refresh}
-              tenantIdentifier={tenantIdentifier}
+              refresh={globalRefresh}
             />
           </div>
         )}

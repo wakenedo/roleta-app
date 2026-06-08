@@ -1,12 +1,9 @@
-import { Dispatch, SetStateAction } from "react";
+import { HeaderSectionTabProps } from "@/components/TenantAreaInterface/types";
 
 const HeaderSectionTab = ({
   setActiveTab,
   activeTab,
-}: {
-  setActiveTab: Dispatch<SetStateAction<"preview" | "general" | "catalog">>;
-  activeTab: "preview" | "general" | "catalog";
-}) => {
+}: HeaderSectionTabProps) => {
   return (
     <div className="mx-1 text-sm font-light tracking-widest flex space-x-4 rounded-t-2xl cursor-pointer  bg-slate-500/5  w-fit ">
       <div

@@ -6,9 +6,11 @@ import { useEffect } from "react";
 
 import { useTenantAuth } from "@/context/TenantAuthContext/TenantAuthContext";
 import TenantAreaInterface from "../../TenantAreaInterface";
+import { useGlobalQuota } from "@/context/GlobalQuotaContext/GlobalQuotaContext";
+import { useAuth } from "@/context/AuthContext/AuthContext";
 
 const TenantAreaContent = () => {
-  const { tenantLogout } = useTenantAuth();
+  const { tenantLogout, sessionTenantId } = useTenantAuth();
   const {
     tenant,
     loading,
@@ -20,6 +22,12 @@ const TenantAreaContent = () => {
     loadPreview,
     setTenant,
   } = useTenant();
+  const { authorizedFetch } = useAuth();
+  const {
+    refresh: globalRefresh,
+    quota,
+    globalQuotaLoading,
+  } = useGlobalQuota();
 
   useEffect(() => {
     refresh();
@@ -44,6 +52,10 @@ const TenantAreaContent = () => {
         error={error}
         products={products}
         preview={preview}
+        sessionTenantId={sessionTenantId}
+        globalQuotaLoading={globalQuotaLoading}
+        globalRefresh={globalRefresh}
+        authorizedFetch={authorizedFetch}
       />
     </TenantSlotsDedicatedRouteBackground>
   );

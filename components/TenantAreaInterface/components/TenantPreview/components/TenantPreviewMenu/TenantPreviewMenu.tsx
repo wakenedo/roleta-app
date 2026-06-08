@@ -1,12 +1,10 @@
+import { TenantPreviewMenuProps } from "@/components/TenantAreaInterface/types";
 import { InfoRow } from "../../../TenantCard/components/TenantGeneralInterface/components/InfoRow";
 
 const TenantPreviewMenu = ({
   primaryColor,
   logoUrl,
-}: {
-  primaryColor: string | undefined;
-  logoUrl: string | undefined | null;
-}) => {
+}: TenantPreviewMenuProps) => {
   return (
     <div className="absolute  bg-slate-50 rounded p-4 flex flex-col w-md">
       <div>

@@ -1,15 +1,11 @@
-import { Tenant } from "@/context/TenantContext/types";
 import { InfoRow } from "../InfoRow";
+import { TenantLimitsSectionProps } from "@/components/TenantAreaInterface/types";
 
 const TenantLimitsSection = ({
   tenant,
   registeredProductsAmount,
   subscriptionBasedLimit,
-}: {
-  tenant: Tenant;
-  registeredProductsAmount: number;
-  subscriptionBasedLimit: 100 | 250 | 500 | 0;
-}) => {
+}: TenantLimitsSectionProps) => {
   return (
     <>
       <div className="border border-slate-400 bg-slate-400  py-2">

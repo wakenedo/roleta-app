@@ -15,6 +15,10 @@ const TenantAreaInterface: React.FC<TenantAreaInterfaceProps> = ({
   products,
   preview,
   logout,
+  sessionTenantId,
+  globalQuotaLoading,
+  globalRefresh,
+  authorizedFetch,
 }) => {
   const [activeTab, setActiveTab] = useState<"general" | "catalog" | "preview">(
     "general",
@@ -62,7 +66,16 @@ const TenantAreaInterface: React.FC<TenantAreaInterfaceProps> = ({
             />
           )}
           {activeTab === "preview" && (
-            <TenantPreview preview={preview} loading={loading} error={error} />
+            <TenantPreview
+              tenant={tenant}
+              preview={preview}
+              loading={loading}
+              error={error}
+              sessionTenantId={sessionTenantId}
+              globalQuotaLoading={globalQuotaLoading}
+              globalRefresh={globalRefresh}
+              authorizedFetch={authorizedFetch}
+            />
           )}
           {activeModal && (
             <HeaderAdvancedSettingsModal

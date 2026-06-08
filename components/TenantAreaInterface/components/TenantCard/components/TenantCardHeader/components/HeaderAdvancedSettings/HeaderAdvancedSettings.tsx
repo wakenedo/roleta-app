@@ -1,10 +1,9 @@
+import { HeaderAdvanceSettingsProps } from "@/components/TenantAreaInterface/types";
 import { BsBug, BsGear, BsLightbulb } from "react-icons/bs";
 
 const HeaderAdvancedSettings = ({
   setActiveModal,
-}: {
-  setActiveModal: (modal: "advanced" | "bug" | "suggestion" | null) => void;
-}) => {
+}: HeaderAdvanceSettingsProps) => {
   return (
     <div className="ml-1 absolute mt-15 border border-slate-400 rounded bg-slate-200 p-1 flex gap-2">
       <div className="relative group">

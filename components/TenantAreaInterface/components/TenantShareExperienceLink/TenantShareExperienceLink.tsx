@@ -1,12 +1,10 @@
 import { CgCopy } from "react-icons/cg";
+import { TenantShareExperience } from "../../types";
 
 const TenantShareExperienceLink = ({
   tenantIdentifier,
   absolutePosition,
-}: {
-  tenantIdentifier: string;
-  absolutePosition?: boolean;
-}) => {
+}: TenantShareExperience) => {
   const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
   const url = `${APP_URL}/${tenantIdentifier}/slots`;
 

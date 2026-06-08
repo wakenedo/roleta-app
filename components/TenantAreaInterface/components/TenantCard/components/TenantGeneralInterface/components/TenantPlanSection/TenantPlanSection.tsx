@@ -1,7 +1,7 @@
-import { Tenant } from "@/context/TenantContext/types";
 import { InfoRow } from "../InfoRow";
+import { TenantPlanSectionProps } from "@/components/TenantAreaInterface/types";
 
-const TenantPlanSection = ({ tenant }: { tenant: Tenant }) => {
+const TenantPlanSection = ({ tenant }: TenantPlanSectionProps) => {
   return (
     <>
       <div className="border-t border-x border-slate-400 bg-slate-400  py-2">

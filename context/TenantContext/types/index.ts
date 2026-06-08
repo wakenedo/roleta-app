@@ -46,7 +46,7 @@ type Tenant = {
   name: string;
   ownerUid: string;
   subscriptionMode: string;
-  status: "active" | "inactive";
+  status: "active" | "inactive" | "pending" | "canceled" | "suspended";
   payment?: Payment;
   branding?: TenantBranding;
   stats?: TenantGlobalStats;
