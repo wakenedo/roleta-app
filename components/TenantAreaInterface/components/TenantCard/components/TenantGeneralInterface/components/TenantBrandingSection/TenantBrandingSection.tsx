@@ -1,6 +1,7 @@
 import { Tenant } from "@/context/TenantContext/types";
 import { InfoRow } from "../InfoRow";
 
+// Remove this component: Branding is being dealt on preview level
 const TenantBrandingSection = ({ tenant }: { tenant: Tenant }) => {
   return (
     <>

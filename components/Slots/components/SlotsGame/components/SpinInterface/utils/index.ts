@@ -11,17 +11,4 @@ function getTimeUntil(dateString: string) {
   return { hours, minutes, seconds, isExpired: diff <= 0 };
 }
 
-export function formatCountdown({
-  hours,
-  minutes,
-  seconds,
-}: {
-  hours: number;
-  minutes: number;
-  seconds: number;
-}) {
-  const pad = (n: number) => String(n).padStart(2, "0");
-  return `${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
-}
-
 export { getTimeUntil };

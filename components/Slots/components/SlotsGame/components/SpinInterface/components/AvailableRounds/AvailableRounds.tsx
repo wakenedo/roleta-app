@@ -1,6 +1,7 @@
 import { AvailableRoundsProps } from "@/components/Slots/types";
 import { FC, useEffect, useState } from "react";
-import { formatCountdown, getTimeUntil } from "../../utils";
+import { getTimeUntil } from "../../utils";
+import { formatCountdown } from "@/utils/formatter-utils";
 
 const AvailableRounds: FC<AvailableRoundsProps> = ({
   isEmpty,
