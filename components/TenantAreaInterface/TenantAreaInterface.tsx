@@ -5,6 +5,7 @@ import { TenantPreview } from "./components/TenantPreview";
 import { useRouter } from "next/navigation";
 import TenantCardHeader from "./components/TenantCard/components/TenantCardHeader/TenantCardHeader";
 import { useState } from "react";
+import { HeaderAdvancedSettingsModal } from "./components/TenantCard/components/TenantCardHeader/components/HeaderAdvancedSettingsModal";
 
 const TenantAreaInterface: React.FC<TenantAreaInterfaceProps> = ({
   tenant,
@@ -28,8 +29,14 @@ const TenantAreaInterface: React.FC<TenantAreaInterfaceProps> = ({
 
   const registeredProductsAmount = products.length;
 
+  const [activeModal, setActiveModal] = useState<
+    "advanced" | "bug" | "suggestion" | null
+  >(null);
+
+  const closeModal = () => setActiveModal(null);
+
   return (
-    <main className="font-sans overflow-hidden md:max-w-8xl mx-auto relative z-10 min-h-screen flex flex-col items-center  md:px-4 px-1">
+    <main className="font-sans overflow-hidden md:max-w-8xl mx-auto relative z-10 min-h-screen flex flex-col items-center  md:px-4 px-1 ">
       {tenant && (
         <div className="w-full h-full   ">
           <TenantCardHeader
@@ -37,6 +44,7 @@ const TenantAreaInterface: React.FC<TenantAreaInterfaceProps> = ({
             handleLogout={handleLogout}
             activeTab={activeTab}
             setActiveTab={setActiveTab}
+            setActiveModal={setActiveModal}
           />
           {activeTab === "general" && (
             <TenantCard
@@ -55,6 +63,12 @@ const TenantAreaInterface: React.FC<TenantAreaInterfaceProps> = ({
           )}
           {activeTab === "preview" && (
             <TenantPreview preview={preview} loading={loading} error={error} />
+          )}
+          {activeModal && (
+            <HeaderAdvancedSettingsModal
+              activeModal={activeModal}
+              closeModal={closeModal}
+            />
           )}
         </div>
       )}

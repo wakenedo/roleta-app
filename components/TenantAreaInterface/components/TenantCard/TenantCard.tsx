@@ -21,7 +21,7 @@ const TenantCard: FC<TenantCardProps> = ({
         </div>
       )}
       {tenant && (
-        <div className=" flex flex-col mx-1">
+        <div className=" flex flex-col mx-1 pb-1">
           <TenantOptions
             registeredProductsAmount={registeredProductsAmount}
             tenant={tenant}

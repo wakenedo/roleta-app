@@ -41,13 +41,12 @@ const TenantGeneralInterface = ({
           tenantEmail={tenantEmail}
           createdAt={createdAt}
         />
-        <TenantPlanSection tenant={tenant} />
-        <TenantBrandingSection tenant={tenant} />
         <TenantLimitsSection
           tenant={tenant}
           registeredProductsAmount={registeredProductsAmount}
           subscriptionBasedLimit={subscriptionBasedLimit}
         />
+        <TenantPlanSection tenant={tenant} />
       </div>
     </div>
   );

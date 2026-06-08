@@ -8,7 +8,7 @@ const ProductJsonViewer = ({ products }: { products: TenantProduct[] }) => {
     <div className="flex flex-col gap-3 ">
       <span className="text-xs font-semibold text-slate-600">JSON </span>
 
-      <div className="bg-slate-300 p-4 h-73 overflow-auto [scrollbar-width:none]">
+      <div className="bg-slate-300 p-4 h-[252px] overflow-auto [scrollbar-width:none]">
         <JsonView
           value={products}
           collapsed={2}
