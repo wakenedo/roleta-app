@@ -15,13 +15,13 @@ const TenantPreviewContent = ({
   logoUrl,
 }: TenantPreviewContentProps) => {
   return (
-    <div className="  flex space-x-2 bg-slate-200 text-sm text-slate-600">
+    <div className="  bg-slate-200 text-sm text-slate-600">
       <TenantSlotsDedicatedRouteBackground
         tenantBranding={tenantBranding}
         tenantName={tenantName}
       >
         <TenantPreviewMenu primaryColor={primaryColor} logoUrl={logoUrl} />
-        <div className="-mt-10 pb-4 flex justify-center ">
+        <div className=" flex justify-center pb-2 -mt-12">
           <Slots
             quota={null}
             loading={loading}

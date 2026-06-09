@@ -5,7 +5,7 @@ const HeaderAdvancedSettingsModal = ({
   closeModal,
 }: HeaderAdvancedSettingsModalProps) => {
   return (
-    <div className="mx-4 absolute inset-0 z-50 flex items-center justify-center bg-black/50">
+    <div className="  absolute inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="bg-white rounded-lg p-6 min-w-[400px] shadow-lg">
         <h2 className="text-lg font-semibold mb-4">
           {activeModal === "advanced" && "Advanced Settings"}

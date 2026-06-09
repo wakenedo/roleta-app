@@ -16,7 +16,7 @@ const StatusBadge = ({ status }: { status: TenantStatus }) => {
 
   return (
     <span
-      className={`tracking-widest inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium capitalize ${statusStyles[status]}`}
+      className={`tracking-widest inline-flex items-center rounded-full border px-2 py-0.5 text-sm font-semibold capitalize ${statusStyles[status]}`}
     >
       {status}
     </span>

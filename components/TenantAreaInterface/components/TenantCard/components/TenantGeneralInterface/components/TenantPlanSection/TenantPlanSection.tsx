@@ -1,14 +1,11 @@
+import { TenantSectionMarker } from "@/components/TenantAreaInterface/components/TenantSectionMarker";
 import { InfoRow } from "../InfoRow";
 import { TenantPlanSectionProps } from "@/components/TenantAreaInterface/types";
 
 const TenantPlanSection = ({ tenant }: TenantPlanSectionProps) => {
   return (
     <>
-      <div className="border-t border-x border-slate-400 bg-slate-400  py-2">
-        <span className="px-2 text-md tracking-widest font-bold line-clamp-1 text-slate-50">
-          Assinatura
-        </span>
-      </div>
+      <TenantSectionMarker markerTitle="Assinatura" />
       <div className="border border-slate-200 bg-slate-200 p-1 mb-3 -mt-1">
         <div className="px-1 pb-1 mt-2">
           <div className="flex justify-between items-center text-base">

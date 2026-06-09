@@ -7,7 +7,7 @@ const InfoRow = ({
   value: React.ReactNode;
   small?: boolean;
 }) => (
-  <div className="flex justify-between items-center text-base">
+  <div className="cursor-default flex justify-between items-center text-base">
     <span className={`${small ? "text-sm" : "text-lg"} text-slate-400`}>
       {label}
     </span>
