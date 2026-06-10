@@ -11,6 +11,7 @@ interface SlotsConfig {
   refreshQuota?: () => Promise<void>;
   refresh: ({ tenantId }: { tenantId: string | null }) => Promise<void>;
   quota: SpinQuota | null;
+  tenantQuota?: SpinQuota | null;
   globalQuotaLoading: boolean;
   optimisticSpin: (tenantId?: string | null) => void;
   loading: boolean;
@@ -22,6 +23,20 @@ interface SlotsConfig {
       init?: RequestInit,
     ): Promise<Response>;
   };
+  userWeeklyLimit?:
+    | {
+        limit: number;
+        remaining: number;
+        used: number;
+      }
+    | undefined;
+  userMonthlyLimit?:
+    | {
+        limit: number;
+        remaining: number;
+        used: number;
+      }
+    | undefined;
   previewMode?: boolean; // Optional prop to indicate if it's in preview mode
 }
 
@@ -76,10 +91,25 @@ interface SlotsGameProps {
   spinning: boolean;
   onSpin: () => Promise<void>;
   quota: SpinQuota | null;
+  tenantQuota?: SpinQuota | null;
   tenantBranding?: TenantBranding;
   tenantSettings?: TenantSettings;
   currentSpinId: string | null;
   selectedProducts: Product[];
+  userWeeklyLimit?:
+    | {
+        limit: number;
+        remaining: number;
+        used: number;
+      }
+    | undefined;
+  userMonthlyLimit?:
+    | {
+        limit: number;
+        remaining: number;
+        used: number;
+      }
+    | undefined;
 }
 
 interface TierBadgeProps {
@@ -94,15 +124,36 @@ type TierConfig = {
 };
 
 interface SpinInterfaceProps {
-  dailyLimit: number;
   barColor: "bg-green-400" | "bg-yellow-400" | "bg-red-400";
-  progress: number;
+  tenantBarColor?: string;
   onSpin: () => void;
-  disabled: boolean | undefined | null;
   spinning: boolean;
-  remaining: number;
+  dailyLimit: number;
+  disabled: boolean | undefined | null;
   isEmpty: boolean;
+  progress: number;
   resetsAt: string | undefined;
+  remaining: number;
+  tenantDailyLimit?: number;
+  tenantDisabled?: boolean | undefined | null;
+  tenantIsEmpty?: boolean;
+  tenantProgress?: number;
+  tenantResetsAt?: string | undefined;
+  tenantRemaining?: number;
+  userWeeklyLimit?:
+    | {
+        limit: number;
+        remaining: number;
+        used: number;
+      }
+    | undefined;
+  userMonthlyLimit?:
+    | {
+        limit: number;
+        remaining: number;
+        used: number;
+      }
+    | undefined;
   tenantBranding?: TenantBranding;
   tenantSettings?: TenantSettings;
 }
@@ -115,7 +166,7 @@ type AvailableRoundsProps = {
 };
 
 type DynamicProgressBarProps = {
-  barColor: "bg-green-400" | "bg-yellow-400" | "bg-red-400";
+  barColor: "bg-green-400" | "bg-yellow-400" | "bg-red-400" | string;
   progress: number;
 };
 
@@ -123,6 +174,7 @@ type SpinButtonProps = {
   onSpin: () => void;
   disabled: boolean | null | undefined;
   spinning: boolean;
+  primaryColorClassName?: string;
 };
 
 type CardGradientLifecycleProps = {
