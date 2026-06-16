@@ -59,32 +59,60 @@ type ProductsStatsProps = {
   }[];
 };
 
-type EventProps = {
-  tenantId: string;
-  ip: string | null;
-  userAgent: string | null;
-  user: {
-    userId: string;
-  };
-  productsShown: [];
-  productClicked: [];
-  spinId: string;
-  positionClicked: string;
-  redirectUrl: string;
-  createdAt: string;
+type topProductProps = {
+  affiliateProvider: string | null;
+  category: string;
+  clicks: number;
+  image: string | null;
+  name: string;
+  tier: string;
+  url: string;
+};
+
+type affiliateProvidersProps = {
+  name: string;
+  clicks: number;
+};
+
+type topCategoriesProps = {
+  name: string;
+  clicks: number;
 };
 
 type EngagementStatsProps = {
-  clickEvents: EventProps[];
-  clickedProducts: number;
+  affiliateProviders: affiliateProvidersProps[];
   averageClicksPerProduct: number;
-  topProducts: [];
+  clickEvents: number;
+  clickedProducts: number;
+  lastUpdatedAt: string;
+  topCategories: topCategoriesProps[];
+  topProducts: topProductProps[];
+};
+
+type SeasonRankingProps = {
+  score: number;
 };
 
 type StatsProps = {
   platform: PlatformStatsProps;
   products: ProductsStatsProps;
   engagement: EngagementStatsProps;
+};
+type SeasonStatsProps = {
+  ranking?: SeasonRankingProps;
+  stats: {
+    platform: PlatformStatsProps;
+    products: ProductsStatsProps;
+    engagement: EngagementStatsProps;
+  };
+  createdAt: {
+    _nanoseconds: number;
+    _seconds: number;
+  };
+  updatedAt: {
+    _nanoseconds: number;
+    _seconds: number;
+  };
 };
 
 type Tenant = {
@@ -161,6 +189,11 @@ type TenantContextProps = {
   invalidatePreview: () => void;
 };
 
+type DynamicStatsInterfaceProps = {
+  engagementStats: EngagementStatsProps;
+  mode?: "global" | "season";
+};
+
 export type {
   Tenant,
   TenantBranding,
@@ -172,4 +205,7 @@ export type {
   RegisterTenant,
   QuotaProps,
   StatsProps,
+  SeasonStatsProps,
+  EngagementStatsProps,
+  DynamicStatsInterfaceProps,
 };

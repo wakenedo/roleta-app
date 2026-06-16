@@ -1,10 +1,9 @@
 import { useRef, useState } from "react";
 import { BsExclamationCircle } from "react-icons/bs";
-import { UserActionsReport } from "../UserActions/components/UserActionsReport";
 import { DUserActionsHeader } from "./components/DUserActionsHeader";
 import { DUserActionsLimits } from "./components/DUserActionsLimits";
-import DUserActionsExtras from "./components/DUserActionsExtras/DUserActionsExtras";
 import { DUserActionsReport } from "./components/DUserActionsReport";
+import { DUserActionsExtras } from "./components/DUserActionsExtras";
 
 const DesktopUserActions = ({
   userMonthlyLimit,

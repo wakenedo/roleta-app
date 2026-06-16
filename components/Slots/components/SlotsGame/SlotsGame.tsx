@@ -40,12 +40,7 @@ const SlotsGame: React.FC<SlotsGameProps & { onSpin: () => void }> = ({
         ? "bg-yellow-400"
         : "bg-red-400";
 
-  const tenantBarColor =
-    tenantProgress > 60
-      ? `bg-[${tenantBranding?.primaryColor}]`
-      : tenantProgress > 30
-        ? "bg-yellow-400"
-        : "bg-red-400";
+  const tenantBarColor = tenantBranding?.primaryColor;
 
   const isEmpty = remaining === 0;
   const tenantIsEmpty = tenantRemaining === 0;

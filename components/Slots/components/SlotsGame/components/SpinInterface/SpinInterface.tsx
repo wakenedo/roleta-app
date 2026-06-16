@@ -33,7 +33,7 @@ const SpinInterface: FC<SpinInterfaceProps> = ({
   console.log("SpinInterface tenantBranding", tenantBranding);
   const tenantPrimaryColor = tenantBranding?.primaryColor;
 
-  const primaryColorClassName = `bg-[${tenantPrimaryColor}]`;
+  const primaryColorClassName = `${tenantPrimaryColor}`;
   return (
     <>
       <div className="bg-white/20 backdrop-blur shadow-md mb-4 p-2 px-3 md:w-full mx-auto ">

@@ -21,7 +21,7 @@ const TenantOptionsAnalytics = ({ tenant }: { tenant: Tenant }) => {
   return (
     <div className="w-full h-full md:w-1/2 flex flex-col ">
       <TenantSectionMarker markerTitle="Estatísticas" />
-      <div className="items-center -mt-2">
+      <div className="items-center -mt-1">
         <InterfaceSwitch
           leftComponent={
             <AllTimeAnalytics tenantGlobalStats={tenantGlobalStats} />
