@@ -14,8 +14,8 @@ const mergeTenantsWithLeaderboard = (
     return {
       ...tenant,
       ranking: seasonData?.ranking,
-      stats: seasonData?.stats,
-    };
+      stats: seasonData?.stats ?? tenant.stats,
+    } as TenantWithSeason;
   });
 };
 
