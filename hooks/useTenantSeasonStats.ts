@@ -1,21 +1,12 @@
 "use client";
 
+import { SeasonStatsProps } from "@/context/TenantContext/types";
 import { useEffect, useState } from "react";
 
-export type SeasonPlatformStats = {
-  ranking?: {
-    score: number;
-  };
-  stats?: {
-    platform: {
-      totalSpins: number;
-      totalUsers: number;
-      totalRewardsShown: number;
-    };
-  };
-};
 export function useTenantSeasonStats(tenantId: string) {
-  const [seasonStats, setSeasonStats] = useState<SeasonPlatformStats>({});
+  const [seasonStats, setSeasonStats] = useState<SeasonStatsProps>(
+    {} as SeasonStatsProps,
+  );
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
