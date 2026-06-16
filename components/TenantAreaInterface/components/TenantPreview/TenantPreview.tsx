@@ -1,24 +1,43 @@
-import { TenantProduct } from "@/context/TenantContext/types";
 import { TenantError } from "../TenantError";
+import TenantPreviewContent from "./components/TenantPreviewContent/TenantPreviewContent";
+import { TenantPreviewProps } from "../../types";
+import { TenantSectionMarker } from "../TenantSectionMarker";
 
 const TenantPreview = ({
+  tenant,
   preview,
   loading,
   error,
-}: {
-  preview: TenantProduct[];
-  loading: boolean;
-  error: string | null;
-}) => {
+  sessionTenantId,
+  globalQuotaLoading,
+  globalRefresh,
+  authorizedFetch,
+}: TenantPreviewProps) => {
+  if (!tenant) return;
+
+  const tenantName = tenant.name;
+  const tenantBranding = tenant.branding;
+  const primaryColor = tenantBranding?.primaryColor;
   return (
-    <div className="bg-white/90 backdrop-blur rounded-lg shadow-md md:p-4 p-2 ">
-      <div className="flex flex-col gap-3 ">
-        <div>
-          <span className="text-sm font-semibold text-slate-800">Prévia</span>
-          <hr className="border-t border-slate-300 my-2" />
-          {error && <TenantError error={error} />}
-          {loading && <span>Loading tenant...</span>}
-        </div>
+    <div className="bg-white/90 backdrop-blur shadow-md px-1 w-full h-fit  pb-1">
+      <div className="bg-white/90 backdrop-blur shadow-md md:px-4 md:py-4 px-3    ">
+        {error && <TenantError error={error} />}
+        {loading && <span>Loading preview...</span>}
+        {!loading && !error && (
+          <div className="flex flex-col ">
+            <TenantSectionMarker markerTitle="Sua Roleta" />
+            <TenantPreviewContent
+              tenantBranding={tenantBranding}
+              tenantName={tenantName}
+              primaryColor={primaryColor}
+              loading={loading}
+              sessionTenantId={sessionTenantId}
+              globalQuotaLoading={globalQuotaLoading}
+              authorizedFetch={authorizedFetch}
+              refresh={globalRefresh}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

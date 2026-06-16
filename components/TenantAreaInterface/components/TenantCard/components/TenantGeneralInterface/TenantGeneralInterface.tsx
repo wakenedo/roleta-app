@@ -1,18 +1,13 @@
-import { Tenant } from "@/context/TenantContext/types";
 import { TenantPartnerSection } from "./components/TenantPartnerSection";
 import { TenantPlanSection } from "./components/TenantPlanSection";
-import { TenantBrandingSection } from "./components/TenantBrandingSection";
 import { TenantLimitsSection } from "./components/TenantLimitsSection";
+import { TenantGeneralInterfaceProps } from "@/components/TenantAreaInterface/types";
 
 const TenantGeneralInterface = ({
   tenant,
   tenantEmail,
   registeredProductsAmount,
-}: {
-  tenant: Tenant;
-  tenantEmail: string | null | undefined;
-  registeredProductsAmount: number;
-}) => {
+}: TenantGeneralInterfaceProps) => {
   const tenantSubscriptionMode = tenant.subscriptionMode;
 
   const productsSubscriptionBasedLimit = (tenantSubscriptionMode: string) => {
@@ -41,13 +36,12 @@ const TenantGeneralInterface = ({
           tenantEmail={tenantEmail}
           createdAt={createdAt}
         />
-        <TenantPlanSection tenant={tenant} />
-        <TenantBrandingSection tenant={tenant} />
         <TenantLimitsSection
           tenant={tenant}
           registeredProductsAmount={registeredProductsAmount}
           subscriptionBasedLimit={subscriptionBasedLimit}
         />
+        <TenantPlanSection tenant={tenant} />
       </div>
     </div>
   );

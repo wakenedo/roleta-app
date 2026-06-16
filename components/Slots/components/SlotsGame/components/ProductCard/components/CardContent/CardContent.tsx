@@ -1,9 +1,10 @@
 import Image from "next/image";
-import { affiliateLogoPicker, formatPriceBRL, tierStyle } from "../../utils";
+import { affiliateLogoPicker, tierStyle } from "../../utils";
 import { TierBadge } from "../TierBadge";
 import { ProductCardProps } from "@/components/Slots/types";
 import { FC } from "react";
 import { CardImage } from "../CardImage";
+import { formatPriceBRL } from "@/utils/formatter-utils";
 
 const CardContent: FC<ProductCardProps> = ({ product }) => {
   const affiliateLogo = affiliateLogoPicker({ product });

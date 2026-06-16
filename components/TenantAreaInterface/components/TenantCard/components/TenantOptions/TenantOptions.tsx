@@ -1,16 +1,13 @@
-import { Tenant } from "@/context/TenantContext/types";
 import { TenantAreaSectionBackground } from "../../../TenantAreaSectionBackground";
 import { TenantOptionsAnalytics } from "../TenantOptionsAnalytics";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { TenantGeneralInterface } from "../TenantGeneralInterface";
+import { TenantOptionsProps } from "@/components/TenantAreaInterface/types";
 
 const TenantOptions = ({
   tenant,
   registeredProductsAmount,
-}: {
-  tenant: Tenant;
-  registeredProductsAmount: number;
-}) => {
+}: TenantOptionsProps) => {
   const { user } = useAuth();
   const tenantEmail = user?.email;
   console.log("TenantOptions user", tenant);

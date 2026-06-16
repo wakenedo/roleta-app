@@ -1,11 +1,11 @@
-import { SeasonTenantStats } from "@/hooks/useTenantSeasonStats";
+import { SeasonPlatformStats } from "@/hooks/useTenantSeasonStats";
 import { InfoRow } from "../../../TenantGeneralInterface/components/InfoRow";
 
 const SeasonalAnalytics = ({
   seasonStats,
   loading,
 }: {
-  seasonStats: SeasonTenantStats;
+  seasonStats: SeasonPlatformStats;
   loading: boolean;
 }) => {
   console.log("SeasonalAnalytics seasonStats", seasonStats);
@@ -21,15 +21,15 @@ const SeasonalAnalytics = ({
           <div className="mt-2">
             <InfoRow
               label="Giros"
-              value={seasonStats.stats?.totalSpins ?? "N/A"}
+              value={seasonStats.stats?.platform.totalSpins ?? "N/A"}
             />
             <InfoRow
               label="Novos Usuários"
-              value={seasonStats.stats?.totalUsers ?? "N/A"}
+              value={seasonStats.stats?.platform.totalUsers ?? "N/A"}
             />
             <InfoRow
               label="Recompensas Exibidas"
-              value={seasonStats.stats?.totalRewardsShown ?? "N/A"}
+              value={seasonStats.stats?.platform.totalRewardsShown ?? "N/A"}
             />
             <InfoRow
               label="Pontuação do Ranking"

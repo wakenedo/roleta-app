@@ -29,7 +29,7 @@ const UserOptions: FC<UserOptionsProps> = ({ user, logout, subStatus }) => {
                   {user.email}
                 </p>
               </div>
-              <div className="flex flex-col items-center text-[#84e9e4] hover:text-red-400 transition cursor-pointer ">
+              <div className=" flex flex-col items-center text-red-300 hover:text-red-500 transition cursor-pointer ">
                 <FaPowerOff
                   size={18}
                   className="mr-1 w-fit  "

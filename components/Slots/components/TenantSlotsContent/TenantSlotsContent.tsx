@@ -14,8 +14,8 @@ const TenantSlotsContent = () => {
   const { tenantId } = useParams();
   const { authorizedFetch } = useAuth();
   const { sessionTenantId } = useTenantAuth();
-  const { loading, optimisticSpin } = useUser();
-  const { refresh, quota, globalQuotaLoading } = useGlobalQuota();
+  const { loading, optimisticSpin, data } = useUser();
+  const { refresh, quota, tenantQuota, globalQuotaLoading } = useGlobalQuota();
 
   if (!tenant) return;
   const paramTenantId = tenantId as string;
@@ -23,6 +23,10 @@ const TenantSlotsContent = () => {
   const tenantSettings = tenant.settings;
   const tenantBranding = tenant.branding;
   if (!tenantSettings && !tenantBranding) return;
+  console.log("TenantSlotsContent branding", tenant.branding);
+  console.log("TenantSlotsContent user data", data);
+  const userWeeklyLimit = data?.limits.tenantGlobal.weekly;
+  const userMonthlyLimit = data?.limits.tenantGlobal.monthly;
   return (
     <TenantSlotsDedicatedRouteBackground
       tenantBranding={tenantBranding}
@@ -41,6 +45,9 @@ const TenantSlotsContent = () => {
           authorizedFetch={authorizedFetch}
           optimisticSpin={optimisticSpin}
           refresh={refresh}
+          tenantQuota={tenantQuota}
+          userMonthlyLimit={userMonthlyLimit}
+          userWeeklyLimit={userWeeklyLimit}
         />
       </div>
     </TenantSlotsDedicatedRouteBackground>

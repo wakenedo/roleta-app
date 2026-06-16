@@ -1,10 +1,10 @@
-import { TenantGlobalStats } from "@/context/TenantContext/types";
+import { StatsProps } from "@/context/TenantContext/types";
 import { InfoRow } from "../../../TenantGeneralInterface/components/InfoRow";
 
 const AllTimeAnalytics = ({
   tenantGlobalStats,
 }: {
-  tenantGlobalStats: TenantGlobalStats | undefined;
+  tenantGlobalStats: StatsProps | undefined;
 }) => {
   console.log("AllTimeAnalytics tenantGlobalStats", tenantGlobalStats);
   return (
@@ -17,19 +17,19 @@ const AllTimeAnalytics = ({
           <div className="mt-2">
             <InfoRow
               label="Giros"
-              value={tenantGlobalStats.totalSpins.toString()}
+              value={tenantGlobalStats.platform.totalSpins.toString()}
             />
             <InfoRow
               label="Clicks"
-              value={tenantGlobalStats.totalClicks.toString()}
+              value={tenantGlobalStats.platform.totalClicks.toString()}
             />
             <InfoRow
               label="Usuários"
-              value={tenantGlobalStats.totalUsers.toString()}
+              value={tenantGlobalStats.platform.totalUsers.toString()}
             />
             <InfoRow
               label="Recompensas Exibidas"
-              value={tenantGlobalStats.totalRewardsShown.toString()}
+              value={tenantGlobalStats.platform.totalRewardsShown.toString()}
             />
           </div>
         </>

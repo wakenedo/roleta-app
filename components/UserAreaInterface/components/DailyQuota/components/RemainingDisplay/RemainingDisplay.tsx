@@ -1,9 +1,7 @@
-import {
-  formatCountdown,
-  getTimeUntil,
-} from "@/components/Slots/components/SlotsGame/components/SpinInterface/utils";
+import { getTimeUntil } from "@/components/Slots/components/SlotsGame/components/SpinInterface/utils";
 import { UserAreaSectionBackground } from "@/components/UserAreaInterface/UserAreaSectionBackground";
 import { SpinQuota } from "@/context/UserContext/types";
+import { formatCountdown } from "@/utils/formatter-utils";
 import { useEffect, useState } from "react";
 
 const RemainingDisplay = ({

@@ -1,5 +1,6 @@
 import { UserAreaSectionBackground } from "@/components/UserAreaInterface/UserAreaSectionBackground";
 import { SpinHistoryItem } from "@/context/UserContext/types";
+import { formatTenantNameAllowIdUndefined } from "@/utils/formatter-utils";
 import { useRouter } from "next/navigation";
 import { BsExclamationDiamond } from "react-icons/bs";
 
@@ -9,9 +10,7 @@ const RecentTenantsVisited = ({
   historyPreview: SpinHistoryItem[] | undefined;
 }) => {
   const router = useRouter();
-  const formatTenantName = (tenantId: string | undefined) => {
-    return tenantId?.split("-")[0];
-  };
+
   const tenants = historyPreview
     ?.filter((spin) => spin.tenantId != null)
     ?.reduce((acc, spin) => {
@@ -53,7 +52,7 @@ const RecentTenantsVisited = ({
               </div>
             )}
             {uniqueTenants?.map(({ tenantId, createdAt }) => {
-              const displayName = formatTenantName(tenantId);
+              const displayName = formatTenantNameAllowIdUndefined(tenantId);
               const date = new Date(createdAt).toLocaleString();
 
               return (

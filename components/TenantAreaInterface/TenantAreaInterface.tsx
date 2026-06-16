@@ -5,6 +5,7 @@ import { TenantPreview } from "./components/TenantPreview";
 import { useRouter } from "next/navigation";
 import TenantCardHeader from "./components/TenantCard/components/TenantCardHeader/TenantCardHeader";
 import { useState } from "react";
+import { HeaderAdvancedSettingsModal } from "./components/TenantCard/components/TenantCardHeader/components/HeaderAdvancedSettingsModal";
 
 const TenantAreaInterface: React.FC<TenantAreaInterfaceProps> = ({
   tenant,
@@ -14,6 +15,10 @@ const TenantAreaInterface: React.FC<TenantAreaInterfaceProps> = ({
   products,
   preview,
   logout,
+  sessionTenantId,
+  globalQuotaLoading,
+  globalRefresh,
+  authorizedFetch,
 }) => {
   const [activeTab, setActiveTab] = useState<"general" | "catalog" | "preview">(
     "general",
@@ -28,37 +33,61 @@ const TenantAreaInterface: React.FC<TenantAreaInterfaceProps> = ({
 
   const registeredProductsAmount = products.length;
 
+  const [activeModal, setActiveModal] = useState<
+    "advanced" | "bug" | "suggestion" | null
+  >(null);
+
+  const closeModal = () => setActiveModal(null);
+
   return (
-    <main className="font-sans overflow-hidden md:max-w-8xl mx-auto relative z-10 min-h-screen flex flex-col items-center  md:px-4 px-1">
-      {tenant && (
-        <div className="w-full h-full   ">
-          <TenantCardHeader
-            tenant={tenant}
-            handleLogout={handleLogout}
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-          />
-          {activeTab === "general" && (
-            <TenantCard
+    <>
+      <main className="font-sans overflow-hidden md:max-w-8xl mx-auto relative z-10 mb-4 flex flex-col items-center  md:px-4 px-1 ">
+        {tenant && (
+          <div className="w-full h-full   ">
+            <TenantCardHeader
               tenant={tenant}
-              loading={loading}
-              registeredProductsAmount={registeredProductsAmount}
-              error={error}
+              handleLogout={handleLogout}
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              setActiveModal={setActiveModal}
             />
-          )}
-          {activeTab === "catalog" && (
-            <TenantProductCatalog
-              error={error}
-              loading={loading}
-              products={products}
-            />
-          )}
-          {activeTab === "preview" && (
-            <TenantPreview preview={preview} loading={loading} error={error} />
-          )}
-        </div>
+            {activeTab === "general" && (
+              <TenantCard
+                tenant={tenant}
+                loading={loading}
+                registeredProductsAmount={registeredProductsAmount}
+                error={error}
+              />
+            )}
+            {activeTab === "catalog" && (
+              <TenantProductCatalog
+                error={error}
+                loading={loading}
+                products={products}
+              />
+            )}
+            {activeTab === "preview" && (
+              <TenantPreview
+                tenant={tenant}
+                preview={preview}
+                loading={loading}
+                error={error}
+                sessionTenantId={sessionTenantId}
+                globalQuotaLoading={globalQuotaLoading}
+                globalRefresh={globalRefresh}
+                authorizedFetch={authorizedFetch}
+              />
+            )}
+          </div>
+        )}
+      </main>
+      {activeModal && (
+        <HeaderAdvancedSettingsModal
+          activeModal={activeModal}
+          closeModal={closeModal}
+        />
       )}
-    </main>
+    </>
   );
 };
 

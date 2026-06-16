@@ -6,8 +6,8 @@ const DynamicProgressBar: FC<DynamicProgressBarProps> = ({
   progress,
 }) => {
   return (
-    <div className="py-1">
-      <div className="my-1 mx-10 h-2 bg-slate-200 rounded overflow-hidden shadow-lg">
+    <div className="pb-1 my-1">
+      <div className="  h-2 bg-slate-200 rounded overflow-hidden shadow-lg">
         <div
           className={`h-2 ${barColor} rounded transition-all `}
           style={{ width: `${progress}%` }}

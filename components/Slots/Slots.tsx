@@ -19,8 +19,11 @@ const Slots: FC<SlotsConfig> = ({
   loading,
   optimisticSpin,
   quota,
+  tenantQuota,
   refresh,
   sessionTenantId,
+  userMonthlyLimit,
+  userWeeklyLimit,
 }) => {
   const [spinning, setSpinning] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
@@ -95,8 +98,12 @@ const Slots: FC<SlotsConfig> = ({
               spinning={spinning}
               onSpin={spin}
               quota={quota as SpinQuota}
+              tenantQuota={tenantQuota as SpinQuota}
               currentSpinId={currentSpinId}
               selectedProducts={selectedProducts}
+              tenantBranding={tenantBranding}
+              userMonthlyLimit={userMonthlyLimit}
+              userWeeklyLimit={userWeeklyLimit}
             />
           </ProductSlotsReelsProvider>
         )}

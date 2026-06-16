@@ -9,17 +9,6 @@ import ShopeeLogo from "@/public/Affiliate/shoppeLogo.png";
 import { StaticImageData } from "next/image";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 
-const formatPriceBRL = (value: number | string): string => {
-  const numeric = typeof value === "string" ? parseFloat(value) : value;
-
-  if (isNaN(numeric)) return "R$ 0,00";
-
-  return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  }).format(numeric);
-};
-
 const cardGradientLifecycle = ({
   gradientRef,
   product,
@@ -68,9 +57,4 @@ const affiliateLogoPicker = ({ product }: { product: Product }) => {
   return logoSrc as string | StaticImport;
 };
 
-export {
-  formatPriceBRL,
-  cardGradientLifecycle,
-  tierStyle,
-  affiliateLogoPicker,
-};
+export { cardGradientLifecycle, tierStyle, affiliateLogoPicker };

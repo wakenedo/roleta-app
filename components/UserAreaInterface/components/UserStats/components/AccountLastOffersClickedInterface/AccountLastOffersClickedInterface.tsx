@@ -1,6 +1,6 @@
-import { formatPriceBRL } from "@/components/Slots/components/SlotsGame/components/ProductCard/utils";
 import { UserAreaSectionBackground } from "@/components/UserAreaInterface/UserAreaSectionBackground";
 import { ClickEvent } from "@/context/UserContext/types";
+import { formatPriceBRL } from "@/utils/formatter-utils";
 import { BsCompass } from "react-icons/bs";
 
 const AccountLastOffersClickedInterface = ({

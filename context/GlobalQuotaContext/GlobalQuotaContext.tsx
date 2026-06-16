@@ -8,6 +8,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const useGlobalQuota = () => {
   const { authorizedFetch } = useAuth();
   const [quota, setQuota] = useState<SpinQuota | null>(null);
+  const [tenantQuota, setTenantQuota] = useState<SpinQuota | null>(null);
   const [globalQuotaLoading, setGlobalQuotaLoading] = useState(false);
 
   const refresh = useCallback(
@@ -21,6 +22,7 @@ const useGlobalQuota = () => {
           );
           const json = await res.json();
           console.log("GlobalQuota", json);
+          setTenantQuota(json.quota);
           setQuota(json.quota);
         } finally {
           setGlobalQuotaLoading(false);
@@ -40,8 +42,9 @@ const useGlobalQuota = () => {
   );
 
   console.log("GlobalQuotaContext: quota =", quota);
+  console.log("GlobalQuotaContext: tenantQuota =", tenantQuota);
 
-  return { quota, refresh, globalQuotaLoading };
+  return { tenantQuota, quota, refresh, globalQuotaLoading };
 };
 
 export { useGlobalQuota };

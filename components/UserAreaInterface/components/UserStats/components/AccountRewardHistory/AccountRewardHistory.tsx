@@ -1,5 +1,5 @@
-import { formatPriceBRL } from "@/components/Slots/components/SlotsGame/components/ProductCard/utils";
 import { UserAreaSectionBackground } from "@/components/UserAreaInterface/UserAreaSectionBackground";
+import { formatPriceBRL } from "@/utils/formatter-utils";
 
 const AccountRewardHistory = ({ total }: { total: number | undefined }) => {
   if (total) return;

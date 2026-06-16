@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { SpinHistoryItem } from "@/context/UserContext/types";
 import { ProductHistoryCard } from "./components/ProductHistoryCard";
 import { BsExclamation } from "react-icons/bs";
+import { formatTenantName } from "@/utils/formatter-utils";
 
 const DailyOffersHistory = ({
   historyPreview,
@@ -30,9 +31,6 @@ const DailyOffersHistory = ({
     },
     {} as Record<string, SpinHistoryItem[]>,
   );
-  const formatTenantName = (tenantId: string) => {
-    return tenantId.split("-")[0];
-  };
 
   return (
     <UserAreaSectionBackground>

@@ -1,5 +1,5 @@
-import { formatPriceBRL } from "@/components/Slots/components/SlotsGame/components/ProductCard/utils";
 import { Product } from "@/components/Slots/types";
+import { formatPriceBRL } from "@/utils/formatter-utils";
 
 export default function HistoryProductItem({ product }: { product: Product }) {
   const tierStyles: Record<string, string> = {

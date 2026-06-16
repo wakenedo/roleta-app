@@ -1,6 +1,6 @@
-import { TenantProduct } from "@/context/TenantContext/types";
+import { TenantProductCatalogProductCard } from "@/components/TenantAreaInterface/types";
 
-const ProductCard = ({ product }: { product: TenantProduct }) => {
+const ProductCard = ({ product }: TenantProductCatalogProductCard) => {
   return (
     <div className="bg-white  shadow hover:shadow-lg transition p-3 flex flex-col gap-1">
       <img

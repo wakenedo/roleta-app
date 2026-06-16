@@ -1,8 +1,9 @@
 import { SpinHistoryItem } from "@/context/UserContext/types";
 import { HistoryProductItem } from "../HistoryProductItem";
+import { formatDateTime, formatTenantName } from "@/utils/formatter-utils";
 
 const ProductHistoryCard = ({ spin }: { spin: SpinHistoryItem }) => {
-  const date = new Date(spin.createdAt);
+  const date = formatDateTime(spin.createdAt);
 
   if (!spin) return null;
   const before = spin.quotaBefore;
@@ -18,10 +19,6 @@ const ProductHistoryCard = ({ spin }: { spin: SpinHistoryItem }) => {
   const tenantId = spin.tenantId;
   const isTenantPayer = tenantId != null;
 
-  const formatTenantName = (tenantId: string) => {
-    return tenantId.split("-")[0];
-  };
-
   return (
     <div key={spin.id} className="  bg-slate-200 p-3  md:mx-2">
       {/* Header */}
@@ -34,9 +31,7 @@ const ProductHistoryCard = ({ spin }: { spin: SpinHistoryItem }) => {
               </span>
             </div>
           )}
-          <span className="text-xs font-semibold text-slate-700">
-            {date.toLocaleString()}
-          </span>
+          <span className="text-xs font-semibold text-slate-700">{date}</span>
         </div>
 
         {before !== undefined && after !== undefined && (
