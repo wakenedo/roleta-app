@@ -2,18 +2,20 @@
 
 import { useEffect, useState } from "react";
 
-export interface SeasonTenantStats {
+export type SeasonPlatformStats = {
   ranking?: {
     score: number;
   };
   stats?: {
-    totalSpins: number;
-    totalUsers: number;
-    totalRewardsShown: number;
+    platform: {
+      totalSpins: number;
+      totalUsers: number;
+      totalRewardsShown: number;
+    };
   };
-}
+};
 export function useTenantSeasonStats(tenantId: string) {
-  const [seasonStats, setSeasonStats] = useState<SeasonTenantStats>({});
+  const [seasonStats, setSeasonStats] = useState<SeasonPlatformStats>({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

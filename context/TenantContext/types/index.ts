@@ -34,11 +34,57 @@ type Payment = {
   paid: boolean;
 };
 
-type TenantGlobalStats = {
+type PlatformStatsProps = {
   totalClicks: number;
   totalRewardsShown: number;
   totalSpins: number;
   totalUsers: number;
+};
+
+type ProductsStatsProps = {
+  total: number;
+  active: number;
+  affiliateProviders: string[];
+  limit: number;
+  mode: string;
+  inactive: number;
+  averagePrice: number;
+  categories: {
+    name: string;
+    count: number;
+  }[];
+  tiers: {
+    name: string;
+    count: number;
+  }[];
+};
+
+type EventProps = {
+  tenantId: string;
+  ip: string | null;
+  userAgent: string | null;
+  user: {
+    userId: string;
+  };
+  productsShown: [];
+  productClicked: [];
+  spinId: string;
+  positionClicked: string;
+  redirectUrl: string;
+  createdAt: string;
+};
+
+type EngagementStatsProps = {
+  clickEvents: EventProps[];
+  clickedProducts: number;
+  averageClicksPerProduct: number;
+  topProducts: [];
+};
+
+type StatsProps = {
+  platform: PlatformStatsProps;
+  products: ProductsStatsProps;
+  engagement: EngagementStatsProps;
 };
 
 type Tenant = {
@@ -49,7 +95,7 @@ type Tenant = {
   status: "active" | "inactive" | "pending" | "canceled" | "suspended";
   payment?: Payment;
   branding?: TenantBranding;
-  stats?: TenantGlobalStats;
+  stats?: StatsProps;
   settings?: TenantSettings;
   affiliate?: string | null;
   spinPool?: TenantSpinPool;
@@ -125,5 +171,5 @@ export type {
   TenantQuota,
   RegisterTenant,
   QuotaProps,
-  TenantGlobalStats,
+  StatsProps,
 };
