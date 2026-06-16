@@ -10,7 +10,7 @@ const DynamicStatsInterface = ({
       <div className="border border-slate-50 rounded p-2">
         <div className=" space-y-1 text-slate-600 cursor-default px-1 text-md">
           <div className=" flex justify-between font-semibold tracking-widest">
-            <span>Click Events</span> {engagementStats.clickEvents}
+            <span>Cliques </span> {engagementStats.clickEvents}
           </div>
 
           <div className=" flex justify-between font-semibold tracking-widest">
@@ -18,7 +18,7 @@ const DynamicStatsInterface = ({
           </div>
 
           <div className=" flex justify-between font-semibold tracking-widest">
-            <span>Média de Clicks por Produto</span>{" "}
+            <span>Média de Cliques por Produto</span>{" "}
             <span className="text-base">
               {engagementStats.averageClicksPerProduct}
             </span>
