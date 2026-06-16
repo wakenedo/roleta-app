@@ -17,7 +17,7 @@ const SpinButton: FC<SpinButtonProps> = ({
      hover:bg-amber-300 hover:text-amber-600
       text-amber-900 rounded-xs disabled:bg-slate-400 pb-2 font-semibold`;
   return (
-    <div className="">
+    <div>
       <button
         onClick={onSpin}
         disabled={disabled as boolean}
