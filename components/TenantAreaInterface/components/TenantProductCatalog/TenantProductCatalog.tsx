@@ -53,7 +53,7 @@ const TenantProductCatalog = ({
           shadow-2xs
           h-fit
           bottom-0
-          
+          rounded-br
           drop-shadow
         "
                     >

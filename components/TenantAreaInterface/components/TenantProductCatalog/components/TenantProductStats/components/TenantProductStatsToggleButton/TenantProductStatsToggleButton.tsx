@@ -25,7 +25,9 @@ const TenantProductStatsToggleButton = ({
               ease-in-out
               transition-discrete
               drop-shadow
-              px-3
+              ${showStats ? "px-2" : "px-3"}
+              
+              
               py-2
               shadow-md
             `}
@@ -33,7 +35,7 @@ const TenantProductStatsToggleButton = ({
       <div className="flex space-x-2 items-center justify-center cursor-pointer">
         <div className=" text-white item-center text-shadow-2xs">
           {showStats ? (
-            <CgClose size={18} className="text-shadow-2xs" />
+            <CgClose size={10} className="text-shadow-2xs" />
           ) : (
             <GrStatusInfo size={18} className="text-shadow-2xs" />
           )}
