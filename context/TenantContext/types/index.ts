@@ -207,5 +207,6 @@ export type {
   StatsProps,
   SeasonStatsProps,
   EngagementStatsProps,
+  ProductsStatsProps,
   DynamicStatsInterfaceProps,
 };

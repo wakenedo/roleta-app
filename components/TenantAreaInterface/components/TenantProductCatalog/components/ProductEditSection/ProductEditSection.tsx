@@ -2,7 +2,7 @@ import { TenantSectionMarker } from "../../../TenantSectionMarker";
 
 const ProductEditSection = () => {
   return (
-    <div className=" w-1/2">
+    <>
       <TenantSectionMarker markerTitle="Configurações" />
       <div className="mt-1  flex flex-col border  border-slate-200 bg-slate-100 p-2 space-y-2 ">
         <div className="flex space-x-2">
@@ -26,7 +26,7 @@ const ProductEditSection = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 export default ProductEditSection;

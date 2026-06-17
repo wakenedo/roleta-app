@@ -38,6 +38,7 @@ const TenantAreaInterface: React.FC<TenantAreaInterfaceProps> = ({
   >(null);
 
   const closeModal = () => setActiveModal(null);
+  const tenantProductStats = tenant?.stats?.products;
 
   return (
     <>
@@ -64,6 +65,7 @@ const TenantAreaInterface: React.FC<TenantAreaInterfaceProps> = ({
                 error={error}
                 loading={loading}
                 products={products}
+                tenantProductStats={tenantProductStats}
               />
             )}
             {activeTab === "preview" && (
