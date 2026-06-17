@@ -1,4 +1,5 @@
 import {
+  ProductsStatsProps,
   Tenant,
   TenantBranding,
   TenantProduct,
@@ -135,6 +136,7 @@ interface HeaderAdvanceSettingsProps {
 
 interface TenantProductCatalogProps {
   products: TenantProduct[];
+  tenantProductStats: ProductsStatsProps | undefined;
   loading: boolean;
   error: string | null;
 }
@@ -145,6 +147,21 @@ interface TenantProductCatalogProductCard {
 
 interface TenantProductCatalogProductGridProps {
   products: TenantProduct[];
+}
+
+interface StatCardProps {
+  title: string;
+  value: string | number;
+}
+
+interface DistributionItem {
+  name: string;
+  count: number;
+}
+
+interface DistributionCardProps {
+  title: string;
+  data: DistributionItem[];
 }
 
 export type {
@@ -167,4 +184,7 @@ export type {
   TenantProductCatalogProps,
   TenantProductCatalogProductCard,
   TenantProductCatalogProductGridProps,
+  StatCardProps,
+  DistributionItem,
+  DistributionCardProps,
 };
