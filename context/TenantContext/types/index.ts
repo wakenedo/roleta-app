@@ -179,15 +179,12 @@ type TenantContextProps = {
   tenant: Tenant | null;
   products: TenantProduct[];
   preview: TenantProduct[];
-  previewLoaded: boolean;
-  productsLoaded: boolean;
   loading: boolean;
   error: string | null;
   setTenant: (t: Tenant | null) => void;
   setProducts: Dispatch<SetStateAction<TenantProduct[]>>;
   refresh: () => Promise<void>;
-  loadPreview: () => Promise<void>;
-  loadProducts: () => Promise<void>;
+
   invalidateProducts: () => void;
   invalidatePreview: () => void;
 };
