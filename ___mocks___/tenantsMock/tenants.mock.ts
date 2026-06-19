@@ -4,6 +4,7 @@ export const mockTenants: Tenant[] = [
   {
     id: "nike-slots",
     name: "Nike Slots",
+    email: "",
     ownerUid: "owner-1",
     status: "active",
     subscriptionMode: "tenantPremium",
@@ -18,6 +19,7 @@ export const mockTenants: Tenant[] = [
   {
     id: "adidas-spin",
     name: "Adidas Spin",
+    email: "",
     ownerUid: "owner-2",
     status: "active",
     subscriptionMode: "tenantPremium",
@@ -31,6 +33,7 @@ export const mockTenants: Tenant[] = [
   {
     id: "amazon-jackpot",
     name: "Amazon Jackpot",
+    email: "",
     ownerUid: "owner-3",
     status: "active",
     subscriptionMode: "tenantPremium",
@@ -45,6 +48,7 @@ export const mockTenants: Tenant[] = [
   {
     id: "tech-world",
     name: "Tech World Slots",
+    email: "",
     ownerUid: "owner-4",
     status: "active",
     subscriptionMode: "tenantPremium",
@@ -58,6 +62,7 @@ export const mockTenants: Tenant[] = [
   {
     id: "gamer-zone",
     name: "Gamer Zone",
+    email: "",
     ownerUid: "owner-5",
     status: "active",
     subscriptionMode: "tenantPremium",
@@ -71,6 +76,7 @@ export const mockTenants: Tenant[] = [
   {
     id: "fashion-spin",
     name: "Fashion Spin",
+    email: "",
     ownerUid: "owner-6",
     status: "active",
     subscriptionMode: "tenantPremium",
@@ -84,6 +90,7 @@ export const mockTenants: Tenant[] = [
   {
     id: "crypto-rewards",
     name: "Crypto Rewards",
+    email: "",
     ownerUid: "owner-7",
     status: "active",
     subscriptionMode: "tenantPremium",
@@ -97,6 +104,7 @@ export const mockTenants: Tenant[] = [
   {
     id: "travel-spin",
     name: "Travel Spin",
+    email: "",
     ownerUid: "owner-8",
     status: "active",
     subscriptionMode: "tenantPremium",
@@ -110,6 +118,7 @@ export const mockTenants: Tenant[] = [
   {
     id: "beauty-jackpot",
     name: "Beauty Jackpot",
+    email: "",
     ownerUid: "owner-9",
     status: "active",
     subscriptionMode: "tenantPremium",
@@ -123,6 +132,7 @@ export const mockTenants: Tenant[] = [
   {
     id: "super-market-spin",
     name: "Super Market Spin",
+    email: "",
     ownerUid: "owner-10",
     status: "active",
     subscriptionMode: "tenantPremium",

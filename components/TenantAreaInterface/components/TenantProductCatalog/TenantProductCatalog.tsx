@@ -4,7 +4,6 @@ import { ProductJsonViewer } from "./components/ProductJsonViewer";
 import { ProductEditSection } from "./components/ProductEditSection";
 import { TenantProductCatalogProps } from "../../types";
 import { TenantProductStats } from "./components/TenantProductStats";
-import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { TenantProductStatsToggleButton } from "./components/TenantProductStats/components/TenantProductStatsToggleButton";
 
@@ -13,8 +12,9 @@ const TenantProductCatalog = ({
   tenantProductStats,
   loading,
   error,
+  setShowStats,
+  showStats,
 }: TenantProductCatalogProps) => {
-  const [showStats, setShowStats] = useState(false);
   if (!products) return error;
   console.log("tenantProductStats", tenantProductStats);
   return (

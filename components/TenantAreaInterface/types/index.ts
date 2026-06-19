@@ -1,17 +1,71 @@
 import {
+  Payment,
   ProductsStatsProps,
+  SeasonStatsProps,
+  StatsProps,
   Tenant,
   TenantBranding,
   TenantProduct,
+  TenantSpinPool,
 } from "@/context/TenantContext/types";
 import { Dispatch, SetStateAction } from "react";
 
+type TenantAreaContentProps = {
+  seasonStats: SeasonStatsProps | undefined;
+  seasonStatsLoading: boolean;
+  sessionTenantId: string | null;
+  tenant: Tenant | null;
+  loading: boolean;
+  error: string | null;
+  products: TenantProduct[];
+  preview: TenantProduct[];
+
+  authorizedFetch: {
+    (input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
+    (
+      input: string | URL | globalThis.Request,
+      init?: RequestInit,
+    ): Promise<Response>;
+  };
+  globalRefresh: ({ tenantId }: { tenantId: string | null }) => Promise<void>;
+  globalQuotaLoading: boolean;
+  activeTab: "preview" | "general" | "catalog";
+  setActiveTab: Dispatch<SetStateAction<"preview" | "general" | "catalog">>;
+  activeModal: "advanced" | "bug" | "suggestion" | null;
+  setActiveModal: Dispatch<
+    SetStateAction<"advanced" | "bug" | "suggestion" | null>
+  >;
+  closeModal: () => void;
+  handleLogout: () => void;
+  registeredProductsAmount: number;
+  tenantProductStats: ProductsStatsProps | undefined;
+  tenantEmail: string | undefined;
+  tenantName: string | undefined;
+  tenantSubscriptionMode: string | undefined;
+  createdAt: string;
+  tenantGlobalStats: StatsProps | undefined;
+  formattedCreatedAt: string;
+  tenantStatus:
+    | "active"
+    | "inactive"
+    | "pending"
+    | "canceled"
+    | "suspended"
+    | undefined;
+  tenantIdentifier: string | undefined;
+  tenantSpinPool: TenantSpinPool | undefined;
+  tenantPayment: Payment | undefined;
+  tenantBranding: TenantBranding | undefined;
+  showStats: boolean;
+  setShowStats: Dispatch<SetStateAction<boolean>>;
+};
+
 interface TenantAreaInterfaceProps {
   loading: boolean;
+  seasonStats: SeasonStatsProps | undefined;
+  seasonStatsLoading: boolean;
   tenant: Tenant | null;
-  setTenant: (t: Tenant | null) => void;
   error: string | null;
-  logout: () => void;
   products: TenantProduct[];
   preview: TenantProduct[];
   sessionTenantId: string | null;
@@ -24,11 +78,40 @@ interface TenantAreaInterfaceProps {
       init?: RequestInit,
     ): Promise<Response>;
   };
+  activeTab: "preview" | "general" | "catalog";
+  setActiveTab: Dispatch<SetStateAction<"preview" | "general" | "catalog">>;
+  activeModal: "advanced" | "bug" | "suggestion" | null;
+  setActiveModal: Dispatch<
+    SetStateAction<"advanced" | "bug" | "suggestion" | null>
+  >;
+  closeModal: () => void;
+  handleLogout: () => void;
+  registeredProductsAmount: number;
+  tenantProductStats: ProductsStatsProps | undefined;
+  tenantEmail: string | undefined;
+  tenantName: string | undefined;
+  tenantSubscriptionMode: string | undefined;
+  createdAt: string;
+  tenantGlobalStats: StatsProps | undefined;
+  formattedCreatedAt: string;
+  tenantStatus:
+    | "active"
+    | "inactive"
+    | "pending"
+    | "canceled"
+    | "suspended"
+    | undefined;
+  tenantIdentifier: string | undefined;
+  tenantSpinPool: TenantSpinPool | undefined;
+  tenantPayment: Payment | undefined;
+  tenantBranding: TenantBranding | undefined;
+  showStats: boolean;
+  setShowStats: Dispatch<SetStateAction<boolean>>;
 }
 
 interface TenantPreviewContentProps {
   tenantBranding: TenantBranding | undefined;
-  tenantName: string;
+  tenantName: string | undefined;
   primaryColor: string | undefined;
   loading: boolean;
   sessionTenantId: string | null;
@@ -45,7 +128,8 @@ interface TenantPreviewContentProps {
 }
 
 interface TenantPreviewProps {
-  tenant: Tenant | null;
+  tenantName: string | undefined;
+  tenantBranding: TenantBranding | undefined;
   preview: TenantProduct[];
   loading: boolean;
   error: string | null;
@@ -67,42 +151,99 @@ interface TenantPreviewMenuProps {
 }
 
 interface TenantOptionsProps {
-  tenant: Tenant;
+  tenantEmail: string | undefined;
+  tenantName: string | undefined;
+  tenantSubscriptionMode: string | undefined;
+  tenantGlobalStats: StatsProps | undefined;
   registeredProductsAmount: number;
+  createdAt: string;
+  seasonStats: SeasonStatsProps | undefined;
+  seasonStatsLoading: boolean;
+  tenantStatus:
+    | "active"
+    | "inactive"
+    | "pending"
+    | "canceled"
+    | "suspended"
+    | undefined;
+  formattedCreatedAt: string;
+  tenantIdentifier: string | undefined;
+  tenantSpinPool: TenantSpinPool | undefined;
+  tenantPayment: Payment | undefined;
 }
 
 interface TenantLimitsSectionProps {
-  tenant: Tenant;
   registeredProductsAmount: number;
   subscriptionBasedLimit: 100 | 250 | 500 | 0;
+  tenantSpinPool: TenantSpinPool | undefined;
 }
 
 interface TenantGeneralInterfaceProps {
-  tenant: Tenant;
+  tenantSubscriptionMode: string | undefined;
+  createdAt: string;
   tenantEmail: string | null | undefined;
+  tenantName: string | null | undefined;
   registeredProductsAmount: number;
+  tenantStatus:
+    | "active"
+    | "inactive"
+    | "pending"
+    | "canceled"
+    | "suspended"
+    | undefined;
+  formattedCreatedAt: string;
+  tenantIdentifier: string | undefined;
+  tenantSpinPool: TenantSpinPool | undefined;
+  tenantPayment: Payment | undefined;
 }
 
 interface TenantPartnerSectionProps {
-  tenant: Tenant;
   tenantEmail: string | null | undefined;
-  createdAt: string;
+  tenantName: string | null | undefined;
+  tenantIdentifier: string | undefined;
+  formattedCreatedAt: string;
+  tenantStatus:
+    | "active"
+    | "inactive"
+    | "pending"
+    | "canceled"
+    | "suspended"
+    | undefined;
 }
 
 interface TenantPlanSectionProps {
   //will extend on payment integration
-  tenant: Tenant;
+  tenantSubscriptionMode: string | undefined;
+  tenantPayment: Payment | undefined;
 }
 
 interface TenantCardProps {
-  tenant: Tenant;
+  tenantEmail: string | undefined;
+  tenantName: string | undefined;
+  tenantSubscriptionMode: string | undefined;
   loading: boolean;
   registeredProductsAmount: number;
   error: string | null;
+  createdAt: string;
+  tenantGlobalStats: StatsProps | undefined;
+  seasonStats: SeasonStatsProps | undefined;
+  seasonStatsLoading: boolean;
+  tenantStatus:
+    | "active"
+    | "inactive"
+    | "pending"
+    | "canceled"
+    | "suspended"
+    | undefined;
+  formattedCreatedAt: string;
+  tenantIdentifier: string | undefined;
+  tenantSpinPool: TenantSpinPool | undefined;
+  tenantPayment: Payment | undefined;
 }
 
 interface TenantCardHeaderProps {
-  tenant: Tenant;
+  tenantName: string | undefined;
+  tenantIdentifier: string | undefined;
   handleLogout: () => void;
   activeTab: "preview" | "general" | "catalog";
   setActiveTab: Dispatch<SetStateAction<"preview" | "general" | "catalog">>;
@@ -110,7 +251,7 @@ interface TenantCardHeaderProps {
 }
 
 interface TenantShareExperience {
-  tenantIdentifier: string;
+  tenantIdentifier: string | undefined;
   absolutePosition?: boolean;
 }
 interface HeaderSectionTabProps {
@@ -119,7 +260,7 @@ interface HeaderSectionTabProps {
 }
 
 interface HeaderSectionGreetingsProps {
-  tenantName: string;
+  tenantName: string | undefined;
   handleLogout: () => void;
   setActiveModal: (modal: "advanced" | "bug" | "suggestion" | null) => void;
 }
@@ -139,6 +280,8 @@ interface TenantProductCatalogProps {
   tenantProductStats: ProductsStatsProps | undefined;
   loading: boolean;
   error: string | null;
+  showStats: boolean;
+  setShowStats: Dispatch<SetStateAction<boolean>>;
 }
 
 interface TenantProductCatalogProductCard {
@@ -165,6 +308,7 @@ interface DistributionCardProps {
 }
 
 export type {
+  TenantAreaContentProps,
   TenantAreaInterfaceProps,
   TenantCardProps,
   TenantPartnerSectionProps,

@@ -4,13 +4,17 @@ import { TenantLimitsSection } from "./components/TenantLimitsSection";
 import { TenantGeneralInterfaceProps } from "@/components/TenantAreaInterface/types";
 
 const TenantGeneralInterface = ({
-  tenant,
   tenantEmail,
   registeredProductsAmount,
+  tenantSubscriptionMode,
+  formattedCreatedAt,
+  tenantIdentifier,
+  tenantStatus,
+  tenantName,
+  tenantSpinPool,
+  tenantPayment,
 }: TenantGeneralInterfaceProps) => {
-  const tenantSubscriptionMode = tenant.subscriptionMode;
-
-  const productsSubscriptionBasedLimit = (tenantSubscriptionMode: string) => {
+  const productsSubscriptionBasedLimit = (tenantSubscriptionMode?: string) => {
     switch (tenantSubscriptionMode) {
       case "tenant":
         return 100;
@@ -27,21 +31,25 @@ const TenantGeneralInterface = ({
     tenantSubscriptionMode,
   );
 
-  const createdAt = tenant.createdAt as string;
   return (
     <div className="flex-col space-y-4 pr-2 pb-4  w-full md:w-1/2">
       <div className="space-y-1 ">
         <TenantPartnerSection
-          tenant={tenant}
           tenantEmail={tenantEmail}
-          createdAt={createdAt}
+          tenantName={tenantName}
+          formattedCreatedAt={formattedCreatedAt}
+          tenantIdentifier={tenantIdentifier}
+          tenantStatus={tenantStatus}
         />
         <TenantLimitsSection
-          tenant={tenant}
           registeredProductsAmount={registeredProductsAmount}
           subscriptionBasedLimit={subscriptionBasedLimit}
+          tenantSpinPool={tenantSpinPool}
         />
-        <TenantPlanSection tenant={tenant} />
+        <TenantPlanSection
+          tenantPayment={tenantPayment}
+          tenantSubscriptionMode={tenantSubscriptionMode}
+        />
       </div>
     </div>
   );

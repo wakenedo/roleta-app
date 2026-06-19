@@ -4,10 +4,21 @@ import { FC } from "react";
 import { TenantCardProps } from "../../types";
 
 const TenantCard: FC<TenantCardProps> = ({
-  tenant,
   loading,
   error,
   registeredProductsAmount,
+  tenantSubscriptionMode,
+  tenantEmail,
+  createdAt,
+  tenantGlobalStats,
+  seasonStats,
+  seasonStatsLoading,
+  formattedCreatedAt,
+  tenantIdentifier,
+  tenantStatus,
+  tenantName,
+  tenantSpinPool,
+  tenantPayment,
 }) => {
   return (
     <div className="w-full bg-white/90 backdrop-blur  shadow-md ">
@@ -20,11 +31,22 @@ const TenantCard: FC<TenantCardProps> = ({
           </div>
         </div>
       )}
-      {tenant && (
+      {!loading && !error && (
         <div className=" flex flex-col mx-1 pb-1">
           <TenantOptions
             registeredProductsAmount={registeredProductsAmount}
-            tenant={tenant}
+            tenantGlobalStats={tenantGlobalStats}
+            tenantSubscriptionMode={tenantSubscriptionMode}
+            tenantEmail={tenantEmail}
+            createdAt={createdAt}
+            seasonStats={seasonStats}
+            seasonStatsLoading={seasonStatsLoading}
+            formattedCreatedAt={formattedCreatedAt}
+            tenantIdentifier={tenantIdentifier}
+            tenantStatus={tenantStatus}
+            tenantName={tenantName}
+            tenantSpinPool={tenantSpinPool}
+            tenantPayment={tenantPayment}
           />
         </div>
       )}

@@ -1,54 +1,49 @@
-"use client";
-
 import { TenantSlotsDedicatedRouteBackground } from "@/components/TenantSlotsDedicatedRouteBackground";
-import { useTenant } from "@/context/TenantContext/TenantContext";
-import { useEffect } from "react";
-
-import { useTenantAuth } from "@/context/TenantAuthContext/TenantAuthContext";
 import TenantAreaInterface from "../../TenantAreaInterface";
-import { useGlobalQuota } from "@/context/GlobalQuotaContext/GlobalQuotaContext";
-import { useAuth } from "@/context/AuthContext/AuthContext";
+import { TenantAreaContentProps } from "../../types";
 
-const TenantAreaContent = () => {
-  const { tenantLogout, sessionTenantId } = useTenantAuth();
-  const {
-    tenant,
-    loading,
-    error,
-    products,
-    preview,
-    refresh,
-    loadProducts,
-    loadPreview,
-    setTenant,
-  } = useTenant();
-  const { authorizedFetch } = useAuth();
-  const {
-    refresh: globalRefresh,
-    quota,
-    globalQuotaLoading,
-  } = useGlobalQuota();
-
-  useEffect(() => {
-    refresh();
-  }, [refresh]);
-
-  useEffect(() => {
-    if (!tenant) return;
-    loadProducts();
-    loadPreview();
-  }, [tenant, loadPreview, loadProducts]);
-
+const TenantAreaContent = ({
+  tenant,
+  loading,
+  error,
+  products,
+  preview,
+  sessionTenantId,
+  authorizedFetch,
+  globalRefresh,
+  globalQuotaLoading,
+  seasonStats,
+  seasonStatsLoading,
+  activeModal,
+  setActiveModal,
+  activeTab,
+  closeModal,
+  handleLogout,
+  setActiveTab,
+  createdAt,
+  formattedCreatedAt,
+  registeredProductsAmount,
+  tenantBranding,
+  tenantEmail,
+  tenantGlobalStats,
+  tenantIdentifier,
+  tenantName,
+  tenantPayment,
+  tenantProductStats,
+  tenantSpinPool,
+  tenantStatus,
+  tenantSubscriptionMode,
+  setShowStats,
+  showStats,
+}: TenantAreaContentProps) => {
   return (
     <TenantSlotsDedicatedRouteBackground
       tenantBranding={tenant?.branding}
       tenantName={tenant?.name}
     >
       <TenantAreaInterface
-        logout={tenantLogout}
         loading={loading}
         tenant={tenant}
-        setTenant={setTenant}
         error={error}
         products={products}
         preview={preview}
@@ -56,6 +51,29 @@ const TenantAreaContent = () => {
         globalQuotaLoading={globalQuotaLoading}
         globalRefresh={globalRefresh}
         authorizedFetch={authorizedFetch}
+        seasonStats={seasonStats}
+        seasonStatsLoading={seasonStatsLoading}
+        activeModal={activeModal}
+        activeTab={activeTab}
+        closeModal={closeModal}
+        handleLogout={handleLogout}
+        setActiveTab={setActiveTab}
+        setActiveModal={setActiveModal}
+        createdAt={createdAt}
+        formattedCreatedAt={formattedCreatedAt}
+        registeredProductsAmount={registeredProductsAmount}
+        tenantBranding={tenantBranding}
+        tenantEmail={tenantEmail}
+        tenantGlobalStats={tenantGlobalStats}
+        tenantIdentifier={tenantIdentifier}
+        tenantName={tenantName}
+        tenantPayment={tenantPayment}
+        tenantProductStats={tenantProductStats}
+        tenantSpinPool={tenantSpinPool}
+        tenantStatus={tenantStatus}
+        tenantSubscriptionMode={tenantSubscriptionMode}
+        setShowStats={setShowStats}
+        showStats={showStats}
       />
     </TenantSlotsDedicatedRouteBackground>
   );

@@ -25,10 +25,9 @@ export const TenantAuthProvider = ({ children }: { children: ReactNode }) => {
    * 🔥 Get Firebase token dynamically
    */
   const getAuthToken = async () => {
-    const user = auth.currentUser;
-    if (!user) return null;
+    if (!auth.currentUser) return null;
 
-    return await user.getIdToken();
+    return await auth.currentUser.getIdToken();
   };
 
   /**
@@ -80,24 +79,6 @@ export const TenantAuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  /**
-   * ✅ Generic fetch with Firebase token
-   */
-  const tenantFetch = async (path: string, options: RequestInit = {}) => {
-    const token = await getAuthToken();
-
-    const isFormData = options.body instanceof FormData;
-
-    return fetch(`${API_URL}${path}`, {
-      ...options,
-      headers: {
-        ...(options.headers || {}),
-        Authorization: `Bearer ${token}`,
-        ...(isFormData ? {} : { "Content-Type": "application/json" }),
-      },
-    });
-  };
-
   const tenantLogin = async (email: string, password: string) => {
     // 1. Firebase login
     const cred = await signInWithEmailAndPassword(auth, email, password);
@@ -119,6 +100,24 @@ export const TenantAuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem("tenantId", me.tenantId);
 
     return me;
+  };
+
+  /**
+   * ✅ Generic fetch with Firebase token
+   */
+  const tenantFetch = async (path: string, options: RequestInit = {}) => {
+    const token = await getAuthToken();
+
+    const isFormData = options.body instanceof FormData;
+
+    return fetch(`${API_URL}${path}`, {
+      ...options,
+      headers: {
+        ...(options.headers || {}),
+        Authorization: `Bearer ${token}`,
+        ...(isFormData ? {} : { "Content-Type": "application/json" }),
+      },
+    });
   };
 
   const tenantLogout = async () => {
