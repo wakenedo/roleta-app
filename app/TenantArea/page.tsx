@@ -10,23 +10,11 @@ import { useTenantSeasonStats } from "@/hooks/useTenantSeasonStats";
 import { formatDateTime } from "@/utils/formatter-utils";
 import { useRouter } from "next/navigation";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const TenantArea = () => {
   const { tenantLogout, sessionTenantId } = useTenantAuth();
-  const {
-    tenant,
-    loading,
-    error,
-    products,
-    preview,
-    refresh,
-    loadProducts,
-    setTenant,
-    loadPreview,
-    previewLoaded,
-    productsLoaded,
-  } = useTenant();
+  const { tenant, loading, error, products, preview, setTenant } = useTenant();
   const { authorizedFetch } = useAuth();
   const { refresh: globalRefresh, globalQuotaLoading } = useGlobalQuota();
   const tenantIdentifier = tenant?.id;
@@ -65,12 +53,6 @@ const TenantArea = () => {
   const tenantSpinPool = tenant?.spinPool;
   const tenantPayment = tenant?.payment;
   const tenantBranding = tenant?.branding;
-
-  useEffect(() => {
-    refresh();
-    if (productsLoaded === true && products.length != 0) return;
-    loadProducts();
-  }, []);
 
   return (
     <>

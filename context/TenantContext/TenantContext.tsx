@@ -8,84 +8,83 @@ import {
   ReactNode,
   useCallback,
 } from "react";
-import { setTenantId } from "./utils";
-import { Tenant, TenantContextProps, TenantProduct } from "./types";
+
 import { useParams } from "next/navigation";
 import { useTenantAuth } from "../TenantAuthContext/TenantAuthContext";
+
+import { setTenantId } from "./utils";
+import { Tenant, TenantContextProps, TenantProduct } from "./types";
 
 const TenantContext = createContext<TenantContextProps | undefined>(undefined);
 
 export const TenantProvider = ({ children }: { children: ReactNode }) => {
   const { tenantFetch, sessionTenantId } = useTenantAuth();
-  const { tenantId } = useParams();
+  const params = useParams();
+
+  const routeTenantId =
+    typeof params?.tenantId === "string" ? params.tenantId : null;
+
+  const resolvedTenantId = sessionTenantId ?? routeTenantId;
+
   const [tenant, setTenant] = useState<Tenant | null>(null);
   const [products, setProducts] = useState<TenantProduct[]>([]);
   const [preview, setPreview] = useState<TenantProduct[]>([]);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [productsLoaded, setProductsLoaded] = useState(false);
-  const [previewLoaded, setPreviewLoaded] = useState(false);
 
-  const resolvedTenantId = !sessionTenantId ? tenantId : sessionTenantId;
+  const fetchTenantData = useCallback(async () => {
+    if (!resolvedTenantId) return;
 
-  const fetchTenant = useCallback(async () => {
-    if (!sessionTenantId && !resolvedTenantId) return;
     try {
       setLoading(true);
       setError(null);
 
-      const tenantRes = await tenantFetch(`/tenants/${resolvedTenantId}`);
+      const [tenantRes, productsRes, previewRes] = await Promise.all([
+        tenantFetch(`/tenants/${resolvedTenantId}`),
+        tenantFetch(`/tenants/${resolvedTenantId}/admin/products`),
+        tenantFetch(`/tenants/${resolvedTenantId}/preview`),
+      ]);
 
-      if (!tenantRes?.ok) throw new Error("tenant failed");
+      if (!tenantRes?.ok) {
+        throw new Error("Failed to load tenant");
+      }
+
       const tenantJson = await tenantRes.json();
-      console.log("tenantJson tenantFetch", tenantJson);
+
+      const productsJson = productsRes?.ok ? await productsRes.json() : [];
+
+      const previewJson = previewRes?.ok ? await previewRes.json() : [];
 
       setTenant(tenantJson ?? null);
+      setProducts(productsJson ?? []);
+      setPreview(previewJson ?? []);
+
+      setTenantId(tenantJson?.id ?? null);
     } catch (err) {
-      console.error(err);
+      console.error("TenantContext error:", err);
+
+      setTenant(null);
+      setProducts([]);
+      setPreview([]);
+
       setError("Failed to load tenant");
     } finally {
-      setTenantId(tenant?.id ?? null);
       setLoading(false);
     }
-  }, [sessionTenantId, resolvedTenantId]);
-
-  const loadProducts = useCallback(async () => {
-    try {
-      const res = await tenantFetch(
-        `/tenants/${resolvedTenantId}/admin/products`,
-      );
-      if (!res?.ok) throw new Error("products failed");
-      const json = await res.json();
-      setProducts(json ?? []);
-
-      console.log("Fetching products from API");
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setProductsLoaded(true);
-    }
-  }, []);
-
-  const loadPreview = async () => {
-    if (!resolvedTenantId || previewLoaded) return;
-
-    try {
-      const res = await tenantFetch(`/tenants/${resolvedTenantId}/preview`);
-      if (!res?.ok) throw new Error("preview failed");
-      const json = await res.json();
-      setPreview(json ?? []);
-      setPreviewLoaded(true);
-      console.log("Fetching preview from API");
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  }, [resolvedTenantId, tenantFetch]);
 
   useEffect(() => {
-    if (previewLoaded && productsLoaded) return;
-    fetchTenant();
-  }, []);
+    fetchTenantData();
+  }, [fetchTenantData]);
+
+  const invalidateProducts = () => {
+    setProducts([]);
+  };
+
+  const invalidatePreview = () => {
+    setPreview([]);
+  };
 
   return (
     <TenantContext.Provider
@@ -95,15 +94,14 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
         preview,
         loading,
         error,
+
         setTenant,
         setProducts,
-        refresh: fetchTenant,
-        loadProducts,
-        loadPreview,
-        previewLoaded,
-        productsLoaded,
-        invalidateProducts: () => setProductsLoaded(false),
-        invalidatePreview: () => setPreviewLoaded(false),
+
+        refresh: fetchTenantData,
+
+        invalidateProducts,
+        invalidatePreview,
       }}
     >
       {children}
@@ -112,7 +110,11 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export const useTenant = () => {
-  const ctx = useContext(TenantContext);
-  if (!ctx) throw new Error("useTenant must be used within TenantProvider");
-  return ctx;
+  const context = useContext(TenantContext);
+
+  if (!context) {
+    throw new Error("useTenant must be used within TenantProvider");
+  }
+
+  return context;
 };
