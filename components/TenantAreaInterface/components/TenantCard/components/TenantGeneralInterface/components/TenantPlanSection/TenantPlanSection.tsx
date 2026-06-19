@@ -2,7 +2,10 @@ import { TenantSectionMarker } from "@/components/TenantAreaInterface/components
 import { InfoRow } from "../InfoRow";
 import { TenantPlanSectionProps } from "@/components/TenantAreaInterface/types";
 
-const TenantPlanSection = ({ tenant }: TenantPlanSectionProps) => {
+const TenantPlanSection = ({
+  tenantPayment,
+  tenantSubscriptionMode,
+}: TenantPlanSectionProps) => {
   return (
     <>
       <TenantSectionMarker markerTitle="Assinatura" />
@@ -11,7 +14,7 @@ const TenantPlanSection = ({ tenant }: TenantPlanSectionProps) => {
           <div className="flex justify-between items-center text-base">
             <span className={`text-sm text-slate-600`}>Plano</span>
             <span className={`text-sm text-slate-700 text-right`}>
-              {tenant.subscriptionMode}
+              {tenantSubscriptionMode}
             </span>
           </div>
         </div>
@@ -30,7 +33,7 @@ const TenantPlanSection = ({ tenant }: TenantPlanSectionProps) => {
         <div className="px-1 py-3 border border-slate-400 mt-1 h-45">
           <InfoRow
             label="Status"
-            value={tenant.payment?.paid ? "Pago" : "Pendente"}
+            value={tenantPayment?.paid ? "Pago" : "Pendente"}
             small={true}
           />
           <div className="px-1 pb-1 mt-2 border rounded border-slate-400">

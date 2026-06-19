@@ -1,18 +1,16 @@
 import { InfoRow } from "../InfoRow";
-import { formatDateTime } from "@/utils/formatter-utils";
 import { StatusBadge } from "./components/StatusBadge";
 import { TenantIdBadge } from "./components/TenantIdBadge";
 import { TenantPartnerSectionProps } from "@/components/TenantAreaInterface/types";
 import { TenantSectionMarker } from "@/components/TenantAreaInterface/components/TenantSectionMarker";
 
 const TenantPartnerSection = ({
-  tenant,
   tenantEmail,
-  createdAt,
+  formattedCreatedAt,
+  tenantIdentifier,
+  tenantStatus,
+  tenantName,
 }: TenantPartnerSectionProps) => {
-  const formattedCreatedAt = formatDateTime(createdAt);
-  const tenantStatus = tenant.status;
-  const tenantIdentifier = tenant.id;
   return (
     <>
       <TenantSectionMarker markerTitle="Parceiro" />
@@ -20,11 +18,11 @@ const TenantPartnerSection = ({
         <InfoRow label="Status" value={<StatusBadge status={tenantStatus} />} />
         <InfoRow
           label="Identificador"
-          value={<TenantIdBadge id={tenantIdentifier} />}
+          value={<TenantIdBadge id={tenantIdentifier as string} />}
         />
         <InfoRow
           label="Nome"
-          value={<span className="font-semibold">{tenant.name}</span>}
+          value={<span className="font-semibold">{tenantName}</span>}
         />
         <InfoRow
           label="Email"

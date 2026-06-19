@@ -4,13 +4,13 @@ import { HeaderSectionTab } from "./components/HeaderSectionTab";
 import { TenantCardHeaderProps } from "@/components/TenantAreaInterface/types";
 
 const TenantCardHeader = ({
-  tenant,
   handleLogout,
   setActiveTab,
   activeTab,
   setActiveModal,
+  tenantName,
+  tenantIdentifier,
 }: TenantCardHeaderProps) => {
-  const tenantName = tenant.name;
   return (
     <div className=" bg-white/90 backdrop-blur rounded-tr-2xl ">
       <HeaderGreetingSection
@@ -20,7 +20,7 @@ const TenantCardHeader = ({
       />
       <div className="relative flex justify-end px-1">
         <TenantShareExperienceLink
-          tenantIdentifier={tenant.id}
+          tenantIdentifier={tenantIdentifier}
           absolutePosition={true}
         />
       </div>

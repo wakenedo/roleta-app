@@ -118,6 +118,7 @@ type SeasonStatsProps = {
 type Tenant = {
   id: string;
   name: string;
+  email: string;
   ownerUid: string;
   subscriptionMode: string;
   status: "active" | "inactive" | "pending" | "canceled" | "suspended";
@@ -178,6 +179,8 @@ type TenantContextProps = {
   tenant: Tenant | null;
   products: TenantProduct[];
   preview: TenantProduct[];
+  previewLoaded: boolean;
+  productsLoaded: boolean;
   loading: boolean;
   error: string | null;
   setTenant: (t: Tenant | null) => void;
@@ -209,4 +212,6 @@ export type {
   EngagementStatsProps,
   ProductsStatsProps,
   DynamicStatsInterfaceProps,
+  TenantSpinPool,
+  Payment,
 };

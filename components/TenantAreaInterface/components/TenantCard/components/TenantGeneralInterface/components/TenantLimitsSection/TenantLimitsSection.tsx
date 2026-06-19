@@ -3,9 +3,9 @@ import { InfoRow } from "../InfoRow";
 import { TenantLimitsSectionProps } from "@/components/TenantAreaInterface/types";
 
 const TenantLimitsSection = ({
-  tenant,
   registeredProductsAmount,
   subscriptionBasedLimit,
+  tenantSpinPool,
 }: TenantLimitsSectionProps) => {
   return (
     <>
@@ -14,13 +14,13 @@ const TenantLimitsSection = ({
         <InfoRow
           label="Limite de Giros Globais Mensais"
           value={
-            tenant.spinPool?.used !== undefined ? (
+            tenantSpinPool?.used !== undefined ? (
               <span className="font-semibold">
-                {tenant.spinPool.monthlyLimit - tenant.spinPool.used} /{" "}
-                {tenant.spinPool.monthlyLimit}
+                {tenantSpinPool.monthlyLimit - tenantSpinPool.used} /{" "}
+                {tenantSpinPool.monthlyLimit}
               </span>
             ) : (
-              (tenant.spinPool?.monthlyLimit ?? "-")
+              (tenantSpinPool?.monthlyLimit ?? "-")
             )
           }
         />

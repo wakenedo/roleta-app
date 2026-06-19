@@ -4,7 +4,6 @@ import { TenantPreviewProps } from "../../types";
 import { TenantSectionMarker } from "../TenantSectionMarker";
 
 const TenantPreview = ({
-  tenant,
   preview,
   loading,
   error,
@@ -12,11 +11,9 @@ const TenantPreview = ({
   globalQuotaLoading,
   globalRefresh,
   authorizedFetch,
+  tenantName,
+  tenantBranding,
 }: TenantPreviewProps) => {
-  if (!tenant) return;
-
-  const tenantName = tenant.name;
-  const tenantBranding = tenant.branding;
   const primaryColor = tenantBranding?.primaryColor;
   return (
     <div className="bg-white/90 backdrop-blur shadow-md px-1 w-full h-fit  pb-1">

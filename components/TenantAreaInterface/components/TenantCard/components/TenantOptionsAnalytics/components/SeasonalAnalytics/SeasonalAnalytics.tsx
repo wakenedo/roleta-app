@@ -4,15 +4,16 @@ import { DynamicStatsInterface } from "../DynamicStatsInterface";
 
 const SeasonalAnalytics = ({
   seasonStats,
-  loading,
+  seasonStatsLoading,
 }: {
-  seasonStats: SeasonStatsProps;
-  loading: boolean;
+  seasonStats: SeasonStatsProps | undefined;
+  seasonStatsLoading: boolean;
 }) => {
   console.log("SeasonalAnalytics seasonStats", seasonStats);
   return (
     <div className="flex flex-col justify-between   px-1  md:max-h-160">
-      {seasonStats ? (
+      {seasonStatsLoading && <>Loading ...</>}
+      {seasonStats && !seasonStatsLoading ? (
         <>
           <DynamicStatsInterface
             engagementStats={seasonStats.stats.engagement}

@@ -45,12 +45,12 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
       console.error(err);
       setError("Failed to load tenant");
     } finally {
+      setTenantId(tenant?.id ?? null);
       setLoading(false);
     }
-  }, [tenantFetch, resolvedTenantId]);
+  }, [sessionTenantId, resolvedTenantId]);
 
-  const loadProducts = async () => {
-    if (!resolvedTenantId || productsLoaded) return;
+  const loadProducts = useCallback(async () => {
     try {
       const res = await tenantFetch(
         `/tenants/${resolvedTenantId}/admin/products`,
@@ -58,12 +58,14 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
       if (!res?.ok) throw new Error("products failed");
       const json = await res.json();
       setProducts(json ?? []);
-      setProductsLoaded(true);
+
       console.log("Fetching products from API");
     } catch (err) {
       console.error(err);
+    } finally {
+      setProductsLoaded(true);
     }
-  };
+  }, []);
 
   const loadPreview = async () => {
     if (!resolvedTenantId || previewLoaded) return;
@@ -83,14 +85,7 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (previewLoaded && productsLoaded) return;
     fetchTenant();
-  }, [fetchTenant, previewLoaded, productsLoaded]);
-
-  useEffect(() => {
-    setTenantId(tenant?.id ?? null);
-  }, [tenant]);
-  useEffect(() => {
-    resolvedTenantId === null && setTenant(null);
-  }, [resolvedTenantId, setTenant]);
+  }, []);
 
   return (
     <TenantContext.Provider
@@ -105,6 +100,8 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
         refresh: fetchTenant,
         loadProducts,
         loadPreview,
+        previewLoaded,
+        productsLoaded,
         invalidateProducts: () => setProductsLoaded(false),
         invalidatePreview: () => setPreviewLoaded(false),
       }}
