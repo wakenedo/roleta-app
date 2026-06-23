@@ -3,7 +3,15 @@ import { UserSubscriptionModes } from "../HomePageInterface/components/UserSubsc
 import { CoreLoopInterface } from "./components/CoreLoopInterface";
 import { DetailsInterface } from "./components/DetailsInterface";
 
-const HowItWorksInterface = () => {
+const HowItWorksInterface = ({
+  currentUserPlan,
+  handleUserSubscribe,
+  userMaxedPlan,
+}: {
+  currentUserPlan: string | undefined;
+  handleUserSubscribe: (planId: string) => void;
+  userMaxedPlan: boolean;
+}) => {
   const title = "COMO FUNCIONA";
   const subTitle = "Uma nova forma de descobrir produtos, jogando!";
   return (
@@ -15,7 +23,11 @@ const HowItWorksInterface = () => {
           <DetailsInterface />
         </div>
       </main>
-      <UserSubscriptionModes />
+      <UserSubscriptionModes
+        currentUserPlan={currentUserPlan}
+        handleUserSubscribe={handleUserSubscribe}
+        userMaxedPlan={userMaxedPlan}
+      />
     </>
   );
 };

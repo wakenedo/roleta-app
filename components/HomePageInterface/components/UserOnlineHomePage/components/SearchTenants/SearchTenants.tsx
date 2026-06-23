@@ -7,12 +7,16 @@ const SearchTenants = ({
   error,
   search,
   setSearch,
+  handleTenantCardClick,
+  primaryColor,
 }: {
   filtered: Tenant[];
   loading: boolean;
   error: string | null;
   search: string;
+  primaryColor: string;
   setSearch: (value: string) => void;
+  handleTenantCardClick: () => void;
 }) => {
   return (
     <div
@@ -45,7 +49,12 @@ const SearchTenants = ({
 
         <div className="grid  grid-cols-1 md:grid-cols-3 gap-6">
           {filtered.map((tenant) => (
-            <TenantCard key={tenant.id} tenant={tenant} />
+            <TenantCard
+              key={tenant.id}
+              tenant={tenant}
+              handleTenantCardClick={handleTenantCardClick}
+              primaryColor={primaryColor}
+            />
           ))}
         </div>
       </div>

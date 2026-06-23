@@ -1,32 +1,28 @@
-"use client";
-
 import { TenantSlotsDedicatedRouteBackground } from "@/components/TenantSlotsDedicatedRouteBackground";
-import { useTenant } from "@/context/TenantContext/TenantContext";
-import { useParams } from "next/navigation";
 import Slots from "../../Slots";
-import { useGlobalQuota } from "@/context/GlobalQuotaContext/GlobalQuotaContext";
-import { useUser } from "@/context/UserContext/UserContext";
-import { useTenantAuth } from "@/context/TenantAuthContext/TenantAuthContext";
-import { useAuth } from "@/context/AuthContext/AuthContext";
+import { TenantSlotsContentProps } from "../../types";
 
-const TenantSlotsContent = () => {
-  const { tenant, error } = useTenant();
-  const { tenantId } = useParams();
-  const { authorizedFetch } = useAuth();
-  const { sessionTenantId } = useTenantAuth();
-  const { loading, optimisticSpin, data } = useUser();
-  const { refresh, quota, tenantQuota, globalQuotaLoading } = useGlobalQuota();
-
+const TenantSlotsContent = ({
+  authorizedFetch,
+  globalQuotaLoading,
+  loading,
+  optimisticSpin,
+  quota,
+  refreshGlobalQuota,
+  sessionTenantId,
+  tenant,
+  tenantId,
+  tenantQuota,
+  userData,
+}: TenantSlotsContentProps) => {
   if (!tenant) return;
   const paramTenantId = tenantId as string;
   const tenantName = tenant.name;
   const tenantSettings = tenant.settings;
   const tenantBranding = tenant.branding;
   if (!tenantSettings && !tenantBranding) return;
-  console.log("TenantSlotsContent branding", tenant.branding);
-  console.log("TenantSlotsContent user data", data);
-  const userWeeklyLimit = data?.limits.tenantGlobal.weekly;
-  const userMonthlyLimit = data?.limits.tenantGlobal.monthly;
+  const userWeeklyLimit = userData?.limits.tenantGlobal.weekly;
+  const userMonthlyLimit = userData?.limits.tenantGlobal.monthly;
   return (
     <TenantSlotsDedicatedRouteBackground
       tenantBranding={tenantBranding}
@@ -44,7 +40,7 @@ const TenantSlotsContent = () => {
           globalQuotaLoading={globalQuotaLoading}
           authorizedFetch={authorizedFetch}
           optimisticSpin={optimisticSpin}
-          refresh={refresh}
+          refresh={refreshGlobalQuota}
           tenantQuota={tenantQuota}
           userMonthlyLimit={userMonthlyLimit}
           userWeeklyLimit={userWeeklyLimit}

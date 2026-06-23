@@ -1,6 +1,150 @@
-import { TenantBranding, TenantProduct } from "@/context/TenantContext/types";
+import {
+  Tenant,
+  TenantBranding,
+  TenantProduct,
+  TenantRegisterStep,
+} from "@/context/TenantContext/types";
 import { StepHeaderProps } from "@/hooks/types";
 import { Dispatch, SetStateAction } from "react";
+
+type PlanIdInterfaceProps = {
+  planId: string;
+  step: TenantRegisterStep;
+  name: string;
+  email: string;
+  password: string;
+  logoUrl: string;
+  primaryColor: string;
+  stepHeader: StepHeaderProps;
+  selectedPlan: {
+    id: string;
+    name: string;
+    price: string;
+  };
+
+  registerTenant: (name: string) => Promise<void>;
+  completePayment: () => Promise<void>;
+  saveBranding: (branding: TenantBranding, file?: File) => Promise<void>;
+  saveProducts: (products: TenantProduct[]) => Promise<void>;
+  resolveComplete: () => Promise<void>;
+  setName: Dispatch<SetStateAction<string>>;
+  setEmail: Dispatch<SetStateAction<string>>;
+  setPassword: Dispatch<SetStateAction<string>>;
+  setLogoUrl: Dispatch<SetStateAction<string>>;
+  setPrimaryColor: Dispatch<SetStateAction<string>>;
+  setStepHeader: Dispatch<SetStateAction<StepHeaderProps>>;
+  setSelectedPlan: Dispatch<
+    SetStateAction<{
+      id: string;
+      name: string;
+      price: string;
+    }>
+  >;
+  importProducts: (products: TenantProduct[]) => Promise<void>;
+  importProductsCSV: (file: File, dryRun?: boolean) => Promise<unknown>;
+  checkEmailVerification: () => Promise<void>;
+  createAndSendVerification: () => Promise<void>;
+  checkingVerification: boolean;
+  isEmailVerified: boolean;
+
+  validations: {
+    length: boolean;
+    uppercase: boolean;
+    lowercase: boolean;
+    number: boolean;
+    symbol: boolean;
+  };
+  isPasswordValid: boolean;
+  productsImported: ProductsImportedProps;
+  pickProducts: TenantProduct[];
+  handleAcceptToS: () => void;
+  passwordsMatch: boolean;
+  loading: boolean;
+  error: string | null;
+  showToS: boolean;
+  acceptedToS: boolean;
+
+  showPassword: boolean;
+  confirmPassword: string;
+  setShowPassword: Dispatch<SetStateAction<boolean>>;
+  setConfirmPassword: Dispatch<SetStateAction<string>>;
+  setShowToS: Dispatch<SetStateAction<boolean>>;
+  products: TenantProduct[];
+  setProducts: Dispatch<SetStateAction<TenantProduct[]>>;
+  handleSubmitProducts: () => Promise<void>;
+  previewProducts: TenantProduct[];
+};
+type ForTenantsInterfaceProps = {
+  planId: string | null;
+  tenant?: Tenant | null;
+  step: TenantRegisterStep;
+  tenantSubscription: string | undefined;
+  name: string;
+  email: string;
+  password: string;
+  logoUrl: string;
+  primaryColor: string;
+  stepHeader: StepHeaderProps;
+  selectedPlan: {
+    id: string;
+    name: string;
+    price: string;
+  };
+
+  registerTenant: (name: string) => Promise<void>;
+  completePayment: () => Promise<void>;
+  saveBranding: (branding: TenantBranding, file?: File) => Promise<void>;
+  saveProducts: (products: TenantProduct[]) => Promise<void>;
+  resolveComplete: () => Promise<void>;
+  setName: Dispatch<SetStateAction<string>>;
+  setEmail: Dispatch<SetStateAction<string>>;
+  setPassword: Dispatch<SetStateAction<string>>;
+  setLogoUrl: Dispatch<SetStateAction<string>>;
+  setPrimaryColor: Dispatch<SetStateAction<string>>;
+  setStepHeader: Dispatch<SetStateAction<StepHeaderProps>>;
+  setSelectedPlan: Dispatch<
+    SetStateAction<{
+      id: string;
+      name: string;
+      price: string;
+    }>
+  >;
+  importProducts: (products: TenantProduct[]) => Promise<void>;
+  importProductsCSV: (file: File, dryRun?: boolean) => Promise<unknown>;
+  checkEmailVerification: () => Promise<void>;
+  createAndSendVerification: () => Promise<void>;
+  checkingVerification: boolean;
+  isEmailVerified: boolean;
+
+  validations: {
+    length: boolean;
+    uppercase: boolean;
+    lowercase: boolean;
+    number: boolean;
+    symbol: boolean;
+  };
+  isPasswordValid: boolean;
+  productsImported: ProductsImportedProps;
+  pickProducts: TenantProduct[];
+  handleAcceptToS: () => void;
+  passwordsMatch: boolean;
+  loading: boolean;
+  error: string | null;
+  showToS: boolean;
+  acceptedToS: boolean;
+
+  showPassword: boolean;
+  confirmPassword: string;
+  setShowPassword: Dispatch<SetStateAction<boolean>>;
+  setConfirmPassword: Dispatch<SetStateAction<string>>;
+  setShowToS: Dispatch<SetStateAction<boolean>>;
+  products: TenantProduct[];
+  setProducts: Dispatch<SetStateAction<TenantProduct[]>>;
+  handleSubmitProducts: () => Promise<void>;
+  previewProducts: TenantProduct[];
+  currentTenantPlan: string | undefined;
+  tenantMaxedPlan: boolean;
+};
 
 type RegisterStepProps = {
   name: string;
@@ -18,6 +162,23 @@ type RegisterStepProps = {
   createAndSendVerification: () => Promise<void>;
   checkingVerification: boolean;
   isEmailVerified: boolean;
+  showToS: boolean;
+  setShowToS: Dispatch<SetStateAction<boolean>>;
+  acceptedToS: boolean;
+  showPassword: boolean;
+  setShowPassword: Dispatch<SetStateAction<boolean>>;
+  confirmPassword: string;
+  setConfirmPassword: Dispatch<SetStateAction<string>>;
+  passwordsMatch: boolean;
+  validations: {
+    length: boolean;
+    uppercase: boolean;
+    lowercase: boolean;
+    number: boolean;
+    symbol: boolean;
+  };
+  isPasswordValid: boolean;
+  handleAcceptToS: () => void;
 };
 
 type CompleteStepProps = {
@@ -73,7 +234,6 @@ type ProductsStepProps = {
   email: string;
   logoUrl: string;
   primaryColor: string;
-
   selectedPlan: {
     id: string;
     name: string;
@@ -83,6 +243,49 @@ type ProductsStepProps = {
   setStepHeader: Dispatch<SetStateAction<StepHeaderProps>>;
   importProducts: (products: TenantProduct[]) => Promise<void>;
   importProductsCSV: (file: File, dryRun?: boolean) => Promise<unknown>;
+  productsImported: ProductsImportedProps;
+  pickProducts: TenantProduct[];
+  setProducts: Dispatch<SetStateAction<TenantProduct[]>>;
+  products: TenantProduct[];
+  handleSubmitProducts: () => Promise<void>;
+  previewProducts: TenantProduct[];
+};
+
+type ProductsImportedProps = {
+  file: File | null;
+  csvPreview: {
+    preview: unknown[];
+    errors: string[];
+    total: number;
+    valid: number;
+  } | null;
+  setCsvPreview: Dispatch<
+    SetStateAction<{
+      preview: unknown[];
+      errors: string[];
+      total: number;
+      valid: number;
+    } | null>
+  >;
+  fileName: string | null;
+  rawProducts: [][];
+  products: TenantProduct[];
+  errors: string[];
+  isValidated: boolean;
+  handleFileUpload: (file: File) => Promise<void>;
+  validateProducts: () => boolean;
+  updateProducts: Dispatch<SetStateAction<TenantProduct[]>>;
+  setPage: Dispatch<SetStateAction<number>>;
+  paginatedProducts: TenantProduct[];
+  page: number;
+  pagination: {
+    totalItems: number;
+    perPage: number;
+    currentPage: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
 };
 
 type AddProductsContentProps = {
@@ -91,44 +294,13 @@ type AddProductsContentProps = {
     name: string;
     price: string;
   };
-  productsImport: {
-    file: File | null;
-    csvPreview: {
-      preview: unknown[];
-      errors: string[];
-      total: number;
-      valid: number;
-    } | null;
-    setCsvPreview: Dispatch<
-      SetStateAction<{
-        preview: unknown[];
-        errors: string[];
-        total: number;
-        valid: number;
-      } | null>
-    >;
-    fileName: string | null;
-    rawProducts: [][];
-    products: TenantProduct[];
-    errors: string[];
-    isValidated: boolean;
-    handleFileUpload: (file: File) => Promise<void>;
-    validateProducts: () => boolean;
-    updateProducts: Dispatch<SetStateAction<TenantProduct[]>>;
-    setPage: Dispatch<SetStateAction<number>>;
-    paginatedProducts: TenantProduct[];
-    page: number;
-    pagination: {
-      totalItems: number;
-      perPage: number;
-      currentPage: number;
-      totalPages: number;
-      hasNext: boolean;
-      hasPrev: boolean;
-    };
-  };
+  productsImported: ProductsImportedProps;
   importProducts: (products: TenantProduct[]) => Promise<void>;
   importProductsCSV: (file: File, dryRun?: boolean) => Promise<unknown>;
+  setProducts: Dispatch<SetStateAction<TenantProduct[]>>;
+  products: TenantProduct[];
+  handleSubmitProducts: () => Promise<void>;
+  previewProducts: TenantProduct[];
 };
 
 type CompleteProductsStepButtonProps = {
@@ -191,6 +363,7 @@ type TenantEmailInputProps = {
 };
 
 export type {
+  PlanIdInterfaceProps,
   RegisterStepProps,
   CompleteStepProps,
   BrandingStepProps,
@@ -203,4 +376,5 @@ export type {
   ProductImportPreviewTableProps,
   ProductImportRowProps,
   TenantEmailInputProps,
+  ForTenantsInterfaceProps,
 };

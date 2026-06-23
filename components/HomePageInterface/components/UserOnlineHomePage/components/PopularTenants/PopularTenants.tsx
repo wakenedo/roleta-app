@@ -1,9 +1,7 @@
 import { FeaturedTenants } from "./components/FeaturedTenants";
 import { SearchPopularTenants } from "./components/SearchPopularTenants";
 //import { mockTenants } from "@/___mocks___/tenantsMock/tenants.mock";
-import { useSeasonLeaderboard } from "@/hooks/useSeasonLeaderboard";
 import { PopularTenantsProps } from "@/components/HomePageInterface/types";
-import { mergeTenantsWithLeaderboard } from "./utils";
 
 const PopularTenants = ({
   featured,
@@ -12,22 +10,22 @@ const PopularTenants = ({
   error,
   search,
   setSearch,
+  selectedPopularTenant,
+  setSelectedPopularTenant,
+  filtered,
+  primaryColor,
+  handleSelectedCardClick,
+  resolveTenantQuota,
+  sorted,
+  leaderboardLoading,
 }: PopularTenantsProps) => {
-  const { data, leaderboardLoading } = useSeasonLeaderboard(50);
-
-  const mergedTenants = mergeTenantsWithLeaderboard(tenants, data);
-
-  const sorted = mergedTenants.sort(
-    (a, b) => (b.ranking?.score ?? 0) - (a.ranking?.score ?? 0),
-  );
   //const mockedTenants = mockTenants;
   const leaderboardTop3 = sorted.slice(0, 3);
   const leaderboardRest = sorted.slice(3);
 
-  console.log("Leaderboard Data:", data);
   console.log("Top 3:", leaderboardTop3);
   console.log("Rest:", leaderboardRest);
-  console.log("Loading:", leaderboardLoading);
+
   const top3 = tenants.slice(0, 3);
   const rest = tenants.slice(3);
 
@@ -46,7 +44,12 @@ const PopularTenants = ({
           loading={loading}
           search={search}
           setSearch={setSearch}
-          tenants={leaderboardRest}
+          selectedPopularTenant={selectedPopularTenant}
+          setSelectedPopularTenant={setSelectedPopularTenant}
+          filtered={filtered}
+          primaryColor={primaryColor}
+          handleSelectedCardClick={handleSelectedCardClick}
+          resolveTenantQuota={resolveTenantQuota}
         />
       </div>
     </div>

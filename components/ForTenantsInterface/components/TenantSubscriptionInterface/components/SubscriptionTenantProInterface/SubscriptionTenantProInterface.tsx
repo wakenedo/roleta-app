@@ -9,7 +9,6 @@ const SubscriptionTenantProInterface = () => {
           <span>TenantPro</span>
         </div>
       </main>
-      <TenantSubscriptionModes />
     </>
   );
 };

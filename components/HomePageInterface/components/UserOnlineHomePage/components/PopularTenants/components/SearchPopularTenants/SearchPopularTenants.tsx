@@ -1,32 +1,20 @@
-"use client";
-
-import { useState } from "react";
-import { Tenant } from "@/context/TenantContext/types";
 import { PopularTenantSearchInterface } from "./components/PopularTenantSearchInterface";
 import { SelectedTenantCard } from "./components/SelectedTenantCard";
 import { NotSelectedPlaceholder } from "./components/NotSelectedPlaceholder";
+import { SearchPopularTenantsInterfaceProps } from "@/components/HomePageInterface/types";
 
 const SearchPopularTenants = ({
   search,
   setSearch,
   loading,
   error,
-  tenants,
-}: {
-  search: string;
-  setSearch: (value: string) => void;
-  loading: boolean;
-  error: string | null;
-  tenants: Tenant[];
-}) => {
-  const [selected, setSelected] = useState<Tenant | null>(null);
-
-  const filtered = tenants.filter(
-    (t) =>
-      t.name.toLowerCase().includes(search.toLowerCase()) ||
-      t.id.toLowerCase().includes(search.toLowerCase()),
-  );
-
+  primaryColor,
+  selectedPopularTenant,
+  setSelectedPopularTenant,
+  filtered,
+  handleSelectedCardClick,
+  resolveTenantQuota,
+}: SearchPopularTenantsInterfaceProps) => {
   return (
     <>
       <h3 className="text-center uppercase md:text-5xl font-extrabold tracking-widest p-4 text-[#84e9e4] drop-shadow">
@@ -42,14 +30,19 @@ const SearchPopularTenants = ({
             loading={loading}
             search={search}
             setSearch={setSearch}
-            setSelected={setSelected}
+            setSelected={setSelectedPopularTenant}
           />
         </div>
 
         {/* RIGHT: Display */}
         <div className=" w-1/2 p-4">
-          {selected ? (
-            <SelectedTenantCard tenant={selected} />
+          {selectedPopularTenant ? (
+            <SelectedTenantCard
+              tenant={selectedPopularTenant}
+              primaryColor={primaryColor}
+              handleSelectedCardClick={handleSelectedCardClick}
+              resolveTenantQuota={resolveTenantQuota}
+            />
           ) : (
             <NotSelectedPlaceholder />
           )}

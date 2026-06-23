@@ -1,5 +1,10 @@
-import { TenantBranding, TenantSettings } from "@/context/TenantContext/types";
-import { SpinQuota } from "@/context/UserContext/types";
+import {
+  Tenant,
+  TenantBranding,
+  TenantSettings,
+} from "@/context/TenantContext/types";
+import { SpinQuota, UserState } from "@/context/UserContext/types";
+import { ParamValue } from "next/dist/server/request/params";
 
 type Tier = "common" | "rare" | "jackpot";
 
@@ -186,6 +191,30 @@ type BadgeGradientLifecycleProps = {
   product: Product;
 };
 
+type TenantSlotsContentProps = {
+  tenant: Tenant | null;
+  tenantId: ParamValue;
+  sessionTenantId: string | null;
+  authorizedFetch: {
+    (input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
+    (
+      input: string | URL | globalThis.Request,
+      init?: RequestInit,
+    ): Promise<Response>;
+  };
+  loading: boolean;
+  optimisticSpin: (tenantId?: string | null) => void;
+  userData: UserState | null;
+  refreshGlobalQuota: ({
+    tenantId,
+  }: {
+    tenantId: string | null;
+  }) => Promise<void>;
+  quota: SpinQuota | null;
+  tenantQuota: SpinQuota | null;
+  globalQuotaLoading: boolean;
+};
+
 export type {
   SpinInterfaceProps,
   AvailableRoundsProps,
@@ -202,4 +231,5 @@ export type {
   TierBadgeProps,
   BadgeGradientLifecycleProps,
   SlotsConfig,
+  TenantSlotsContentProps,
 };

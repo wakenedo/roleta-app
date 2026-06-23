@@ -1,5 +1,4 @@
 import { UserSubscriptionCardProps } from "@/components/HomePageInterface/types";
-import { useRouter } from "next/navigation";
 import { SubscriptionCardsFooterDisclaimer } from "../../../SubscriptionCardsFooterDisclaimer";
 import { UserSubscriptionButton } from "../UserSubscriptionButton";
 import { UserSubscriptionCardPerks } from "../UserSubscriptionCardPerks";
@@ -9,14 +8,10 @@ const UserSubscriptionCard = ({
   plan,
   config,
   userPlan,
+  handleUserSubscribe,
 }: UserSubscriptionCardProps) => {
   const message =
     "Os limites podem ser extendidos através de pacotes vendidos separadamente.";
-  const router = useRouter();
-  const handleSubscribe = (planId: string) => {
-    console.log("Subscribe to:", planId);
-    router.push(`/UserSubscriptions?plan=${encodeURIComponent(planId)}`);
-  };
 
   const isUserPlan = plan.id === userPlan;
   if (isUserPlan) return null;
@@ -40,7 +35,7 @@ const UserSubscriptionCard = ({
       <UserSubscriptionCardHeader plan={plan} />
       <UserSubscriptionCardPerks config={config} />
       <UserSubscriptionButton
-        handleSubscribe={handleSubscribe}
+        handleSubscribe={handleUserSubscribe}
         isUserPlan={isUserPlan}
         plan={plan}
       />

@@ -37,10 +37,21 @@ type SeasonTenant = {
   };
 };
 
+type UseProductsImportsProps = {
+  selectedPlan: {
+    id: string;
+    name: string;
+    price: string;
+  };
+  importProductsCSV?: (file: File, dryRun?: boolean) => Promise<unknown>;
+  importProductsJSON?: (file: File, dryRun?: boolean) => Promise<unknown>;
+};
+
 export type {
   RawProductsProps,
   StepHeaderProps,
   UseTenantsReturn,
   StepHeaderInterfaceProps,
   SeasonTenant,
+  UseProductsImportsProps,
 };

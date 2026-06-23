@@ -2,12 +2,21 @@ import { TenantSubscriptionModes } from "@/components/HomePageInterface/componen
 import { MonetizeYourAudience } from "./components/MonetizeYourAudience";
 import { TenantsBusinessModel } from "./components/TenantsBusinessModel";
 
-const TenantsHowItWorksInterface = () => {
+const TenantsHowItWorksInterface = ({
+  currentTenantPlan,
+  tenantMaxedPlan,
+}: {
+  currentTenantPlan: string | undefined;
+  tenantMaxedPlan: boolean;
+}) => {
   return (
     <>
       <MonetizeYourAudience />
       <TenantsBusinessModel />
-      <TenantSubscriptionModes />
+      <TenantSubscriptionModes
+        currentTenantPlan={currentTenantPlan}
+        tenantMaxedPlan={tenantMaxedPlan}
+      />
     </>
   );
 };
