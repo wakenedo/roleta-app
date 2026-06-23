@@ -7,20 +7,14 @@ import {
   normalizeProducts,
   paginateProducts,
 } from "./utils/productImportsHelpers";
-import { RawProductsProps } from "./types";
+import { RawProductsProps, UseProductsImportsProps } from "./types";
 import { selectedPlanMaxProducts } from "@/components/ForTenantsInterface/components/PlanIdInterface/utils";
 
 export const useProductsImport = ({
   selectedPlan,
   importProductsCSV,
-}: {
-  selectedPlan: {
-    id: string;
-    name: string;
-    price: string;
-  };
-  importProductsCSV?: (file: File, dryRun?: boolean) => Promise<unknown>;
-}) => {
+  importProductsJSON,
+}: UseProductsImportsProps) => {
   const [file, setFile] = useState<File | null>(null);
   const [csvPreview, setCsvPreview] = useState<{
     preview: unknown[];

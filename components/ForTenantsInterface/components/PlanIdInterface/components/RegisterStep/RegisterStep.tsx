@@ -1,6 +1,5 @@
 import { TenantsTermsInterface } from "@/components/TenantsTermsInterface";
 import { ToSModal } from "@/components/ToSModal";
-import { useState } from "react";
 import { RegisterStepProps } from "../../types";
 import { TenantEmailInput } from "./components/TenantEmailInput";
 import { TenantNameInput } from "./components/TenantNameInput";
@@ -19,37 +18,18 @@ const RegisterStep = ({
   createAndSendVerification,
   checkingVerification,
   isEmailVerified,
+  showToS,
+  setShowToS,
+  acceptedToS,
+  showPassword,
+  setShowPassword,
+  confirmPassword,
+  setConfirmPassword,
+  passwordsMatch,
+  validations,
+  isPasswordValid,
+  handleAcceptToS,
 }: RegisterStepProps) => {
-  const [showToS, setShowToS] = useState(false);
-  const [acceptedToS, setAcceptedToS] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [confirmPassword, setConfirmPassword] = useState("");
-
-  const passwordsMatch = password === confirmPassword;
-
-  const passwordRules = {
-    length: (v: string) => v.length >= 8,
-    uppercase: (v: string) => /[A-Z]/.test(v),
-    lowercase: (v: string) => /[a-z]/.test(v),
-    number: (v: string) => /[0-9]/.test(v),
-    symbol: (v: string) => /[^A-Za-z0-9]/.test(v),
-  };
-
-  const validations = {
-    length: passwordRules.length(password),
-    uppercase: passwordRules.uppercase(password),
-    lowercase: passwordRules.lowercase(password),
-    number: passwordRules.number(password),
-    symbol: passwordRules.symbol(password),
-  };
-
-  const isPasswordValid = Object.values(validations).every(Boolean);
-
-  const handleAcceptToS = () => {
-    setAcceptedToS(true);
-    setShowToS(false);
-  };
-
   return (
     <>
       <ToSModal

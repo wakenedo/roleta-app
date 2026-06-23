@@ -1,43 +1,35 @@
-"use client";
-import { Tenant } from "@/context/TenantContext/types";
 import { TenantSubscriptionModes } from "../TenantSubscriptionModes";
 import { AreaBackground } from "../UserOfflineHomePage/components/AreaBackground";
 import { UserSubscriptionModes } from "../UserSubscriptionModes";
 import { ActiveTenantsInterface } from "./components/ActiveTenantsInterface";
-import { UserState } from "@/context/UserContext/types";
-import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { GoldCoin } from "@/components/ArtAssets/GoldCoin";
-import { SilverCoin } from "@/components/ArtAssets/SilverCoin";
-
-const confettiEmojis = ["🎉", "✨", "🎊"];
-const coinsArt = [
-  <GoldCoin key="gold-coin" />,
-  <SilverCoin key="silver-coin" />,
-];
+import { UserOnlineHomePageProps } from "../../types";
 const UserOnlineHomePage = ({
-  userData,
   tenant,
-}: {
-  userData: UserState | null;
-  tenant?: Tenant | null;
-}) => {
-  const [mounted, setMounted] = useState(false);
-  const [confetti, setConfetti] = useState<number[]>([]);
-  const [coins, setCoins] = useState(coinsArt);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setMounted(true);
-
-    const width = containerRef.current?.offsetWidth || 4400;
-
-    const positions = Array.from({ length: 40 }, () => Math.random() * width);
-
-    setConfetti(positions);
-    setCoins((prev) => [...prev, ...coinsArt]);
-  }, []);
-
+  userMaxedPlan,
+  tenantMaxedPlan,
+  currentTenantPlan,
+  currentUserPlan,
+  containerRef,
+  mounted,
+  confetti,
+  coins,
+  tenantsLoading,
+  featuredTenant,
+  popularTenants,
+  search,
+  setSearch,
+  tenantsError,
+  handleUserSubscribe,
+  selectedPopularTenant,
+  setSelectedPopularTenant,
+  filtered,
+  primaryColor,
+  handleSelectedCardClick,
+  sorted,
+  resolveTenantQuota,
+  leaderboardLoading,
+}: UserOnlineHomePageProps) => {
   if (!mounted) return null;
   return (
     <div
@@ -64,12 +56,34 @@ const UserOnlineHomePage = ({
         </motion.div>
       ))}
 
-      <ActiveTenantsInterface />
+      <ActiveTenantsInterface
+        tenantsLoading={tenantsLoading}
+        featuredTenant={featuredTenant}
+        popularTenants={popularTenants}
+        search={search}
+        setSearch={setSearch}
+        tenantsError={tenantsError}
+        selectedPopularTenant={selectedPopularTenant}
+        setSelectedPopularTenant={setSelectedPopularTenant}
+        filtered={filtered}
+        primaryColor={primaryColor}
+        handleSelectedCardClick={handleSelectedCardClick}
+        sorted={sorted}
+        resolveTenantQuota={resolveTenantQuota}
+        leaderboardLoading={leaderboardLoading}
+      />
       <AreaBackground>
         {tenant != null ? (
-          <TenantSubscriptionModes tenant={tenant} />
+          <TenantSubscriptionModes
+            currentTenantPlan={currentTenantPlan}
+            tenantMaxedPlan={tenantMaxedPlan}
+          />
         ) : (
-          <UserSubscriptionModes userData={userData} />
+          <UserSubscriptionModes
+            currentUserPlan={currentUserPlan}
+            userMaxedPlan={userMaxedPlan}
+            handleUserSubscribe={handleUserSubscribe}
+          />
         )}
       </AreaBackground>
     </div>

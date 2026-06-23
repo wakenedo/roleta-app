@@ -1,5 +1,4 @@
 "use client";
-import { UserState } from "@/context/UserContext/types";
 import { UserSubscriptionCard } from "./components/UserSubscriptionCard";
 import { UserMaxedSubscription } from "./components/UserMaxedSubscription";
 import { USER_SPIN_PLANS, userPlans } from "../../utils/userHelpers";
@@ -8,19 +7,20 @@ import { SubscriptionModesSectionFooterDisclaimer } from "../SubscriptionModesSe
 import { SubscriptionModesSectionBackground } from "../SubscriptionModesSectionBackground";
 
 const UserSubscriptionModes = ({
-  userData,
+  currentUserPlan,
+  userMaxedPlan,
+  handleUserSubscribe,
 }: {
-  userData?: UserState | null;
+  currentUserPlan: string | undefined;
+  userMaxedPlan: boolean;
+  handleUserSubscribe: (planId: string) => void;
 }) => {
-  const CURRENT_USER_PLAN = userData?.user.subscription;
-  const userMaxPlan = userData?.user.subscription === "premium+";
-
   const title = "PLANOS PROMOBET";
   const subTitle =
     "Aumente seus giros globais e desbloqueie multiplicadores nos slots dos parceiros.";
   const message =
     "Assinaturas serão processadas via Stripe. Você poderá cancelar ou alterar seu plano a qualquer momento.";
-  if (userMaxPlan) {
+  if (userMaxedPlan) {
     return <UserMaxedSubscription />;
   }
 
@@ -36,8 +36,9 @@ const UserSubscriptionModes = ({
             <UserSubscriptionCard
               config={config}
               plan={plan}
-              userPlan={CURRENT_USER_PLAN}
+              userPlan={currentUserPlan}
               key={plan.id}
+              handleUserSubscribe={handleUserSubscribe}
             />
           );
         })}

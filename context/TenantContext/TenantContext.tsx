@@ -45,7 +45,7 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
         tenantFetch(`/tenants/${resolvedTenantId}/admin/products`),
         tenantFetch(`/tenants/${resolvedTenantId}/preview`),
       ]);
-
+      console.log("ProductsRes", productsRes);
       if (!tenantRes?.ok) {
         throw new Error("Failed to load tenant");
       }

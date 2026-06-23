@@ -2,11 +2,9 @@ import { useEffect } from "react";
 import { TenantRegisteredInterface } from "../TenantCheckoutInterface/TenantRegisteredInterface";
 import { TenantPlanAssignedInterface } from "../TenantCheckoutInterface/TenantPlanAssignedInterface";
 import { TenantBrandingAssignedInterface } from "../TenantCheckoutInterface/TenantBrandingAssignedInterface";
-import { AddProductsContent } from "./components/AddProductsContent";
 import { CompleteProductsStepButton } from "./components/AddProductsInterface/components/CompleteProductsStepButton";
-import { useProductsImport } from "@/hooks/useProductsImport";
 import { ProductsStepProps } from "../../types";
-import { useTenant } from "@/context/TenantContext/TenantContext";
+import { AddProductsInterface } from "./components/AddProductsInterface";
 
 const ProductsStep: React.FC<ProductsStepProps> = ({
   name,
@@ -18,12 +16,13 @@ const ProductsStep: React.FC<ProductsStepProps> = ({
   importProductsCSV,
   onSave,
   setStepHeader,
+  productsImported,
+  pickProducts,
+  handleSubmitProducts,
+  previewProducts,
+  products,
+  setProducts,
 }) => {
-  const { products } = useTenant();
-  const productsImport = useProductsImport({ selectedPlan, importProductsCSV });
-
-  const pickProducts =
-    productsImport.products.length > 0 ? productsImport.products : products;
   console.log("ProductsStep rendered with productsImport:", pickProducts);
 
   useEffect(() => {
@@ -41,16 +40,20 @@ const ProductsStep: React.FC<ProductsStepProps> = ({
         logoUrl={logoUrl}
         primaryColor={primaryColor}
       />
-      <AddProductsContent
-        productsImport={productsImport}
+      <AddProductsInterface
+        productsImported={productsImported}
         selectedPlan={selectedPlan}
         importProducts={importProducts}
         importProductsCSV={importProductsCSV}
+        handleSubmitProducts={handleSubmitProducts}
+        previewProducts={previewProducts}
+        products={products}
+        setProducts={setProducts}
       />
       <CompleteProductsStepButton
         onSave={onSave}
         products={pickProducts}
-        areProductsValidated={productsImport.isValidated}
+        areProductsValidated={productsImported.isValidated}
       />
     </div>
   );

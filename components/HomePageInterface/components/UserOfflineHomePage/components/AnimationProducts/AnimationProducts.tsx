@@ -84,7 +84,6 @@ const AnimationProducts = () => {
         {emojis.map((emoji, i) => (
           <motion.div
             key={i}
-            className="text-5xl"
             initial={{ y: 120, opacity: 0 }}
             animate={{
               y: arcOffsets1[i],

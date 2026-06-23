@@ -1,22 +1,19 @@
-"use client";
-
 import { Tenant } from "@/context/TenantContext/types";
-import { useRouter } from "next/navigation";
 
-const TenantCard = ({ tenant }: { tenant: Tenant }) => {
-  const router = useRouter();
-
-  const primaryColor = tenant.branding?.primaryColor || "#111";
-
-  const handleClick = () => {
-    router.push(`/tenant/${tenant.id}`);
-  };
-
+const TenantCard = ({
+  tenant,
+  primaryColor,
+  handleTenantCardClick,
+}: {
+  tenant: Tenant;
+  primaryColor: string;
+  handleTenantCardClick: () => void;
+}) => {
   return (
     <div
       className="border  rounded-xl shadow-sm p-4 flex flex-col gap-3 hover:shadow-md transition cursor-default"
       style={{ borderColor: primaryColor }}
-      onClick={handleClick}
+      onClick={handleTenantCardClick}
     >
       {tenant.branding?.logoUrl && (
         <img

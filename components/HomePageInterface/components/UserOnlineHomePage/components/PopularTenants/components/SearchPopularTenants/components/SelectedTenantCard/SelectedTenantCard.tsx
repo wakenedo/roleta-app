@@ -1,40 +1,28 @@
 import { Tenant } from "@/context/TenantContext/types";
-import { useRouter } from "next/navigation";
 import { SubscriptionBadge } from "../../../FeaturedTenants/components/SubscriptionBadge";
 import { TenantSubscription } from "../../../FeaturedTenants/components/SubscriptionBadge/SubscriptionBadge";
 import { GiBanana } from "react-icons/gi";
 
-const SelectedTenantCard = ({ tenant }: { tenant: Tenant }) => {
-  const router = useRouter();
+const SelectedTenantCard = ({
+  tenant,
+  primaryColor,
+  handleSelectedCardClick,
+  resolveTenantQuota,
+}: {
+  tenant: Tenant | null;
+  primaryColor: string;
+  handleSelectedCardClick: () => void;
+  resolveTenantQuota(subscription?: string): number;
+}) => {
+  if (!tenant) return;
 
-  const primaryColor = tenant.branding?.primaryColor || "#111";
-
-  const handleClick = () => {
-    router.push(`/${tenant.id}/slots`);
-  };
-
-  function resolveTenantQuota(subscription?: string): number {
-    switch (subscription) {
-      case "tenant":
-        return 10;
-
-      case "tenantPro":
-        return 20;
-
-      case "tenantPremium":
-        return 40;
-
-      default:
-        return 10; // fallback safety
-    }
-  }
   const quota = resolveTenantQuota(tenant.subscriptionMode);
 
   return (
     <div
       className=" h-full p-2 border bg-gradient-to-br from-[#111827] to-[#1f2937] shadow-sm  hover:shadow-md transition cursor-default"
       style={{ borderColor: primaryColor }}
-      onClick={handleClick}
+      onClick={handleSelectedCardClick}
     >
       <div className="px-4   flex flex-col  mt-5 mx-auto">
         <div>

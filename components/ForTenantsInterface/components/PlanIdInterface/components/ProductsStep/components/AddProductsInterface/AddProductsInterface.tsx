@@ -1,58 +1,25 @@
 import { SaveProductsButton } from "./components/SaveProductsButton";
 import { HandleFileUploadInput } from "./components/HandleFileUploadInput";
 import { ProductImportPreviewTable } from "./components/ProductImportPreviewTable";
-import { useTenant } from "@/context/TenantContext/TenantContext";
 import { AddProductsContentProps } from "../../../../types";
-import { normalizeProducts } from "@/hooks/utils/productImportsHelpers";
-import { TenantProduct } from "@/context/TenantContext/types";
 
 const AddProductsInterface: React.FC<AddProductsContentProps> = ({
   selectedPlan,
-  productsImport,
-  importProducts,
-  importProductsCSV,
+  productsImported,
+  handleSubmitProducts,
+  previewProducts,
 }) => {
   const {
     fileName,
     errors,
     handleFileUpload,
-    validateProducts,
     pagination,
     setPage,
     paginatedProducts,
     page,
-    file,
-  } = productsImport;
-  const { setProducts, products } = useTenant();
-  const handleSubmit = async () => {
-    if (!file) return;
+  } = productsImported;
 
-    // 🧾 CSV FLOW
-    if (file.name.endsWith(".csv")) {
-      const result = (await importProductsCSV(file, false)) as {
-        imported: number;
-        products: TenantProduct[];
-      };
-      setProducts(result.products);
-      console.log("Imported ✔", result);
-      validateProducts();
-      alert(`Imported ${result.imported} products`);
-      return;
-    }
-
-    // 🧠 JSON FLOW
-    const valid = validateProducts();
-    if (!valid) return;
-
-    await importProducts(productsImport.products);
-    setProducts(productsImport.products);
-
-    console.log("Products validated ✔");
-  };
-
-  const isCSV = productsImport.file?.name.endsWith(".csv");
-
-  const previewProducts = isCSV ? products : productsImport.products;
+  const isCSV = productsImported.file?.name.endsWith(".csv");
 
   console.log("Preview products:", previewProducts);
   return (
@@ -72,18 +39,18 @@ const AddProductsInterface: React.FC<AddProductsContentProps> = ({
           fileName={fileName}
           handleFileUpload={handleFileUpload}
         />
-        {productsImport.csvPreview?.errors &&
-          productsImport.csvPreview.errors.length > 0 && (
+        {productsImported.csvPreview?.errors &&
+          productsImported.csvPreview.errors.length > 0 && (
             <div className="text-red-400 text-xs mt-2">
               <div>CSV Errors:</div>
-              {productsImport.csvPreview.errors.slice(0, 10).map((err, i) => (
+              {productsImported.csvPreview.errors.slice(0, 10).map((err, i) => (
                 <div key={i}>• {err}</div>
               ))}
             </div>
           )}
         <ProductImportPreviewTable
           products={previewProducts}
-          updateProducts={productsImport.updateProducts}
+          updateProducts={productsImported.updateProducts}
           selectedPlan={selectedPlan}
           page={page}
           paginatedProducts={
@@ -107,10 +74,10 @@ const AddProductsInterface: React.FC<AddProductsContentProps> = ({
         />
       </div>
       <SaveProductsButton
-        onClick={handleSubmit}
+        onClick={handleSubmitProducts}
         label={
-          productsImport.file?.name.endsWith(".csv")
-            ? productsImport.csvPreview
+          productsImported.file?.name.endsWith(".csv")
+            ? productsImported.csvPreview
               ? "Confirmar Importação"
               : "Validar CSV"
             : "Salvar Produtos"
