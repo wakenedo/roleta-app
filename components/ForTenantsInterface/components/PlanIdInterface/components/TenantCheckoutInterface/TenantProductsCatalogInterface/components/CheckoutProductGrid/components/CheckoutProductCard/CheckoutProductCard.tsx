@@ -2,7 +2,10 @@ import { TenantProduct } from "@/context/TenantContext/types";
 
 const CheckoutProductCard = ({ product }: { product: TenantProduct }) => {
   return (
-    <div className="bg-white rounded-lg shadow hover:shadow-lg transition p-3 flex flex-col gap-1">
+    <div
+      key={product.id}
+      className="bg-white rounded-lg shadow hover:shadow-lg transition p-3 flex flex-col gap-1"
+    >
       <img
         src={product.image}
         alt={product.name}

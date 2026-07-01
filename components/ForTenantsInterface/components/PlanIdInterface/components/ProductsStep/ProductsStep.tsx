@@ -14,6 +14,7 @@ const ProductsStep: React.FC<ProductsStepProps> = ({
   primaryColor,
   importProducts,
   importProductsCSV,
+  importProductsJSON,
   onSave,
   setStepHeader,
   productsImported,
@@ -45,6 +46,7 @@ const ProductsStep: React.FC<ProductsStepProps> = ({
         selectedPlan={selectedPlan}
         importProducts={importProducts}
         importProductsCSV={importProductsCSV}
+        importProductsJSON={importProductsJSON}
         handleSubmitProducts={handleSubmitProducts}
         previewProducts={previewProducts}
         products={products}

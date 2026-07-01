@@ -11,6 +11,8 @@ const TenantProductsCatalogInterface = ({
   loading: boolean;
   error: string | null;
 }) => {
+  if (!products) return null;
+
   return (
     <>
       <span className="text-sm  text-slate-50">Produtos carregados</span>

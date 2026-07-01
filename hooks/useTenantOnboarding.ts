@@ -147,6 +147,49 @@ export const useTenantOnboarding = (planId?: string | null) => {
 
     return data;
   };
+  const importProductsJSON = async (file: File, dryRun = false) => {
+    const text = await file.text();
+    const json = JSON.parse(text);
+
+    let products = null;
+
+    if (Array.isArray(json)) {
+      products = json;
+    } else if (Array.isArray(json.products)) {
+      products = json.products;
+    } else if (Array.isArray(json.items)) {
+      products = json.items;
+    } else if (Array.isArray(json.data)) {
+      products = json.data;
+    } else if (Array.isArray(json.results)) {
+      products = json.results;
+    }
+
+    if (!products) {
+      throw new Error(
+        "Could not find product array. Expected [], { products: [] }, { items: [] }",
+      );
+    }
+
+    const res = await tenantFetch(
+      `/tenants/${tenantId}/onboard/import${dryRun ? "?dryRun=true" : ""}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          products: [...products],
+        }),
+      },
+    );
+
+    const data = await res.json();
+
+    console.log("JSON import result:", data);
+
+    return data;
+  };
 
   const saveProducts = async (products: TenantProduct[]) => {
     await tenantFetch(`/tenants/onboard/products/${tenantId}`, {
@@ -192,6 +235,7 @@ export const useTenantOnboarding = (planId?: string | null) => {
     saveBranding,
     importProducts,
     importProductsCSV,
+    importProductsJSON,
     saveProducts,
     resolveComplete,
 

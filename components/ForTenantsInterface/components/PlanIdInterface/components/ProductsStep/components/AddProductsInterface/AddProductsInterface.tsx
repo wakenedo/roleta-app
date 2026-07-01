@@ -21,7 +21,13 @@ const AddProductsInterface: React.FC<AddProductsContentProps> = ({
 
   const isCSV = productsImported.file?.name.endsWith(".csv");
 
-  console.log("Preview products:", previewProducts);
+  console.log(
+    "Preview products:",
+    fileName,
+    productsImported,
+    productsImported.isValidated,
+    productsImported.products,
+  );
   return (
     <>
       <span className="text-sm">Produtos</span>
@@ -76,10 +82,10 @@ const AddProductsInterface: React.FC<AddProductsContentProps> = ({
       <SaveProductsButton
         onClick={handleSubmitProducts}
         label={
-          productsImported.file?.name.endsWith(".csv")
-            ? productsImported.csvPreview
+          productsImported.file
+            ? productsImported
               ? "Confirmar Importação"
-              : "Validar CSV"
+              : "Validar Arquivo"
             : "Salvar Produtos"
         }
       />
