@@ -39,6 +39,7 @@ const ForTenants = () => {
     setSelectedPlan,
     importProducts,
     importProductsCSV,
+    importProductsJSON,
     checkEmailVerification,
     createAndSendVerification,
     checkingVerification,
@@ -72,6 +73,7 @@ const ForTenants = () => {
   const productsImported = useProductsImport({
     selectedPlan,
     importProductsCSV,
+    importProductsJSON,
   });
 
   const { validateProducts, file } = productsImported;
@@ -91,13 +93,17 @@ const ForTenants = () => {
       alert(`Imported ${result.imported} products`);
       return;
     }
-
-    // 🧠 JSON FLOW
-    const valid = validateProducts();
-    if (!valid) return;
-
-    await importProducts(productsImported.products);
-    setProducts(productsImported.products);
+    if (file.name.endsWith(".json")) {
+      const result = (await importProductsJSON(file, false)) as {
+        imported: number;
+        products: TenantProduct[];
+      };
+      setProducts(result.products);
+      console.log("Imported ✔", result);
+      validateProducts();
+      alert(`Imported ${result.imported} products`);
+      return;
+    }
 
     console.log("Products validated ✔");
   };
@@ -131,6 +137,7 @@ const ForTenants = () => {
           handleAcceptToS={handleAcceptToS}
           importProducts={importProducts}
           importProductsCSV={importProductsCSV}
+          importProductsJSON={importProductsJSON}
           isEmailVerified={isEmailVerified}
           isPasswordValid={isPasswordValid}
           logoUrl={logoUrl}

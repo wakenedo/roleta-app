@@ -17,18 +17,14 @@ export default function ForTenantsLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`antialiased`}>
-        <AuthProvider>
-          <TenantAuthProvider>
-            <UserProvider>
-              <TenantProvider>
-                <Suspense fallback={null}>{children}</Suspense>
-              </TenantProvider>
-            </UserProvider>
-          </TenantAuthProvider>
-        </AuthProvider>
-      </body>
-    </html>
+    <AuthProvider>
+      <TenantAuthProvider>
+        <UserProvider>
+          <TenantProvider>
+            <Suspense fallback={null}>{children}</Suspense>
+          </TenantProvider>
+        </UserProvider>
+      </TenantAuthProvider>
+    </AuthProvider>
   );
 }

@@ -22,6 +22,13 @@ export const useProductsImport = ({
     total: number;
     valid: number;
   } | null>(null);
+  const [jsonPreview, setJsonPreview] = useState<{
+    preview: unknown[];
+    products: unknown[];
+    errors: string[];
+    total: number;
+    valid: number;
+  } | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
   const [rawProducts, setRawProducts] = useState<RawProductsProps[]>([]);
   const [products, setProducts] = useState<TenantProduct[]>([]);
@@ -40,72 +47,10 @@ export const useProductsImport = ({
     page,
   );
 
-  const parseJSON = async (file: File) => {
-    try {
-      const text = await file.text();
-      const json = JSON.parse(text);
-
-      let productsArray: RawProductsProps[] | null = null;
-
-      if (Array.isArray(json)) {
-        productsArray = json;
-      } else if (Array.isArray(json.products)) {
-        productsArray = json.products;
-      } else if (Array.isArray(json.items)) {
-        productsArray = json.items;
-      } else if (Array.isArray(json.data)) {
-        productsArray = json.data;
-      } else if (Array.isArray(json.results)) {
-        productsArray = json.results;
-      }
-
-      if (!productsArray) {
-        setErrors([
-          "Could not find product array. Expected: [], { products: [] }, { items: [] }",
-        ]);
-        return;
-      }
-
-      if (productsArray.length > MAX_PRODUCTS) {
-        setErrors([`Plan allows only ${MAX_PRODUCTS} products`]);
-        return;
-      }
-
-      setRawProducts(productsArray);
-
-      const normalized = normalizeProducts(productsArray);
-
-      setProducts(normalized);
-    } catch {
-      setErrors(["Invalid JSON format"]);
-    }
-  };
-
-  const handleFileUpload = async (file: File) => {
-    setErrors([]);
-    setFileName(file.name);
-    setFile(file);
-
-    if (file.name.endsWith(".json")) {
-      await parseJSON(file);
-    }
-    if (file.name.endsWith(".csv") && importProductsCSV) {
-      const preview = (await importProductsCSV(file, true)) as {
-        preview: unknown[];
-        errors: string[];
-        total: number;
-        valid: number;
-      };
-      setCsvPreview(preview);
-    }
-  };
-
   const validateProducts = () => {
     const newErrors: string[] = [];
-
     products.forEach((p, index) => {
       if (!p.name) newErrors.push(`Product ${index + 1} missing name`);
-      if (!p.image) newErrors.push(`Product ${index + 1} missing image`);
       if (!p.url) newErrors.push(`Product ${index + 1} missing url`);
       if (p.price !== null && p.price != undefined && p.price < 0)
         newErrors.push(`Product ${index + 1} invalid price`);
@@ -121,11 +66,46 @@ export const useProductsImport = ({
     return true;
   };
 
+  const handleFileUpload = async (file: File) => {
+    setErrors([]);
+    setFileName(file.name);
+    setFile(file);
+
+    if (file.name.endsWith(".json") && importProductsJSON) {
+      const jPreview = (await importProductsJSON(file, true)) as {
+        total: number;
+        valid: number;
+        preview: unknown[];
+        products: unknown[];
+        errors: string[];
+      };
+      if (jPreview.products.length > MAX_PRODUCTS) {
+        setErrors([`Plan allows only ${MAX_PRODUCTS} products`]);
+        return;
+      }
+      const productsArray = jPreview.products as TenantProduct[];
+
+      setProducts(productsArray);
+      setJsonPreview(jPreview);
+    }
+    if (file.name.endsWith(".csv") && importProductsCSV) {
+      const cPreview = (await importProductsCSV(file, true)) as {
+        preview: unknown[];
+        errors: string[];
+        total: number;
+        valid: number;
+      };
+      setCsvPreview(cPreview);
+    }
+  };
+
   return {
     file,
     fileName,
     rawProducts,
+    jsonPreview,
     csvPreview,
+    setJsonPreview,
     setCsvPreview,
     products,
     errors,

@@ -42,6 +42,7 @@ type PlanIdInterfaceProps = {
   >;
   importProducts: (products: TenantProduct[]) => Promise<void>;
   importProductsCSV: (file: File, dryRun?: boolean) => Promise<unknown>;
+  importProductsJSON: (file: File, dryRun?: boolean) => Promise<unknown>;
   checkEmailVerification: () => Promise<void>;
   createAndSendVerification: () => Promise<void>;
   checkingVerification: boolean;
@@ -111,6 +112,7 @@ type ForTenantsInterfaceProps = {
   >;
   importProducts: (products: TenantProduct[]) => Promise<void>;
   importProductsCSV: (file: File, dryRun?: boolean) => Promise<unknown>;
+  importProductsJSON: (file: File, dryRun?: boolean) => Promise<unknown>;
   checkEmailVerification: () => Promise<void>;
   createAndSendVerification: () => Promise<void>;
   checkingVerification: boolean;
@@ -243,6 +245,7 @@ type ProductsStepProps = {
   setStepHeader: Dispatch<SetStateAction<StepHeaderProps>>;
   importProducts: (products: TenantProduct[]) => Promise<void>;
   importProductsCSV: (file: File, dryRun?: boolean) => Promise<unknown>;
+  importProductsJSON: (file: File, dryRun?: boolean) => Promise<unknown>;
   productsImported: ProductsImportedProps;
   pickProducts: TenantProduct[];
   setProducts: Dispatch<SetStateAction<TenantProduct[]>>;
@@ -297,6 +300,7 @@ type AddProductsContentProps = {
   productsImported: ProductsImportedProps;
   importProducts: (products: TenantProduct[]) => Promise<void>;
   importProductsCSV: (file: File, dryRun?: boolean) => Promise<unknown>;
+  importProductsJSON: (file: File, dryRun?: boolean) => Promise<unknown>;
   setProducts: Dispatch<SetStateAction<TenantProduct[]>>;
   products: TenantProduct[];
   handleSubmitProducts: () => Promise<void>;

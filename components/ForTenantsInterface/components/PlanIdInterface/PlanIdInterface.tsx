@@ -17,6 +17,7 @@ const PlanIdInterface = ({
   error,
   handleAcceptToS,
   importProducts,
+  importProductsJSON,
   importProductsCSV,
   isEmailVerified,
   isPasswordValid,
@@ -117,6 +118,7 @@ const PlanIdInterface = ({
             onSave={saveProducts}
             importProducts={importProducts}
             importProductsCSV={importProductsCSV}
+            importProductsJSON={importProductsJSON}
             setStepHeader={setStepHeader}
             selectedPlan={selectedPlan}
             logoUrl={logoUrl}
@@ -140,7 +142,7 @@ const PlanIdInterface = ({
             logoUrl={logoUrl}
             primaryColor={primaryColor}
             selectedPlan={selectedPlan}
-            products={products}
+            products={products || previewProducts}
             error={error}
             loading={loading}
             setStepHeader={setStepHeader}

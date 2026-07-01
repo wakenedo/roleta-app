@@ -15,6 +15,7 @@ const ForTenantsInterface = ({
   handleAcceptToS,
   importProducts,
   importProductsCSV,
+  importProductsJSON,
   isEmailVerified,
   isPasswordValid,
   loading,
@@ -70,6 +71,7 @@ const ForTenantsInterface = ({
         handleAcceptToS={handleAcceptToS}
         importProducts={importProducts}
         importProductsCSV={importProductsCSV}
+        importProductsJSON={importProductsJSON}
         isEmailVerified={isEmailVerified}
         isPasswordValid={isPasswordValid}
         logoUrl={logoUrl}

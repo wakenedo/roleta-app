@@ -22,7 +22,7 @@ const ProductImportRow = ({
         <span className="text-xs font-semibold">Image :</span>
         <input
           className={`border p-1 text-xs ${missing(product.image)}`}
-          value={product.image || undefined}
+          value={product.image ? product.image : "No Image"}
           onChange={(e) => updateProductField(index, "image", e.target.value)}
         />
       </div>
