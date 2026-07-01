@@ -1,6 +1,10 @@
 import { useEffect } from "react";
 import { TenantRegisteredInterface } from "../TenantCheckoutInterface/TenantRegisteredInterface";
 import { PaymentStepProps } from "../../types";
+import {
+  TENANT_PLANS,
+  tenantPlans,
+} from "@/Interfaces/HomePageInterface/utils/tenantHelpers";
 
 const PaymentStep = ({
   planId,
@@ -10,44 +14,7 @@ const PaymentStep = ({
   setStepHeader,
   setSelectedPlan,
 }: PaymentStepProps) => {
-  const TENANT_PLANS = {
-    tenant: {
-      tenantScopedQuota: 10,
-      productLimit: 100,
-      monthlySpinsLimit: 200000,
-    },
-    tenantPro: {
-      tenantScopedQuota: 20,
-      productLimit: 250,
-      monthlySpinsLimit: 500000,
-    },
-    tenantPremium: {
-      tenantScopedQuota: 40,
-      productLimit: 500,
-      monthlySpinsLimit: 1000000,
-    },
-  };
-
-  const plans = [
-    {
-      id: "tenant",
-      name: "TENANT",
-      price: "R$199/mês",
-    },
-    {
-      id: "tenantPro",
-      name: "TENANT PRO",
-      price: "R$399/mês",
-    },
-    {
-      id: "tenantPremium",
-      name: "TENANT PREMIUM",
-      price: "R$699/mês",
-      highlight: true,
-    },
-  ];
-
-  const selectedPlan = plans.find((plan) => plan.id === planId);
+  const selectedPlan = tenantPlans.find((plan) => plan.id === planId);
   const config = TENANT_PLANS[selectedPlan?.id as keyof typeof TENANT_PLANS];
 
   useEffect(() => {
@@ -69,7 +36,7 @@ const PaymentStep = ({
 
         {planId && (
           <div className=" border flex justify-between   ">
-            {plans.map((plan) => {
+            {tenantPlans.map((plan) => {
               const renderCorrectPlan = plan.id === planId;
 
               if (renderCorrectPlan) {

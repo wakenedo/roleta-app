@@ -1,3 +1,5 @@
+import { TENANT_PLANS } from "@/Interfaces/HomePageInterface/utils/tenantHelpers";
+
 const TenantPlanAssignedInterface = ({
   selectedPlan,
 }: {
@@ -7,23 +9,6 @@ const TenantPlanAssignedInterface = ({
     price: string;
   };
 }) => {
-  const TENANT_PLANS = {
-    tenant: {
-      tenantScopedQuota: 10,
-      productLimit: 100,
-      monthlySpinsLimit: 200000,
-    },
-    tenantPro: {
-      tenantScopedQuota: 20,
-      productLimit: 250,
-      monthlySpinsLimit: 500000,
-    },
-    tenantPremium: {
-      tenantScopedQuota: 40,
-      productLimit: 500,
-      monthlySpinsLimit: 1000000,
-    },
-  };
   const config = TENANT_PLANS[selectedPlan?.id as keyof typeof TENANT_PLANS];
   return (
     <div className="mt-0">
