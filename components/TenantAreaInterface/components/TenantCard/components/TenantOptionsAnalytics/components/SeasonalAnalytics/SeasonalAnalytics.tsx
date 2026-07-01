@@ -22,15 +22,15 @@ const SeasonalAnalytics = ({
           <div className="mt-2">
             <InfoRow
               label="Giros"
-              value={seasonStats.stats.platform.totalSpins ?? "N/A"}
+              value={seasonStats.stats.platform?.totalSpins ?? "N/A"}
             />
             <InfoRow
               label="Novos Usuários"
-              value={seasonStats.stats.platform.totalUsers ?? "N/A"}
+              value={seasonStats.stats.platform?.totalUsers ?? "N/A"}
             />
             <InfoRow
               label="Recompensas Exibidas"
-              value={seasonStats.stats.platform.totalRewardsShown ?? "N/A"}
+              value={seasonStats.stats.platform?.totalRewardsShown ?? "N/A"}
             />
             <InfoRow
               label="Pontuação do Ranking"
