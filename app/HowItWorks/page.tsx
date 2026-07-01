@@ -1,10 +1,13 @@
 "use client";
+
+import { AreaBackground } from "@/backgrounds/AreaBackground";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { AreaBackground } from "@/components/HomePageInterface/components/UserOfflineHomePage/components/AreaBackground";
-import { HowItWorksInterface } from "@/components/HowItWorksInterface";
+
 import { useTenant } from "@/context/TenantContext/TenantContext";
 import { useUser } from "@/context/UserContext/UserContext";
+
+import { HowItWorksInterface } from "@/Interfaces/HowItWorksInterface";
 import { useRouter } from "next/navigation";
 
 const HowItWorks = () => {

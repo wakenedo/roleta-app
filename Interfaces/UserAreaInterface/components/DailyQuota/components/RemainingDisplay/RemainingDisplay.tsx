@@ -1,0 +1,108 @@
+import { getTimeUntil } from "@/components/Slots/components/SlotsGame/components/SpinInterface/utils";
+import { SpinQuota } from "@/context/UserContext/types";
+import { UserAreaSectionBackground } from "@/Interfaces/UserAreaInterface/UserAreaSectionBackground";
+import { formatCountdown } from "@/utils/formatter-utils";
+import { useEffect, useState } from "react";
+
+const RemainingDisplay = ({
+  spins,
+  resetsAt,
+}: {
+  spins: SpinQuota | null;
+  resetsAt: string | undefined;
+}) => {
+  const [timeLeft, setTimeLeft] = useState(
+    formatCountdown(getTimeUntil(resetsAt as string)),
+  );
+
+  console.log("RemainingDisplay - spins:", spins);
+
+  const remaining = spins?.remaining;
+  const dailyLimit = spins?.limit;
+
+  const progress =
+    dailyLimit && remaining && dailyLimit > 0
+      ? (remaining / dailyLimit) * 100
+      : 0;
+
+  const barColor =
+    progress > 60
+      ? "bg-amber-500"
+      : progress > 30
+        ? "bg-yellow-400"
+        : "bg-red-400";
+
+  const isEmpty = remaining === 0;
+
+  useEffect(() => {
+    if (!isEmpty) return;
+
+    const interval = setInterval(() => {
+      const result = getTimeUntil(resetsAt as string);
+
+      if (result.isExpired) {
+        setTimeLeft("disponível!");
+        clearInterval(interval);
+        return;
+      }
+
+      setTimeLeft(formatCountdown(result));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [resetsAt, isEmpty]);
+  return (
+    <UserAreaSectionBackground>
+      <span className="cursor-default text-lg font-semibold tracking-widest text-amber-500 mb-2 line-clamp-2">
+        Rodadas de hoje
+      </span>
+      <hr className="border-t border-slate-300 mb-4" />
+      <div className="cursor-default flex items-center justify-between mb-1">
+        <span className="text-xs tracking-widest text-slate-400">
+          Restantes
+        </span>
+
+        <span
+          className={`text-lg font-bold ${
+            isEmpty ? "text-red-600" : "text-amber-500"
+          }`}
+        >
+          {remaining} / {dailyLimit}
+        </span>
+      </div>
+
+      <div className="mt-2 h-2 bg-slate-200 rounded overflow-hidden">
+        <div
+          className={`h-2 ${barColor} rounded transition-all`}
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+
+      {isEmpty && (
+        <div className="mt-3 text-center">
+          <div className="flex flex-col space-y-1 mb-2">
+            <div>
+              <p className="text-xs text-red-600 ">
+                Você atingiu o limite diário de rodadas
+              </p>
+            </div>
+            <div className="flex items-center justify-center space-x-1">
+              <span className="text-xs">Seus giros voltam em:</span>
+              <b className="text-md">{timeLeft}</b>
+            </div>
+          </div>
+          <button
+            className="text-xs font-semibold text-white bg-slate-800 px-3 py-1.5 rounded hover:bg-slate-700 transition"
+            onClick={() => {
+              // future CTA action
+              console.log("Upgrade or wait until tomorrow");
+            }}
+          >
+            Voltar amanhã
+          </button>
+        </div>
+      )}
+    </UserAreaSectionBackground>
+  );
+};
+export default RemainingDisplay;

@@ -1,6 +1,6 @@
-import { FAQInterface } from "@/components/FAQInterface";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { FAQInterface } from "@/Interfaces/FAQInterface";
 
 const FAQ = () => {
   return (

@@ -5,7 +5,7 @@ import { useState } from "react";
 import GIcon from "@/public/google-icon.png";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { ToSModal } from "../ToSModal";
-import { UserTermsInterface } from "../UserTermsInterface";
+import { UserTermsInterface } from "@/Interfaces/UserTermsInterface";
 
 const GoogleRegisterButton = () => {
   const { registerWithGoogle } = useAuth();

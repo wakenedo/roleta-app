@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import "../globals.css";
 import { AuthProvider } from "@/context/AuthContext/AuthContext";
 import { TenantAuthProvider } from "@/context/TenantAuthContext/TenantAuthContext";
 import { UserProvider } from "@/context/UserContext/UserContext";
