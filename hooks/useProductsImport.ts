@@ -8,7 +8,7 @@ import {
   paginateProducts,
 } from "./utils/productImportsHelpers";
 import { RawProductsProps, UseProductsImportsProps } from "./types";
-import { selectedPlanMaxProducts } from "@/components/ForTenantsInterface/components/PlanIdInterface/utils";
+import { selectedPlanMaxProducts } from "@/Interfaces/ForTenantsInterface/components/PlanIdInterface/utils";
 
 export const useProductsImport = ({
   selectedPlan,

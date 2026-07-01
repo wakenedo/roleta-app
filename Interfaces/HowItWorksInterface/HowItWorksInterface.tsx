@@ -1,7 +1,7 @@
-import { SectionTitle } from "@/components/ForTenantsInterface/components/TenantHowItWorksInterface/components/SectionTitle";
 import { CoreLoopInterface } from "./components/CoreLoopInterface";
 import { DetailsInterface } from "./components/DetailsInterface";
 import { UserSubscriptionModes } from "../HomePageInterface/components/UserSubscriptionModes";
+import { SectionTitle } from "../ForTenantsInterface/components/TenantHowItWorksInterface/components/SectionTitle";
 
 const HowItWorksInterface = ({
   currentUserPlan,

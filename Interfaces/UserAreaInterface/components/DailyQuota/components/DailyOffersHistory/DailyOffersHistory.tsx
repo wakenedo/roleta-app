@@ -1,11 +1,11 @@
 "use client";
 
-import { UserAreaSectionBackground } from "@/components/UserAreaInterface/UserAreaSectionBackground";
 import { useRouter } from "next/navigation";
 import { SpinHistoryItem } from "@/context/UserContext/types";
 import { ProductHistoryCard } from "./components/ProductHistoryCard";
 import { BsExclamation } from "react-icons/bs";
 import { formatTenantName } from "@/utils/formatter-utils";
+import { UserAreaSectionBackground } from "@/Interfaces/UserAreaInterface/UserAreaSectionBackground";
 
 const DailyOffersHistory = ({
   historyPreview,

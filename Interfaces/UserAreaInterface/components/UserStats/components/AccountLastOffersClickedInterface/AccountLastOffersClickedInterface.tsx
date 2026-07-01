@@ -1,5 +1,5 @@
-import { UserAreaSectionBackground } from "@/components/UserAreaInterface/UserAreaSectionBackground";
 import { ClickEvent } from "@/context/UserContext/types";
+import { UserAreaSectionBackground } from "@/Interfaces/UserAreaInterface/UserAreaSectionBackground";
 import { formatPriceBRL } from "@/utils/formatter-utils";
 import { BsCompass } from "react-icons/bs";
 
