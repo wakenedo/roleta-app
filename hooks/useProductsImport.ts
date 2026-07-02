@@ -11,6 +11,8 @@ import {
   CsvPreviewProps,
   JsonPreviewProps,
   RawProductsProps,
+  ReceivedCsvPreviewProps,
+  ReceivedJsonPreviewProps,
   UseProductsImportsProps,
 } from "./types";
 import { selectedPlanMaxProducts } from "@/Interfaces/ForTenantsInterface/components/PlanIdInterface/utils";
@@ -65,29 +67,25 @@ export const useProductsImport = ({
     setFile(file);
 
     if (file.name.endsWith(".json") && importProductsJSON) {
-      const jPreview = (await importProductsJSON(file, true)) as {
-        total: number;
-        valid: number;
-        preview: unknown[];
-        products: unknown[];
-        errors: string[];
-      };
+      const jPreview = (await importProductsJSON(
+        file,
+        true,
+      )) as ReceivedJsonPreviewProps;
       if (jPreview.products.length > MAX_PRODUCTS) {
         setErrors([`Plan allows only ${MAX_PRODUCTS} products`]);
         return;
       }
-      const productsArray = jPreview.products as TenantProduct[];
+      const productsArray =
+        jPreview.products as ReceivedJsonPreviewProps["products"];
 
       setProducts(productsArray);
       setJsonPreview(jPreview);
     }
     if (file.name.endsWith(".csv") && importProductsCSV) {
-      const cPreview = (await importProductsCSV(file, true)) as {
-        preview: unknown[];
-        errors: string[];
-        total: number;
-        valid: number;
-      };
+      const cPreview = (await importProductsCSV(
+        file,
+        true,
+      )) as ReceivedCsvPreviewProps;
       setCsvPreview(cPreview);
     }
   };
