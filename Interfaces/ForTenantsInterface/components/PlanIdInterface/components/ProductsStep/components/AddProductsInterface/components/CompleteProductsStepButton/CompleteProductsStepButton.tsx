@@ -5,8 +5,6 @@ const CompleteProductsStepButton = ({
   onSave,
   areProductsValidated,
 }: CompleteProductsStepButtonProps) => {
-  console.log("Products in CompleteProductsStepButton:", products);
-  console.log("Are products validated?", areProductsValidated);
   return (
     <button
       disabled={products.length === 0}

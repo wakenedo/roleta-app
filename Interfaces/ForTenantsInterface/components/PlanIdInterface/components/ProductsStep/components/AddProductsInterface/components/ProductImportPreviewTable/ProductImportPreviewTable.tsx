@@ -1,5 +1,5 @@
 import { TenantProduct } from "@/context/TenantContext/types";
-import { ProductImportRow } from "./components/ProductImportRow";
+import { ImportedProduct } from "./components/ImportedProduct";
 import { ProductImportPreviewTableProps } from "@/Interfaces/ForTenantsInterface/components/PlanIdInterface/types";
 import { selectedPlanMaxProducts } from "@/Interfaces/ForTenantsInterface/components/PlanIdInterface/utils";
 
@@ -80,7 +80,7 @@ const ProductImportPreviewTable = ({
 
       <div className="grid grid-cols-4 gap-1 p-2 border-b ">
         {paginatedProducts.map((product, index) => (
-          <ProductImportRow
+          <ImportedProduct
             key={index}
             product={product}
             index={index}
