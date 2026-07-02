@@ -1,10 +1,10 @@
 import { AreaBackground } from "@/backgrounds/AreaBackground";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useUser } from "@/context/UserContext/UserContext";
+import { API_URL } from "@/enums";
 
 import { useState } from "react";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const UserChoiceSubscription = () => {
   const { authorizedFetch } = useAuth();
   const { refresh } = useUser();

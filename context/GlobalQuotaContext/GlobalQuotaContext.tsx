@@ -2,8 +2,7 @@
 import { useState, useCallback } from "react";
 import { useAuth } from "../AuthContext/AuthContext";
 import { SpinQuota } from "../UserContext/types";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import { API_URL } from "@/enums";
 
 const useGlobalQuota = () => {
   const { authorizedFetch } = useAuth();

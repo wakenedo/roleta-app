@@ -12,10 +12,9 @@ import {
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { SpinHistoryItem, UserContextProps, UserState } from "./types";
 import { useParams } from "next/navigation";
+import { API_URL } from "@/enums";
 
 const UserContext = createContext<UserContextProps | undefined>(undefined);
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const buildNextHistory = (prev: UserState): SpinHistoryItem[] => {
   const limits: Record<string, number> = {

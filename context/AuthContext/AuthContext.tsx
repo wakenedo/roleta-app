@@ -15,10 +15,10 @@ import {
 } from "firebase/auth";
 import { auth, gAuthProvider } from "@/firebase";
 import { AuthContextProps } from "./types";
+import { API_URL } from "@/enums";
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);

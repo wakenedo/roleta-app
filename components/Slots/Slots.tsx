@@ -8,6 +8,7 @@ import { SlotsGame } from "./components/SlotsGame";
 import { productSlotsReelsGradient } from "./components/SlotsGame/components/ProductSlotsReels/utils";
 import { SlotsLoading } from "./components/SlotsLoading";
 import { SpinQuota } from "@/context/UserContext/types";
+import { API_URL } from "@/enums";
 
 const Slots: FC<SlotsConfig> = ({
   tenantId,
@@ -28,8 +29,6 @@ const Slots: FC<SlotsConfig> = ({
   const [spinning, setSpinning] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
   const [currentSpinId, setCurrentSpinId] = useState<string | null>(null);
-
-  const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
   const spin = async () => {
     if (spinning) return;

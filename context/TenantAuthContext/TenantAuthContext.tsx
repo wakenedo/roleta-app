@@ -5,8 +5,7 @@ import { TenantAuthContextProps, TenantMeResponse } from "./types";
 import { auth } from "@/firebase";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { useAuth } from "../AuthContext/AuthContext";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import { API_URL } from "@/enums";
 
 const TenantAuthContext = createContext<TenantAuthContextProps | undefined>(
   undefined,

@@ -4,8 +4,7 @@ import { useState } from "react";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useUser } from "@/context/UserContext/UserContext";
 import { AreaBackground } from "@/backgrounds/AreaBackground";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import { API_URL } from "@/enums";
 
 const UserPremiumPlus = ({ planId }: { planId: string | null }) => {
   const { authorizedFetch } = useAuth();
