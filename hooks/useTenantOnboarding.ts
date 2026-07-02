@@ -2,21 +2,20 @@
 
 import { useEffect, useState } from "react";
 import { useTenantAuth } from "@/context/TenantAuthContext/TenantAuthContext";
-import { TenantRegisterStep } from "@/context/TenantContext/types";
-import { StepHeaderProps } from "./types";
 import {
-  _checkEmailVerification,
-  _completePayment,
-  _createAndSendVerification,
-  _importProducts,
-  _importProductsCSV,
-  _importProductsJSON,
-  _registerTenant,
-  _resendVerification,
-  _resolveComplete,
-  _saveBranding,
-  _saveProducts,
-} from "./utils/tenantOnboardingHelpers";
+  TenantBranding,
+  TenantProduct,
+  TenantRegisterStep,
+} from "@/context/TenantContext/types";
+import { StepHeaderProps } from "./types";
+
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
+
+import { auth } from "../firebase"; // adjust path
+import { uploadTenantLogo } from "./utils/brandingLogoHelpers";
 
 export const useTenantOnboarding = (planId?: string | null) => {
   const { tenantRegister, tenantFetch, tenantMe } = useTenantAuth();
@@ -40,71 +39,172 @@ export const useTenantOnboarding = (planId?: string | null) => {
     price: "",
   });
 
-  const createAndSendVerification = _createAndSendVerification({
-    setVerificationSent,
-    email,
-    password,
-  });
+  const createAndSendVerification = async () => {
+    try {
+      const userCred = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
 
-  const checkEmailVerification = _checkEmailVerification({
-    setIsEmailVerified,
-    setCheckingVerification,
-  });
+      await sendEmailVerification(userCred.user);
 
-  const resendVerification = _resendVerification;
+      setVerificationSent(true);
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  };
 
-  const registerTenant = _registerTenant({
-    name,
-    isEmailVerified,
-    planId,
-    setTenantId,
-    tenantRegister,
-    setStep,
-  });
+  const checkEmailVerification = async () => {
+    if (!auth.currentUser) return;
 
-  const completePayment = _completePayment({
-    tenantFetch,
-    tenantId,
-    setStep,
-  });
+    setCheckingVerification(true);
 
-  const saveBranding = _saveBranding({
-    branding: { logoUrl, primaryColor },
-    tenantFetch,
-    tenantId,
-    setLogoUrl,
-    setStep,
-  });
+    await auth.currentUser.reload();
+    await auth.currentUser.getIdToken(true);
 
-  const importProductsCSV = _importProductsCSV({
-    file: new File([], ""),
-    tenantFetch,
-    tenantId,
-  });
+    if (auth.currentUser.emailVerified) {
+      setIsEmailVerified(true);
+    }
 
-  const importProductsJSON = _importProductsJSON({
-    file: new File([], ""),
-    tenantFetch,
-    tenantId,
-  });
+    setCheckingVerification(false);
+  };
 
-  const saveProducts = _saveProducts({
-    products: [],
-    tenantFetch,
-    tenantId,
-    setStep,
-  });
+  const resendVerification = async () => {
+    if (!auth.currentUser) return;
 
-  const resolveComplete = _resolveComplete({
-    tenantFetch,
-    tenantId,
-  });
+    await sendEmailVerification(auth.currentUser);
+  };
 
-  const importProducts = _importProducts({
-    tenantFetch,
-    tenantId,
-    products: [],
-  });
+  const registerTenant = async (name: string) => {
+    if (!isEmailVerified) {
+      throw new Error("Email not verified");
+    }
+
+    if (!planId) throw new Error("Plan not selected");
+
+    const res = await tenantRegister(name, planId);
+
+    setTenantId(res.tenantId);
+    setStep(res.onboardingStep); // payment
+  };
+
+  const completePayment = async () => {
+    await tenantFetch(`/tenants/onboard/payment/${tenantId}`, {
+      method: "POST",
+    });
+
+    setStep("branding");
+  };
+
+  const saveBranding = async (branding: TenantBranding, file?: File) => {
+    let logoUrl = branding.logoUrl;
+
+    if (file) {
+      logoUrl = await uploadTenantLogo(file, tenantId);
+      setLogoUrl(logoUrl);
+    }
+    await tenantFetch(`/tenants/onboard/branding/${tenantId}`, {
+      method: "POST",
+      body: JSON.stringify({ ...branding, logoUrl }),
+    });
+
+    setStep("products");
+  };
+
+  const importProducts = async (products: TenantProduct[]) => {
+    const res = await tenantFetch(`/tenants/${tenantId}/onboard/import`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        products: [...products],
+      }),
+    });
+
+    const data = await res.json();
+
+    console.log("Import result:", data);
+  };
+
+  const importProductsCSV = async (file: File, dryRun = false) => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = await tenantFetch(
+      `/tenants/${tenantId}/onboard/import/csv${dryRun ? "?dryRun=true" : ""}`,
+      {
+        method: "POST",
+        body: formData,
+      },
+    );
+
+    const data = await res.json();
+
+    console.log("CSV import result:", data);
+
+    return data;
+  };
+  const importProductsJSON = async (file: File, dryRun = false) => {
+    const text = await file.text();
+    const json = JSON.parse(text);
+
+    let products = null;
+
+    if (Array.isArray(json)) {
+      products = json;
+    } else if (Array.isArray(json.products)) {
+      products = json.products;
+    } else if (Array.isArray(json.items)) {
+      products = json.items;
+    } else if (Array.isArray(json.data)) {
+      products = json.data;
+    } else if (Array.isArray(json.results)) {
+      products = json.results;
+    }
+
+    if (!products) {
+      throw new Error(
+        "Could not find product array. Expected [], { products: [] }, { items: [] }",
+      );
+    }
+
+    const res = await tenantFetch(
+      `/tenants/${tenantId}/onboard/import${dryRun ? "?dryRun=true" : ""}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          products: [...products],
+        }),
+      },
+    );
+
+    const data = await res.json();
+
+    console.log("JSON import result:", data);
+
+    return data;
+  };
+
+  const saveProducts = async (products: TenantProduct[]) => {
+    await tenantFetch(`/tenants/onboard/products/${tenantId}`, {
+      method: "POST",
+      body: JSON.stringify({ products: [...products] }),
+    });
+
+    setStep("complete");
+  };
+
+  const resolveComplete = async () => {
+    await tenantFetch(`/tenants/onboard/complete/${tenantId}`, {
+      method: "POST",
+    });
+  };
 
   const syncTenantState = async () => {
     const me = await tenantMe();

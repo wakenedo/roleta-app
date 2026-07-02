@@ -3,8 +3,6 @@
 import { useState } from "react";
 import { TenantProduct } from "@/context/TenantContext/types";
 import {
-  _handleFileUpload,
-  _validateProducts,
   getPaginationMeta,
   paginateProducts,
   PRODUCTS_PER_PAGE,
@@ -12,6 +10,7 @@ import {
 import {
   CsvPreviewProps,
   JsonPreviewProps,
+  RawProductsProps,
   UseProductsImportsProps,
 } from "./types";
 import { selectedPlanMaxProducts } from "@/Interfaces/ForTenantsInterface/components/PlanIdInterface/utils";
@@ -30,6 +29,7 @@ export const useProductsImport = ({
   const [isValidated, setIsValidated] = useState(false);
   const [page, setPage] = useState(1);
 
+  const rawProducts = <RawProductsProps>[];
   const MAX_PRODUCTS = selectedPlanMaxProducts(selectedPlan);
 
   const paginatedProducts = paginateProducts(products, page, PRODUCTS_PER_PAGE);
@@ -40,24 +40,57 @@ export const useProductsImport = ({
     page,
   );
 
-  const validateProducts = _validateProducts({
-    products,
-    setErrors,
-    setIsValidated,
-  });
+  const validateProducts = () => {
+    const newErrors: string[] = [];
+    products.forEach((p, index) => {
+      if (!p.name) newErrors.push(`Product ${index + 1} missing name`);
+      if (!p.url) newErrors.push(`Product ${index + 1} missing url`);
+      if (p.price !== null && p.price != undefined && p.price < 0)
+        newErrors.push(`Product ${index + 1} invalid price`);
+    });
 
-  const handleFileUpload = _handleFileUpload({
-    file: file,
-    importProductsCSV,
-    importProductsJSON,
-    maxProducts: MAX_PRODUCTS,
-    setCsvPreview,
-    setJsonPreview,
-    setFile,
-    setProducts,
-    setFileName,
-    setErrors,
-  });
+    if (newErrors.length > 0) {
+      setErrors(newErrors);
+      setIsValidated(false);
+      return false;
+    }
+
+    setIsValidated(true);
+    return true;
+  };
+
+  const handleFileUpload = async (file: File) => {
+    setErrors([]);
+    setFileName(file.name);
+    setFile(file);
+
+    if (file.name.endsWith(".json") && importProductsJSON) {
+      const jPreview = (await importProductsJSON(file, true)) as {
+        total: number;
+        valid: number;
+        preview: unknown[];
+        products: unknown[];
+        errors: string[];
+      };
+      if (jPreview.products.length > MAX_PRODUCTS) {
+        setErrors([`Plan allows only ${MAX_PRODUCTS} products`]);
+        return;
+      }
+      const productsArray = jPreview.products as TenantProduct[];
+
+      setProducts(productsArray);
+      setJsonPreview(jPreview);
+    }
+    if (file.name.endsWith(".csv") && importProductsCSV) {
+      const cPreview = (await importProductsCSV(file, true)) as {
+        preview: unknown[];
+        errors: string[];
+        total: number;
+        valid: number;
+      };
+      setCsvPreview(cPreview);
+    }
+  };
 
   return {
     file,
@@ -69,6 +102,7 @@ export const useProductsImport = ({
     products,
     errors,
     isValidated,
+    rawProducts,
     handleFileUpload,
     validateProducts,
     updateProducts: setProducts,
