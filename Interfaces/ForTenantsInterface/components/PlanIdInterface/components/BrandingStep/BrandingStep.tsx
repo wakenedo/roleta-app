@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { TenantRegisteredInterface } from "../TenantCheckoutInterface/TenantRegisteredInterface";
 import { TenantPlanAssignedInterface } from "../TenantCheckoutInterface/TenantPlanAssignedInterface";
 import { BrandingStepProps } from "../../types";
-import { handleFile } from "@/hooks/utils/brandingLogoHelpers";
+import { LogoPickerDisplay } from "./components/LogoPickerDisplay";
+import { ColorPickerDisplay } from "./components/ColorPickerDisplay";
 
 const BrandingStep = ({
   name,
@@ -30,40 +31,13 @@ const BrandingStep = ({
 
       <div className="border w-full flex flex-col space-y-4 p-2">
         {/* LOGO */}
-        <div className="flex flex-col mt-2">
-          <span className="text-sm ml-2">Escolha seu Logotipo</span>
-
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => handleFile({ e, setFile })}
-            className="p-2"
-          />
-
-          {/* preview */}
-          {file && (
-            <img
-              src={URL.createObjectURL(file)}
-              alt="preview"
-              className="w-24 h-24 object-contain mt-2"
-            />
-          )}
-        </div>
+        <LogoPickerDisplay logoFile={file} setLogoFile={setFile} />
 
         {/* COLOR */}
-        <div>
-          <span className="text-sm ml-2">Escolha sua cor primária</span>
-
-          <div className="p-2 flex items-center space-x-2">
-            <input
-              type="color"
-              value={primaryColor}
-              onChange={(e) => setPrimaryColor(e.target.value)}
-            />
-
-            <span style={{ color: primaryColor }}>{primaryColor}</span>
-          </div>
-        </div>
+        <ColorPickerDisplay
+          primaryColor={primaryColor}
+          setPrimaryColor={setPrimaryColor}
+        />
       </div>
 
       <button
