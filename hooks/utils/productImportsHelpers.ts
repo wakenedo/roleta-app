@@ -1,10 +1,5 @@
 import { TenantProduct } from "@/context/TenantContext/types";
 
-import {
-  _importProductsCSV,
-  _importProductsJSON,
-} from "./tenantOnboardingHelpers";
-
 /*
 FIELD CANDIDATES
 We attempt multiple possible field names for affiliate feeds
