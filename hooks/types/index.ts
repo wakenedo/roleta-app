@@ -1,7 +1,6 @@
 import {
   RegisterTenant,
   Tenant,
-  TenantBranding,
   TenantProduct,
   TenantRegisterStep,
 } from "@/context/TenantContext/types";
@@ -61,6 +60,13 @@ type CsvPreviewProps = {
   valid: number;
 } | null;
 
+type ReceivedCsvPreviewProps = {
+  preview: unknown[];
+  errors: string[];
+  total: number;
+  valid: number;
+};
+
 type JsonPreviewProps = {
   preview: unknown[];
   products: unknown[];
@@ -68,6 +74,14 @@ type JsonPreviewProps = {
   total: number;
   valid: number;
 } | null;
+
+type ReceivedJsonPreviewProps = {
+  preview: unknown[];
+  products: TenantProduct[];
+  errors: string[];
+  total: number;
+  valid: number;
+};
 
 type RegisterTenantProps = {
   name: string;
@@ -95,47 +109,6 @@ type CompletePaymentProps = {
   setStep: Dispatch<SetStateAction<TenantRegisterStep>>;
 };
 
-type SaveBrandingProps = {
-  branding: TenantBranding;
-  file?: File;
-  tenantFetch: (url: string, options?: RequestInit) => Promise<Response>;
-  tenantId: string;
-  setLogoUrl: Dispatch<SetStateAction<string>>;
-  setStep: Dispatch<SetStateAction<TenantRegisterStep>>;
-};
-
-type SaveProductsProps = {
-  products: TenantProduct[];
-  tenantFetch: (url: string, options?: RequestInit) => Promise<Response>;
-  tenantId: string;
-  setStep: Dispatch<SetStateAction<TenantRegisterStep>>;
-};
-
-type ImportProductsCSV = {
-  file: File;
-  dryRun?: boolean;
-  tenantId: string;
-  tenantFetch: (url: string, options?: RequestInit) => Promise<Response>;
-};
-
-type ImportProductsJson = {
-  file: File;
-  dryRun?: boolean;
-  tenantId: string;
-  tenantFetch: (url: string, options?: RequestInit) => Promise<Response>;
-};
-
-type ResolveCompleteProps = {
-  tenantId: string;
-  tenantFetch: (url: string, options?: RequestInit) => Promise<Response>;
-};
-
-type ImportProductsProps = {
-  products: TenantProduct[];
-  tenantId: string;
-  tenantFetch: (url: string, options?: RequestInit) => Promise<Response>;
-};
-
 export type {
   RawProductsProps,
   StepHeaderProps,
@@ -149,10 +122,6 @@ export type {
   CreateAndSendVerificationProps,
   CheckEmailVerificationProps,
   CompletePaymentProps,
-  SaveBrandingProps,
-  SaveProductsProps,
-  ImportProductsCSV,
-  ImportProductsJson,
-  ResolveCompleteProps,
-  ImportProductsProps,
+  ReceivedJsonPreviewProps,
+  ReceivedCsvPreviewProps,
 };
