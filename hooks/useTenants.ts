@@ -3,6 +3,7 @@
 import { Tenant } from "@/context/TenantContext/types";
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { UseTenantsReturn } from "./types";
+import { API_URL } from "@/enums";
 
 export const useTenants = (): UseTenantsReturn => {
   const [tenants, setTenants] = useState<Tenant[]>([]);
@@ -15,7 +16,7 @@ export const useTenants = (): UseTenantsReturn => {
       setLoading(true);
       setError(null);
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tenants`);
+      const res = await fetch(`${API_URL}/tenants`);
 
       if (!res.ok) throw new Error("Failed to fetch tenants");
 

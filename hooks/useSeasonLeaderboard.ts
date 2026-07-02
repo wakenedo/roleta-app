@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { SeasonTenant } from "./types";
+import { API_URL } from "@/enums";
 
 export function useSeasonLeaderboard(limit = 50) {
   const [data, setData] = useState<SeasonTenant[]>([]);
@@ -13,7 +14,7 @@ export function useSeasonLeaderboard(limit = 50) {
         setLeaderboardLoading(true);
 
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/seasons/leaderboard?limit=${limit}`,
+          `${API_URL}/seasons/leaderboard?limit=${limit}`,
           {
             cache: "no-store",
           },

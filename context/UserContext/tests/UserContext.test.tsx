@@ -9,6 +9,7 @@ jest.mock("@/context/AuthContext/AuthContext", () => ({
 }));
 
 import { useAuth } from "@/context/AuthContext/AuthContext";
+import { API_URL } from "@/enums";
 
 const mockAuthorizedFetch = jest.fn();
 
@@ -95,9 +96,7 @@ describe("UserContext", () => {
       expect(result.current.data).toEqual(mockBackendUser);
     });
 
-    expect(mockAuthorizedFetch).toHaveBeenCalledWith(
-      `${process.env.NEXT_PUBLIC_API_URL}/users/me`,
-    );
+    expect(mockAuthorizedFetch).toHaveBeenCalledWith(`${API_URL}/users/me`);
   });
 
   it("sets error when /users/me request fails", async () => {

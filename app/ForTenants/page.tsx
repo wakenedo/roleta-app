@@ -1,13 +1,18 @@
 "use client";
+import { AreaBackground } from "@/backgrounds/AreaBackground";
 import { Footer } from "@/components/Footer";
-import { ForTenantsInterface } from "@/components/ForTenantsInterface";
-
 import { Header } from "@/components/Header";
-import { AreaBackground } from "@/components/HomePageInterface/components/UserOfflineHomePage/components/AreaBackground";
 import { useTenant } from "@/context/TenantContext/TenantContext";
 import { TenantProduct } from "@/context/TenantContext/types";
 import { useProductsImport } from "@/hooks/useProductsImport";
 import { useTenantOnboarding } from "@/hooks/useTenantOnboarding";
+import { ForTenantsInterface } from "@/Interfaces/ForTenantsInterface";
+import {
+  isValidEmail,
+  MAX_LENGTH,
+  normalizeEmail,
+  sanitize,
+} from "@/Interfaces/ForTenantsInterface/components/PlanIdInterface/utils";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
@@ -48,6 +53,8 @@ const ForTenants = () => {
 
   const [showToS, setShowToS] = useState(false);
   const [acceptedToS, setAcceptedToS] = useState(false);
+  const [emailValue, setEmailValue] = useState(email);
+  const [nameValue, setNameValue] = useState(name);
   const [showPassword, setShowPassword] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const passwordsMatch = password === confirmPassword;
@@ -119,10 +126,53 @@ const ForTenants = () => {
     setAcceptedToS(true);
     setShowToS(false);
   };
+
+  const handleChange = (raw: string) => {
+    let clean = normalizeEmail(raw);
+
+    if (clean.length > MAX_LENGTH) {
+      clean = clean.slice(0, MAX_LENGTH);
+    }
+
+    setEmailValue(clean);
+    setEmail(clean);
+  };
+
+  const handleNameChange = (raw: string) => {
+    let clean = sanitize(raw);
+
+    if (clean.length > MAX_LENGTH) {
+      clean = clean.slice(0, MAX_LENGTH);
+    }
+
+    setNameValue(clean);
+    setName(clean);
+  };
+
+  const validEmail = isValidEmail(emailValue);
+  const showValidation = emailValue.length > 0;
+
   const tenantSubscription = tenant?.subscriptionMode;
 
   const CURRENT_TENANT_PLAN = tenant?.subscriptionMode;
   const tenantMaxedPlan = tenant?.subscriptionMode === "tenantPremium";
+
+  const strength = Object.values(validations).filter(Boolean).length;
+
+  const getStrength = () => {
+    if (strength === 0)
+      return { label: "", width: "0%", color: "bg-slate-500" };
+    if (strength <= 2)
+      return { label: "Fraca", width: "33%", color: "bg-red-500" };
+    if (strength <= 4)
+      return { label: "Média", width: "66%", color: "bg-yellow-500" };
+    return { label: "Forte", width: "100%", color: "bg-green-500" };
+  };
+
+  const strengthMeta = getStrength();
+
+  const showMatchState = confirmPassword.length > 0;
+
   return (
     <>
       <Header />
@@ -179,6 +229,15 @@ const ForTenants = () => {
           setProducts={setProducts}
           currentTenantPlan={CURRENT_TENANT_PLAN}
           tenantMaxedPlan={tenantMaxedPlan}
+          emailValue={emailValue}
+          setEmailValue={setEmailValue}
+          handleChange={handleChange}
+          validEmail={validEmail}
+          showValidation={showValidation}
+          strengthMeta={strengthMeta}
+          showMatchState={showMatchState}
+          handleNameChange={handleNameChange}
+          nameValue={nameValue}
         />
       </AreaBackground>
       <Footer />

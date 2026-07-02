@@ -1,9 +1,8 @@
 "use client";
 
 import { SeasonStatsProps } from "@/context/TenantContext/types";
+import { API_URL } from "@/enums";
 import { useEffect, useRef, useState } from "react";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export function useTenantSeasonStats(tenantId: string | undefined | null) {
   const [seasonStats, setSeasonStats] = useState<SeasonStatsProps>();

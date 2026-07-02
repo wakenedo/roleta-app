@@ -1,15 +1,14 @@
 "use client";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { TenantAreaContent } from "@/components/TenantAreaInterface/components/TenantAreaContent";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useGlobalQuota } from "@/context/GlobalQuotaContext/GlobalQuotaContext";
 import { useTenantAuth } from "@/context/TenantAuthContext/TenantAuthContext";
 import { useTenant } from "@/context/TenantContext/TenantContext";
 import { useTenantSeasonStats } from "@/hooks/useTenantSeasonStats";
+import { TenantAreaInterface } from "@/Interfaces/TenantAreaInterface";
 import { formatDateTime } from "@/utils/formatter-utils";
 import { useRouter } from "next/navigation";
-
 import { useState } from "react";
 
 const TenantArea = () => {
@@ -57,7 +56,7 @@ const TenantArea = () => {
   return (
     <>
       <Header />
-      <TenantAreaContent
+      <TenantAreaInterface
         authorizedFetch={authorizedFetch}
         error={error}
         globalQuotaLoading={globalQuotaLoading}

@@ -3,14 +3,15 @@ import { GoldCoin } from "@/components/ArtAssets/GoldCoin";
 import { SilverCoin } from "@/components/ArtAssets/SilverCoin";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { HomePageInterface } from "@/components/HomePageInterface";
-import { mergeTenantsWithLeaderboard } from "@/components/HomePageInterface/components/UserOnlineHomePage/components/PopularTenants/utils";
+
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useTenant } from "@/context/TenantContext/TenantContext";
 import { Tenant } from "@/context/TenantContext/types";
 import { useUser } from "@/context/UserContext/UserContext";
 import { useSeasonLeaderboard } from "@/hooks/useSeasonLeaderboard";
 import { useTenants } from "@/hooks/useTenants";
+import { HomePageInterface } from "@/Interfaces/HomePageInterface";
+import { mergeTenantsWithLeaderboard } from "@/Interfaces/HomePageInterface/components/UserOnlineHomePage/components/PopularTenants/utils";
 import { useRouter } from "next/navigation";
 
 import { JSX, useEffect, useMemo, useRef, useState } from "react";

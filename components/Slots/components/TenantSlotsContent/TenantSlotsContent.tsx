@@ -1,4 +1,4 @@
-import { TenantSlotsDedicatedRouteBackground } from "@/components/TenantSlotsDedicatedRouteBackground";
+import { TenantSlotsDedicatedRouteBackground } from "@/backgrounds/TenantSlotsDedicatedRouteBackground";
 import Slots from "../../Slots";
 import { TenantSlotsContentProps } from "../../types";
 

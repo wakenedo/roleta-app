@@ -1,4 +1,10 @@
-import { Tenant, TenantRegisterStep } from "@/context/TenantContext/types";
+import {
+  RegisterTenant,
+  Tenant,
+  TenantProduct,
+  TenantRegisterStep,
+} from "@/context/TenantContext/types";
+import { Dispatch, SetStateAction } from "react";
 
 type RawProductsProps = [];
 
@@ -47,6 +53,62 @@ type UseProductsImportsProps = {
   importProductsJSON?: (file: File, dryRun?: boolean) => Promise<unknown>;
 };
 
+type CsvPreviewProps = {
+  preview: unknown[];
+  errors: string[];
+  total: number;
+  valid: number;
+} | null;
+
+type ReceivedCsvPreviewProps = {
+  preview: unknown[];
+  errors: string[];
+  total: number;
+  valid: number;
+};
+
+type JsonPreviewProps = {
+  preview: unknown[];
+  products: unknown[];
+  errors: string[];
+  total: number;
+  valid: number;
+} | null;
+
+type ReceivedJsonPreviewProps = {
+  preview: unknown[];
+  products: TenantProduct[];
+  errors: string[];
+  total: number;
+  valid: number;
+};
+
+type RegisterTenantProps = {
+  name: string;
+  isEmailVerified: boolean;
+  planId?: string | null;
+  setTenantId: Dispatch<SetStateAction<string>>;
+  tenantRegister: (name: string, planId: string) => Promise<RegisterTenant>;
+  setStep: Dispatch<SetStateAction<TenantRegisterStep>>;
+};
+
+type CreateAndSendVerificationProps = {
+  setVerificationSent: Dispatch<SetStateAction<boolean>>;
+  email: string;
+  password: string;
+};
+
+type CheckEmailVerificationProps = {
+  setIsEmailVerified: Dispatch<SetStateAction<boolean>>;
+  setCheckingVerification: Dispatch<SetStateAction<boolean>>;
+};
+
+type CompletePaymentProps = {
+  tenantFetch: (url: string, options?: RequestInit) => Promise<Response>;
+  tenantId: string;
+  setStep: Dispatch<SetStateAction<TenantRegisterStep>>;
+};
+
 export type {
   RawProductsProps,
   StepHeaderProps,
@@ -54,4 +116,12 @@ export type {
   StepHeaderInterfaceProps,
   SeasonTenant,
   UseProductsImportsProps,
+  CsvPreviewProps,
+  JsonPreviewProps,
+  RegisterTenantProps,
+  CreateAndSendVerificationProps,
+  CheckEmailVerificationProps,
+  CompletePaymentProps,
+  ReceivedJsonPreviewProps,
+  ReceivedCsvPreviewProps,
 };

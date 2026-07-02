@@ -1,6 +1,6 @@
-import { CookiesPolicyInterface } from "@/components/CookiesPolicyInterface";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { CookiesPolicyInterface } from "@/Interfaces/CookiesPolicyInterface";
 
 const CookiesPolicy = () => {
   return (

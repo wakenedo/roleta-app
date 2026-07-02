@@ -9,6 +9,7 @@ const NAME_FIELDS = ["name", "title", "productName"];
 const IMAGE_FIELDS = ["image", "image_url", "thumbnail", "picture"];
 const URL_FIELDS = ["url", "link", "product_url", "affiliate_link"];
 const PRICE_FIELDS = ["price", "amount", "value"];
+const PRODUCTS_PER_PAGE = 20;
 
 /*
 Utility: find first existing field
@@ -111,7 +112,7 @@ const normalizeProduct = (p: Record<string, unknown>): TenantProduct => {
 Normalize feed
 */
 
-export const normalizeProducts = (items: unknown[]): TenantProduct[] => {
+const normalizeProducts = (items: unknown[]): TenantProduct[] => {
   return items
     .filter(
       (p): p is Record<string, unknown> => typeof p === "object" && p !== null,
@@ -119,18 +120,14 @@ export const normalizeProducts = (items: unknown[]): TenantProduct[] => {
     .map((p) => normalizeProduct(p));
 };
 
-export const paginateProducts = <T>(
-  items: T[],
-  page: number,
-  perPage: number,
-) => {
+const paginateProducts = <T>(items: T[], page: number, perPage: number) => {
   const start = (page - 1) * perPage;
   const end = start + perPage;
 
   return items.slice(start, end);
 };
 
-export const getPaginationMeta = (
+const getPaginationMeta = (
   totalItems: number,
   perPage: number,
   currentPage: number,
@@ -145,4 +142,11 @@ export const getPaginationMeta = (
     hasNext: currentPage < totalPages,
     hasPrev: currentPage > 1,
   };
+};
+
+export {
+  getPaginationMeta,
+  paginateProducts,
+  normalizeProducts,
+  PRODUCTS_PER_PAGE,
 };
