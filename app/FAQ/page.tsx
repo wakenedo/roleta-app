@@ -1,14 +1,11 @@
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
 import { FAQInterface } from "@/Interfaces/FAQInterface";
+import { HeaderAndFooterInterface } from "@/Interfaces/HeaderAndFooterInterface";
 
 const FAQ = () => {
   return (
-    <>
-      <Header />
+    <HeaderAndFooterInterface>
       <FAQInterface />
-      <Footer />
-    </>
+    </HeaderAndFooterInterface>
   );
 };
 export default FAQ;

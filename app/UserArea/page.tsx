@@ -1,9 +1,8 @@
 "use client";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useGlobalQuota } from "@/context/GlobalQuotaContext/GlobalQuotaContext";
 import { useUser } from "@/context/UserContext/UserContext";
+import { HeaderAndFooterInterface } from "@/Interfaces/HeaderAndFooterInterface";
 import { UserAreaInterface } from "@/Interfaces/UserAreaInterface";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
@@ -21,8 +20,7 @@ const UserArea = () => {
     refresh({ tenantId: null });
   }, [refresh]);
   return (
-    <>
-      <Header />
+    <HeaderAndFooterInterface>
       <UserAreaInterface
         user={user}
         data={data}
@@ -31,8 +29,7 @@ const UserArea = () => {
         spins={quota}
         loading={loading}
       />
-      <Footer />
-    </>
+    </HeaderAndFooterInterface>
   );
 };
 

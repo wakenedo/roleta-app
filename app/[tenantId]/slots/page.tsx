@@ -1,13 +1,11 @@
 "use client";
-
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
 import { TenantSlotsContent } from "@/components/Slots/components/TenantSlotsContent";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useGlobalQuota } from "@/context/GlobalQuotaContext/GlobalQuotaContext";
 import { useTenantAuth } from "@/context/TenantAuthContext/TenantAuthContext";
 import { useTenant } from "@/context/TenantContext/TenantContext";
 import { useUser } from "@/context/UserContext/UserContext";
+import { HeaderAndFooterInterface } from "@/Interfaces/HeaderAndFooterInterface";
 import { useParams } from "next/navigation";
 
 export default function TenantSlotsPage() {
@@ -23,8 +21,7 @@ export default function TenantSlotsPage() {
     globalQuotaLoading,
   } = useGlobalQuota();
   return (
-    <>
-      <Header />
+    <HeaderAndFooterInterface>
       <TenantSlotsContent
         authorizedFetch={authorizedFetch}
         globalQuotaLoading={globalQuotaLoading}
@@ -38,7 +35,6 @@ export default function TenantSlotsPage() {
         tenantId={tenantId}
         tenantQuota={tenantQuota}
       />
-      <Footer />
-    </>
+    </HeaderAndFooterInterface>
   );
 }

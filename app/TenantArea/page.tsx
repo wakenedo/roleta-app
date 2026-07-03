@@ -1,11 +1,10 @@
 "use client";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useGlobalQuota } from "@/context/GlobalQuotaContext/GlobalQuotaContext";
 import { useTenantAuth } from "@/context/TenantAuthContext/TenantAuthContext";
 import { useTenant } from "@/context/TenantContext/TenantContext";
 import { useTenantSeasonStats } from "@/hooks/useTenantSeasonStats";
+import { HeaderAndFooterInterface } from "@/Interfaces/HeaderAndFooterInterface";
 import { TenantAreaInterface } from "@/Interfaces/TenantAreaInterface";
 import { formatDateTime } from "@/utils/formatter-utils";
 import { useRouter } from "next/navigation";
@@ -54,8 +53,7 @@ const TenantArea = () => {
   const tenantBranding = tenant?.branding;
 
   return (
-    <>
-      <Header />
+    <HeaderAndFooterInterface>
       <TenantAreaInterface
         authorizedFetch={authorizedFetch}
         error={error}
@@ -90,8 +88,7 @@ const TenantArea = () => {
         showStats={showStats}
         setShowStats={setShowStats}
       />
-      <Footer />
-    </>
+    </HeaderAndFooterInterface>
   );
 };
 

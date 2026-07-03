@@ -1,12 +1,8 @@
 "use client";
-
 import { AreaBackground } from "@/backgrounds/AreaBackground";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-
 import { useTenant } from "@/context/TenantContext/TenantContext";
 import { useUser } from "@/context/UserContext/UserContext";
-
+import { HeaderAndFooterInterface } from "@/Interfaces/HeaderAndFooterInterface";
 import { HowItWorksInterface } from "@/Interfaces/HowItWorksInterface";
 import { useRouter } from "next/navigation";
 
@@ -22,8 +18,7 @@ const HowItWorks = () => {
     router.push(`/UserSubscriptions?plan=${encodeURIComponent(planId)}`);
   };
   return (
-    <>
-      <Header />
+    <HeaderAndFooterInterface>
       <AreaBackground>
         <HowItWorksInterface
           currentUserPlan={CURRENT_USER_PLAN}
@@ -31,8 +26,7 @@ const HowItWorks = () => {
           userMaxedPlan={userMaxedPlan}
         />
       </AreaBackground>
-      <Footer />
-    </>
+    </HeaderAndFooterInterface>
   );
 };
 export default HowItWorks;

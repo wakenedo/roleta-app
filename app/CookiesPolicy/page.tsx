@@ -1,14 +1,11 @@
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
 import { CookiesPolicyInterface } from "@/Interfaces/CookiesPolicyInterface";
+import { HeaderAndFooterInterface } from "@/Interfaces/HeaderAndFooterInterface";
 
 const CookiesPolicy = () => {
   return (
-    <>
-      <Header />
+    <HeaderAndFooterInterface>
       <CookiesPolicyInterface />
-      <Footer />
-    </>
+    </HeaderAndFooterInterface>
   );
 };
 export default CookiesPolicy;

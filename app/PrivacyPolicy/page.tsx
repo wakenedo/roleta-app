@@ -1,14 +1,11 @@
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
+import { HeaderAndFooterInterface } from "@/Interfaces/HeaderAndFooterInterface";
 import { PrivacyPolicyInterface } from "@/Interfaces/PrivacyPolicyInterface";
 
 const PrivacyPolicy = () => {
   return (
-    <>
-      <Header />
+    <HeaderAndFooterInterface>
       <PrivacyPolicyInterface />
-      <Footer />
-    </>
+    </HeaderAndFooterInterface>
   );
 };
 export default PrivacyPolicy;

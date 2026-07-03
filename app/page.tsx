@@ -1,15 +1,13 @@
 "use client";
 import { GoldCoin } from "@/components/ArtAssets/GoldCoin";
 import { SilverCoin } from "@/components/ArtAssets/SilverCoin";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useTenant } from "@/context/TenantContext/TenantContext";
 import { Tenant } from "@/context/TenantContext/types";
 import { useUser } from "@/context/UserContext/UserContext";
 import { useSeasonLeaderboard } from "@/hooks/useSeasonLeaderboard";
 import { useTenants } from "@/hooks/useTenants";
+import { HeaderAndFooterInterface } from "@/Interfaces/HeaderAndFooterInterface";
 import { HomePageInterface } from "@/Interfaces/HomePageInterface";
 import { mergeTenantsWithLeaderboard } from "@/Interfaces/HomePageInterface/components/UserOnlineHomePage/components/PopularTenants/utils";
 import { useRouter } from "next/navigation";
@@ -126,8 +124,7 @@ export default function Home() {
     setCoins((prev) => [...prev, ...coinsArt]);
   }, []);
   return (
-    <>
-      <Header />
+    <HeaderAndFooterInterface>
       <div className="bg-gradient-to-br from-amber-500 to-[#84e9e4]">
         <main className="flex flex-col justify-between  min-h-screen relative z-10 ">
           <HomePageInterface
@@ -161,7 +158,6 @@ export default function Home() {
           />
         </main>
       </div>
-      <Footer />
-    </>
+    </HeaderAndFooterInterface>
   );
 }

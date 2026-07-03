@@ -1,7 +1,5 @@
 "use client";
 import { AreaBackground } from "@/backgrounds/AreaBackground";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
 import { useTenant } from "@/context/TenantContext/TenantContext";
 import { TenantProduct } from "@/context/TenantContext/types";
 import { useProductsImport } from "@/hooks/useProductsImport";
@@ -13,6 +11,7 @@ import {
   normalizeEmail,
   sanitize,
 } from "@/Interfaces/ForTenantsInterface/components/PlanIdInterface/utils";
+import { HeaderAndFooterInterface } from "@/Interfaces/HeaderAndFooterInterface";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
@@ -174,8 +173,7 @@ const ForTenants = () => {
   const showMatchState = confirmPassword.length > 0;
 
   return (
-    <>
-      <Header />
+    <HeaderAndFooterInterface>
       <AreaBackground>
         <ForTenantsInterface
           planId={planId}
@@ -240,8 +238,7 @@ const ForTenants = () => {
           nameValue={nameValue}
         />
       </AreaBackground>
-      <Footer />
-    </>
+    </HeaderAndFooterInterface>
   );
 };
 export default ForTenants;
