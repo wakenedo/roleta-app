@@ -1,4 +1,5 @@
 "use client";
+import { HomePageBackground } from "@/backgrounds/HomePageBackground";
 import { GoldCoin } from "@/components/ArtAssets/GoldCoin";
 import { SilverCoin } from "@/components/ArtAssets/SilverCoin";
 import { useAuth } from "@/context/AuthContext/AuthContext";
@@ -125,39 +126,37 @@ export default function Home() {
   }, []);
   return (
     <HeaderAndFooterInterface>
-      <div className="bg-gradient-to-br from-amber-500 to-[#84e9e4]">
-        <main className="flex flex-col justify-between  min-h-screen relative z-10 ">
-          <HomePageInterface
-            leaderboardLoading={leaderboardLoading}
-            search={search}
-            coins={coins}
-            confetti={confetti}
-            currentTenantPlan={CURRENT_TENANT_PLAN}
-            currentUserPlan={CURRENT_USER_PLAN}
-            featuredTenant={featuredTenant}
-            filtered={filtered}
-            handleSelectedCardClick={handleSelectedCardClick}
-            handleToggle={handleToggle}
-            handleUserSubscribe={handleUserSubscribe}
-            mounted={mounted}
-            onToggleChange={onToggleChange}
-            primaryColor={primaryColor}
-            resolveTenantQuota={resolveTenantQuota}
-            selectedPopularTenant={selectedPopularTenant}
-            setSearch={setSearch}
-            setSelectedPopularTenant={setSelectedPopularTenant}
-            sorted={sorted}
-            tenantsLoading={tenantsLoading}
-            tenantMaxedPlan={tenantMaxedPlan}
-            tenantsError={tenantsError}
-            user={user}
-            userMaxedPlan={userMaxedPlan}
-            containerRef={containerRef}
-            popularTenants={popularTenants}
-            tenant={tenant}
-          />
-        </main>
-      </div>
+      <HomePageBackground>
+        <HomePageInterface
+          leaderboardLoading={leaderboardLoading}
+          search={search}
+          coins={coins}
+          confetti={confetti}
+          currentTenantPlan={CURRENT_TENANT_PLAN}
+          currentUserPlan={CURRENT_USER_PLAN}
+          featuredTenant={featuredTenant}
+          filtered={filtered}
+          handleSelectedCardClick={handleSelectedCardClick}
+          handleToggle={handleToggle}
+          handleUserSubscribe={handleUserSubscribe}
+          mounted={mounted}
+          onToggleChange={onToggleChange}
+          primaryColor={primaryColor}
+          resolveTenantQuota={resolveTenantQuota}
+          selectedPopularTenant={selectedPopularTenant}
+          setSearch={setSearch}
+          setSelectedPopularTenant={setSelectedPopularTenant}
+          sorted={sorted}
+          tenantsLoading={tenantsLoading}
+          tenantMaxedPlan={tenantMaxedPlan}
+          tenantsError={tenantsError}
+          user={user}
+          userMaxedPlan={userMaxedPlan}
+          containerRef={containerRef}
+          popularTenants={popularTenants}
+          tenant={tenant}
+        />
+      </HomePageBackground>
     </HeaderAndFooterInterface>
   );
 }
