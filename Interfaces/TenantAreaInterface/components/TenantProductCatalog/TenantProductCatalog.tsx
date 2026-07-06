@@ -1,6 +1,5 @@
 import { TenantError } from "../TenantError";
 import { ProductGrid } from "./components/ProductGrid";
-import { ProductJsonViewer } from "./components/ProductJsonViewer";
 import { ProductEditSection } from "./components/ProductEditSection";
 import { TenantProductStats } from "./components/TenantProductStats";
 import { AnimatePresence, motion } from "framer-motion";
@@ -62,8 +61,7 @@ const TenantProductCatalog = ({
                 </AnimatePresence>
               </div>
               <div className="flex flex-col w-1/2">
-                <ProductEditSection />
-                <ProductJsonViewer products={products} />
+                <ProductEditSection tenantProductStats={tenantProductStats} />
               </div>
             </div>
           </div>
