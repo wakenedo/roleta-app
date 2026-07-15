@@ -51,6 +51,15 @@ interface TenantAreaInterfaceProps {
   tenantBranding: TenantBranding | undefined;
   showStats: boolean;
   setShowStats: Dispatch<SetStateAction<boolean>>;
+  setIsMultipleProducts: Dispatch<SetStateAction<boolean>>;
+  setIsMultipleProductsCheckoutVisible: Dispatch<SetStateAction<boolean>>;
+  setIsProductSelected: Dispatch<SetStateAction<boolean>>;
+  setIsObjectCheckoutViewable: Dispatch<SetStateAction<boolean>>;
+  isObjectCheckoutViewable: boolean;
+  isProductSelected: boolean;
+  isMultipleProductsCheckoutVisible: boolean;
+  isMultipleProducts: boolean;
+  noProductSelected: boolean;
 }
 
 interface TenantPreviewContentProps {
@@ -87,6 +96,19 @@ interface TenantPreviewProps {
       init?: RequestInit,
     ): Promise<Response>;
   };
+}
+
+interface ProductEditSectionProps {
+  tenantProductStats: ProductsStatsProps | undefined;
+  setIsMultipleProducts: Dispatch<SetStateAction<boolean>>;
+  setIsMultipleProductsCheckoutVisible: Dispatch<SetStateAction<boolean>>;
+  setIsProductSelected: Dispatch<SetStateAction<boolean>>;
+  setIsObjectCheckoutViewable: Dispatch<SetStateAction<boolean>>;
+  isObjectCheckoutViewable: boolean;
+  isProductSelected: boolean;
+  isMultipleProductsCheckoutVisible: boolean;
+  isMultipleProducts: boolean;
+  noProductSelected: boolean;
 }
 
 interface TenantPreviewMenuProps {
@@ -202,6 +224,15 @@ interface TenantProductCatalogProps {
   error: string | null;
   showStats: boolean;
   setShowStats: Dispatch<SetStateAction<boolean>>;
+  setIsMultipleProducts: Dispatch<SetStateAction<boolean>>;
+  setIsMultipleProductsCheckoutVisible: Dispatch<SetStateAction<boolean>>;
+  setIsProductSelected: Dispatch<SetStateAction<boolean>>;
+  setIsObjectCheckoutViewable: Dispatch<SetStateAction<boolean>>;
+  isObjectCheckoutViewable: boolean;
+  isProductSelected: boolean;
+  isMultipleProductsCheckoutVisible: boolean;
+  isMultipleProducts: boolean;
+  noProductSelected: boolean;
 }
 
 interface TenantProductCatalogProductCard {
@@ -277,5 +308,6 @@ export type {
   TenantStatus,
   TenantOptionsAnalyticsProps,
   SeasonalAnalyticsProps,
+  ProductEditSectionProps,
   TenantProductStatsToggleButtonProps,
 };
