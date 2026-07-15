@@ -13,6 +13,15 @@ const TenantProductCatalog = ({
   error,
   setShowStats,
   showStats,
+  isMultipleProducts,
+  isMultipleProductsCheckoutVisible,
+  isObjectCheckoutViewable,
+  isProductSelected,
+  noProductSelected,
+  setIsMultipleProducts,
+  setIsMultipleProductsCheckoutVisible,
+  setIsObjectCheckoutViewable,
+  setIsProductSelected,
 }: TenantProductCatalogProps) => {
   if (!products) return error;
   return (
@@ -61,7 +70,22 @@ const TenantProductCatalog = ({
                 </AnimatePresence>
               </div>
               <div className="flex flex-col w-1/2">
-                <ProductEditSection tenantProductStats={tenantProductStats} />
+                <ProductEditSection
+                  tenantProductStats={tenantProductStats}
+                  isMultipleProducts={isMultipleProducts}
+                  isMultipleProductsCheckoutVisible={
+                    isMultipleProductsCheckoutVisible
+                  }
+                  isObjectCheckoutViewable={isObjectCheckoutViewable}
+                  isProductSelected={isProductSelected}
+                  noProductSelected={noProductSelected}
+                  setIsMultipleProducts={setIsMultipleProducts}
+                  setIsMultipleProductsCheckoutVisible={
+                    setIsMultipleProductsCheckoutVisible
+                  }
+                  setIsObjectCheckoutViewable={setIsObjectCheckoutViewable}
+                  setIsProductSelected={setIsProductSelected}
+                />
               </div>
             </div>
           </div>

@@ -20,6 +20,15 @@ const TenantArea = () => {
     useTenantSeasonStats(tenantIdentifier);
   const router = useRouter();
 
+  const [isMultipleProducts, setIsMultipleProducts] = useState(false);
+  const [
+    isMultipleProductsCheckoutVisible,
+    setIsMultipleProductsCheckoutVisible,
+  ] = useState(false);
+  const [isProductSelected, setIsProductSelected] = useState(false);
+  const [isObjectCheckoutViewable, setIsObjectCheckoutViewable] =
+    useState(false);
+
   const [activeTab, setActiveTab] = useState<"general" | "catalog" | "preview">(
     "general",
   );
@@ -35,6 +44,9 @@ const TenantArea = () => {
     tenantLogout();
     router.push("/");
   };
+
+  const noProductSelected =
+    isProductSelected === false || isMultipleProducts === false;
 
   const _seasonStats = seasonStats && seasonStats;
 
@@ -87,6 +99,17 @@ const TenantArea = () => {
         tenantSubscriptionMode={tenantSubscriptionMode}
         showStats={showStats}
         setShowStats={setShowStats}
+        isMultipleProducts={isMultipleProducts}
+        isMultipleProductsCheckoutVisible={isMultipleProductsCheckoutVisible}
+        isObjectCheckoutViewable={isObjectCheckoutViewable}
+        isProductSelected={isProductSelected}
+        noProductSelected={noProductSelected}
+        setIsMultipleProducts={setIsMultipleProducts}
+        setIsMultipleProductsCheckoutVisible={
+          setIsMultipleProductsCheckoutVisible
+        }
+        setIsObjectCheckoutViewable={setIsObjectCheckoutViewable}
+        setIsProductSelected={setIsProductSelected}
       />
     </HeaderAndFooterInterface>
   );
