@@ -3,6 +3,7 @@ import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useGlobalQuota } from "@/context/GlobalQuotaContext/GlobalQuotaContext";
 import { useTenantAuth } from "@/context/TenantAuthContext/TenantAuthContext";
 import { useTenant } from "@/context/TenantContext/TenantContext";
+import { TenantProduct } from "@/context/TenantContext/types";
 import { useTenantSeasonStats } from "@/hooks/useTenantSeasonStats";
 import { HeaderAndFooterInterface } from "@/Interfaces/HeaderAndFooterInterface";
 import { TenantAreaInterface } from "@/Interfaces/TenantAreaInterface";
@@ -21,6 +22,10 @@ const TenantArea = () => {
   const router = useRouter();
 
   const [isMultipleProducts, setIsMultipleProducts] = useState(false);
+  const [multipleProductsSelected, setMultipleProductsSelected] = useState<
+    TenantProduct[]
+  >([]);
+  const [productSelected, setProductSelected] = useState<TenantProduct>();
   const [
     isMultipleProductsCheckoutVisible,
     setIsMultipleProductsCheckoutVisible,
@@ -110,6 +115,10 @@ const TenantArea = () => {
         }
         setIsObjectCheckoutViewable={setIsObjectCheckoutViewable}
         setIsProductSelected={setIsProductSelected}
+        multipleProductsSelected={multipleProductsSelected}
+        productSelected={productSelected}
+        setMultipleProductsSelected={setMultipleProductsSelected}
+        setProductSelected={setProductSelected}
       />
     </HeaderAndFooterInterface>
   );

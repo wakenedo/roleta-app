@@ -60,6 +60,10 @@ interface TenantAreaInterfaceProps {
   isMultipleProductsCheckoutVisible: boolean;
   isMultipleProducts: boolean;
   noProductSelected: boolean;
+  multipleProductsSelected: TenantProduct[];
+  productSelected: TenantProduct | undefined;
+  setProductSelected: Dispatch<SetStateAction<TenantProduct | undefined>>;
+  setMultipleProductsSelected: Dispatch<SetStateAction<TenantProduct[]>>;
 }
 
 interface TenantPreviewContentProps {
@@ -233,6 +237,10 @@ interface TenantProductCatalogProps {
   isMultipleProductsCheckoutVisible: boolean;
   isMultipleProducts: boolean;
   noProductSelected: boolean;
+  multipleProductsSelected: TenantProduct[];
+  productSelected: TenantProduct | undefined;
+  setProductSelected: Dispatch<SetStateAction<TenantProduct | undefined>>;
+  setMultipleProductsSelected: Dispatch<SetStateAction<TenantProduct[]>>;
 }
 
 interface TenantProductCatalogProductCard {

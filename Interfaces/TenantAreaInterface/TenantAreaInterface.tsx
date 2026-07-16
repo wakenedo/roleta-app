@@ -48,6 +48,10 @@ const TenantAreaInterface = ({
   setIsMultipleProductsCheckoutVisible,
   setIsObjectCheckoutViewable,
   setIsProductSelected,
+  multipleProductsSelected,
+  productSelected,
+  setMultipleProductsSelected,
+  setProductSelected,
 }: TenantAreaInterfaceProps) => {
   return (
     <TenantSlotsDedicatedRouteBackground
@@ -105,6 +109,10 @@ const TenantAreaInterface = ({
                 }
                 setIsObjectCheckoutViewable={setIsObjectCheckoutViewable}
                 setIsProductSelected={setIsProductSelected}
+                multipleProductsSelected={multipleProductsSelected}
+                productSelected={productSelected}
+                setMultipleProductsSelected={setMultipleProductsSelected}
+                setProductSelected={setProductSelected}
               />
             )}
             {activeTab === "preview" && (
