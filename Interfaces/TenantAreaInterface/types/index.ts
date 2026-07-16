@@ -245,10 +245,19 @@ interface TenantProductCatalogProps {
 
 interface TenantProductCatalogProductCard {
   product: TenantProduct;
+  noProductSelected: boolean;
+  productSelected: TenantProduct | undefined;
+  setProductSelected: Dispatch<SetStateAction<TenantProduct | undefined>>;
 }
 
 interface TenantProductCatalogProductGridProps {
   products: TenantProduct[];
+  isMultipleProducts: boolean;
+  noProductSelected: boolean;
+  multipleProductsSelected: TenantProduct[];
+  productSelected: TenantProduct | undefined;
+  setProductSelected: Dispatch<SetStateAction<TenantProduct | undefined>>;
+  setMultipleProductsSelected: Dispatch<SetStateAction<TenantProduct[]>>;
 }
 
 interface StatCardProps {

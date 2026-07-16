@@ -18,6 +18,10 @@ const TenantProductCatalog = ({
   isObjectCheckoutViewable,
   isProductSelected,
   noProductSelected,
+  multipleProductsSelected,
+  productSelected,
+  setProductSelected,
+  setMultipleProductsSelected,
   setIsMultipleProducts,
   setIsMultipleProductsCheckoutVisible,
   setIsObjectCheckoutViewable,
@@ -33,7 +37,15 @@ const TenantProductCatalog = ({
           <div className="flex flex-col">
             <div className=" flex space-x-2  ">
               <div className="relative flex flex-col w-1/2">
-                <ProductGrid products={products} />
+                <ProductGrid
+                  products={products}
+                  isMultipleProducts={isMultipleProducts}
+                  multipleProductsSelected={multipleProductsSelected}
+                  noProductSelected={noProductSelected}
+                  productSelected={productSelected}
+                  setMultipleProductsSelected={setMultipleProductsSelected}
+                  setProductSelected={setProductSelected}
+                />
 
                 <TenantProductStatsToggleButton
                   setShowStats={setShowStats}

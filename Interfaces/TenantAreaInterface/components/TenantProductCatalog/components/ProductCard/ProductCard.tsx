@@ -1,6 +1,11 @@
 import { TenantProductCatalogProductCard } from "@/Interfaces/TenantAreaInterface/types";
 
-const ProductCard = ({ product }: TenantProductCatalogProductCard) => {
+const ProductCard = ({
+  product,
+  noProductSelected,
+  productSelected,
+  setProductSelected,
+}: TenantProductCatalogProductCard) => {
   return (
     <div className="bg-white  shadow hover:shadow-lg transition p-3 flex flex-col gap-1">
       <img
