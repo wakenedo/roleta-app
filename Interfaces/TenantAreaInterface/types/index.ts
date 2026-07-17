@@ -10,6 +10,14 @@ import {
 } from "@/context/TenantContext/types";
 import { Dispatch, SetStateAction } from "react";
 
+interface AuthorizedFetchProps {
+  (input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
+  (
+    input: string | URL | globalThis.Request,
+    init?: RequestInit,
+  ): Promise<Response>;
+}
+
 interface TenantAreaInterfaceProps {
   loading: boolean;
   seasonStats: SeasonStatsProps | undefined;
@@ -21,13 +29,7 @@ interface TenantAreaInterfaceProps {
   sessionTenantId: string | null;
   globalQuotaLoading: boolean;
   globalRefresh: ({ tenantId }: { tenantId: string | null }) => Promise<void>;
-  authorizedFetch: {
-    (input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
-    (
-      input: string | URL | globalThis.Request,
-      init?: RequestInit,
-    ): Promise<Response>;
-  };
+  authorizedFetch: AuthorizedFetchProps;
   activeTab: "preview" | "general" | "catalog";
   setActiveTab: Dispatch<SetStateAction<"preview" | "general" | "catalog">>;
   activeModal: "advanced" | "bug" | "suggestion" | null;
@@ -73,13 +75,7 @@ interface TenantPreviewContentProps {
   loading: boolean;
   sessionTenantId: string | null;
   globalQuotaLoading: boolean;
-  authorizedFetch: {
-    (input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
-    (
-      input: string | URL | globalThis.Request,
-      init?: RequestInit,
-    ): Promise<Response>;
-  };
+  authorizedFetch: AuthorizedFetchProps;
   refresh: ({ tenantId }: { tenantId: string | null }) => Promise<void>;
   logoUrl?: string | undefined | null;
 }
@@ -93,13 +89,7 @@ interface TenantPreviewProps {
   sessionTenantId: string | null;
   globalQuotaLoading: boolean;
   globalRefresh: ({ tenantId }: { tenantId: string | null }) => Promise<void>;
-  authorizedFetch: {
-    (input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
-    (
-      input: string | URL | globalThis.Request,
-      init?: RequestInit,
-    ): Promise<Response>;
-  };
+  authorizedFetch: AuthorizedFetchProps;
 }
 
 interface ProductEditSectionProps {
@@ -109,6 +99,8 @@ interface ProductEditSectionProps {
   setIsProductSelected: Dispatch<SetStateAction<boolean>>;
   setIsObjectCheckoutViewable: Dispatch<SetStateAction<boolean>>;
   isObjectCheckoutViewable: boolean;
+  productSelected: TenantProduct | undefined;
+  multipleProductsSelected: TenantProduct[];
   isProductSelected: boolean;
   isMultipleProductsCheckoutVisible: boolean;
   isMultipleProducts: boolean;
@@ -245,9 +237,8 @@ interface TenantProductCatalogProps {
 
 interface TenantProductCatalogProductCard {
   product: TenantProduct;
-  noProductSelected: boolean;
-  productSelected: TenantProduct | undefined;
-  setProductSelected: Dispatch<SetStateAction<TenantProduct | undefined>>;
+  selected: boolean;
+  onProductClick: () => void;
 }
 
 interface TenantProductCatalogProductGridProps {
@@ -258,6 +249,8 @@ interface TenantProductCatalogProductGridProps {
   productSelected: TenantProduct | undefined;
   setProductSelected: Dispatch<SetStateAction<TenantProduct | undefined>>;
   setMultipleProductsSelected: Dispatch<SetStateAction<TenantProduct[]>>;
+  setIsProductSelected: Dispatch<SetStateAction<boolean>>;
+  setIsMultipleProducts: Dispatch<SetStateAction<boolean>>;
 }
 
 interface StatCardProps {
@@ -299,6 +292,17 @@ type TenantProductStatsToggleButtonProps = {
   setShowStats: Dispatch<SetStateAction<boolean>>;
 };
 
+type CatalogSelectionSettersProps = {
+  setIsMultipleProducts: Dispatch<SetStateAction<boolean>>;
+  setMultipleProductsSelected: Dispatch<SetStateAction<TenantProduct[]>>;
+  setProductSelected: Dispatch<SetStateAction<TenantProduct | undefined>>;
+  setIsProductSelected: Dispatch<SetStateAction<boolean>>;
+};
+
+type SingleProductSelectionProps = {
+  productSelected: TenantProduct | undefined;
+};
+
 export type {
   TenantAreaInterfaceProps,
   TenantCardProps,
@@ -327,4 +331,6 @@ export type {
   SeasonalAnalyticsProps,
   ProductEditSectionProps,
   TenantProductStatsToggleButtonProps,
+  CatalogSelectionSettersProps,
+  SingleProductSelectionProps,
 };
