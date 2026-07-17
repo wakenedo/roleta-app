@@ -1,6 +1,10 @@
 import { TenantProductCatalogProductGridProps } from "@/Interfaces/TenantAreaInterface/types";
 import { TenantSectionMarker } from "@/components/TenantSectionMarker";
 import { ProductCard } from "../ProductCard";
+import {
+  handleProductCatalogClick,
+  isCatalogProductSelected,
+} from "@/Interfaces/TenantAreaInterface/utils/tenant-catalog-utils";
 
 const ProductGrid = ({
   products,
@@ -10,6 +14,8 @@ const ProductGrid = ({
   productSelected,
   setMultipleProductsSelected,
   setProductSelected,
+  setIsMultipleProducts,
+  setIsProductSelected,
 }: TenantProductCatalogProductGridProps) => {
   if (products === null) return null;
   return (
@@ -17,15 +23,30 @@ const ProductGrid = ({
       <TenantSectionMarker markerTitle="Produtos Carregados" />
 
       <div className="border-b border-x border-slate-200 p-2 grid grid-cols-2 md:grid-cols-3  gap-4 lg:h-[695px]  overflow-scroll   [scrollbar-width:none] bg-slate-100">
-        {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            noProductSelected={noProductSelected}
-            productSelected={productSelected}
-            setProductSelected={setProductSelected}
-          />
-        ))}
+        {products.map((product) => {
+          return (
+            <ProductCard
+              key={product.id}
+              product={product}
+              selected={isCatalogProductSelected(
+                product,
+                productSelected,
+                multipleProductsSelected,
+              )}
+              onProductClick={() =>
+                handleProductCatalogClick(
+                  product,
+                  productSelected,
+                  multipleProductsSelected,
+                  setMultipleProductsSelected,
+                  setProductSelected,
+                  setIsMultipleProducts,
+                  setIsProductSelected,
+                )
+              }
+            />
+          );
+        })}
       </div>
     </div>
   );

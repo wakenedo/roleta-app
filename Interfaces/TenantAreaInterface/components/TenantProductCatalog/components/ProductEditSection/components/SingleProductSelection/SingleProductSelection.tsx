@@ -1,4 +1,9 @@
-const SingleProductSelection = () => {
+import { SingleProductSelectionProps } from "@/Interfaces/TenantAreaInterface/types";
+import { formatPriceBRL } from "@/utils/formatter-utils";
+
+const SingleProductSelection = ({
+  productSelected,
+}: SingleProductSelectionProps) => {
   return (
     // * are non editable fields
     <div className=" shadow-inner bg-slate-100 w-full h-full py-2 px-2">
@@ -9,48 +14,78 @@ const SingleProductSelection = () => {
               <div className="mb-2 border rounded border-slate-200 px-2">
                 <div className="flex space-x-1 items-center text-slate-400">
                   <span className="text-xs">Id:</span>
-                  <span>Value</span>
+                  <span>{productSelected?.id}</span>
                 </div>
               </div>
               <div className="flex space-x-2">
                 <div className="bg-slate-200 h-full">
                   <span>Image (if present JSON flow mostly)</span>
                 </div>
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col p-2 lg:space-y-4">
                   <div className="flex flex-col">
                     <span className="text-xs text-slate-400">Name</span>
-                    <span className="text-slate-600">Value*</span>
+                    <span className="text-slate-600">
+                      {productSelected?.name}*
+                    </span>
                   </div>
                   <div className="flex flex-col">
                     <span className="text-xs text-slate-400">
                       Provider (if available)
                     </span>
-                    <span className="text-slate-600">Value*</span>
+                    <span className="text-slate-600">
+                      {productSelected?.affiliate ||
+                        productSelected?.metadata?.affiliateProvider}
+                      *
+                    </span>
                   </div>
                   <div className="flex flex-col">
                     <span className="text-xs text-slate-400">Store</span>
-                    <span className="text-slate-600">Value*</span>
+                    <span className="text-slate-600">
+                      {productSelected?.store ||
+                        productSelected?.metadata?.store}
+                      *
+                    </span>
                   </div>
                   <div className="flex flex-col">
                     <span className="text-xs text-slate-400">Price</span>
-                    <span className="text-slate-600">Value*</span>
+                    <span className="text-slate-600">
+                      {productSelected?.price != null
+                        ? formatPriceBRL(productSelected.price)
+                        : "-"}
+                      *
+                    </span>
                   </div>
                   <div className="flex flex-col">
                     <span className="text-xs text-slate-400">
                       Commission and CommissionRate (when available)
                     </span>
-                    <span className="text-slate-600">Values*</span>
+                    <span className="text-slate-600">
+                      {productSelected?.commission != null
+                        ? formatPriceBRL(productSelected.commission)
+                        : "-"}
+                      *
+                    </span>
+                    <span className="text-slate-600">
+                      {productSelected?.commissionRate ||
+                        productSelected?.commissionRate}
+                      *
+                    </span>
                   </div>
                   <div className="flex flex-col">
                     <span className="text-xs text-slate-400">Tier</span>
-                    <span className="text-slate-600">Value</span>
+                    <span className="text-slate-600">
+                      {productSelected?.tier}
+                    </span>
                   </div>
                   <div className="flex flex-col">
                     <span className="text-xs text-slate-400">
                       Categoria (will allow to change along our mapped
                       categories)
                     </span>
-                    <span className="text-slate-600">Value</span>
+                    <span className="text-slate-600">
+                      {productSelected?.category ||
+                        productSelected?.metadata?.category}
+                    </span>
                   </div>
                 </div>
               </div>

@@ -7,6 +7,8 @@ import { ProductEditSectionProps } from "@/Interfaces/TenantAreaInterface/types"
 
 const ProductEditSection = ({
   tenantProductStats,
+  productSelected,
+  multipleProductsSelected,
   isMultipleProducts,
   isMultipleProductsCheckoutVisible,
   isObjectCheckoutViewable,
@@ -23,7 +25,7 @@ const ProductEditSection = ({
     <>
       <TenantSectionMarker markerTitle="Configurações" />
       <div className="  flex flex-col  h-full py-2 px-1 space-y-2 ">
-        {isMultipleProducts === true && (
+        {!isMultipleProducts && multipleProductsSelected.length >= 2 && (
           <MultipleProductsSelection
             isMultipleProductsCheckoutVisible={
               isMultipleProductsCheckoutVisible
@@ -33,8 +35,12 @@ const ProductEditSection = ({
             }
           />
         )}
-        {isProductSelected === true && <SingleProductSelection />}
-        {noProductSelected && <NoProductSelected />}
+        {!isProductSelected && productSelected != undefined && (
+          <SingleProductSelection productSelected={productSelected} />
+        )}
+        {noProductSelected && !isMultipleProducts && !isProductSelected && (
+          <NoProductSelected />
+        )}
 
         <ProductsObjectManager
           tenantProductStats={tenantProductStats}

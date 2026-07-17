@@ -2,12 +2,14 @@ import { TenantProductCatalogProductCard } from "@/Interfaces/TenantAreaInterfac
 
 const ProductCard = ({
   product,
-  noProductSelected,
-  productSelected,
-  setProductSelected,
+  selected,
+  onProductClick,
 }: TenantProductCatalogProductCard) => {
   return (
-    <div className="bg-white  shadow hover:shadow-lg transition p-3 flex flex-col gap-1">
+    <div
+      onClick={onProductClick}
+      className={`${selected && "border border-[#00EEFF]"} bg-white cursor-pointer shadow hover:shadow-lg transition p-3 flex flex-col gap-1`}
+    >
       <img
         src={product.image}
         alt={product.name}

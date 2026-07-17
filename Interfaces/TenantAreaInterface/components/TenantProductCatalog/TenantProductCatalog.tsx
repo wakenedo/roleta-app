@@ -45,6 +45,8 @@ const TenantProductCatalog = ({
                   productSelected={productSelected}
                   setMultipleProductsSelected={setMultipleProductsSelected}
                   setProductSelected={setProductSelected}
+                  setIsMultipleProducts={setIsMultipleProducts}
+                  setIsProductSelected={setIsProductSelected}
                 />
 
                 <TenantProductStatsToggleButton
@@ -97,6 +99,8 @@ const TenantProductCatalog = ({
                   }
                   setIsObjectCheckoutViewable={setIsObjectCheckoutViewable}
                   setIsProductSelected={setIsProductSelected}
+                  productSelected={productSelected}
+                  multipleProductsSelected={multipleProductsSelected}
                 />
               </div>
             </div>
