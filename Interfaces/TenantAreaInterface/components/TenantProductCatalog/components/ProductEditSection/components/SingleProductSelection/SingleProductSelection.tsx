@@ -5,7 +5,7 @@ const SingleProductSelection = ({
   productSelected,
 }: SingleProductSelectionProps) => {
   return (
-    // * are non editable fields
+    // * are  editable fields
     <div className=" shadow-inner bg-slate-100 w-full h-full py-2 px-2">
       <div className="drop-shadow  flex flex-col  ">
         <div className="flex flex-col justify-between tracking-wider bg-white ">
@@ -23,58 +23,52 @@ const SingleProductSelection = ({
                 </div>
                 <div className="flex flex-col p-2 lg:space-y-4">
                   <div className="flex flex-col">
-                    <span className="text-xs text-slate-400">Name</span>
-                    <span className="text-slate-600">
-                      {productSelected?.name}*
+                    <span className="text-xs text-slate-400">Nome</span>
+                    <span className="text-slate-600 line-clamp-1">
+                      {productSelected?.name}
                     </span>
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-xs text-slate-400">
-                      Provider (if available)
-                    </span>
+                    <span className="text-xs text-slate-400">Provedor</span>
                     <span className="text-slate-600">
                       {productSelected?.affiliate ||
                         productSelected?.metadata?.affiliateProvider}
-                      *
                     </span>
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-xs text-slate-400">Store</span>
+                    <span className="text-xs text-slate-400">Loja</span>
                     <span className="text-slate-600">
                       {productSelected?.store ||
                         productSelected?.metadata?.store}
-                      *
                     </span>
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-xs text-slate-400">Price</span>
+                    <span className="text-xs text-slate-400">Preço</span>
                     <span className="text-slate-600">
                       {productSelected?.price != null
                         ? formatPriceBRL(productSelected.price)
                         : "-"}
-                      *
                     </span>
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-xs text-slate-400">
-                      Commission and CommissionRate (when available)
-                    </span>
+                    <span className="text-xs text-slate-400">Commissão</span>
                     <span className="text-slate-600">
                       {productSelected?.commission != null
                         ? formatPriceBRL(productSelected.commission)
                         : "-"}
-                      *
                     </span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-xs text-slate-400">Commissão %</span>
                     <span className="text-slate-600">
                       {productSelected?.commissionRate ||
                         productSelected?.commissionRate}
-                      *
                     </span>
                   </div>
                   <div className="flex flex-col">
                     <span className="text-xs text-slate-400">Tier</span>
                     <span className="text-slate-600">
-                      {productSelected?.tier}
+                      {productSelected?.tier} *
                     </span>
                   </div>
                   <div className="flex flex-col">
@@ -84,7 +78,8 @@ const SingleProductSelection = ({
                     </span>
                     <span className="text-slate-600">
                       {productSelected?.category ||
-                        productSelected?.metadata?.category}
+                        productSelected?.metadata?.category}{" "}
+                      *
                     </span>
                   </div>
                 </div>
