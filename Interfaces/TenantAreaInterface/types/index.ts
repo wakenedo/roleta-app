@@ -53,14 +53,14 @@ interface TenantAreaInterfaceProps {
   tenantBranding: TenantBranding | undefined;
   showStats: boolean;
   setShowStats: Dispatch<SetStateAction<boolean>>;
-  setIsMultipleProducts: Dispatch<SetStateAction<boolean>>;
+  setIsMultipleSelectionMode: Dispatch<SetStateAction<boolean>>;
   setIsMultipleProductsCheckoutVisible: Dispatch<SetStateAction<boolean>>;
   setIsProductSelected: Dispatch<SetStateAction<boolean>>;
   setIsObjectCheckoutViewable: Dispatch<SetStateAction<boolean>>;
   isObjectCheckoutViewable: boolean;
   isProductSelected: boolean;
   isMultipleProductsCheckoutVisible: boolean;
-  isMultipleProducts: boolean;
+  isMultipleSelectionMode: boolean;
   noProductSelected: boolean;
   multipleProductsSelected: TenantProduct[];
   productSelected: TenantProduct | undefined;
@@ -94,17 +94,12 @@ interface TenantPreviewProps {
 
 interface ProductEditSectionProps {
   tenantProductStats: ProductsStatsProps | undefined;
-  setIsMultipleProducts: Dispatch<SetStateAction<boolean>>;
   setIsMultipleProductsCheckoutVisible: Dispatch<SetStateAction<boolean>>;
-  setIsProductSelected: Dispatch<SetStateAction<boolean>>;
   setIsObjectCheckoutViewable: Dispatch<SetStateAction<boolean>>;
   isObjectCheckoutViewable: boolean;
   productSelected: TenantProduct | undefined;
   multipleProductsSelected: TenantProduct[];
-  isProductSelected: boolean;
   isMultipleProductsCheckoutVisible: boolean;
-  isMultipleProducts: boolean;
-  noProductSelected: boolean;
 }
 
 interface TenantPreviewMenuProps {
@@ -220,14 +215,14 @@ interface TenantProductCatalogProps {
   error: string | null;
   showStats: boolean;
   setShowStats: Dispatch<SetStateAction<boolean>>;
-  setIsMultipleProducts: Dispatch<SetStateAction<boolean>>;
+  setIsMultipleSelectionMode: Dispatch<SetStateAction<boolean>>;
   setIsMultipleProductsCheckoutVisible: Dispatch<SetStateAction<boolean>>;
   setIsProductSelected: Dispatch<SetStateAction<boolean>>;
   setIsObjectCheckoutViewable: Dispatch<SetStateAction<boolean>>;
   isObjectCheckoutViewable: boolean;
   isProductSelected: boolean;
   isMultipleProductsCheckoutVisible: boolean;
-  isMultipleProducts: boolean;
+  isMultipleSelectionMode: boolean;
   noProductSelected: boolean;
   multipleProductsSelected: TenantProduct[];
   productSelected: TenantProduct | undefined;
@@ -243,14 +238,12 @@ interface TenantProductCatalogProductCard {
 
 interface TenantProductCatalogProductGridProps {
   products: TenantProduct[];
-  isMultipleProducts: boolean;
-  noProductSelected: boolean;
   multipleProductsSelected: TenantProduct[];
   productSelected: TenantProduct | undefined;
   setProductSelected: Dispatch<SetStateAction<TenantProduct | undefined>>;
   setMultipleProductsSelected: Dispatch<SetStateAction<TenantProduct[]>>;
   setIsProductSelected: Dispatch<SetStateAction<boolean>>;
-  setIsMultipleProducts: Dispatch<SetStateAction<boolean>>;
+  setIsMultipleSelectionMode: Dispatch<SetStateAction<boolean>>;
 }
 
 interface StatCardProps {
@@ -293,7 +286,7 @@ type TenantProductStatsToggleButtonProps = {
 };
 
 type CatalogSelectionSettersProps = {
-  setIsMultipleProducts: Dispatch<SetStateAction<boolean>>;
+  setIsMultipleSelectionMode: Dispatch<SetStateAction<boolean>>;
   setMultipleProductsSelected: Dispatch<SetStateAction<TenantProduct[]>>;
   setProductSelected: Dispatch<SetStateAction<TenantProduct | undefined>>;
   setIsProductSelected: Dispatch<SetStateAction<boolean>>;
@@ -302,6 +295,18 @@ type CatalogSelectionSettersProps = {
 type SingleProductSelectionProps = {
   productSelected: TenantProduct | undefined;
 };
+
+type CatalogSelectionMode = "none" | "single" | "multiple";
+
+interface HandleCatalogSelectionProps {
+  product: TenantProduct;
+  productSelected?: TenantProduct;
+  multipleProductsSelected: TenantProduct[];
+  setProductSelected: Dispatch<SetStateAction<TenantProduct | undefined>>;
+  setMultipleProductsSelected: Dispatch<SetStateAction<TenantProduct[]>>;
+  setIsProductSelected: Dispatch<SetStateAction<boolean>>;
+  setIsMultipleSelectionMode: Dispatch<SetStateAction<boolean>>;
+}
 
 export type {
   TenantAreaInterfaceProps,
@@ -333,4 +338,6 @@ export type {
   TenantProductStatsToggleButtonProps,
   CatalogSelectionSettersProps,
   SingleProductSelectionProps,
+  CatalogSelectionMode,
+  HandleCatalogSelectionProps,
 };
