@@ -53,19 +53,15 @@ interface TenantAreaInterfaceProps {
   tenantBranding: TenantBranding | undefined;
   showStats: boolean;
   setShowStats: Dispatch<SetStateAction<boolean>>;
-  setIsMultipleSelectionMode: Dispatch<SetStateAction<boolean>>;
   setIsMultipleProductsCheckoutVisible: Dispatch<SetStateAction<boolean>>;
-  setIsProductSelected: Dispatch<SetStateAction<boolean>>;
   setIsObjectCheckoutViewable: Dispatch<SetStateAction<boolean>>;
   isObjectCheckoutViewable: boolean;
   isProductSelected: boolean;
   isMultipleProductsCheckoutVisible: boolean;
   isMultipleSelectionMode: boolean;
   noProductSelected: boolean;
-  multipleProductsSelected: TenantProduct[];
-  productSelected: TenantProduct | undefined;
-  setProductSelected: Dispatch<SetStateAction<TenantProduct | undefined>>;
-  setMultipleProductsSelected: Dispatch<SetStateAction<TenantProduct[]>>;
+  catalogSelectionState: CatalogSelectionState;
+  setCatalogSelectionState: Dispatch<SetStateAction<CatalogSelectionState>>;
 }
 
 interface TenantPreviewContentProps {
@@ -96,9 +92,9 @@ interface ProductEditSectionProps {
   tenantProductStats: ProductsStatsProps | undefined;
   setIsMultipleProductsCheckoutVisible: Dispatch<SetStateAction<boolean>>;
   setIsObjectCheckoutViewable: Dispatch<SetStateAction<boolean>>;
+  setCatalogSelectionState: Dispatch<SetStateAction<CatalogSelectionState>>;
   isObjectCheckoutViewable: boolean;
-  productSelected: TenantProduct | undefined;
-  multipleProductsSelected: TenantProduct[];
+  catalogSelectionState: CatalogSelectionState;
   isMultipleProductsCheckoutVisible: boolean;
 }
 
@@ -215,19 +211,12 @@ interface TenantProductCatalogProps {
   error: string | null;
   showStats: boolean;
   setShowStats: Dispatch<SetStateAction<boolean>>;
-  setIsMultipleSelectionMode: Dispatch<SetStateAction<boolean>>;
   setIsMultipleProductsCheckoutVisible: Dispatch<SetStateAction<boolean>>;
-  setIsProductSelected: Dispatch<SetStateAction<boolean>>;
   setIsObjectCheckoutViewable: Dispatch<SetStateAction<boolean>>;
   isObjectCheckoutViewable: boolean;
-  isProductSelected: boolean;
   isMultipleProductsCheckoutVisible: boolean;
-  isMultipleSelectionMode: boolean;
-  noProductSelected: boolean;
-  multipleProductsSelected: TenantProduct[];
-  productSelected: TenantProduct | undefined;
-  setProductSelected: Dispatch<SetStateAction<TenantProduct | undefined>>;
-  setMultipleProductsSelected: Dispatch<SetStateAction<TenantProduct[]>>;
+  catalogSelectionState: CatalogSelectionState;
+  setCatalogSelectionState: Dispatch<SetStateAction<CatalogSelectionState>>;
 }
 
 interface TenantProductCatalogProductCard {
@@ -238,12 +227,8 @@ interface TenantProductCatalogProductCard {
 
 interface TenantProductCatalogProductGridProps {
   products: TenantProduct[];
-  multipleProductsSelected: TenantProduct[];
-  productSelected: TenantProduct | undefined;
-  setProductSelected: Dispatch<SetStateAction<TenantProduct | undefined>>;
-  setMultipleProductsSelected: Dispatch<SetStateAction<TenantProduct[]>>;
-  setIsProductSelected: Dispatch<SetStateAction<boolean>>;
-  setIsMultipleSelectionMode: Dispatch<SetStateAction<boolean>>;
+  catalogSelectionState: CatalogSelectionState;
+  setCatalogSelectionState: Dispatch<SetStateAction<CatalogSelectionState>>;
 }
 
 interface StatCardProps {
@@ -300,12 +285,14 @@ type CatalogSelectionMode = "none" | "single" | "multiple";
 
 interface HandleCatalogSelectionProps {
   product: TenantProduct;
+  catalogSelectionState: CatalogSelectionState;
+  setCatalogSelectionState: Dispatch<SetStateAction<CatalogSelectionState>>;
+}
+
+interface CatalogSelectionState {
+  selectionMode: "none" | "single" | "multiple";
   productSelected?: TenantProduct;
   multipleProductsSelected: TenantProduct[];
-  setProductSelected: Dispatch<SetStateAction<TenantProduct | undefined>>;
-  setMultipleProductsSelected: Dispatch<SetStateAction<TenantProduct[]>>;
-  setIsProductSelected: Dispatch<SetStateAction<boolean>>;
-  setIsMultipleSelectionMode: Dispatch<SetStateAction<boolean>>;
 }
 
 export type {
@@ -340,4 +327,5 @@ export type {
   SingleProductSelectionProps,
   CatalogSelectionMode,
   HandleCatalogSelectionProps,
+  CatalogSelectionState,
 };
