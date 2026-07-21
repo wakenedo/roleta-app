@@ -1,6 +1,5 @@
 import { TenantError } from "../TenantError";
 import { ProductGrid } from "./components/ProductGrid";
-import { ProductJsonViewer } from "./components/ProductJsonViewer";
 import { ProductEditSection } from "./components/ProductEditSection";
 import { TenantProductStats } from "./components/TenantProductStats";
 import { AnimatePresence, motion } from "framer-motion";
@@ -12,8 +11,14 @@ const TenantProductCatalog = ({
   tenantProductStats,
   loading,
   error,
-  setShowStats,
   showStats,
+  isMultipleProductsCheckoutVisible,
+  isObjectCheckoutViewable,
+  catalogSelectionState,
+  setShowStats,
+  setCatalogSelectionState,
+  setIsMultipleProductsCheckoutVisible,
+  setIsObjectCheckoutViewable,
 }: TenantProductCatalogProps) => {
   if (!products) return error;
   return (
@@ -25,7 +30,11 @@ const TenantProductCatalog = ({
           <div className="flex flex-col">
             <div className=" flex space-x-2  ">
               <div className="relative flex flex-col w-1/2">
-                <ProductGrid products={products} />
+                <ProductGrid
+                  products={products}
+                  catalogSelectionState={catalogSelectionState}
+                  setCatalogSelectionState={setCatalogSelectionState}
+                />
 
                 <TenantProductStatsToggleButton
                   setShowStats={setShowStats}
@@ -62,8 +71,19 @@ const TenantProductCatalog = ({
                 </AnimatePresence>
               </div>
               <div className="flex flex-col w-1/2">
-                <ProductEditSection />
-                <ProductJsonViewer products={products} />
+                <ProductEditSection
+                  tenantProductStats={tenantProductStats}
+                  isMultipleProductsCheckoutVisible={
+                    isMultipleProductsCheckoutVisible
+                  }
+                  isObjectCheckoutViewable={isObjectCheckoutViewable}
+                  catalogSelectionState={catalogSelectionState}
+                  setIsMultipleProductsCheckoutVisible={
+                    setIsMultipleProductsCheckoutVisible
+                  }
+                  setIsObjectCheckoutViewable={setIsObjectCheckoutViewable}
+                  setCatalogSelectionState={setCatalogSelectionState}
+                />
               </div>
             </div>
           </div>

@@ -10,6 +10,14 @@ import {
 } from "@/context/TenantContext/types";
 import { Dispatch, SetStateAction } from "react";
 
+interface AuthorizedFetchProps {
+  (input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
+  (
+    input: string | URL | globalThis.Request,
+    init?: RequestInit,
+  ): Promise<Response>;
+}
+
 interface TenantAreaInterfaceProps {
   loading: boolean;
   seasonStats: SeasonStatsProps | undefined;
@@ -21,13 +29,7 @@ interface TenantAreaInterfaceProps {
   sessionTenantId: string | null;
   globalQuotaLoading: boolean;
   globalRefresh: ({ tenantId }: { tenantId: string | null }) => Promise<void>;
-  authorizedFetch: {
-    (input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
-    (
-      input: string | URL | globalThis.Request,
-      init?: RequestInit,
-    ): Promise<Response>;
-  };
+  authorizedFetch: AuthorizedFetchProps;
   activeTab: "preview" | "general" | "catalog";
   setActiveTab: Dispatch<SetStateAction<"preview" | "general" | "catalog">>;
   activeModal: "advanced" | "bug" | "suggestion" | null;
@@ -51,6 +53,12 @@ interface TenantAreaInterfaceProps {
   tenantBranding: TenantBranding | undefined;
   showStats: boolean;
   setShowStats: Dispatch<SetStateAction<boolean>>;
+  setIsMultipleProductsCheckoutVisible: Dispatch<SetStateAction<boolean>>;
+  setIsObjectCheckoutViewable: Dispatch<SetStateAction<boolean>>;
+  isObjectCheckoutViewable: boolean;
+  isMultipleProductsCheckoutVisible: boolean;
+  catalogSelectionState: CatalogSelectionState;
+  setCatalogSelectionState: Dispatch<SetStateAction<CatalogSelectionState>>;
 }
 
 interface TenantPreviewContentProps {
@@ -60,13 +68,7 @@ interface TenantPreviewContentProps {
   loading: boolean;
   sessionTenantId: string | null;
   globalQuotaLoading: boolean;
-  authorizedFetch: {
-    (input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
-    (
-      input: string | URL | globalThis.Request,
-      init?: RequestInit,
-    ): Promise<Response>;
-  };
+  authorizedFetch: AuthorizedFetchProps;
   refresh: ({ tenantId }: { tenantId: string | null }) => Promise<void>;
   logoUrl?: string | undefined | null;
 }
@@ -80,13 +82,17 @@ interface TenantPreviewProps {
   sessionTenantId: string | null;
   globalQuotaLoading: boolean;
   globalRefresh: ({ tenantId }: { tenantId: string | null }) => Promise<void>;
-  authorizedFetch: {
-    (input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
-    (
-      input: string | URL | globalThis.Request,
-      init?: RequestInit,
-    ): Promise<Response>;
-  };
+  authorizedFetch: AuthorizedFetchProps;
+}
+
+interface ProductEditSectionProps {
+  tenantProductStats: ProductsStatsProps | undefined;
+  setIsMultipleProductsCheckoutVisible: Dispatch<SetStateAction<boolean>>;
+  setIsObjectCheckoutViewable: Dispatch<SetStateAction<boolean>>;
+  setCatalogSelectionState: Dispatch<SetStateAction<CatalogSelectionState>>;
+  isObjectCheckoutViewable: boolean;
+  catalogSelectionState: CatalogSelectionState;
+  isMultipleProductsCheckoutVisible: boolean;
 }
 
 interface TenantPreviewMenuProps {
@@ -202,14 +208,24 @@ interface TenantProductCatalogProps {
   error: string | null;
   showStats: boolean;
   setShowStats: Dispatch<SetStateAction<boolean>>;
+  setIsMultipleProductsCheckoutVisible: Dispatch<SetStateAction<boolean>>;
+  setIsObjectCheckoutViewable: Dispatch<SetStateAction<boolean>>;
+  isObjectCheckoutViewable: boolean;
+  isMultipleProductsCheckoutVisible: boolean;
+  catalogSelectionState: CatalogSelectionState;
+  setCatalogSelectionState: Dispatch<SetStateAction<CatalogSelectionState>>;
 }
 
 interface TenantProductCatalogProductCard {
   product: TenantProduct;
+  selected: boolean;
+  onProductClick: () => void;
 }
 
 interface TenantProductCatalogProductGridProps {
   products: TenantProduct[];
+  catalogSelectionState: CatalogSelectionState;
+  setCatalogSelectionState: Dispatch<SetStateAction<CatalogSelectionState>>;
 }
 
 interface StatCardProps {
@@ -251,6 +267,31 @@ type TenantProductStatsToggleButtonProps = {
   setShowStats: Dispatch<SetStateAction<boolean>>;
 };
 
+type CatalogSelectionSettersProps = {
+  setIsMultipleSelectionMode: Dispatch<SetStateAction<boolean>>;
+  setMultipleProductsSelected: Dispatch<SetStateAction<TenantProduct[]>>;
+  setProductSelected: Dispatch<SetStateAction<TenantProduct | undefined>>;
+  setIsProductSelected: Dispatch<SetStateAction<boolean>>;
+};
+
+type SingleProductSelectionProps = {
+  productSelected: TenantProduct | undefined;
+};
+
+type CatalogSelectionMode = "none" | "single" | "multiple";
+
+interface HandleCatalogSelectionProps {
+  product: TenantProduct;
+  catalogSelectionState: CatalogSelectionState;
+  setCatalogSelectionState: Dispatch<SetStateAction<CatalogSelectionState>>;
+}
+
+interface CatalogSelectionState {
+  selectionMode: "none" | "single" | "multiple";
+  productSelected?: TenantProduct;
+  multipleProductsSelected: TenantProduct[];
+}
+
 export type {
   TenantAreaInterfaceProps,
   TenantCardProps,
@@ -277,5 +318,11 @@ export type {
   TenantStatus,
   TenantOptionsAnalyticsProps,
   SeasonalAnalyticsProps,
+  ProductEditSectionProps,
   TenantProductStatsToggleButtonProps,
+  CatalogSelectionSettersProps,
+  SingleProductSelectionProps,
+  CatalogSelectionMode,
+  HandleCatalogSelectionProps,
+  CatalogSelectionState,
 };
