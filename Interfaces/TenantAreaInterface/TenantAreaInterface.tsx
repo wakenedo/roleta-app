@@ -39,19 +39,12 @@ const TenantAreaInterface = ({
   tenantSubscriptionMode,
   setShowStats,
   showStats,
-  isMultipleSelectionMode,
   isMultipleProductsCheckoutVisible,
   isObjectCheckoutViewable,
-  isProductSelected,
-  noProductSelected,
-  setIsMultipleSelectionMode,
   setIsMultipleProductsCheckoutVisible,
   setIsObjectCheckoutViewable,
-  setIsProductSelected,
-  multipleProductsSelected,
-  productSelected,
-  setMultipleProductsSelected,
-  setProductSelected,
+  catalogSelectionState,
+  setCatalogSelectionState,
 }: TenantAreaInterfaceProps) => {
   return (
     <TenantSlotsDedicatedRouteBackground
@@ -96,23 +89,16 @@ const TenantAreaInterface = ({
                 tenantProductStats={tenantProductStats}
                 setShowStats={setShowStats}
                 showStats={showStats}
-                isMultipleSelectionMode={isMultipleSelectionMode}
                 isMultipleProductsCheckoutVisible={
                   isMultipleProductsCheckoutVisible
                 }
                 isObjectCheckoutViewable={isObjectCheckoutViewable}
-                isProductSelected={isProductSelected}
-                noProductSelected={noProductSelected}
-                setIsMultipleSelectionMode={setIsMultipleSelectionMode}
                 setIsMultipleProductsCheckoutVisible={
                   setIsMultipleProductsCheckoutVisible
                 }
                 setIsObjectCheckoutViewable={setIsObjectCheckoutViewable}
-                setIsProductSelected={setIsProductSelected}
-                multipleProductsSelected={multipleProductsSelected}
-                productSelected={productSelected}
-                setMultipleProductsSelected={setMultipleProductsSelected}
-                setProductSelected={setProductSelected}
+                catalogSelectionState={catalogSelectionState}
+                setCatalogSelectionState={setCatalogSelectionState}
               />
             )}
             {activeTab === "preview" && (

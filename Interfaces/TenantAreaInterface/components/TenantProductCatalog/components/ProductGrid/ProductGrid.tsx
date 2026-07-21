@@ -8,12 +8,8 @@ import {
 
 const ProductGrid = ({
   products,
-  multipleProductsSelected,
-  productSelected,
-  setMultipleProductsSelected,
-  setProductSelected,
-  setIsMultipleSelectionMode,
-  setIsProductSelected,
+  catalogSelectionState,
+  setCatalogSelectionState,
 }: TenantProductCatalogProductGridProps) => {
   if (products === null) return null;
   return (
@@ -28,18 +24,13 @@ const ProductGrid = ({
               product={product}
               selected={isCatalogProductSelected(
                 product,
-                productSelected,
-                multipleProductsSelected,
+                catalogSelectionState,
               )}
               onProductClick={() =>
                 handleCatalogSelection({
                   product,
-                  productSelected,
-                  multipleProductsSelected,
-                  setMultipleProductsSelected,
-                  setProductSelected,
-                  setIsMultipleSelectionMode,
-                  setIsProductSelected,
+                  catalogSelectionState,
+                  setCatalogSelectionState,
                 })
               }
             />

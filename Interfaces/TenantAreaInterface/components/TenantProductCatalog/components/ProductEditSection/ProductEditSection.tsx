@@ -8,19 +8,16 @@ import { getCatalogSelectionMode } from "@/Interfaces/TenantAreaInterface/catalo
 
 const ProductEditSection = ({
   tenantProductStats,
-  productSelected,
-  multipleProductsSelected,
+  catalogSelectionState,
   isMultipleProductsCheckoutVisible,
   isObjectCheckoutViewable,
   setIsMultipleProductsCheckoutVisible,
   setIsObjectCheckoutViewable,
+  setCatalogSelectionState,
 }: ProductEditSectionProps) => {
   console.log("ProductsEditSection", tenantProductStats);
 
-  const selectionMode = getCatalogSelectionMode(
-    productSelected,
-    multipleProductsSelected,
-  );
+  const selectionMode = getCatalogSelectionMode(catalogSelectionState);
 
   return (
     <>
@@ -28,6 +25,7 @@ const ProductEditSection = ({
       <div className="  flex flex-col  h-full py-2 px-1 space-y-2 ">
         {selectionMode === "multiple" && (
           <MultipleProductsSelection
+            catalogSelectionState={catalogSelectionState}
             isMultipleProductsCheckoutVisible={
               isMultipleProductsCheckoutVisible
             }
@@ -37,9 +35,16 @@ const ProductEditSection = ({
           />
         )}
         {selectionMode === "single" && (
-          <SingleProductSelection productSelected={productSelected} />
+          <SingleProductSelection
+            productSelected={catalogSelectionState.productSelected}
+          />
         )}
-        {selectionMode === "none" && <NoProductSelected />}
+        {selectionMode === "none" && (
+          <NoProductSelected
+            catalogSelectionState={catalogSelectionState}
+            setCatalogSelectionState={setCatalogSelectionState}
+          />
+        )}
 
         <ProductsObjectManager
           tenantProductStats={tenantProductStats}

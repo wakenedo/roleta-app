@@ -11,21 +11,14 @@ const TenantProductCatalog = ({
   tenantProductStats,
   loading,
   error,
-  setShowStats,
   showStats,
-  isMultipleSelectionMode,
   isMultipleProductsCheckoutVisible,
   isObjectCheckoutViewable,
-  isProductSelected,
-  noProductSelected,
-  multipleProductsSelected,
-  productSelected,
-  setProductSelected,
-  setMultipleProductsSelected,
-  setIsMultipleSelectionMode,
+  catalogSelectionState,
+  setShowStats,
+  setCatalogSelectionState,
   setIsMultipleProductsCheckoutVisible,
   setIsObjectCheckoutViewable,
-  setIsProductSelected,
 }: TenantProductCatalogProps) => {
   if (!products) return error;
   return (
@@ -39,12 +32,8 @@ const TenantProductCatalog = ({
               <div className="relative flex flex-col w-1/2">
                 <ProductGrid
                   products={products}
-                  multipleProductsSelected={multipleProductsSelected}
-                  productSelected={productSelected}
-                  setMultipleProductsSelected={setMultipleProductsSelected}
-                  setProductSelected={setProductSelected}
-                  setIsMultipleSelectionMode={setIsMultipleSelectionMode}
-                  setIsProductSelected={setIsProductSelected}
+                  catalogSelectionState={catalogSelectionState}
+                  setCatalogSelectionState={setCatalogSelectionState}
                 />
 
                 <TenantProductStatsToggleButton
@@ -88,12 +77,12 @@ const TenantProductCatalog = ({
                     isMultipleProductsCheckoutVisible
                   }
                   isObjectCheckoutViewable={isObjectCheckoutViewable}
+                  catalogSelectionState={catalogSelectionState}
                   setIsMultipleProductsCheckoutVisible={
                     setIsMultipleProductsCheckoutVisible
                   }
                   setIsObjectCheckoutViewable={setIsObjectCheckoutViewable}
-                  productSelected={productSelected}
-                  multipleProductsSelected={multipleProductsSelected}
+                  setCatalogSelectionState={setCatalogSelectionState}
                 />
               </div>
             </div>

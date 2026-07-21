@@ -3,10 +3,10 @@ import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useGlobalQuota } from "@/context/GlobalQuotaContext/GlobalQuotaContext";
 import { useTenantAuth } from "@/context/TenantAuthContext/TenantAuthContext";
 import { useTenant } from "@/context/TenantContext/TenantContext";
-import { TenantProduct } from "@/context/TenantContext/types";
 import { useTenantSeasonStats } from "@/hooks/useTenantSeasonStats";
 import { HeaderAndFooterInterface } from "@/Interfaces/HeaderAndFooterInterface";
 import { TenantAreaInterface } from "@/Interfaces/TenantAreaInterface";
+import { CatalogSelectionState } from "@/Interfaces/TenantAreaInterface/types";
 import { formatDateTime } from "@/utils/formatter-utils";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -21,18 +21,12 @@ const TenantArea = () => {
     useTenantSeasonStats(tenantIdentifier);
   const router = useRouter();
 
-  const [isMultipleSelectionMode, setIsMultipleSelectionMode] = useState(false);
-  const [multipleProductsSelected, setMultipleProductsSelected] = useState<
-    TenantProduct[]
-  >([]);
-  const [productSelected, setProductSelected] = useState<TenantProduct>();
-  const [
-    isMultipleProductsCheckoutVisible,
-    setIsMultipleProductsCheckoutVisible,
-  ] = useState(false);
-  const [isProductSelected, setIsProductSelected] = useState(false);
-  const [isObjectCheckoutViewable, setIsObjectCheckoutViewable] =
-    useState(false);
+  const [catalogSelectionState, setCatalogSelectionState] =
+    useState<CatalogSelectionState>({
+      selectionMode: "none",
+      productSelected: undefined,
+      multipleProductsSelected: [],
+    });
 
   const [activeTab, setActiveTab] = useState<"general" | "catalog" | "preview">(
     "general",
@@ -42,6 +36,14 @@ const TenantArea = () => {
   >(null);
   const [showStats, setShowStats] = useState(false);
 
+  const [
+    isMultipleProductsCheckoutVisible,
+    setIsMultipleProductsCheckoutVisible,
+  ] = useState(false);
+
+  const [isObjectCheckoutViewable, setIsObjectCheckoutViewable] =
+    useState(false);
+
   const closeModal = () => setActiveModal(null);
 
   const handleLogout = () => {
@@ -49,9 +51,6 @@ const TenantArea = () => {
     tenantLogout();
     router.push("/");
   };
-
-  const noProductSelected =
-    isProductSelected === false || isMultipleSelectionMode === false;
 
   const _seasonStats = seasonStats && seasonStats;
 
@@ -73,9 +72,11 @@ const TenantArea = () => {
     <HeaderAndFooterInterface>
       <TenantAreaInterface
         authorizedFetch={authorizedFetch}
+        globalRefresh={globalRefresh}
+        closeModal={closeModal}
+        handleLogout={handleLogout}
         error={error}
         globalQuotaLoading={globalQuotaLoading}
-        globalRefresh={globalRefresh}
         loading={loading}
         preview={preview}
         products={products}
@@ -85,10 +86,6 @@ const TenantArea = () => {
         seasonStatsLoading={seasonStatsLoading}
         activeTab={activeTab}
         activeModal={activeModal}
-        closeModal={closeModal}
-        handleLogout={handleLogout}
-        setActiveTab={setActiveTab}
-        setActiveModal={setActiveModal}
         createdAt={createdAt}
         formattedCreatedAt={formattedCreatedAt}
         registeredProductsAmount={registeredProductsAmount}
@@ -103,22 +100,17 @@ const TenantArea = () => {
         tenantStatus={tenantStatus}
         tenantSubscriptionMode={tenantSubscriptionMode}
         showStats={showStats}
-        setShowStats={setShowStats}
-        isMultipleSelectionMode={isMultipleSelectionMode}
         isMultipleProductsCheckoutVisible={isMultipleProductsCheckoutVisible}
         isObjectCheckoutViewable={isObjectCheckoutViewable}
-        isProductSelected={isProductSelected}
-        noProductSelected={noProductSelected}
-        setIsMultipleSelectionMode={setIsMultipleSelectionMode}
+        catalogSelectionState={catalogSelectionState}
+        setShowStats={setShowStats}
         setIsMultipleProductsCheckoutVisible={
           setIsMultipleProductsCheckoutVisible
         }
         setIsObjectCheckoutViewable={setIsObjectCheckoutViewable}
-        setIsProductSelected={setIsProductSelected}
-        multipleProductsSelected={multipleProductsSelected}
-        productSelected={productSelected}
-        setMultipleProductsSelected={setMultipleProductsSelected}
-        setProductSelected={setProductSelected}
+        setCatalogSelectionState={setCatalogSelectionState}
+        setActiveTab={setActiveTab}
+        setActiveModal={setActiveModal}
       />
     </HeaderAndFooterInterface>
   );
