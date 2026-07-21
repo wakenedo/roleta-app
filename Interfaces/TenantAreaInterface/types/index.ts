@@ -56,10 +56,7 @@ interface TenantAreaInterfaceProps {
   setIsMultipleProductsCheckoutVisible: Dispatch<SetStateAction<boolean>>;
   setIsObjectCheckoutViewable: Dispatch<SetStateAction<boolean>>;
   isObjectCheckoutViewable: boolean;
-  isProductSelected: boolean;
   isMultipleProductsCheckoutVisible: boolean;
-  isMultipleSelectionMode: boolean;
-  noProductSelected: boolean;
   catalogSelectionState: CatalogSelectionState;
   setCatalogSelectionState: Dispatch<SetStateAction<CatalogSelectionState>>;
 }
