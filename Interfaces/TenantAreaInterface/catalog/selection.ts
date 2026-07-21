@@ -1,24 +1,25 @@
 import { TenantProduct } from "@/context/TenantContext/types";
+import { CatalogSelectionState, HandleCatalogSelectionProps } from "../types";
 import {
-  CatalogSelectionSettersProps,
-  HandleCatalogSelectionProps,
-} from "../types";
-import { Dispatch, SetStateAction } from "react";
+  buildEmptySelection,
+  buildSingleSelection,
+  buildToggleMultipleSelection,
+} from "./builders";
+
+const initialCatalogSelectionState: CatalogSelectionState = {
+  selectionMode: "none",
+  productSelected: undefined,
+  multipleProductsSelected: [],
+};
 
 /**
- * Clears every catalog selection and resets the selection state.
+ * Clears every catalog selection.
  */
-const clearCatalogSelection = ({
-  setProductSelected,
-  setMultipleProductsSelected,
-  setIsMultipleSelectionMode,
-  setIsProductSelected,
-}: CatalogSelectionSettersProps) => {
-  setProductSelected(undefined);
-  setMultipleProductsSelected([]);
-  setIsMultipleSelectionMode(false);
-  setIsProductSelected(false);
-};
+const clearCatalogSelection = (): CatalogSelectionState => ({
+  selectionMode: "none",
+  productSelected: undefined,
+  multipleProductsSelected: [],
+});
 
 /**
  * Adds or removes a product from the current multiple selection.
@@ -40,34 +41,42 @@ const toggleCatalogProductSelection = (
 
 const handleCatalogSelection = ({
   product,
-  productSelected,
-  multipleProductsSelected,
-  setProductSelected,
-  setMultipleProductsSelected,
-  setIsProductSelected,
-  setIsMultipleSelectionMode,
+  catalogSelectionState,
+  setCatalogSelectionState,
 }: HandleCatalogSelectionProps) => {
-  // Clicking the already-selected product deselects it.
-  if (productSelected?.id === product.id) {
-    setProductSelected(undefined);
-    setIsProductSelected(false);
+  const current = catalogSelectionState.productSelected;
 
-    setMultipleProductsSelected([]);
-    setIsMultipleSelectionMode(false);
-
+  // Clicking the selected product deselects it.
+  if (current?.id === product.id) {
+    setCatalogSelectionState(buildEmptySelection());
     return;
   }
 
-  // Normal single selection.
-  setProductSelected(product);
-  setIsProductSelected(true);
+  // User previously enabled multiple-selection mode.
+  if (catalogSelectionState.selectionMode === "multiple") {
+    setCatalogSelectionState(
+      buildToggleMultipleSelection(product, catalogSelectionState),
+    );
+    return;
+  }
 
-  setMultipleProductsSelected([]);
-  setIsMultipleSelectionMode(false);
+  // Default behaviour.
+  setCatalogSelectionState(buildSingleSelection(product));
 };
 
+const enableMultipleSelectionMode = (
+  selection: CatalogSelectionState,
+): CatalogSelectionState => ({
+  ...selection,
+  selectionMode: "multiple",
+  productSelected: undefined,
+  multipleProductsSelected: [],
+});
+
 export {
+  initialCatalogSelectionState,
+  clearCatalogSelection,
   handleCatalogSelection,
   toggleCatalogProductSelection,
-  clearCatalogSelection,
+  enableMultipleSelectionMode,
 };

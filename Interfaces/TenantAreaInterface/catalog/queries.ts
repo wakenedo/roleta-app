@@ -1,30 +1,31 @@
 import { TenantProduct } from "@/context/TenantContext/types";
-import { CatalogSelectionMode } from "../types";
+import { CatalogSelectionMode, CatalogSelectionState } from "../types";
 
 /**
- * Returns whether a product should be rendered as selected,
- * supporting both single and multiple selection modes.
+ * Returns whether a product should be rendered as selected.
  */
 const isCatalogProductSelected = (
   product: TenantProduct,
-  productSelected?: TenantProduct,
-  multipleProductsSelected: TenantProduct[] = [],
+  selection: CatalogSelectionState,
 ) => {
-  if (productSelected?.id === product.id) return true;
-  return multipleProductsSelected.some(
-    (selectedProduct) => selectedProduct.id === product.id,
-  );
+  if (selection.productSelected?.id === product.id) {
+    return true;
+  }
+
+  return selection.multipleProductsSelected.some(({ id }) => id === product.id);
 };
 
+/**
+ * Returns the current catalog selection mode.
+ */
 const getCatalogSelectionMode = (
-  productSelected?: TenantProduct,
-  multipleProductsSelected: TenantProduct[] = [],
+  selection: CatalogSelectionState,
 ): CatalogSelectionMode => {
-  if (multipleProductsSelected.length > 0) {
+  if (selection.multipleProductsSelected.length > 0) {
     return "multiple";
   }
 
-  if (productSelected) {
+  if (selection.productSelected) {
     return "single";
   }
 
