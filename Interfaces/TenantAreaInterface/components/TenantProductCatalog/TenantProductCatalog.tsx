@@ -13,7 +13,7 @@ const TenantProductCatalog = ({
   error,
   setShowStats,
   showStats,
-  isMultipleProducts,
+  isMultipleSelectionMode,
   isMultipleProductsCheckoutVisible,
   isObjectCheckoutViewable,
   isProductSelected,
@@ -22,7 +22,7 @@ const TenantProductCatalog = ({
   productSelected,
   setProductSelected,
   setMultipleProductsSelected,
-  setIsMultipleProducts,
+  setIsMultipleSelectionMode,
   setIsMultipleProductsCheckoutVisible,
   setIsObjectCheckoutViewable,
   setIsProductSelected,
@@ -39,13 +39,11 @@ const TenantProductCatalog = ({
               <div className="relative flex flex-col w-1/2">
                 <ProductGrid
                   products={products}
-                  isMultipleProducts={isMultipleProducts}
                   multipleProductsSelected={multipleProductsSelected}
-                  noProductSelected={noProductSelected}
                   productSelected={productSelected}
                   setMultipleProductsSelected={setMultipleProductsSelected}
                   setProductSelected={setProductSelected}
-                  setIsMultipleProducts={setIsMultipleProducts}
+                  setIsMultipleSelectionMode={setIsMultipleSelectionMode}
                   setIsProductSelected={setIsProductSelected}
                 />
 
@@ -86,19 +84,14 @@ const TenantProductCatalog = ({
               <div className="flex flex-col w-1/2">
                 <ProductEditSection
                   tenantProductStats={tenantProductStats}
-                  isMultipleProducts={isMultipleProducts}
                   isMultipleProductsCheckoutVisible={
                     isMultipleProductsCheckoutVisible
                   }
                   isObjectCheckoutViewable={isObjectCheckoutViewable}
-                  isProductSelected={isProductSelected}
-                  noProductSelected={noProductSelected}
-                  setIsMultipleProducts={setIsMultipleProducts}
                   setIsMultipleProductsCheckoutVisible={
                     setIsMultipleProductsCheckoutVisible
                   }
                   setIsObjectCheckoutViewable={setIsObjectCheckoutViewable}
-                  setIsProductSelected={setIsProductSelected}
                   productSelected={productSelected}
                   multipleProductsSelected={multipleProductsSelected}
                 />

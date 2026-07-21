@@ -21,7 +21,7 @@ const TenantArea = () => {
     useTenantSeasonStats(tenantIdentifier);
   const router = useRouter();
 
-  const [isMultipleProducts, setIsMultipleProducts] = useState(false);
+  const [isMultipleSelectionMode, setIsMultipleSelectionMode] = useState(false);
   const [multipleProductsSelected, setMultipleProductsSelected] = useState<
     TenantProduct[]
   >([]);
@@ -51,7 +51,7 @@ const TenantArea = () => {
   };
 
   const noProductSelected =
-    isProductSelected === false || isMultipleProducts === false;
+    isProductSelected === false || isMultipleSelectionMode === false;
 
   const _seasonStats = seasonStats && seasonStats;
 
@@ -104,12 +104,12 @@ const TenantArea = () => {
         tenantSubscriptionMode={tenantSubscriptionMode}
         showStats={showStats}
         setShowStats={setShowStats}
-        isMultipleProducts={isMultipleProducts}
+        isMultipleSelectionMode={isMultipleSelectionMode}
         isMultipleProductsCheckoutVisible={isMultipleProductsCheckoutVisible}
         isObjectCheckoutViewable={isObjectCheckoutViewable}
         isProductSelected={isProductSelected}
         noProductSelected={noProductSelected}
-        setIsMultipleProducts={setIsMultipleProducts}
+        setIsMultipleSelectionMode={setIsMultipleSelectionMode}
         setIsMultipleProductsCheckoutVisible={
           setIsMultipleProductsCheckoutVisible
         }

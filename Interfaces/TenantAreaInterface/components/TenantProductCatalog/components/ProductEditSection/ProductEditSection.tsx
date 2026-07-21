@@ -4,28 +4,29 @@ import { ProductsObjectManager } from "./components/ProductsObjectManager";
 import { SingleProductSelection } from "./components/SingleProductSelection";
 import { NoProductSelected } from "./components/NoProductSelected";
 import { ProductEditSectionProps } from "@/Interfaces/TenantAreaInterface/types";
+import { getCatalogSelectionMode } from "@/Interfaces/TenantAreaInterface/catalog";
 
 const ProductEditSection = ({
   tenantProductStats,
   productSelected,
   multipleProductsSelected,
-  isMultipleProducts,
   isMultipleProductsCheckoutVisible,
   isObjectCheckoutViewable,
-  isProductSelected,
-  noProductSelected,
-  setIsMultipleProducts,
   setIsMultipleProductsCheckoutVisible,
   setIsObjectCheckoutViewable,
-  setIsProductSelected,
 }: ProductEditSectionProps) => {
   console.log("ProductsEditSection", tenantProductStats);
+
+  const selectionMode = getCatalogSelectionMode(
+    productSelected,
+    multipleProductsSelected,
+  );
 
   return (
     <>
       <TenantSectionMarker markerTitle="Configurações" />
       <div className="  flex flex-col  h-full py-2 px-1 space-y-2 ">
-        {!isMultipleProducts && multipleProductsSelected.length >= 2 && (
+        {selectionMode === "multiple" && (
           <MultipleProductsSelection
             isMultipleProductsCheckoutVisible={
               isMultipleProductsCheckoutVisible
@@ -35,12 +36,10 @@ const ProductEditSection = ({
             }
           />
         )}
-        {!isProductSelected && productSelected != undefined && (
+        {selectionMode === "single" && (
           <SingleProductSelection productSelected={productSelected} />
         )}
-        {noProductSelected && !isMultipleProducts && !isProductSelected && (
-          <NoProductSelected />
-        )}
+        {selectionMode === "none" && <NoProductSelected />}
 
         <ProductsObjectManager
           tenantProductStats={tenantProductStats}

@@ -39,12 +39,12 @@ const TenantAreaInterface = ({
   tenantSubscriptionMode,
   setShowStats,
   showStats,
-  isMultipleProducts,
+  isMultipleSelectionMode,
   isMultipleProductsCheckoutVisible,
   isObjectCheckoutViewable,
   isProductSelected,
   noProductSelected,
-  setIsMultipleProducts,
+  setIsMultipleSelectionMode,
   setIsMultipleProductsCheckoutVisible,
   setIsObjectCheckoutViewable,
   setIsProductSelected,
@@ -96,14 +96,14 @@ const TenantAreaInterface = ({
                 tenantProductStats={tenantProductStats}
                 setShowStats={setShowStats}
                 showStats={showStats}
-                isMultipleProducts={isMultipleProducts}
+                isMultipleSelectionMode={isMultipleSelectionMode}
                 isMultipleProductsCheckoutVisible={
                   isMultipleProductsCheckoutVisible
                 }
                 isObjectCheckoutViewable={isObjectCheckoutViewable}
                 isProductSelected={isProductSelected}
                 noProductSelected={noProductSelected}
-                setIsMultipleProducts={setIsMultipleProducts}
+                setIsMultipleSelectionMode={setIsMultipleSelectionMode}
                 setIsMultipleProductsCheckoutVisible={
                   setIsMultipleProductsCheckoutVisible
                 }

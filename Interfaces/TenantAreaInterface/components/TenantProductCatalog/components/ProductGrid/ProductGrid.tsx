@@ -2,19 +2,17 @@ import { TenantProductCatalogProductGridProps } from "@/Interfaces/TenantAreaInt
 import { TenantSectionMarker } from "@/components/TenantSectionMarker";
 import { ProductCard } from "../ProductCard";
 import {
-  handleProductCatalogClick,
+  handleCatalogSelection,
   isCatalogProductSelected,
-} from "@/Interfaces/TenantAreaInterface/utils/tenant-catalog-utils";
+} from "@/Interfaces/TenantAreaInterface/catalog";
 
 const ProductGrid = ({
   products,
-  isMultipleProducts,
   multipleProductsSelected,
-  noProductSelected,
   productSelected,
   setMultipleProductsSelected,
   setProductSelected,
-  setIsMultipleProducts,
+  setIsMultipleSelectionMode,
   setIsProductSelected,
 }: TenantProductCatalogProductGridProps) => {
   if (products === null) return null;
@@ -34,15 +32,15 @@ const ProductGrid = ({
                 multipleProductsSelected,
               )}
               onProductClick={() =>
-                handleProductCatalogClick(
+                handleCatalogSelection({
                   product,
                   productSelected,
                   multipleProductsSelected,
                   setMultipleProductsSelected,
                   setProductSelected,
-                  setIsMultipleProducts,
+                  setIsMultipleSelectionMode,
                   setIsProductSelected,
-                )
+                })
               }
             />
           );
