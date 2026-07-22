@@ -3,6 +3,7 @@ import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useGlobalQuota } from "@/context/GlobalQuotaContext/GlobalQuotaContext";
 import { useTenantAuth } from "@/context/TenantAuthContext/TenantAuthContext";
 import { useTenant } from "@/context/TenantContext/TenantContext";
+import { useCatalogVerification } from "@/hooks/useCatalogVerification";
 import { useTenantSeasonStats } from "@/hooks/useTenantSeasonStats";
 import { HeaderAndFooterInterface } from "@/Interfaces/HeaderAndFooterInterface";
 import { TenantAreaInterface } from "@/Interfaces/TenantAreaInterface";
@@ -20,6 +21,11 @@ const TenantArea = () => {
   const { seasonStats, loading: seasonStatsLoading } =
     useTenantSeasonStats(tenantIdentifier);
   const router = useRouter();
+  const {
+    verifyCatalog,
+    verification,
+    loading: _loading,
+  } = useCatalogVerification(tenant?.id as string);
 
   const [catalogSelectionState, setCatalogSelectionState] =
     useState<CatalogSelectionState>({
@@ -111,6 +117,9 @@ const TenantArea = () => {
         setCatalogSelectionState={setCatalogSelectionState}
         setActiveTab={setActiveTab}
         setActiveModal={setActiveModal}
+        verifyCatalog={verifyCatalog}
+        verification={verification}
+        verificationLoading={_loading}
       />
     </HeaderAndFooterInterface>
   );
