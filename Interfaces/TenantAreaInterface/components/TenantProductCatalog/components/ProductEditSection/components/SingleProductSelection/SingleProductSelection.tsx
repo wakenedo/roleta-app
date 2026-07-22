@@ -3,7 +3,16 @@ import { formatPriceBRL } from "@/utils/formatter-utils";
 
 const SingleProductSelection = ({
   productSelected,
+  verification,
+  verificationLoading,
+  verifyCatalog,
 }: SingleProductSelectionProps) => {
+  const handleVerify = async () => {
+    if (!productSelected) return;
+
+    await verifyCatalog([productSelected]);
+  };
+
   return (
     // * are  editable fields
     <div className=" shadow-inner bg-slate-100 w-full h-full py-2 px-2">
@@ -87,8 +96,13 @@ const SingleProductSelection = ({
             </div>
           </div>
           <div className="mx-2 px-2 text-slate-400 flex  space-x-2 border-t border-slate-200 py-1  tracking-wider  ">
-            <div className="flex  cursor-pointer text-xs hover:text-emerald-500  transition">
-              <span>Verificar</span>
+            <div
+              className="flex cursor-pointer text-xs hover:text-emerald-500 transition"
+              onClick={handleVerify}
+            >
+              <span>
+                {verificationLoading ? "Verificando..." : "Verificar"}
+              </span>
             </div>
 
             <div className="cursor-pointer text-xs hover:text-red-500 transition">
