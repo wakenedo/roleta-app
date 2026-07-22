@@ -1,14 +1,8 @@
-import { useState } from "react";
 import axios from "axios";
-
+import { useState } from "react";
 import { TenantProduct } from "@/context/TenantContext/types";
-
-interface VerifyCatalogResponse {
-  total: number;
-  validCount: number;
-  invalidCount: number;
-  results: unknown[];
-}
+import { VerifyCatalogResponse } from "./types";
+import { API_URL } from "@/enums";
 
 export const useCatalogVerification = (tenantId: string) => {
   const [loading, setLoading] = useState(false);
@@ -20,7 +14,7 @@ export const useCatalogVerification = (tenantId: string) => {
 
     try {
       const { data } = await axios.post(
-        `/api/tenants/${tenantId}/admin/catalog/verify`,
+        `${API_URL}/tenants/${tenantId}/admin/catalog/verify`,
         {
           products,
         },
