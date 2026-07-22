@@ -45,6 +45,9 @@ const TenantAreaInterface = ({
   setIsObjectCheckoutViewable,
   catalogSelectionState,
   setCatalogSelectionState,
+  verification,
+  verificationLoading,
+  verifyCatalog,
 }: TenantAreaInterfaceProps) => {
   return (
     <TenantSlotsDedicatedRouteBackground
@@ -99,6 +102,9 @@ const TenantAreaInterface = ({
                 setIsObjectCheckoutViewable={setIsObjectCheckoutViewable}
                 catalogSelectionState={catalogSelectionState}
                 setCatalogSelectionState={setCatalogSelectionState}
+                verification={verification}
+                verificationLoading={verificationLoading}
+                verifyCatalog={verifyCatalog}
               />
             )}
             {activeTab === "preview" && (

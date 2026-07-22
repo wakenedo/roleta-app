@@ -1,16 +1,13 @@
-import { Dispatch, SetStateAction } from "react";
 import { MultipleProductsCheckout } from "../MultipleProductsCheckout";
-import { CatalogSelectionState } from "@/Interfaces/TenantAreaInterface/types";
+import { MultipleProductsSelectionProps } from "@/Interfaces/TenantAreaInterface/types";
 
 const MultipleProductsSelection = ({
   setIsMultipleProductsCheckoutVisible,
   isMultipleProductsCheckoutVisible,
   catalogSelectionState,
-}: {
-  setIsMultipleProductsCheckoutVisible: Dispatch<SetStateAction<boolean>>;
-  isMultipleProductsCheckoutVisible: boolean;
-  catalogSelectionState: CatalogSelectionState;
-}) => {
+  verificationLoading,
+  verifyCatalog,
+}: MultipleProductsSelectionProps) => {
   console.log(
     "catalogSelectionState",
     catalogSelectionState.multipleProductsSelected,

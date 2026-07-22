@@ -19,6 +19,9 @@ const TenantProductCatalog = ({
   setCatalogSelectionState,
   setIsMultipleProductsCheckoutVisible,
   setIsObjectCheckoutViewable,
+  verification,
+  verificationLoading,
+  verifyCatalog,
 }: TenantProductCatalogProps) => {
   if (!products) return error;
   return (
@@ -83,6 +86,9 @@ const TenantProductCatalog = ({
                   }
                   setIsObjectCheckoutViewable={setIsObjectCheckoutViewable}
                   setCatalogSelectionState={setCatalogSelectionState}
+                  verification={verification}
+                  verificationLoading={verificationLoading}
+                  verifyCatalog={verifyCatalog}
                 />
               </div>
             </div>

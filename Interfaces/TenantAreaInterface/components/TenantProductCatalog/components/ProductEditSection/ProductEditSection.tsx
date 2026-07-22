@@ -14,6 +14,9 @@ const ProductEditSection = ({
   setIsMultipleProductsCheckoutVisible,
   setIsObjectCheckoutViewable,
   setCatalogSelectionState,
+  verification,
+  verificationLoading,
+  verifyCatalog,
 }: ProductEditSectionProps) => {
   console.log("ProductsEditSection", tenantProductStats);
 
@@ -25,6 +28,9 @@ const ProductEditSection = ({
       <div className="  flex flex-col  h-full py-2 px-1 space-y-2 ">
         {selectionMode === "multiple" && (
           <MultipleProductsSelection
+            verificationLoading={verificationLoading}
+            verification={verification}
+            verifyCatalog={verifyCatalog}
             catalogSelectionState={catalogSelectionState}
             isMultipleProductsCheckoutVisible={
               isMultipleProductsCheckoutVisible
@@ -36,7 +42,10 @@ const ProductEditSection = ({
         )}
         {selectionMode === "single" && (
           <SingleProductSelection
+            verifyCatalog={verifyCatalog}
             productSelected={catalogSelectionState.productSelected}
+            verification={verification}
+            verificationLoading={verificationLoading}
           />
         )}
         {selectionMode === "none" && (
