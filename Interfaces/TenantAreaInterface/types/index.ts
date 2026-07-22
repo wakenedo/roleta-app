@@ -101,6 +101,7 @@ interface ProductEditSectionProps {
   verifyCatalog: (products: TenantProduct[]) => Promise<VerifyCatalogResponse>;
   verification: VerifyCatalogResponse | null;
   verificationLoading: boolean;
+  products: TenantProduct[];
 }
 
 interface TenantPreviewMenuProps {
@@ -315,6 +316,15 @@ interface CatalogSelectionState {
   multipleProductsSelected: TenantProduct[];
 }
 
+interface ProductsObjectManagerProps {
+  tenantProductStats: ProductsStatsProps | undefined;
+  products: TenantProduct[];
+  verifyCatalog: (products: TenantProduct[]) => Promise<any>;
+  verificationLoading: boolean;
+  setIsObjectCheckoutViewable: Dispatch<SetStateAction<boolean>>;
+  isObjectCheckoutViewable: boolean;
+}
+
 export type {
   TenantAreaInterfaceProps,
   TenantCardProps,
@@ -349,4 +359,5 @@ export type {
   HandleCatalogSelectionProps,
   MultipleProductsSelectionProps,
   CatalogSelectionState,
+  ProductsObjectManagerProps,
 };

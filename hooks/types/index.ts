@@ -109,29 +109,65 @@ type CompletePaymentProps = {
   setStep: Dispatch<SetStateAction<TenantRegisterStep>>;
 };
 
+interface VerificationUrl {
+  valid: boolean;
+  originalUrl: string | null;
+  finalUrl: string | null;
+  redirected: boolean;
+  statusCode: number | null;
+  headers?: Record<string, string>;
+  error?: string | null;
+}
+
+interface ProviderVerification {
+  valid: boolean;
+  type: "provider";
+  url: string;
+  expected: string | null;
+  detected: string | null;
+  matches: boolean | null;
+}
+
+interface RedirectVerification {
+  valid: boolean;
+  type: "redirect";
+  redirected: boolean;
+  from: string;
+  to: string;
+}
+
+interface ProductExistsVerification {
+  valid: boolean;
+  type: "product";
+  exists: boolean;
+  reason: string | null;
+  statusCode: number | null;
+  finalUrl: string | null;
+}
+
+interface ProductVerification {
+  url: VerificationUrl;
+  provider: ProviderVerification;
+  redirect: RedirectVerification;
+  productExists: ProductExistsVerification;
+}
+
 interface VerificationResult {
   product: TenantProduct;
-  status: "valid" | "invalid";
-  warnings: string[];
+  status: "valid" | "invalid" | "warning";
+  valid: boolean;
   errors: string[];
-  verificationMetadata: {
-    url: {
-      valid: boolean;
-      status?: number;
-      redirected?: boolean;
-      finalUrl?: string;
-      error?: string;
-    };
-  };
+  warnings: string[];
+  verification: ProductVerification;
 }
 
 interface VerifyCatalogResponse {
   total: number;
   validCount: number;
   invalidCount: number;
-  results: VerificationResult;
+  warnings: string[];
+  results: VerificationResult[];
 }
-
 export type {
   RawProductsProps,
   StepHeaderProps,
