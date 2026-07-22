@@ -8,11 +8,13 @@ const MultipleProductsSelection = ({
   verificationLoading,
   verifyCatalog,
 }: MultipleProductsSelectionProps) => {
-  console.log(
-    "catalogSelectionState",
-    catalogSelectionState.multipleProductsSelected,
-  );
   const selectedProducts = catalogSelectionState.multipleProductsSelected;
+  const handleVerify = async () => {
+    if (!selectedProducts.length) return;
+
+    await verifyCatalog(selectedProducts);
+  };
+
   return (
     <div className=" shadow-inner bg-slate-100 h-full w-full py-2 px-2">
       <div className="drop-shadow  flex flex-col justify-between space-y-2  h-full">
@@ -70,8 +72,13 @@ const MultipleProductsSelection = ({
           </div>
           {isMultipleProductsCheckoutVisible && <MultipleProductsCheckout />}
           <div className="text-slate-400 flex space-x-2 border-t border-slate-200 py-1 px-2 tracking-wider  ">
-            <div className="flex  cursor-pointer text-xs hover:text-emerald-500 transition">
-              <span>Verificar</span>
+            <div
+              className="flex cursor-pointer text-xs hover:text-emerald-500 transition"
+              onClick={handleVerify}
+            >
+              <span>
+                {verificationLoading ? "Verificando..." : "Verificar"}
+              </span>
             </div>
             <div className="cursor-pointer text-xs hover:text-amber-500 transition">
               <span>Editar</span>
