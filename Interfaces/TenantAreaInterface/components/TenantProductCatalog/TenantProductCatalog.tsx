@@ -89,6 +89,7 @@ const TenantProductCatalog = ({
                   verification={verification}
                   verificationLoading={verificationLoading}
                   verifyCatalog={verifyCatalog}
+                  products={products}
                 />
               </div>
             </div>

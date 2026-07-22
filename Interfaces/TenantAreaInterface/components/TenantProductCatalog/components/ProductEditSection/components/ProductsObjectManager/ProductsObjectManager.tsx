@@ -1,17 +1,21 @@
-import { ProductsStatsProps } from "@/context/TenantContext/types";
 import { ObjectManagerCheckout } from "../ObjectManagerCheckout";
-import { Dispatch, SetStateAction } from "react";
 import { BsExclamationTriangle } from "react-icons/bs";
+import { ProductsObjectManagerProps } from "@/Interfaces/TenantAreaInterface/types";
 
 const ProductsObjectManager = ({
   tenantProductStats,
   isObjectCheckoutViewable,
+  products,
+  verificationLoading,
+  verifyCatalog,
   setIsObjectCheckoutViewable,
-}: {
-  tenantProductStats: ProductsStatsProps | undefined;
-  setIsObjectCheckoutViewable: Dispatch<SetStateAction<boolean>>;
-  isObjectCheckoutViewable: boolean;
-}) => {
+}: ProductsObjectManagerProps) => {
+  const handleVerify = async () => {
+    if (!products.length) return;
+
+    await verifyCatalog(products);
+  };
+
   const totalUploadedProducts = tenantProductStats?.total;
   const productsLimit = tenantProductStats?.limit;
   const isProductsOnLimit = totalUploadedProducts === productsLimit;
@@ -57,8 +61,11 @@ const ProductsObjectManager = ({
             </div>
           )}
 
-          <div className="flex  cursor-pointer text-xs hover:text-emerald-500  transition">
-            <span>Verificar</span>
+          <div
+            className="flex cursor-pointer text-xs hover:text-emerald-500 transition"
+            onClick={handleVerify}
+          >
+            <span>{verificationLoading ? "Verificando..." : "Verificar"}</span>
           </div>
 
           <div className="cursor-pointer text-xs hover:text-red-500 transition">

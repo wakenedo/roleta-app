@@ -17,6 +17,7 @@ const ProductEditSection = ({
   verification,
   verificationLoading,
   verifyCatalog,
+  products,
 }: ProductEditSectionProps) => {
   console.log("ProductsEditSection", tenantProductStats);
 
@@ -59,6 +60,9 @@ const ProductEditSection = ({
           tenantProductStats={tenantProductStats}
           setIsObjectCheckoutViewable={setIsObjectCheckoutViewable}
           isObjectCheckoutViewable={isObjectCheckoutViewable}
+          products={products}
+          verificationLoading={verificationLoading}
+          verifyCatalog={verifyCatalog}
         />
       </div>
     </>
