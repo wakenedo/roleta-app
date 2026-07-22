@@ -8,6 +8,7 @@ import {
   TenantProduct,
   TenantSpinPool,
 } from "@/context/TenantContext/types";
+import { VerifyCatalogResponse } from "@/hooks/types";
 import { Dispatch, SetStateAction } from "react";
 
 interface AuthorizedFetchProps {
@@ -59,6 +60,10 @@ interface TenantAreaInterfaceProps {
   isMultipleProductsCheckoutVisible: boolean;
   catalogSelectionState: CatalogSelectionState;
   setCatalogSelectionState: Dispatch<SetStateAction<CatalogSelectionState>>;
+
+  verifyCatalog: (products: TenantProduct[]) => Promise<VerifyCatalogResponse>;
+  verification: VerifyCatalogResponse | null;
+  verificationLoading: boolean;
 }
 
 interface TenantPreviewContentProps {
@@ -93,6 +98,9 @@ interface ProductEditSectionProps {
   isObjectCheckoutViewable: boolean;
   catalogSelectionState: CatalogSelectionState;
   isMultipleProductsCheckoutVisible: boolean;
+  verifyCatalog: (products: TenantProduct[]) => Promise<VerifyCatalogResponse>;
+  verification: VerifyCatalogResponse | null;
+  verificationLoading: boolean;
 }
 
 interface TenantPreviewMenuProps {
@@ -214,6 +222,9 @@ interface TenantProductCatalogProps {
   isMultipleProductsCheckoutVisible: boolean;
   catalogSelectionState: CatalogSelectionState;
   setCatalogSelectionState: Dispatch<SetStateAction<CatalogSelectionState>>;
+  verification: VerifyCatalogResponse | null;
+  verifyCatalog: (products: TenantProduct[]) => Promise<VerifyCatalogResponse>;
+  verificationLoading: boolean;
 }
 
 interface TenantProductCatalogProductCard {
@@ -276,6 +287,18 @@ type CatalogSelectionSettersProps = {
 
 type SingleProductSelectionProps = {
   productSelected: TenantProduct | undefined;
+  verifyCatalog: (products: TenantProduct[]) => Promise<VerifyCatalogResponse>;
+  verification: VerifyCatalogResponse | null;
+  verificationLoading: boolean;
+};
+
+type MultipleProductsSelectionProps = {
+  verifyCatalog: (products: TenantProduct[]) => Promise<VerifyCatalogResponse>;
+  verificationLoading: boolean;
+  setIsMultipleProductsCheckoutVisible: Dispatch<SetStateAction<boolean>>;
+  isMultipleProductsCheckoutVisible: boolean;
+  catalogSelectionState: CatalogSelectionState;
+  verification: VerifyCatalogResponse | null;
 };
 
 type CatalogSelectionMode = "none" | "single" | "multiple";
@@ -324,5 +347,6 @@ export type {
   SingleProductSelectionProps,
   CatalogSelectionMode,
   HandleCatalogSelectionProps,
+  MultipleProductsSelectionProps,
   CatalogSelectionState,
 };
