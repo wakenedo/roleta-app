@@ -109,6 +109,29 @@ type CompletePaymentProps = {
   setStep: Dispatch<SetStateAction<TenantRegisterStep>>;
 };
 
+interface VerificationResult {
+  product: TenantProduct;
+  status: "valid" | "invalid";
+  warnings: string[];
+  errors: string[];
+  verificationMetadata: {
+    url: {
+      valid: boolean;
+      status?: number;
+      redirected?: boolean;
+      finalUrl?: string;
+      error?: string;
+    };
+  };
+}
+
+interface VerifyCatalogResponse {
+  total: number;
+  validCount: number;
+  invalidCount: number;
+  results: VerificationResult;
+}
+
 export type {
   RawProductsProps,
   StepHeaderProps,
@@ -124,4 +147,5 @@ export type {
   CompletePaymentProps,
   ReceivedJsonPreviewProps,
   ReceivedCsvPreviewProps,
+  VerifyCatalogResponse,
 };
