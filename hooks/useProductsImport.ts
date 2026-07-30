@@ -61,7 +61,10 @@ export const useProductsImport = ({
     return true;
   };
 
-  const handleFileUpload = async (file: File) => {
+  const handleFileUpload = async (
+    file: File,
+    path: "onboard" | "admin/catalog",
+  ) => {
     setErrors([]);
     setFileName(file.name);
     setFile(file);
@@ -69,6 +72,7 @@ export const useProductsImport = ({
     if (file.name.endsWith(".json") && importProductsJSON) {
       const jPreview = (await importProductsJSON(
         file,
+        path,
         true,
       )) as ReceivedJsonPreviewProps;
       if (jPreview.products.length > MAX_PRODUCTS) {
@@ -81,13 +85,25 @@ export const useProductsImport = ({
       setProducts(productsArray);
       setJsonPreview(jPreview);
     }
+
     if (file.name.endsWith(".csv") && importProductsCSV) {
       const cPreview = (await importProductsCSV(
         file,
+        path,
         true,
       )) as ReceivedCsvPreviewProps;
       setCsvPreview(cPreview);
     }
+  };
+
+  const clearImport = () => {
+    setProducts([]);
+    setCsvPreview(null);
+    setJsonPreview(null);
+    setFile(null);
+    setFileName(null);
+    setErrors([]);
+    setIsValidated(false);
   };
 
   return {
@@ -108,5 +124,6 @@ export const useProductsImport = ({
     page,
     paginatedProducts,
     pagination,
+    clearImport,
   };
 };
