@@ -49,8 +49,16 @@ type UseProductsImportsProps = {
     name: string;
     price: string;
   };
-  importProductsCSV?: (file: File, dryRun?: boolean) => Promise<unknown>;
-  importProductsJSON?: (file: File, dryRun?: boolean) => Promise<unknown>;
+  importProductsCSV: (
+    file: File,
+    path: "onboard" | "admin/catalog",
+    dryRun?: boolean,
+  ) => Promise<any>;
+  importProductsJSON: (
+    file: File,
+    path: "onboard" | "admin/catalog",
+    dryRun?: boolean,
+  ) => Promise<any>;
 };
 
 type CsvPreviewProps = {

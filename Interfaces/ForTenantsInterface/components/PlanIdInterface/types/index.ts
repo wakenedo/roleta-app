@@ -25,7 +25,10 @@ type PlanIdInterfaceProps = {
   registerTenant: (name: string) => Promise<void>;
   completePayment: () => Promise<void>;
   saveBranding: (branding: TenantBranding, file?: File) => Promise<void>;
-  saveProducts: (products: TenantProduct[]) => Promise<void>;
+  saveProducts: (
+    products: TenantProduct[],
+    path: "onboard" | "admin/catalog",
+  ) => Promise<void>;
   resolveComplete: () => Promise<void>;
   setName: Dispatch<SetStateAction<string>>;
   setEmail: Dispatch<SetStateAction<string>>;
@@ -41,8 +44,16 @@ type PlanIdInterfaceProps = {
     }>
   >;
   importProducts: (products: TenantProduct[]) => Promise<void>;
-  importProductsCSV: (file: File, dryRun?: boolean) => Promise<unknown>;
-  importProductsJSON: (file: File, dryRun?: boolean) => Promise<unknown>;
+  importProductsCSV: (
+    file: File,
+    path: "onboard" | "admin/catalog",
+    dryRun?: boolean,
+  ) => Promise<unknown>;
+  importProductsJSON: (
+    file: File,
+    path: "onboard" | "admin/catalog",
+    dryRun?: boolean,
+  ) => Promise<unknown>;
   checkEmailVerification: () => Promise<void>;
   createAndSendVerification: () => Promise<void>;
   checkingVerification: boolean;
@@ -108,7 +119,10 @@ type ForTenantsInterfaceProps = {
   registerTenant: (name: string) => Promise<void>;
   completePayment: () => Promise<void>;
   saveBranding: (branding: TenantBranding, file?: File) => Promise<void>;
-  saveProducts: (products: TenantProduct[]) => Promise<void>;
+  saveProducts: (
+    products: TenantProduct[],
+    path: "onboard" | "admin/catalog",
+  ) => Promise<void>;
   resolveComplete: () => Promise<void>;
   setName: Dispatch<SetStateAction<string>>;
   setEmail: Dispatch<SetStateAction<string>>;
@@ -124,8 +138,16 @@ type ForTenantsInterfaceProps = {
     }>
   >;
   importProducts: (products: TenantProduct[]) => Promise<void>;
-  importProductsCSV: (file: File, dryRun?: boolean) => Promise<unknown>;
-  importProductsJSON: (file: File, dryRun?: boolean) => Promise<unknown>;
+  importProductsCSV: (
+    file: File,
+    path: "onboard" | "admin/catalog",
+    dryRun?: boolean,
+  ) => Promise<unknown>;
+  importProductsJSON: (
+    file: File,
+    path: "onboard" | "admin/catalog",
+    dryRun?: boolean,
+  ) => Promise<unknown>;
   checkEmailVerification: () => Promise<void>;
   createAndSendVerification: () => Promise<void>;
   checkingVerification: boolean;
@@ -280,11 +302,22 @@ type ProductsStepProps = {
     name: string;
     price: string;
   };
-  onSave: (products: TenantProduct[]) => void;
+  onSave: (
+    products: TenantProduct[],
+    path: "onboard" | "admin/catalog",
+  ) => void;
   setStepHeader: Dispatch<SetStateAction<StepHeaderProps>>;
   importProducts: (products: TenantProduct[]) => Promise<void>;
-  importProductsCSV: (file: File, dryRun?: boolean) => Promise<unknown>;
-  importProductsJSON: (file: File, dryRun?: boolean) => Promise<unknown>;
+  importProductsCSV: (
+    file: File,
+    path: "onboard" | "admin/catalog",
+    dryRun?: boolean,
+  ) => Promise<unknown>;
+  importProductsJSON: (
+    file: File,
+    path: "onboard" | "admin/catalog",
+    dryRun?: boolean,
+  ) => Promise<unknown>;
   productsImported: ProductsImportedProps;
   pickProducts: TenantProduct[];
   setProducts: Dispatch<SetStateAction<TenantProduct[]>>;
@@ -295,6 +328,7 @@ type ProductsStepProps = {
 
 type ProductsImportedProps = {
   file: File | null;
+
   csvPreview: {
     preview: unknown[];
     errors: string[];
@@ -314,7 +348,10 @@ type ProductsImportedProps = {
   products: TenantProduct[];
   errors: string[];
   isValidated: boolean;
-  handleFileUpload: (file: File) => Promise<void>;
+  handleFileUpload: (
+    file: File,
+    path: "onboard" | "admin/catalog",
+  ) => Promise<void>;
   validateProducts: () => boolean;
   updateProducts: Dispatch<SetStateAction<TenantProduct[]>>;
   setPage: Dispatch<SetStateAction<number>>;
@@ -338,8 +375,16 @@ type AddProductsContentProps = {
   };
   productsImported: ProductsImportedProps;
   importProducts: (products: TenantProduct[]) => Promise<void>;
-  importProductsCSV: (file: File, dryRun?: boolean) => Promise<unknown>;
-  importProductsJSON: (file: File, dryRun?: boolean) => Promise<unknown>;
+  importProductsCSV: (
+    file: File,
+    path: "onboard" | "admin/catalog",
+    dryRun?: boolean,
+  ) => Promise<unknown>;
+  importProductsJSON: (
+    file: File,
+    path: "onboard" | "admin/catalog",
+    dryRun?: boolean,
+  ) => Promise<unknown>;
   setProducts: Dispatch<SetStateAction<TenantProduct[]>>;
   products: TenantProduct[];
   handleSubmitProducts: () => Promise<void>;
@@ -348,7 +393,10 @@ type AddProductsContentProps = {
 
 type CompleteProductsStepButtonProps = {
   products: TenantProduct[];
-  onSave: (products: TenantProduct[]) => void;
+  onSave: (
+    products: TenantProduct[],
+    path: "onboard" | "admin/catalog",
+  ) => void;
   areProductsValidated: boolean;
 };
 
@@ -358,7 +406,10 @@ type SaveProductsButtonProps = {
 };
 
 type HandleFileUploadInputProps = {
-  handleFileUpload: (file: File) => Promise<void>;
+  handleFileUpload: (
+    file: File,
+    path: "onboard" | "admin/catalog",
+  ) => Promise<void>;
   fileName: string | null;
   errors: string[];
 };
@@ -447,4 +498,5 @@ export type {
   TenantEmailInputProps,
   ForTenantsInterfaceProps,
   TenantPasswordInputProps,
+  ProductsImportedProps,
 };
