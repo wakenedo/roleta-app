@@ -48,6 +48,15 @@ const TenantAreaInterface = ({
   verification,
   verificationLoading,
   verifyCatalog,
+  handleFileUpload,
+  handleCatalogSubmitProducts,
+  pickProducts,
+  previewProducts,
+  productsImported,
+  isProductsPreviewTableOpen,
+  setIsProductsPreviewTableOpen,
+  updateProducts,
+  handlePreviewTableCancel,
 }: TenantAreaInterfaceProps) => {
   return (
     <TenantSlotsDedicatedRouteBackground
@@ -105,6 +114,16 @@ const TenantAreaInterface = ({
                 verification={verification}
                 verificationLoading={verificationLoading}
                 verifyCatalog={verifyCatalog}
+                handleFileUpload={handleFileUpload}
+                handleCatalogSubmitProducts={handleCatalogSubmitProducts}
+                pickProducts={pickProducts}
+                previewProducts={previewProducts}
+                productsImported={productsImported}
+                isProductsPreviewTableOpen={isProductsPreviewTableOpen}
+                setIsProductsPreviewTableOpen={setIsProductsPreviewTableOpen}
+                tenantSubscriptionMode={tenantSubscriptionMode}
+                updateProducts={updateProducts}
+                handlePreviewTableCancel={handlePreviewTableCancel}
               />
             )}
             {activeTab === "preview" && (

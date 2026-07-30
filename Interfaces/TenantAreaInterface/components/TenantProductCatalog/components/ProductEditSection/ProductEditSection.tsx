@@ -12,12 +12,19 @@ const ProductEditSection = ({
   isMultipleProductsCheckoutVisible,
   isObjectCheckoutViewable,
   setIsMultipleProductsCheckoutVisible,
+  setIsProductsPreviewTableOpen,
   setIsObjectCheckoutViewable,
   setCatalogSelectionState,
   verification,
   verificationLoading,
   verifyCatalog,
   products,
+  pickProducts,
+  previewProducts,
+  productsImported,
+  handleFileUpload,
+  handleCatalogSubmitProducts, //Used by Modal || ProductsPreviewTable
+  isProductsPreviewTableOpen,
 }: ProductEditSectionProps) => {
   console.log("ProductsEditSection", tenantProductStats);
 
@@ -58,11 +65,15 @@ const ProductEditSection = ({
 
         <ProductsObjectManager
           tenantProductStats={tenantProductStats}
-          setIsObjectCheckoutViewable={setIsObjectCheckoutViewable}
           isObjectCheckoutViewable={isObjectCheckoutViewable}
           products={products}
           verificationLoading={verificationLoading}
           verifyCatalog={verifyCatalog}
+          handleFileUpload={handleFileUpload}
+          pickProducts={pickProducts}
+          previewProducts={previewProducts}
+          productsImported={productsImported}
+          setIsProductsPreviewTableOpen={setIsProductsPreviewTableOpen}
         />
       </div>
     </>
