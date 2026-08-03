@@ -82,14 +82,14 @@ const ForTenants = () => {
     importProductsJSON,
   });
 
-  const { validateProducts, file } = productsImported;
+  const { validateProducts, file, clearImport } = productsImported;
 
   const handleSubmitProducts = async () => {
     if (!file) return;
 
     // 🧾 CSV FLOW
     if (file.name.endsWith(".csv")) {
-      const result = (await importProductsCSV(file, false)) as {
+      const result = (await importProductsCSV(file, "onboard", false)) as {
         imported: number;
         products: TenantProduct[];
       };
@@ -97,10 +97,11 @@ const ForTenants = () => {
       console.log("Imported ✔", result);
       validateProducts();
       alert(`Imported ${result.imported} products`);
+      clearImport();
       return;
     }
     if (file.name.endsWith(".json")) {
-      const result = (await importProductsJSON(file, false)) as {
+      const result = (await importProductsJSON(file, "onboard", false)) as {
         imported: number;
         products: TenantProduct[];
       };
@@ -108,6 +109,7 @@ const ForTenants = () => {
       console.log("Imported ✔", result);
       validateProducts();
       alert(`Imported ${result.imported} products`);
+      clearImport();
       return;
     }
 
@@ -177,65 +179,65 @@ const ForTenants = () => {
       <AreaBackground>
         <ForTenantsInterface
           planId={planId}
-          checkEmailVerification={checkEmailVerification}
-          checkingVerification={checkingVerification}
-          completePayment={completePayment}
-          createAndSendVerification={createAndSendVerification}
+          error={error}
+          tenant={tenant}
+          selectedPlan={selectedPlan}
+          tenantSubscription={tenantSubscription}
+          currentTenantPlan={CURRENT_TENANT_PLAN}
+          tenantMaxedPlan={tenantMaxedPlan}
+          primaryColor={primaryColor}
+          logoUrl={logoUrl}
+          showToS={showToS}
+          acceptedToS={acceptedToS}
+          step={step}
+          stepHeader={stepHeader}
+          name={name}
+          nameValue={nameValue}
           email={email}
+          emailValue={emailValue}
+          validEmail={validEmail}
+          isEmailVerified={isEmailVerified}
+          showMatchState={showMatchState}
+          password={password}
+          showPassword={showPassword}
+          strengthMeta={strengthMeta}
+          passwordsMatch={passwordsMatch}
+          confirmPassword={confirmPassword}
+          isPasswordValid={isPasswordValid}
+          loading={loading}
+          showValidation={showValidation}
+          validations={validations}
+          checkingVerification={checkingVerification}
+          products={products}
+          pickProducts={pickProducts}
+          previewProducts={previewProducts}
+          productsImported={productsImported}
+          completePayment={completePayment}
           handleAcceptToS={handleAcceptToS}
+          checkEmailVerification={checkEmailVerification}
+          createAndSendVerification={createAndSendVerification}
+          handleChange={handleChange}
+          handleNameChange={handleNameChange}
           importProducts={importProducts}
           importProductsCSV={importProductsCSV}
           importProductsJSON={importProductsJSON}
-          isEmailVerified={isEmailVerified}
-          isPasswordValid={isPasswordValid}
-          logoUrl={logoUrl}
-          name={name}
-          password={password}
-          passwordsMatch={passwordsMatch}
-          pickProducts={pickProducts}
-          primaryColor={primaryColor}
-          productsImported={productsImported}
           registerTenant={registerTenant}
-          validations={validations}
-          stepHeader={stepHeader}
-          step={step}
           saveBranding={saveBranding}
-          setEmail={setEmail}
           resolveComplete={resolveComplete}
           saveProducts={saveProducts}
-          selectedPlan={selectedPlan}
           setLogoUrl={setLogoUrl}
+          setEmail={setEmail}
           setName={setName}
           setPassword={setPassword}
           setPrimaryColor={setPrimaryColor}
           setSelectedPlan={setSelectedPlan}
           setStepHeader={setStepHeader}
-          loading={loading}
-          error={error}
-          acceptedToS={acceptedToS}
           setConfirmPassword={setConfirmPassword}
           setShowPassword={setShowPassword}
-          showPassword={showPassword}
-          showToS={showToS}
-          confirmPassword={confirmPassword}
-          products={products}
           setShowToS={setShowToS}
-          tenant={tenant}
-          tenantSubscription={tenantSubscription}
           handleSubmitProducts={handleSubmitProducts}
-          previewProducts={previewProducts}
           setProducts={setProducts}
-          currentTenantPlan={CURRENT_TENANT_PLAN}
-          tenantMaxedPlan={tenantMaxedPlan}
-          emailValue={emailValue}
           setEmailValue={setEmailValue}
-          handleChange={handleChange}
-          validEmail={validEmail}
-          showValidation={showValidation}
-          strengthMeta={strengthMeta}
-          showMatchState={showMatchState}
-          handleNameChange={handleNameChange}
-          nameValue={nameValue}
         />
       </AreaBackground>
     </HeaderAndFooterInterface>

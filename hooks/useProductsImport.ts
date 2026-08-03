@@ -1,7 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { TenantProduct } from "@/context/TenantContext/types";
+import {
+  TenantCatalogItem,
+  TenantProduct,
+} from "@/context/TenantContext/types";
 import {
   getPaginationMeta,
   paginateProducts,
@@ -27,6 +30,11 @@ export const useProductsImport = ({
   const [jsonPreview, setJsonPreview] = useState<JsonPreviewProps>(null);
   const [fileName, setFileName] = useState<string | null>(null);
   const [products, setProducts] = useState<TenantProduct[]>([]);
+  const [catalogItems, setCatalogItems] = useState<TenantCatalogItem[]>([]);
+  const [catalogItemsJsonResponse, setCatalogItemsJsonResponse] =
+    useState<ReceivedJsonPreviewProps | null>(null);
+  const [catalogItemsCsvResponse, setCatalogItemsCsvResponse] =
+    useState<ReceivedCsvPreviewProps | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
   const [isValidated, setIsValidated] = useState(false);
   const [page, setPage] = useState(1);
@@ -61,7 +69,10 @@ export const useProductsImport = ({
     return true;
   };
 
-  const handleFileUpload = async (file: File) => {
+  const handleFileUpload = async (
+    file: File,
+    path: "onboard" | "admin/catalog",
+  ) => {
     setErrors([]);
     setFileName(file.name);
     setFile(file);
@@ -69,25 +80,55 @@ export const useProductsImport = ({
     if (file.name.endsWith(".json") && importProductsJSON) {
       const jPreview = (await importProductsJSON(
         file,
+        path,
         true,
       )) as ReceivedJsonPreviewProps;
+      console.log("jPreview", jPreview);
       if (jPreview.products.length > MAX_PRODUCTS) {
         setErrors([`Plan allows only ${MAX_PRODUCTS} products`]);
         return;
       }
+
       const productsArray =
         jPreview.products as ReceivedJsonPreviewProps["products"];
-
+      const catalogItemArray =
+        jPreview.items as ReceivedJsonPreviewProps["items"];
+      setCatalogItemsJsonResponse(jPreview);
+      setCatalogItems(catalogItemArray);
       setProducts(productsArray);
       setJsonPreview(jPreview);
     }
+
     if (file.name.endsWith(".csv") && importProductsCSV) {
       const cPreview = (await importProductsCSV(
         file,
+        path,
         true,
       )) as ReceivedCsvPreviewProps;
+      if (cPreview.products.length > MAX_PRODUCTS) {
+        setErrors([`Plan allows only ${MAX_PRODUCTS} products`]);
+        return;
+      }
+      const productsArray =
+        cPreview.products as ReceivedCsvPreviewProps["products"];
+      const catalogItemArray =
+        cPreview.items as ReceivedCsvPreviewProps["items"];
+      setCatalogItemsCsvResponse(cPreview);
+      setCatalogItems(catalogItemArray);
+      setProducts(productsArray);
       setCsvPreview(cPreview);
     }
+  };
+
+  const clearImport = () => {
+    setCatalogItems([]);
+    setProducts([]);
+    setCsvPreview(null);
+    setJsonPreview(null);
+    setFile(null);
+    setFileName(null);
+    setErrors([]);
+    setIsValidated(false);
   };
 
   return {
@@ -104,9 +145,14 @@ export const useProductsImport = ({
     handleFileUpload,
     validateProducts,
     updateProducts: setProducts,
+    setCatalogItems,
+    catalogItems,
+    catalogItemsJsonResponse,
+    catalogItemsCsvResponse,
     setPage,
     page,
     paginatedProducts,
     pagination,
+    clearImport,
   };
 };

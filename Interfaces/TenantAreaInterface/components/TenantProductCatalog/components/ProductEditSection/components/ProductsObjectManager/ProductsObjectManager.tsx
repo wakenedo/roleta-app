@@ -1,18 +1,42 @@
-import { ProductsStatsProps } from "@/context/TenantContext/types";
 import { ObjectManagerCheckout } from "../ObjectManagerCheckout";
-import { Dispatch, SetStateAction } from "react";
 import { BsExclamationTriangle } from "react-icons/bs";
+import { ProductsObjectManagerProps } from "@/Interfaces/TenantAreaInterface/types";
+import { useRef } from "react";
 
 const ProductsObjectManager = ({
   tenantProductStats,
   isObjectCheckoutViewable,
-  setIsObjectCheckoutViewable,
-}: {
-  tenantProductStats: ProductsStatsProps | undefined;
-  setIsObjectCheckoutViewable: Dispatch<SetStateAction<boolean>>;
-  isObjectCheckoutViewable: boolean;
-}) => {
-  const totalUploadedProducts = tenantProductStats?.total;
+  products,
+  verificationLoading,
+  verifyCatalog,
+  handleFileUpload,
+  setIsProductsPreviewTableOpen,
+  pickProducts,
+  previewProducts,
+  productsImported,
+}: ProductsObjectManagerProps) => {
+  const handleVerify = async () => {
+    if (!products.length) return;
+
+    await verifyCatalog(products);
+  };
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleAddClick = () => {
+    setIsProductsPreviewTableOpen(true);
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+
+    if (!file) return;
+    setIsProductsPreviewTableOpen(true);
+    await handleFileUpload(file, "admin/catalog");
+  };
+
+  const totalUploadedProducts = products.length;
   const productsLimit = tenantProductStats?.limit;
   const isProductsOnLimit = totalUploadedProducts === productsLimit;
 
@@ -32,11 +56,17 @@ const ProductsObjectManager = ({
               </div>
             )}
           </div>
-          {isObjectCheckoutViewable && <ObjectManagerCheckout />}
+          {isObjectCheckoutViewable && (
+            <ObjectManagerCheckout
+              pickProducts={pickProducts}
+              previewProducts={previewProducts}
+              productsImported={productsImported}
+            />
+          )}
           <span
             className={`${!isProductsOnLimit && "text-amber-500"} text-2xl  text-right`}
           >
-            {tenantProductStats?.active}/{tenantProductStats?.limit}
+            {products.length}/{tenantProductStats?.limit}
           </span>
         </div>
 
@@ -50,15 +80,23 @@ const ProductsObjectManager = ({
             </div>
           ) : (
             <div className="flex  cursor-pointer text-xs  hover:text-[#84e9e4] transition">
-              <span>
-                {/*Aparece apenas quando falta produtos*/}
-                Adicionar
-              </span>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".csv,.json"
+                hidden
+                onChange={handleFileChange}
+              />
+
+              <div onClick={handleAddClick}>Adicionar</div>
             </div>
           )}
 
-          <div className="flex  cursor-pointer text-xs hover:text-emerald-500  transition">
-            <span>Verificar</span>
+          <div
+            className="flex cursor-pointer text-xs hover:text-emerald-500 transition"
+            onClick={handleVerify}
+          >
+            <span>{verificationLoading ? "Verificando..." : "Verificar"}</span>
           </div>
 
           <div className="cursor-pointer text-xs hover:text-red-500 transition">

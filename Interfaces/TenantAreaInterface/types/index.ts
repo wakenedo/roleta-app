@@ -5,9 +5,16 @@ import {
   StatsProps,
   Tenant,
   TenantBranding,
+  TenantCatalogItem,
   TenantProduct,
   TenantSpinPool,
 } from "@/context/TenantContext/types";
+import {
+  ReceivedCsvPreviewProps,
+  ReceivedJsonPreviewProps,
+  VerifyCatalogResponse,
+} from "@/hooks/types";
+import { ProductsImportedProps } from "@/Interfaces/ForTenantsInterface/components/PlanIdInterface/types";
 import { Dispatch, SetStateAction } from "react";
 
 interface AuthorizedFetchProps {
@@ -59,6 +66,38 @@ interface TenantAreaInterfaceProps {
   isMultipleProductsCheckoutVisible: boolean;
   catalogSelectionState: CatalogSelectionState;
   setCatalogSelectionState: Dispatch<SetStateAction<CatalogSelectionState>>;
+
+  verifyCatalog: (products: TenantProduct[]) => Promise<VerifyCatalogResponse>;
+  verification: VerifyCatalogResponse | null;
+  verificationLoading: boolean;
+
+  importCatalogProductsCSV: (
+    file: File,
+    path: "onboard" | "admin/catalog",
+    dryRun?: boolean,
+  ) => Promise<any>;
+  importCatalogProductsJSON: (
+    file: File,
+    path: "onboard" | "admin/catalog",
+    dryRun?: boolean,
+  ) => Promise<any>;
+  productsImported: ProductsImportedProps;
+  handleCatalogSubmitProducts: () => Promise<void>;
+  previewProducts: TenantProduct[];
+  pickProducts: TenantProduct[];
+  validateProducts: () => boolean;
+  file: File | null;
+  handleFileUpload: (
+    file: File,
+    path: "onboard" | "admin/catalog",
+  ) => Promise<void>;
+  isProductsPreviewTableOpen: boolean;
+  setIsProductsPreviewTableOpen: Dispatch<SetStateAction<boolean>>;
+  updateProducts: Dispatch<SetStateAction<TenantProduct[]>>;
+  handlePreviewTableCancel: () => void;
+  catalogItems: TenantCatalogItem[];
+  catalogItemsJsonResponse: ReceivedJsonPreviewProps | null;
+  catalogItemsCsvResponse: ReceivedCsvPreviewProps | null;
 }
 
 interface TenantPreviewContentProps {
@@ -93,6 +132,20 @@ interface ProductEditSectionProps {
   isObjectCheckoutViewable: boolean;
   catalogSelectionState: CatalogSelectionState;
   isMultipleProductsCheckoutVisible: boolean;
+  verifyCatalog: (products: TenantProduct[]) => Promise<VerifyCatalogResponse>;
+  verification: VerifyCatalogResponse | null;
+  verificationLoading: boolean;
+  products: TenantProduct[];
+  handleFileUpload: (
+    file: File,
+    path: "onboard" | "admin/catalog",
+  ) => Promise<void>;
+  productsImported: ProductsImportedProps;
+  handleCatalogSubmitProducts: () => Promise<void>;
+  previewProducts: TenantProduct[];
+  pickProducts: TenantProduct[];
+  isProductsPreviewTableOpen: boolean;
+  setIsProductsPreviewTableOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 interface TenantPreviewMenuProps {
@@ -204,6 +257,7 @@ interface HeaderAdvanceSettingsProps {
 interface TenantProductCatalogProps {
   products: TenantProduct[];
   tenantProductStats: ProductsStatsProps | undefined;
+  tenantSubscriptionMode: string | undefined;
   loading: boolean;
   error: string | null;
   showStats: boolean;
@@ -214,6 +268,24 @@ interface TenantProductCatalogProps {
   isMultipleProductsCheckoutVisible: boolean;
   catalogSelectionState: CatalogSelectionState;
   setCatalogSelectionState: Dispatch<SetStateAction<CatalogSelectionState>>;
+  verification: VerifyCatalogResponse | null;
+  verifyCatalog: (products: TenantProduct[]) => Promise<VerifyCatalogResponse>;
+  verificationLoading: boolean;
+  handleFileUpload: (
+    file: File,
+    path: "onboard" | "admin/catalog",
+  ) => Promise<void>;
+  productsImported: ProductsImportedProps;
+  handleCatalogSubmitProducts: () => Promise<void>;
+  previewProducts: TenantProduct[];
+  pickProducts: TenantProduct[];
+  isProductsPreviewTableOpen: boolean;
+  setIsProductsPreviewTableOpen: Dispatch<SetStateAction<boolean>>;
+  updateProducts: Dispatch<SetStateAction<TenantProduct[]>>;
+  handlePreviewTableCancel: () => void;
+  catalogItems: TenantCatalogItem[];
+  catalogItemsJsonResponse: ReceivedJsonPreviewProps | null;
+  catalogItemsCsvResponse: ReceivedCsvPreviewProps | null;
 }
 
 interface TenantProductCatalogProductCard {
@@ -276,6 +348,18 @@ type CatalogSelectionSettersProps = {
 
 type SingleProductSelectionProps = {
   productSelected: TenantProduct | undefined;
+  verifyCatalog: (products: TenantProduct[]) => Promise<VerifyCatalogResponse>;
+  verification: VerifyCatalogResponse | null;
+  verificationLoading: boolean;
+};
+
+type MultipleProductsSelectionProps = {
+  verifyCatalog: (products: TenantProduct[]) => Promise<VerifyCatalogResponse>;
+  verificationLoading: boolean;
+  setIsMultipleProductsCheckoutVisible: Dispatch<SetStateAction<boolean>>;
+  isMultipleProductsCheckoutVisible: boolean;
+  catalogSelectionState: CatalogSelectionState;
+  verification: VerifyCatalogResponse | null;
 };
 
 type CatalogSelectionMode = "none" | "single" | "multiple";
@@ -291,6 +375,87 @@ interface CatalogSelectionState {
   productSelected?: TenantProduct;
   multipleProductsSelected: TenantProduct[];
 }
+
+interface ProductsObjectManagerProps {
+  tenantProductStats: ProductsStatsProps | undefined;
+  products: TenantProduct[];
+  verifyCatalog: (products: TenantProduct[]) => Promise<any>;
+  verificationLoading: boolean;
+
+  isObjectCheckoutViewable: boolean;
+  handleFileUpload: (
+    file: File,
+    path: "onboard" | "admin/catalog",
+  ) => Promise<void>;
+  productsImported: ProductsImportedProps;
+  previewProducts: TenantProduct[];
+  pickProducts: TenantProduct[];
+  setIsProductsPreviewTableOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+type ObjectManagerCheckoutProps = {
+  productsImported: ProductsImportedProps;
+  previewProducts: TenantProduct[];
+  pickProducts: TenantProduct[];
+};
+
+type ProductTableProps = {
+  products: TenantProduct[];
+  paginatedProducts: TenantProduct[];
+  page: number;
+  setPage: Dispatch<SetStateAction<number>>;
+  updateProducts: (products: TenantProduct[]) => void;
+  selectedPlan: {
+    id: string;
+    name: string;
+    price: string;
+  };
+  pagination: {
+    totalItems: number;
+    perPage: number;
+    currentPage: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
+  previewProducts: TenantProduct[];
+  pickProducts: TenantProduct[];
+  catalogItemsJsonResponse: ReceivedJsonPreviewProps | null;
+  catalogItemsCsvResponse: ReceivedCsvPreviewProps | null;
+};
+type PreviewImportTableProps = {
+  products: TenantProduct[];
+  paginatedProducts: TenantProduct[];
+  page: number;
+  setPage: Dispatch<SetStateAction<number>>;
+  updateProducts: (products: TenantProduct[]) => void;
+  selectedPlan: {
+    id: string;
+    name: string;
+    price: string;
+  };
+  pagination: {
+    totalItems: number;
+    perPage: number;
+    currentPage: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
+  handleCatalogSubmitProducts: () => Promise<void>;
+  productsImported: ProductsImportedProps;
+  previewProducts: TenantProduct[];
+  pickProducts: TenantProduct[];
+  handlePreviewTableCancel: () => void;
+  catalogItems: TenantCatalogItem[];
+  catalogItemsJsonResponse: ReceivedJsonPreviewProps | null;
+  catalogItemsCsvResponse: ReceivedCsvPreviewProps | null;
+};
+
+type SaveCatalogProductsButtonProps = {
+  onClick: () => void;
+  label: string;
+};
 
 export type {
   TenantAreaInterfaceProps,
@@ -324,5 +489,11 @@ export type {
   SingleProductSelectionProps,
   CatalogSelectionMode,
   HandleCatalogSelectionProps,
+  MultipleProductsSelectionProps,
   CatalogSelectionState,
+  ProductsObjectManagerProps,
+  ObjectManagerCheckoutProps,
+  PreviewImportTableProps,
+  ProductTableProps,
+  SaveCatalogProductsButtonProps,
 };

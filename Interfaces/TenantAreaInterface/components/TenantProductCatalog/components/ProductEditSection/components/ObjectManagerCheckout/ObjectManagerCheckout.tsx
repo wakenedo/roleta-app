@@ -1,4 +1,10 @@
-const ObjectManagerCheckout = () => {
+import { ObjectManagerCheckoutProps } from "@/Interfaces/TenantAreaInterface/types";
+
+const ObjectManagerCheckout = ({
+  pickProducts,
+  previewProducts,
+  productsImported,
+}: ObjectManagerCheckoutProps) => {
   return (
     <div className=" shadow-inner bg-slate-100 h-full w-full py-2 px-2">
       <div className="drop-shadow bg-white flex flex-col justify-between  h-full">

@@ -12,8 +12,19 @@ const ProductEditSection = ({
   isMultipleProductsCheckoutVisible,
   isObjectCheckoutViewable,
   setIsMultipleProductsCheckoutVisible,
+  setIsProductsPreviewTableOpen,
   setIsObjectCheckoutViewable,
   setCatalogSelectionState,
+  verification,
+  verificationLoading,
+  verifyCatalog,
+  products,
+  pickProducts,
+  previewProducts,
+  productsImported,
+  handleFileUpload,
+  handleCatalogSubmitProducts, //Used by Modal || ProductsPreviewTable
+  isProductsPreviewTableOpen,
 }: ProductEditSectionProps) => {
   console.log("ProductsEditSection", tenantProductStats);
 
@@ -25,6 +36,9 @@ const ProductEditSection = ({
       <div className="  flex flex-col  h-full py-2 px-1 space-y-2 ">
         {selectionMode === "multiple" && (
           <MultipleProductsSelection
+            verificationLoading={verificationLoading}
+            verification={verification}
+            verifyCatalog={verifyCatalog}
             catalogSelectionState={catalogSelectionState}
             isMultipleProductsCheckoutVisible={
               isMultipleProductsCheckoutVisible
@@ -36,7 +50,10 @@ const ProductEditSection = ({
         )}
         {selectionMode === "single" && (
           <SingleProductSelection
+            verifyCatalog={verifyCatalog}
             productSelected={catalogSelectionState.productSelected}
+            verification={verification}
+            verificationLoading={verificationLoading}
           />
         )}
         {selectionMode === "none" && (
@@ -48,8 +65,15 @@ const ProductEditSection = ({
 
         <ProductsObjectManager
           tenantProductStats={tenantProductStats}
-          setIsObjectCheckoutViewable={setIsObjectCheckoutViewable}
           isObjectCheckoutViewable={isObjectCheckoutViewable}
+          products={products}
+          verificationLoading={verificationLoading}
+          verifyCatalog={verifyCatalog}
+          handleFileUpload={handleFileUpload}
+          pickProducts={pickProducts}
+          previewProducts={previewProducts}
+          productsImported={productsImported}
+          setIsProductsPreviewTableOpen={setIsProductsPreviewTableOpen}
         />
       </div>
     </>

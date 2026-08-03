@@ -1,6 +1,7 @@
 import {
   RegisterTenant,
   Tenant,
+  TenantCatalogItem,
   TenantProduct,
   TenantRegisterStep,
 } from "@/context/TenantContext/types";
@@ -49,12 +50,21 @@ type UseProductsImportsProps = {
     name: string;
     price: string;
   };
-  importProductsCSV?: (file: File, dryRun?: boolean) => Promise<unknown>;
-  importProductsJSON?: (file: File, dryRun?: boolean) => Promise<unknown>;
+  importProductsCSV: (
+    file: File,
+    path: "onboard" | "admin/catalog",
+    dryRun?: boolean,
+  ) => Promise<any>;
+  importProductsJSON: (
+    file: File,
+    path: "onboard" | "admin/catalog",
+    dryRun?: boolean,
+  ) => Promise<any>;
 };
 
 type CsvPreviewProps = {
   preview: unknown[];
+  products: unknown[];
   errors: string[];
   total: number;
   valid: number;
@@ -62,8 +72,14 @@ type CsvPreviewProps = {
 
 type ReceivedCsvPreviewProps = {
   preview: unknown[];
+  products: TenantProduct[];
+  items: TenantCatalogItem[];
   errors: string[];
+  errorCount: number;
+  warningsCount: number;
+  warnings: string[];
   total: number;
+  validCount: number;
   valid: number;
 };
 
@@ -78,8 +94,13 @@ type JsonPreviewProps = {
 type ReceivedJsonPreviewProps = {
   preview: unknown[];
   products: TenantProduct[];
+  items: TenantCatalogItem[];
   errors: string[];
+  errorCount: number;
+  warningsCount: number;
+  warnings: string[];
   total: number;
+  validCount: number;
   valid: number;
 };
 
@@ -109,6 +130,65 @@ type CompletePaymentProps = {
   setStep: Dispatch<SetStateAction<TenantRegisterStep>>;
 };
 
+interface VerificationUrl {
+  valid: boolean;
+  originalUrl: string | null;
+  finalUrl: string | null;
+  redirected: boolean;
+  statusCode: number | null;
+  headers?: Record<string, string>;
+  error?: string | null;
+}
+
+interface ProviderVerification {
+  valid: boolean;
+  type: "provider";
+  url: string;
+  expected: string | null;
+  detected: string | null;
+  matches: boolean | null;
+}
+
+interface RedirectVerification {
+  valid: boolean;
+  type: "redirect";
+  redirected: boolean;
+  from: string;
+  to: string;
+}
+
+interface ProductExistsVerification {
+  valid: boolean;
+  type: "product";
+  exists: boolean;
+  reason: string | null;
+  statusCode: number | null;
+  finalUrl: string | null;
+}
+
+interface ProductVerification {
+  url: VerificationUrl;
+  provider: ProviderVerification;
+  redirect: RedirectVerification;
+  productExists: ProductExistsVerification;
+}
+
+interface VerificationResult {
+  product: TenantProduct;
+  status: "valid" | "invalid" | "warning";
+  valid: boolean;
+  errors: string[];
+  warnings: string[];
+  verification: ProductVerification;
+}
+
+interface VerifyCatalogResponse {
+  total: number;
+  validCount: number;
+  invalidCount: number;
+  warnings: string[];
+  results: VerificationResult[];
+}
 export type {
   RawProductsProps,
   StepHeaderProps,
@@ -124,4 +204,5 @@ export type {
   CompletePaymentProps,
   ReceivedJsonPreviewProps,
   ReceivedCsvPreviewProps,
+  VerifyCatalogResponse,
 };

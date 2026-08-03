@@ -3,6 +3,10 @@ import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useGlobalQuota } from "@/context/GlobalQuotaContext/GlobalQuotaContext";
 import { useTenantAuth } from "@/context/TenantAuthContext/TenantAuthContext";
 import { useTenant } from "@/context/TenantContext/TenantContext";
+import { TenantProduct } from "@/context/TenantContext/types";
+import { useCatalogVerification } from "@/hooks/useCatalogVerification";
+import { useProductsImport } from "@/hooks/useProductsImport";
+import { useTenantOnboarding } from "@/hooks/useTenantOnboarding";
 import { useTenantSeasonStats } from "@/hooks/useTenantSeasonStats";
 import { HeaderAndFooterInterface } from "@/Interfaces/HeaderAndFooterInterface";
 import { TenantAreaInterface } from "@/Interfaces/TenantAreaInterface";
@@ -12,15 +16,42 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const TenantArea = () => {
+  const router = useRouter();
   const { tenantLogout, sessionTenantId } = useTenantAuth();
-  const { tenant, loading, error, products, preview, setTenant } = useTenant();
+  const { tenant, loading, error, products, preview, setTenant, setProducts } =
+    useTenant();
   const { authorizedFetch } = useAuth();
   const { refresh: globalRefresh, globalQuotaLoading } = useGlobalQuota();
+  const { importProductsJSON, importProductsCSV } = useTenantOnboarding();
   const tenantIdentifier = tenant?.id;
+  const tenantCurrentPlan = tenant?.subscriptionMode;
   const { seasonStats, loading: seasonStatsLoading } =
     useTenantSeasonStats(tenantIdentifier);
-  const router = useRouter();
 
+  const {
+    verifyCatalog,
+    verification,
+    loading: _loading,
+  } = useCatalogVerification(tenantIdentifier as string);
+  const productsImported = useProductsImport({
+    selectedPlan: {
+      id: tenantCurrentPlan || "",
+      name: tenantCurrentPlan || "",
+      price: "",
+    },
+    importProductsCSV,
+    importProductsJSON,
+  });
+  const {
+    validateProducts,
+    file,
+    handleFileUpload,
+    updateProducts,
+    clearImport,
+    catalogItems,
+    catalogItemsJsonResponse,
+    catalogItemsCsvResponse,
+  } = productsImported;
   const [catalogSelectionState, setCatalogSelectionState] =
     useState<CatalogSelectionState>({
       selectionMode: "none",
@@ -44,12 +75,60 @@ const TenantArea = () => {
   const [isObjectCheckoutViewable, setIsObjectCheckoutViewable] =
     useState(false);
 
+  const [isProductsPreviewTableOpen, setIsProductsPreviewTableOpen] =
+    useState(false);
+
   const closeModal = () => setActiveModal(null);
 
   const handleLogout = () => {
     setTenant(null);
     tenantLogout();
     router.push("/");
+  };
+
+  const handleCatalogSubmitProducts = async () => {
+    if (!file) return;
+
+    // 🧾 CSV FLOW
+    if (file.name.endsWith(".csv")) {
+      const result = (await importProductsCSV(
+        file,
+        "admin/catalog",
+        false,
+      )) as {
+        imported: number;
+        products: TenantProduct[];
+      };
+      setProducts(result.products);
+      console.log("Imported ✔", result);
+      validateProducts();
+      alert(`Imported ${result.imported} products`);
+      clearImport();
+      return;
+    }
+    if (file.name.endsWith(".json")) {
+      const result = (await importProductsJSON(
+        file,
+        "admin/catalog",
+        false,
+      )) as {
+        imported: number;
+        products: TenantProduct[];
+      };
+      setProducts(result.products);
+      console.log("Imported ✔", result);
+      validateProducts();
+      alert(`Imported ${result.imported} products`);
+      clearImport();
+      return;
+    }
+
+    console.log("Products validated ✔");
+  };
+
+  const handlePreviewTableCancel = () => {
+    clearImport();
+    setIsMultipleProductsCheckoutVisible(false);
   };
 
   const _seasonStats = seasonStats && seasonStats;
@@ -67,6 +146,13 @@ const TenantArea = () => {
   const tenantSpinPool = tenant?.spinPool;
   const tenantPayment = tenant?.payment;
   const tenantBranding = tenant?.branding;
+
+  const isCSV = productsImported.file?.name.endsWith(".csv");
+
+  const previewProducts = isCSV ? products : productsImported.products;
+
+  const pickProducts =
+    productsImported.products.length > 0 ? productsImported.products : products;
 
   return (
     <HeaderAndFooterInterface>
@@ -111,6 +197,25 @@ const TenantArea = () => {
         setCatalogSelectionState={setCatalogSelectionState}
         setActiveTab={setActiveTab}
         setActiveModal={setActiveModal}
+        verifyCatalog={verifyCatalog}
+        verification={verification}
+        verificationLoading={_loading}
+        importCatalogProductsCSV={importProductsCSV}
+        importCatalogProductsJSON={importProductsJSON}
+        productsImported={productsImported}
+        file={file}
+        validateProducts={validateProducts}
+        handleFileUpload={handleFileUpload}
+        handleCatalogSubmitProducts={handleCatalogSubmitProducts}
+        pickProducts={pickProducts}
+        previewProducts={previewProducts}
+        isProductsPreviewTableOpen={isProductsPreviewTableOpen}
+        setIsProductsPreviewTableOpen={setIsProductsPreviewTableOpen}
+        updateProducts={updateProducts}
+        handlePreviewTableCancel={handlePreviewTableCancel}
+        catalogItems={catalogItems}
+        catalogItemsJsonResponse={catalogItemsJsonResponse}
+        catalogItemsCsvResponse={catalogItemsCsvResponse}
       />
     </HeaderAndFooterInterface>
   );

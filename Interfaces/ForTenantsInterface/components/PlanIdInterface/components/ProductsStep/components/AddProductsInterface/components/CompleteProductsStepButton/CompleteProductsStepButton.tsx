@@ -8,7 +8,7 @@ const CompleteProductsStepButton = ({
   return (
     <button
       disabled={products.length === 0}
-      onClick={() => onSave(products)}
+      onClick={() => onSave(products, "onboard")}
       className={`py-3 rounded-lg ${
         areProductsValidated != true
           ? "bg-gray-300 cursor-not-allowed"

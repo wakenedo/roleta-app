@@ -45,6 +45,21 @@ const TenantAreaInterface = ({
   setIsObjectCheckoutViewable,
   catalogSelectionState,
   setCatalogSelectionState,
+  verification,
+  verificationLoading,
+  verifyCatalog,
+  handleFileUpload,
+  handleCatalogSubmitProducts,
+  pickProducts,
+  previewProducts,
+  productsImported,
+  isProductsPreviewTableOpen,
+  setIsProductsPreviewTableOpen,
+  updateProducts,
+  handlePreviewTableCancel,
+  catalogItems,
+  catalogItemsJsonResponse,
+  catalogItemsCsvResponse,
 }: TenantAreaInterfaceProps) => {
   return (
     <TenantSlotsDedicatedRouteBackground
@@ -99,6 +114,22 @@ const TenantAreaInterface = ({
                 setIsObjectCheckoutViewable={setIsObjectCheckoutViewable}
                 catalogSelectionState={catalogSelectionState}
                 setCatalogSelectionState={setCatalogSelectionState}
+                verification={verification}
+                verificationLoading={verificationLoading}
+                verifyCatalog={verifyCatalog}
+                handleFileUpload={handleFileUpload}
+                handleCatalogSubmitProducts={handleCatalogSubmitProducts}
+                pickProducts={pickProducts}
+                previewProducts={previewProducts}
+                productsImported={productsImported}
+                isProductsPreviewTableOpen={isProductsPreviewTableOpen}
+                setIsProductsPreviewTableOpen={setIsProductsPreviewTableOpen}
+                tenantSubscriptionMode={tenantSubscriptionMode}
+                updateProducts={updateProducts}
+                handlePreviewTableCancel={handlePreviewTableCancel}
+                catalogItems={catalogItems}
+                catalogItemsCsvResponse={catalogItemsCsvResponse}
+                catalogItemsJsonResponse={catalogItemsJsonResponse}
               />
             )}
             {activeTab === "preview" && (

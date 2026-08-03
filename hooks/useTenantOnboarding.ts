@@ -16,8 +16,11 @@ import {
 
 import { auth } from "../firebase"; // adjust path
 import { uploadTenantLogo } from "./utils/brandingLogoHelpers";
+import { readProductsJson } from "./utils/productImportsHelpers";
+import { useTenant } from "@/context/TenantContext/TenantContext";
 
 export const useTenantOnboarding = (planId?: string | null) => {
+  const { tenant } = useTenant();
   const { tenantRegister, tenantFetch, tenantMe } = useTenantAuth();
   const [verificationSent, setVerificationSent] = useState(false);
   const [isEmailVerified, setIsEmailVerified] = useState(false);
@@ -113,6 +116,15 @@ export const useTenantOnboarding = (planId?: string | null) => {
     setStep("products");
   };
 
+  const createImportUrl = (
+    path: "onboard" | "admin/catalog",
+    format: "csv" | "json",
+    dryRun = false,
+  ) =>
+    `/tenants/${tenantId || tenant?.id}/${path}/import/${format}${
+      dryRun ? "?dryRun=true" : ""
+    }`;
+
   const importProducts = async (products: TenantProduct[]) => {
     const res = await tenantFetch(`/tenants/${tenantId}/onboard/import`, {
       method: "POST",
@@ -129,70 +141,45 @@ export const useTenantOnboarding = (planId?: string | null) => {
     console.log("Import result:", data);
   };
 
-  const importProductsCSV = async (file: File, dryRun = false) => {
+  const importProductsCSV = async (
+    file: File,
+    path: "onboard" | "admin/catalog",
+    dryRun = false,
+  ) => {
     const formData = new FormData();
     formData.append("file", file);
 
-    const res = await tenantFetch(
-      `/tenants/${tenantId}/onboard/import/csv${dryRun ? "?dryRun=true" : ""}`,
-      {
-        method: "POST",
-        body: formData,
-      },
-    );
+    const res = await tenantFetch(createImportUrl(path, "csv", dryRun), {
+      method: "POST",
+      body: formData,
+    });
 
-    const data = await res.json();
-
-    console.log("CSV import result:", data);
-
-    return data;
-  };
-  const importProductsJSON = async (file: File, dryRun = false) => {
-    const text = await file.text();
-    const json = JSON.parse(text);
-
-    let products = null;
-
-    if (Array.isArray(json)) {
-      products = json;
-    } else if (Array.isArray(json.products)) {
-      products = json.products;
-    } else if (Array.isArray(json.items)) {
-      products = json.items;
-    } else if (Array.isArray(json.data)) {
-      products = json.data;
-    } else if (Array.isArray(json.results)) {
-      products = json.results;
-    }
-
-    if (!products) {
-      throw new Error(
-        "Could not find product array. Expected [], { products: [] }, { items: [] }",
-      );
-    }
-
-    const res = await tenantFetch(
-      `/tenants/${tenantId}/onboard/import${dryRun ? "?dryRun=true" : ""}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          products: [...products],
-        }),
-      },
-    );
-
-    const data = await res.json();
-
-    console.log("JSON import result:", data);
-
-    return data;
+    return res.json();
   };
 
-  const saveProducts = async (products: TenantProduct[]) => {
-    await tenantFetch(`/tenants/onboard/products/${tenantId}`, {
+  const importProductsJSON = async (
+    file: File,
+    path: "onboard" | "admin/catalog",
+    dryRun = false,
+  ) => {
+    const products = await readProductsJson(file);
+
+    const res = await tenantFetch(createImportUrl(path, "json", dryRun), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ products }),
+    });
+
+    return res.json();
+  };
+
+  const saveProducts = async (
+    products: TenantProduct[],
+    path: "onboard" | "admin/catalog",
+  ) => {
+    await tenantFetch(`/tenants/${path}/products/${tenantId}`, {
       method: "POST",
       body: JSON.stringify({ products: [...products] }),
     });
@@ -239,6 +226,7 @@ export const useTenantOnboarding = (planId?: string | null) => {
     saveProducts,
     resolveComplete,
 
+    createImportUrl,
     createAndSendVerification,
     checkEmailVerification,
     resendVerification,

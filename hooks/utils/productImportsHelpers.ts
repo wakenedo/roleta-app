@@ -144,9 +144,27 @@ const getPaginationMeta = (
   };
 };
 
+async function readProductsJson(file: File) {
+  const text = await file.text();
+  const json = JSON.parse(text);
+
+  const products = Array.isArray(json)
+    ? json
+    : (json.products ?? json.items ?? json.data ?? json.results);
+
+  if (!Array.isArray(products)) {
+    throw new Error(
+      "Could not find product array. Expected [], { products: [] }, { items: [] }",
+    );
+  }
+
+  return products;
+}
+
 export {
   getPaginationMeta,
   paginateProducts,
   normalizeProducts,
   PRODUCTS_PER_PAGE,
+  readProductsJson,
 };
