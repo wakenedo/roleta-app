@@ -13,7 +13,12 @@ import { useParams } from "next/navigation";
 import { useTenantAuth } from "../TenantAuthContext/TenantAuthContext";
 
 import { setTenantId } from "./utils";
-import { Tenant, TenantContextProps, TenantProduct } from "./types";
+import {
+  Tenant,
+  TenantCatalogItem,
+  TenantContextProps,
+  TenantProduct,
+} from "./types";
 
 const TenantContext = createContext<TenantContextProps | undefined>(undefined);
 
@@ -29,6 +34,9 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
   const [tenant, setTenant] = useState<Tenant | null>(null);
   const [products, setProducts] = useState<TenantProduct[]>([]);
   const [preview, setPreview] = useState<TenantProduct[]>([]);
+  const [tenantCatalogItems, setTenantCatalogItems] = useState<
+    TenantCatalogItem[]
+  >([]);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -91,13 +99,14 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
       value={{
         tenant,
         products,
+        tenantCatalogItems,
         preview,
         loading,
         error,
 
         setTenant,
         setProducts,
-
+        setTenantCatalogItems,
         refresh: fetchTenantData,
 
         invalidateProducts,
