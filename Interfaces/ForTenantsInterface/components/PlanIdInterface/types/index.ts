@@ -4,7 +4,7 @@ import {
   TenantProduct,
   TenantRegisterStep,
 } from "@/context/TenantContext/types";
-import { StepHeaderProps } from "@/hooks/types";
+import { CsvPreviewProps, StepHeaderProps } from "@/hooks/types";
 import { Dispatch, SetStateAction } from "react";
 
 type PlanIdInterfaceProps = {
@@ -329,20 +329,8 @@ type ProductsStepProps = {
 type ProductsImportedProps = {
   file: File | null;
 
-  csvPreview: {
-    preview: unknown[];
-    errors: string[];
-    total: number;
-    valid: number;
-  } | null;
-  setCsvPreview: Dispatch<
-    SetStateAction<{
-      preview: unknown[];
-      errors: string[];
-      total: number;
-      valid: number;
-    } | null>
-  >;
+  csvPreview: CsvPreviewProps;
+  setCsvPreview: Dispatch<SetStateAction<CsvPreviewProps | null>>;
   fileName: string | null;
   rawProducts: [][];
   products: TenantProduct[];

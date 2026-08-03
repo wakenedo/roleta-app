@@ -1,6 +1,7 @@
 import {
   RegisterTenant,
   Tenant,
+  TenantCatalogItem,
   TenantProduct,
   TenantRegisterStep,
 } from "@/context/TenantContext/types";
@@ -63,6 +64,7 @@ type UseProductsImportsProps = {
 
 type CsvPreviewProps = {
   preview: unknown[];
+  products: unknown[];
   errors: string[];
   total: number;
   valid: number;
@@ -70,8 +72,14 @@ type CsvPreviewProps = {
 
 type ReceivedCsvPreviewProps = {
   preview: unknown[];
+  products: TenantProduct[];
+  items: TenantCatalogItem[];
   errors: string[];
+  errorCount: number;
+  warningsCount: number;
+  warnings: string[];
   total: number;
+  validCount: number;
   valid: number;
 };
 
@@ -86,8 +94,13 @@ type JsonPreviewProps = {
 type ReceivedJsonPreviewProps = {
   preview: unknown[];
   products: TenantProduct[];
+  items: TenantCatalogItem[];
   errors: string[];
+  errorCount: number;
+  warningsCount: number;
+  warnings: string[];
   total: number;
+  validCount: number;
   valid: number;
 };
 

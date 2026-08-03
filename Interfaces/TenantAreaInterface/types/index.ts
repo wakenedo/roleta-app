@@ -5,10 +5,15 @@ import {
   StatsProps,
   Tenant,
   TenantBranding,
+  TenantCatalogItem,
   TenantProduct,
   TenantSpinPool,
 } from "@/context/TenantContext/types";
-import { VerifyCatalogResponse } from "@/hooks/types";
+import {
+  ReceivedCsvPreviewProps,
+  ReceivedJsonPreviewProps,
+  VerifyCatalogResponse,
+} from "@/hooks/types";
 import { ProductsImportedProps } from "@/Interfaces/ForTenantsInterface/components/PlanIdInterface/types";
 import { Dispatch, SetStateAction } from "react";
 
@@ -90,6 +95,9 @@ interface TenantAreaInterfaceProps {
   setIsProductsPreviewTableOpen: Dispatch<SetStateAction<boolean>>;
   updateProducts: Dispatch<SetStateAction<TenantProduct[]>>;
   handlePreviewTableCancel: () => void;
+  catalogItems: TenantCatalogItem[];
+  catalogItemsJsonResponse: ReceivedJsonPreviewProps | null;
+  catalogItemsCsvResponse: ReceivedCsvPreviewProps | null;
 }
 
 interface TenantPreviewContentProps {
@@ -275,6 +283,9 @@ interface TenantProductCatalogProps {
   setIsProductsPreviewTableOpen: Dispatch<SetStateAction<boolean>>;
   updateProducts: Dispatch<SetStateAction<TenantProduct[]>>;
   handlePreviewTableCancel: () => void;
+  catalogItems: TenantCatalogItem[];
+  catalogItemsJsonResponse: ReceivedJsonPreviewProps | null;
+  catalogItemsCsvResponse: ReceivedCsvPreviewProps | null;
 }
 
 interface TenantProductCatalogProductCard {
@@ -409,6 +420,8 @@ type ProductTableProps = {
   };
   previewProducts: TenantProduct[];
   pickProducts: TenantProduct[];
+  catalogItemsJsonResponse: ReceivedJsonPreviewProps | null;
+  catalogItemsCsvResponse: ReceivedCsvPreviewProps | null;
 };
 type PreviewImportTableProps = {
   products: TenantProduct[];
@@ -429,12 +442,14 @@ type PreviewImportTableProps = {
     hasNext: boolean;
     hasPrev: boolean;
   };
-  setIsProductsPreviewTableOpen: Dispatch<SetStateAction<boolean>>;
   handleCatalogSubmitProducts: () => Promise<void>;
   productsImported: ProductsImportedProps;
   previewProducts: TenantProduct[];
   pickProducts: TenantProduct[];
   handlePreviewTableCancel: () => void;
+  catalogItems: TenantCatalogItem[];
+  catalogItemsJsonResponse: ReceivedJsonPreviewProps | null;
+  catalogItemsCsvResponse: ReceivedCsvPreviewProps | null;
 };
 
 type SaveCatalogProductsButtonProps = {

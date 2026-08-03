@@ -164,6 +164,50 @@ type TenantProduct = {
   updatedAt: string;
 };
 
+type CatalogItemVerificationResult = {
+  productExist: {
+    exists: boolean;
+    finalUrl: string;
+    reason: string;
+    statusCode: number;
+    type: string;
+    valid: boolean;
+  };
+  provider: {
+    detected: string | null;
+    expected: string | null;
+    matches: boolean;
+    type: string;
+    url: string;
+    valid: boolean;
+  };
+  redirect: {
+    from: string;
+    redirected: boolean;
+    to: string;
+    type: string;
+    valid: boolean;
+  };
+  url: {
+    headers: {};
+    originalUrl: string;
+    redirected: boolean;
+    statusCode: number;
+    valid: boolean;
+  };
+};
+
+type TenantCatalogItem = {
+  items: {
+    errors: string[];
+    product: TenantProduct;
+    result: CatalogItemVerificationResult;
+    status: "invalid" | "valid";
+    valid: boolean;
+    warnings: string[];
+  };
+};
+
 type TenantQuota = {
   quota: QuotaProps | null;
 } | null;
@@ -187,6 +231,8 @@ type TenantContextProps = {
 
   invalidateProducts: () => void;
   invalidatePreview: () => void;
+  tenantCatalogItems: TenantCatalogItem[];
+  setTenantCatalogItems: Dispatch<SetStateAction<TenantCatalogItem[]>>;
 };
 
 type DynamicStatsInterfaceProps = {
@@ -211,4 +257,5 @@ export type {
   DynamicStatsInterfaceProps,
   TenantSpinPool,
   Payment,
+  TenantCatalogItem,
 };
