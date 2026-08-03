@@ -19,7 +19,9 @@ const ProductsTable = ({
   pagination,
   page,
   pickProducts,
-  previewProducts,
+  previewProducts, // This will be related to preview experience interface
+  catalogItemsCsvResponse,
+  catalogItemsJsonResponse,
 }: ProductTableProps) => {
   const updateProductField = (
     index: number,
@@ -43,8 +45,17 @@ const ProductsTable = ({
   const missing = (value: TenantProduct[keyof TenantProduct]) =>
     !value ? "border-red-400" : "border-gray-300";
 
-  console.log("ProductsTable preview", previewProducts);
-  console.log("ProductsTable pick", pickProducts);
+  const csvOrJsonResponse =
+    catalogItemsCsvResponse ?? catalogItemsJsonResponse ?? null;
+
+  const responsePanel = {
+    preview: csvOrJsonResponse?.preview,
+    products: csvOrJsonResponse?.products,
+    errors: csvOrJsonResponse?.errorCount,
+    warnings: csvOrJsonResponse?.warningsCount,
+    total: csvOrJsonResponse?.products.length,
+    valid: csvOrJsonResponse?.validCount,
+  };
   return (
     <>
       <div
@@ -75,6 +86,15 @@ const ProductsTable = ({
             <div className="text-2xl">
               <span> Adicionando : {pickProducts.length} Produtos </span>
             </div>
+          </div>
+        )}
+        {(catalogItemsJsonResponse != null ||
+          catalogItemsCsvResponse != null) && (
+          <div className="border border-slate-300 flex flex-col">
+            <span>errors: {responsePanel.errors}</span>
+            <span>warnings: {responsePanel.warnings}</span>
+            <span>total:{responsePanel.total}</span>
+            <span>valid: {responsePanel.valid}</span>
           </div>
         )}
         <div className="text-center"></div>

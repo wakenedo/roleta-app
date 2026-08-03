@@ -10,15 +10,17 @@ const PreviewImportTable = ({
   selectedPlan,
   setPage,
   updateProducts,
-  setIsProductsPreviewTableOpen,
   handleCatalogSubmitProducts,
   productsImported,
   pickProducts,
   previewProducts,
   handlePreviewTableCancel,
+  catalogItems,
+  catalogItemsCsvResponse,
+  catalogItemsJsonResponse,
 }: PreviewImportTableProps) => {
   if (pickProducts.length < 0) return null;
-  console.log("catalog", products);
+  console.log("catalogItems", catalogItems);
   return (
     <div
       className="
@@ -57,6 +59,8 @@ const PreviewImportTable = ({
           updateProducts={updateProducts}
           pickProducts={pickProducts}
           previewProducts={previewProducts}
+          catalogItemsCsvResponse={catalogItemsCsvResponse}
+          catalogItemsJsonResponse={catalogItemsJsonResponse}
         />
 
         <div className="mt-4 flex flex-col justify-center gap-5">

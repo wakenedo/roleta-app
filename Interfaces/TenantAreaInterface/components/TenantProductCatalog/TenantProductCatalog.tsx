@@ -33,6 +33,9 @@ const TenantProductCatalog = ({
   tenantSubscriptionMode,
   updateProducts,
   handlePreviewTableCancel,
+  catalogItems,
+  catalogItemsCsvResponse,
+  catalogItemsJsonResponse,
 }: TenantProductCatalogProps) => {
   if (!products) return error;
   const { pagination, setPage, paginatedProducts, page, file } =
@@ -54,12 +57,14 @@ const TenantProductCatalog = ({
             products={products}
             productsImported={productsImported}
             selectedPlan={_selectedPlan}
-            setIsProductsPreviewTableOpen={setIsProductsPreviewTableOpen}
             setPage={setPage}
             updateProducts={updateProducts}
             pickProducts={pickProducts}
             previewProducts={previewProducts}
             handlePreviewTableCancel={handlePreviewTableCancel}
+            catalogItems={catalogItems}
+            catalogItemsCsvResponse={catalogItemsCsvResponse}
+            catalogItemsJsonResponse={catalogItemsJsonResponse}
           />
         </div>
       )}

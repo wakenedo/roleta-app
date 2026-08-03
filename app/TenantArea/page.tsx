@@ -22,8 +22,7 @@ const TenantArea = () => {
     useTenant();
   const { authorizedFetch } = useAuth();
   const { refresh: globalRefresh, globalQuotaLoading } = useGlobalQuota();
-  const { importProductsJSON, importProductsCSV, saveProducts } =
-    useTenantOnboarding();
+  const { importProductsJSON, importProductsCSV } = useTenantOnboarding();
   const tenantIdentifier = tenant?.id;
   const tenantCurrentPlan = tenant?.subscriptionMode;
   const { seasonStats, loading: seasonStatsLoading } =
@@ -49,6 +48,9 @@ const TenantArea = () => {
     handleFileUpload,
     updateProducts,
     clearImport,
+    catalogItems,
+    catalogItemsJsonResponse,
+    catalogItemsCsvResponse,
   } = productsImported;
   const [catalogSelectionState, setCatalogSelectionState] =
     useState<CatalogSelectionState>({
@@ -211,6 +213,9 @@ const TenantArea = () => {
         setIsProductsPreviewTableOpen={setIsProductsPreviewTableOpen}
         updateProducts={updateProducts}
         handlePreviewTableCancel={handlePreviewTableCancel}
+        catalogItems={catalogItems}
+        catalogItemsJsonResponse={catalogItemsJsonResponse}
+        catalogItemsCsvResponse={catalogItemsCsvResponse}
       />
     </HeaderAndFooterInterface>
   );

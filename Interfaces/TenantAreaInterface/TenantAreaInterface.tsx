@@ -57,6 +57,9 @@ const TenantAreaInterface = ({
   setIsProductsPreviewTableOpen,
   updateProducts,
   handlePreviewTableCancel,
+  catalogItems,
+  catalogItemsJsonResponse,
+  catalogItemsCsvResponse,
 }: TenantAreaInterfaceProps) => {
   return (
     <TenantSlotsDedicatedRouteBackground
@@ -124,6 +127,9 @@ const TenantAreaInterface = ({
                 tenantSubscriptionMode={tenantSubscriptionMode}
                 updateProducts={updateProducts}
                 handlePreviewTableCancel={handlePreviewTableCancel}
+                catalogItems={catalogItems}
+                catalogItemsCsvResponse={catalogItemsCsvResponse}
+                catalogItemsJsonResponse={catalogItemsJsonResponse}
               />
             )}
             {activeTab === "preview" && (
