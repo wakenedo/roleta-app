@@ -36,6 +36,8 @@ const TenantProductCatalog = ({
   catalogItems,
   catalogItemsCsvResponse,
   catalogItemsJsonResponse,
+  catalogState,
+  responsePanel,
 }: TenantProductCatalogProps) => {
   if (!products) return error;
   const { pagination, setPage, paginatedProducts, page, file } =
@@ -65,6 +67,8 @@ const TenantProductCatalog = ({
             catalogItems={catalogItems}
             catalogItemsCsvResponse={catalogItemsCsvResponse}
             catalogItemsJsonResponse={catalogItemsJsonResponse}
+            catalogState={catalogState}
+            responsePanel={responsePanel}
           />
         </div>
       )}

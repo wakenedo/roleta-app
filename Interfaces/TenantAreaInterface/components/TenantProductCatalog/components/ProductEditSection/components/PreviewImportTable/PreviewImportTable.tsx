@@ -1,4 +1,7 @@
-import { PreviewImportTableProps } from "@/Interfaces/TenantAreaInterface/types";
+import {
+  CatalogState,
+  PreviewImportTableProps,
+} from "@/Interfaces/TenantAreaInterface/types";
 import { SaveProductsButton } from "./components/SaveProductsButton";
 import { ProductsTable } from "./components/ProductsTable";
 
@@ -18,9 +21,16 @@ const PreviewImportTable = ({
   catalogItems,
   catalogItemsCsvResponse,
   catalogItemsJsonResponse,
+  catalogState,
+  responsePanel,
 }: PreviewImportTableProps) => {
   if (pickProducts.length < 0) return null;
   console.log("catalogItems", catalogItems);
+  console.log("pickProducts", pickProducts);
+  console.log("previewProducts", previewProducts);
+  console.log("paginatedProducts", paginatedProducts);
+  console.log("preview catalogState", catalogState);
+
   return (
     <div
       className="
@@ -61,18 +71,25 @@ const PreviewImportTable = ({
           previewProducts={previewProducts}
           catalogItemsCsvResponse={catalogItemsCsvResponse}
           catalogItemsJsonResponse={catalogItemsJsonResponse}
+          catalogItems={catalogItems}
+          catalogState={catalogState}
+          responsePanel={responsePanel}
         />
 
         <div className="mt-4 flex flex-col justify-center gap-5">
-          <SaveProductsButton
-            onClick={handleCatalogSubmitProducts}
-            label={
-              productsImported.file ? "Confirmar Importação" : "Salvar Produtos"
-            }
-          />
+          {previewProducts.length != 0 && (
+            <SaveProductsButton
+              onClick={handleCatalogSubmitProducts}
+              label={
+                productsImported.file
+                  ? "Confirmar Importação"
+                  : "Salvar Produtos"
+              }
+            />
+          )}
           <button
             onClick={handlePreviewTableCancel}
-            className="rounded bg-gray-200 px-4 py-2 hover:bg-gray-300"
+            className="rounded bg-gray-200 px-4 py-2 hover:bg-gray-300 cursor-pointer"
           >
             Cancelar
           </button>

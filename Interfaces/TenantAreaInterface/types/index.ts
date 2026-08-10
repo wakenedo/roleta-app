@@ -98,6 +98,15 @@ interface TenantAreaInterfaceProps {
   catalogItems: TenantCatalogItem[];
   catalogItemsJsonResponse: ReceivedJsonPreviewProps | null;
   catalogItemsCsvResponse: ReceivedCsvPreviewProps | null;
+  responsePanel: {
+    preview: unknown[] | undefined;
+    products: TenantProduct[];
+    errors: number;
+    warnings: number;
+    total: number;
+    valid: number;
+  };
+  catalogState: CatalogState;
 }
 
 interface TenantPreviewContentProps {
@@ -286,6 +295,15 @@ interface TenantProductCatalogProps {
   catalogItems: TenantCatalogItem[];
   catalogItemsJsonResponse: ReceivedJsonPreviewProps | null;
   catalogItemsCsvResponse: ReceivedCsvPreviewProps | null;
+  responsePanel: {
+    preview: unknown[] | undefined;
+    products: TenantProduct[];
+    errors: number;
+    warnings: number;
+    total: number;
+    valid: number;
+  };
+  catalogState: CatalogState;
 }
 
 interface TenantProductCatalogProductCard {
@@ -399,6 +417,8 @@ type ObjectManagerCheckoutProps = {
   pickProducts: TenantProduct[];
 };
 
+type CatalogState = "idle" | "loading" | "success" | "warning" | "partial";
+
 type ProductTableProps = {
   products: TenantProduct[];
   paginatedProducts: TenantProduct[];
@@ -422,7 +442,16 @@ type ProductTableProps = {
   pickProducts: TenantProduct[];
   catalogItemsJsonResponse: ReceivedJsonPreviewProps | null;
   catalogItemsCsvResponse: ReceivedCsvPreviewProps | null;
+  catalogItems: TenantCatalogItem[];
+  catalogState: CatalogState;
+  responsePanel: {
+    total: number;
+    valid: number;
+    warnings: number;
+    errors: number;
+  };
 };
+
 type PreviewImportTableProps = {
   products: TenantProduct[];
   paginatedProducts: TenantProduct[];
@@ -450,6 +479,15 @@ type PreviewImportTableProps = {
   catalogItems: TenantCatalogItem[];
   catalogItemsJsonResponse: ReceivedJsonPreviewProps | null;
   catalogItemsCsvResponse: ReceivedCsvPreviewProps | null;
+  responsePanel: {
+    preview: unknown[] | undefined;
+    products: TenantProduct[];
+    errors: number;
+    warnings: number;
+    total: number;
+    valid: number;
+  };
+  catalogState: CatalogState;
 };
 
 type SaveCatalogProductsButtonProps = {
@@ -496,4 +534,5 @@ export type {
   PreviewImportTableProps,
   ProductTableProps,
   SaveCatalogProductsButtonProps,
+  CatalogState,
 };

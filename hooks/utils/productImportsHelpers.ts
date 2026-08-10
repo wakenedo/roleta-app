@@ -9,7 +9,7 @@ const NAME_FIELDS = ["name", "title", "productName"];
 const IMAGE_FIELDS = ["image", "image_url", "thumbnail", "picture"];
 const URL_FIELDS = ["url", "link", "product_url", "affiliate_link"];
 const PRICE_FIELDS = ["price", "amount", "value"];
-const PRODUCTS_PER_PAGE = 20;
+const PRODUCTS_PER_PAGE = 25;
 
 /*
 Utility: find first existing field

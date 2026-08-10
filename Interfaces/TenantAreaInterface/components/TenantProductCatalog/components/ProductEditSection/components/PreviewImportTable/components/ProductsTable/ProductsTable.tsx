@@ -9,6 +9,8 @@ import { TierRow } from "@/Interfaces/ForTenantsInterface/components/PlanIdInter
 import { URLRow } from "@/Interfaces/ForTenantsInterface/components/PlanIdInterface/components/ProductsStep/components/AddProductsInterface/components/ProductImportPreviewTable/components/ImportedProduct/components/URLRow";
 import { selectedPlanMaxProducts } from "@/Interfaces/ForTenantsInterface/components/PlanIdInterface/utils";
 import { ProductTableProps } from "@/Interfaces/TenantAreaInterface/types";
+import { BsBoxSeam, BsExclamationTriangle } from "react-icons/bs";
+import { ImSpinner2 } from "react-icons/im";
 
 const ProductsTable = ({
   products,
@@ -19,9 +21,12 @@ const ProductsTable = ({
   pagination,
   page,
   pickProducts,
-  previewProducts, // This will be related to preview experience interface
+  previewProducts,
   catalogItemsCsvResponse,
   catalogItemsJsonResponse,
+  catalogItems,
+  catalogState,
+  responsePanel,
 }: ProductTableProps) => {
   const updateProductField = (
     index: number,
@@ -48,132 +53,246 @@ const ProductsTable = ({
   const csvOrJsonResponse =
     catalogItemsCsvResponse ?? catalogItemsJsonResponse ?? null;
 
-  const responsePanel = {
-    preview: csvOrJsonResponse?.preview,
-    products: csvOrJsonResponse?.products,
-    errors: csvOrJsonResponse?.errorCount,
-    warnings: csvOrJsonResponse?.warningsCount,
-    total: csvOrJsonResponse?.products.length,
-    valid: csvOrJsonResponse?.validCount,
-  };
+  console.log("paginatedProducts", paginatedProducts);
+  console.log("pickProducts", pickProducts);
+  console.log("previewProducts", catalogItemsJsonResponse);
+  console.log("responsePanel", responsePanel);
+
+  const hasResponse = !!csvOrJsonResponse;
+  const isLoading = catalogState === "loading" && !hasResponse;
+
+  const productsToRender = pickProducts;
+  const hasPreview = previewProducts?.length > 0;
   return (
     <>
-      <div
-        className={`flex flex-col text-xs mt-2 p-2 ${lackingProducts === true ? "text-amber-400  border border-amber-400" : " border border-slate-300"}`}
-      >
-        Catalogo Atual
-        <div className="flex space-x-2 mt-1 text-base font-semibold mx-auto">
-          <div>
-            <span>{products.length} /</span>
+      {catalogState === "loading" && (
+        <div className="flex flex-col rounded-lg border-slate-200 bg-white border shadow-sm mb-4">
+          <div className=" border-slate-200 border-b flex items-center justify-between px-5 py-4">
+            <div className="flex flex-col ">
+              <h3 className="text-lg font-semibold text-slate-700">
+                Importação de Catálogo
+              </h3>
+              <p className="text-sm text-slate-500">
+                Identificando produtos para importação
+              </p>
+            </div>
+            <div></div>
           </div>
-          <div>
-            <span>{selectedPlanMaxProducts(selectedPlan)} </span>
-          </div>
-        </div>
-        {lackingProducts === true && (
-          <div>
-            <span className="text-xs text-amber-400">
-              Sua assinatura permite a inclusão de mais produtos, sugerimos a
-              inclusão de um catalogo de produtos maior
-            </span>
-          </div>
-        )}
-      </div>
-
-      <div className="border mt-4">
-        {pickProducts.length > 0 && (
-          <div>
-            <div className="text-2xl">
-              <span> Adicionando : {pickProducts.length} Produtos </span>
+          <div className="flex flex-col items-center gap-4  border-slate-200 border-b  ">
+            <div className="text-3xl font-bold text-slate-700 flex flex-col items-center py-3">
+              {isLoading ? (
+                <div className="h-12 w-12 my-2 animate-spin rounded-full border-2 border-slate-200 border-t-cyan-500" />
+              ) : (
+                <div className="h-12 w-12 my-2 animate-spin rounded-full border-2 border-slate-200 border-t-cyan-500" />
+              )}
+              <div className="text-xs  tracking-wide text-slate-400">
+                {isLoading ? "Verificando Items e Links..." : "disponíveis"}
+              </div>
             </div>
           </div>
-        )}
-        {(catalogItemsJsonResponse != null ||
-          catalogItemsCsvResponse != null) && (
-          <div className="border border-slate-300 flex flex-col">
-            <span>errors: {responsePanel.errors}</span>
-            <span>warnings: {responsePanel.warnings}</span>
-            <span>total:{responsePanel.total}</span>
-            <span>valid: {responsePanel.valid}</span>
+          <div className="my-2 flex flex-col items-center ">
+            <div className="text-sm text-slate-500">
+              Aguarde um momento enquanto verificamos se os links estão ou
+              continuam acessíveis.
+            </div>
           </div>
-        )}
-        <div className="text-center"></div>
-        <div className="flex gap-2 mt-4 justify-center">
-          <button
-            disabled={!pagination.hasPrev}
-            onClick={() => setPage(page - 1)}
-          >
-            Prev
-          </button>
-
-          <span>
-            Page {pagination.currentPage} / {pagination.totalPages}
-          </span>
-
-          <button
-            disabled={!pagination.hasNext}
-            onClick={() => setPage(page + 1)}
-          >
-            Next
-          </button>
         </div>
+      )}
+      {catalogItems.length > 0 && (
+        <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+          {/* Header */}
+          <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
+            <div>
+              <h3 className="text-lg font-semibold text-slate-700">
+                Importação de Catálogo
+              </h3>
 
-        <div className="grid grid-cols-4 gap-1 p-2 border-b  max-h-100 overflow-y-scroll">
-          {paginatedProducts.map((product, index) => (
-            <div
-              key={index}
-              className="flex flex-col gap-2 p-2 border bg-slate-600"
+              <p className="text-sm text-slate-500">
+                {catalogItems.length} produtos identificados
+              </p>
+            </div>
+            <div className="text-3xl font-bold text-slate-700 flex flex-col items-center">
+              {responsePanel.valid}
+              <div className="text-xs uppercase tracking-wide text-slate-400">
+                {"disponíveis"}
+              </div>
+            </div>
+          </div>
+
+          {/* Success */}
+          {catalogState === "success" && (
+            <div className="border-b border-emerald-200 bg-emerald-50 px-5 py-4">
+              <div className="font-medium text-emerald-700">
+                Catálogo verificado com sucesso
+              </div>
+
+              <div className="mt-1 text-sm text-emerald-600">
+                Todos os produtos estão acessíveis e podem ser adicionados ao
+                catálogo.
+              </div>
+            </div>
+          )}
+
+          {/* Warning */}
+          {catalogState === "warning" && (
+            <div className="border-b border-amber-200 bg-amber-50 px-5 py-4">
+              <div className="font-medium text-amber-700">
+                Alguns produtos merecem revisão
+              </div>
+
+              <div className="mt-1 text-sm text-amber-600">
+                Encontramos alguns avisos durante a verificação. Os produtos
+                continuam disponíveis para importação.
+              </div>
+            </div>
+          )}
+
+          {/* Partial */}
+          {catalogState === "partial" && (
+            <div className="border-b border-red-200 bg-red-50 px-5 py-4">
+              <div className="flex gap-3">
+                <BsExclamationTriangle
+                  className="mt-1 text-red-500"
+                  size={18}
+                />
+
+                <div>
+                  <div className="font-medium text-red-700">
+                    Alguns produtos não poderão ser adicionados
+                  </div>
+
+                  <div className="mt-1 text-sm leading-relaxed text-red-600">
+                    Não foi possível acessar o destino informado para um ou mais
+                    produtos. Atualize o link ou substitua esses itens antes de
+                    prosseguir.
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Metrics */}
+          {hasResponse && (
+            <div className="grid grid-cols-4 divide-x divide-slate-200">
+              <div className="py-4 text-center">
+                <div className="text-xl font-semibold text-slate-700">
+                  {responsePanel.total}
+                </div>
+                <div className="mt-1 text-[11px] uppercase tracking-wide text-slate-400">
+                  Lidos
+                </div>
+              </div>
+
+              <div className="py-4 text-center">
+                <div className="text-xl font-semibold text-emerald-500">
+                  {responsePanel.valid}
+                </div>
+                <div className="mt-1 text-[11px] uppercase tracking-wide text-slate-400">
+                  Disponíveis
+                </div>
+              </div>
+
+              <div className="py-4 text-center">
+                <div className="text-xl font-semibold text-amber-500">
+                  {responsePanel.warnings}
+                </div>
+                <div className="mt-1 text-[11px] uppercase tracking-wide text-slate-400">
+                  Revisar
+                </div>
+              </div>
+
+              <div className="py-4 text-center">
+                <div className="text-xl font-semibold text-red-500">
+                  {responsePanel.errors}
+                </div>
+                <div className="mt-1 text-[11px] uppercase tracking-wide text-slate-400">
+                  Indisponíveis
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {hasPreview && (
+        <>
+          <div className="flex gap-2 mt-4 justify-center">
+            <button
+              disabled={!pagination.hasPrev}
+              onClick={() => setPage(page - 1)}
             >
-              <ImageRow
-                index={index}
-                missing={missing}
-                product={product}
-                updateProductField={updateProductField}
-              />
+              Prev
+            </button>
 
-              <NameRow
-                index={index}
-                missing={missing}
-                product={product}
-                updateProductField={updateProductField}
-              />
+            <span>
+              Page {pagination.currentPage} / {pagination.totalPages}
+            </span>
 
-              <PricingRow product={product} />
+            <button
+              disabled={!pagination.hasNext}
+              onClick={() => setPage(page + 1)}
+            >
+              Next
+            </button>
+          </div>
 
-              {product.metadata?.affiliateProvider !== null && (
-                <MetadataProvider product={product} />
-              )}
-              {product.metadata?.affiliateProvider === null && (
-                <StoreRow
+          <div className="grid grid-cols-4 gap-1 p-2 border-b  max-h-100 overflow-y-scroll">
+            {productsToRender?.map((product, index) => (
+              <div
+                key={index}
+                className="flex flex-col gap-2 p-2 border bg-slate-600"
+              >
+                <ImageRow
                   index={index}
                   missing={missing}
                   product={product}
                   updateProductField={updateProductField}
                 />
-              )}
 
-              <URLRow
-                index={index}
-                missing={missing}
-                product={product}
-                updateProductField={updateProductField}
-              />
+                <NameRow
+                  index={index}
+                  missing={missing}
+                  product={product}
+                  updateProductField={updateProductField}
+                />
 
-              <CategoryRow
-                index={index}
-                product={product}
-                updateProductField={updateProductField}
-              />
+                <PricingRow product={product} />
 
-              <TierRow
-                index={index}
-                product={product}
-                updateProductField={updateProductField}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
+                {product.metadata?.affiliateProvider !== null && (
+                  <MetadataProvider product={product} />
+                )}
+                {product.metadata?.affiliateProvider === null && (
+                  <StoreRow
+                    index={index}
+                    missing={missing}
+                    product={product}
+                    updateProductField={updateProductField}
+                  />
+                )}
+
+                <URLRow
+                  index={index}
+                  missing={missing}
+                  product={product}
+                  updateProductField={updateProductField}
+                />
+
+                <CategoryRow
+                  index={index}
+                  product={product}
+                  updateProductField={updateProductField}
+                />
+
+                <TierRow
+                  index={index}
+                  product={product}
+                  updateProductField={updateProductField}
+                />
+              </div>
+            ))}
+          </div>
+        </>
+      )}
     </>
   );
 };

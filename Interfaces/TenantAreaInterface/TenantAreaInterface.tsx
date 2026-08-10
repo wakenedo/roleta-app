@@ -60,6 +60,8 @@ const TenantAreaInterface = ({
   catalogItems,
   catalogItemsJsonResponse,
   catalogItemsCsvResponse,
+  catalogState,
+  responsePanel,
 }: TenantAreaInterfaceProps) => {
   return (
     <TenantSlotsDedicatedRouteBackground
@@ -130,6 +132,8 @@ const TenantAreaInterface = ({
                 catalogItems={catalogItems}
                 catalogItemsCsvResponse={catalogItemsCsvResponse}
                 catalogItemsJsonResponse={catalogItemsJsonResponse}
+                catalogState={catalogState}
+                responsePanel={responsePanel}
               />
             )}
             {activeTab === "preview" && (

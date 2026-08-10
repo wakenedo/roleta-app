@@ -19,6 +19,7 @@ import {
   UseProductsImportsProps,
 } from "./types";
 import { selectedPlanMaxProducts } from "@/Interfaces/ForTenantsInterface/components/PlanIdInterface/utils";
+import { CatalogState } from "@/Interfaces/TenantAreaInterface/types";
 
 export const useProductsImport = ({
   selectedPlan,
@@ -26,6 +27,8 @@ export const useProductsImport = ({
   importProductsJSON,
 }: UseProductsImportsProps) => {
   const [file, setFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [catalogStatus, setCatalogStatus] = useState<CatalogState>("idle");
   const [csvPreview, setCsvPreview] = useState<CsvPreviewProps>(null);
   const [jsonPreview, setJsonPreview] = useState<JsonPreviewProps>(null);
   const [fileName, setFileName] = useState<string | null>(null);
@@ -49,7 +52,6 @@ export const useProductsImport = ({
     PRODUCTS_PER_PAGE,
     page,
   );
-
   const validateProducts = () => {
     const newErrors: string[] = [];
     products.forEach((p, index) => {
@@ -73,50 +75,76 @@ export const useProductsImport = ({
     file: File,
     path: "onboard" | "admin/catalog",
   ) => {
-    setErrors([]);
-    setFileName(file.name);
-    setFile(file);
+    setLoading(true);
+    setCatalogItemsJsonResponse(null);
+    setCatalogItemsCsvResponse(null);
+    setCatalogStatus("idle");
 
-    if (file.name.endsWith(".json") && importProductsJSON) {
-      const jPreview = (await importProductsJSON(
-        file,
-        path,
-        true,
-      )) as ReceivedJsonPreviewProps;
-      console.log("jPreview", jPreview);
-      if (jPreview.products.length > MAX_PRODUCTS) {
-        setErrors([`Plan allows only ${MAX_PRODUCTS} products`]);
-        return;
+    setJsonPreview(null);
+    setCsvPreview(null);
+
+    setCatalogItems([]);
+    setProducts([]);
+
+    try {
+      setErrors([]);
+      setFileName(file.name);
+      setFile(file);
+      setCatalogStatus("loading");
+
+      if (file.name.endsWith(".json") && importProductsJSON) {
+        const jPreview = (await importProductsJSON(
+          file,
+          path,
+          true,
+        )) as ReceivedJsonPreviewProps;
+        console.log("jPreview", jPreview);
+        if (jPreview.products.length > MAX_PRODUCTS) {
+          setErrors([`Plan allows only ${MAX_PRODUCTS} products`]);
+          return;
+        }
+
+        const productsArray =
+          jPreview.products as ReceivedJsonPreviewProps["products"];
+        const catalogItemArray =
+          jPreview.items as ReceivedJsonPreviewProps["items"];
+        setCatalogItemsJsonResponse(jPreview);
+        setCatalogItems(catalogItemArray);
+        setProducts(productsArray);
+        setJsonPreview(jPreview);
+        if (jPreview.errorCount > 0) {
+          setCatalogStatus("partial");
+        } else if (jPreview.warningsCount > 0) {
+          setCatalogStatus("warning");
+        }
       }
 
-      const productsArray =
-        jPreview.products as ReceivedJsonPreviewProps["products"];
-      const catalogItemArray =
-        jPreview.items as ReceivedJsonPreviewProps["items"];
-      setCatalogItemsJsonResponse(jPreview);
-      setCatalogItems(catalogItemArray);
-      setProducts(productsArray);
-      setJsonPreview(jPreview);
-    }
-
-    if (file.name.endsWith(".csv") && importProductsCSV) {
-      const cPreview = (await importProductsCSV(
-        file,
-        path,
-        true,
-      )) as ReceivedCsvPreviewProps;
-      if (cPreview.products.length > MAX_PRODUCTS) {
-        setErrors([`Plan allows only ${MAX_PRODUCTS} products`]);
-        return;
+      if (file.name.endsWith(".csv") && importProductsCSV) {
+        const cPreview = (await importProductsCSV(
+          file,
+          path,
+          true,
+        )) as ReceivedCsvPreviewProps;
+        if (cPreview.products.length > MAX_PRODUCTS) {
+          setErrors([`Plan allows only ${MAX_PRODUCTS} products`]);
+          return;
+        }
+        const productsArray =
+          cPreview.products as ReceivedCsvPreviewProps["products"];
+        const catalogItemArray =
+          cPreview.items as ReceivedCsvPreviewProps["items"];
+        setCatalogItemsCsvResponse(cPreview);
+        setCatalogItems(catalogItemArray);
+        setProducts(productsArray);
+        setCsvPreview(cPreview);
+        if (cPreview.errorCount > 0) {
+          setCatalogStatus("partial");
+        } else if (cPreview.warningsCount > 0) {
+          setCatalogStatus("warning");
+        }
       }
-      const productsArray =
-        cPreview.products as ReceivedCsvPreviewProps["products"];
-      const catalogItemArray =
-        cPreview.items as ReceivedCsvPreviewProps["items"];
-      setCatalogItemsCsvResponse(cPreview);
-      setCatalogItems(catalogItemArray);
-      setProducts(productsArray);
-      setCsvPreview(cPreview);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -129,6 +157,7 @@ export const useProductsImport = ({
     setFileName(null);
     setErrors([]);
     setIsValidated(false);
+    setCatalogStatus("idle");
   };
 
   return {
@@ -154,5 +183,7 @@ export const useProductsImport = ({
     paginatedProducts,
     pagination,
     clearImport,
+    loading,
+    catalogStatus,
   };
 };

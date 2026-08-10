@@ -51,6 +51,7 @@ const TenantArea = () => {
     catalogItems,
     catalogItemsJsonResponse,
     catalogItemsCsvResponse,
+    catalogStatus,
   } = productsImported;
   const [catalogSelectionState, setCatalogSelectionState] =
     useState<CatalogSelectionState>({
@@ -154,6 +155,18 @@ const TenantArea = () => {
   const pickProducts =
     productsImported.products.length > 0 ? productsImported.products : products;
 
+  const catalogResponse =
+    catalogItemsJsonResponse ?? catalogItemsCsvResponse ?? null;
+
+  const responsePanel = {
+    preview: catalogResponse?.preview,
+    products: catalogResponse?.products ?? [],
+    errors: catalogResponse?.errorCount ?? 0,
+    warnings: catalogResponse?.warningsCount ?? 0,
+    total: catalogResponse?.products?.length ?? 0,
+    valid: catalogResponse?.validCount ?? 0,
+  };
+
   return (
     <HeaderAndFooterInterface>
       <TenantAreaInterface
@@ -216,6 +229,8 @@ const TenantArea = () => {
         catalogItems={catalogItems}
         catalogItemsJsonResponse={catalogItemsJsonResponse}
         catalogItemsCsvResponse={catalogItemsCsvResponse}
+        catalogState={catalogStatus}
+        responsePanel={responsePanel}
       />
     </HeaderAndFooterInterface>
   );
