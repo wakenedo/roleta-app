@@ -116,6 +116,8 @@ export const useProductsImport = ({
           setCatalogStatus("partial");
         } else if (jPreview.warningsCount > 0) {
           setCatalogStatus("warning");
+        } else {
+          setCatalogStatus("success");
         }
       }
 
@@ -141,6 +143,8 @@ export const useProductsImport = ({
           setCatalogStatus("partial");
         } else if (cPreview.warningsCount > 0) {
           setCatalogStatus("warning");
+        } else {
+          setCatalogStatus("success");
         }
       }
     } finally {
