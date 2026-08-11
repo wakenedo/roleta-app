@@ -9,8 +9,7 @@ import { TierRow } from "@/Interfaces/ForTenantsInterface/components/PlanIdInter
 import { URLRow } from "@/Interfaces/ForTenantsInterface/components/PlanIdInterface/components/ProductsStep/components/AddProductsInterface/components/ProductImportPreviewTable/components/ImportedProduct/components/URLRow";
 import { selectedPlanMaxProducts } from "@/Interfaces/ForTenantsInterface/components/PlanIdInterface/utils";
 import { ProductTableProps } from "@/Interfaces/TenantAreaInterface/types";
-import { BsBoxSeam, BsExclamationTriangle } from "react-icons/bs";
-import { ImSpinner2 } from "react-icons/im";
+import { BsExclamationTriangle } from "react-icons/bs";
 
 const ProductsTable = ({
   products,

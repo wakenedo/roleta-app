@@ -32,7 +32,7 @@ const TenantGeneralInterface = ({
   );
 
   return (
-    <div className="flex-col space-y-4 pr-2 pb-4  w-full md:w-1/2">
+    <div className="flex-col space-y-4 pr-2 w-full md:w-1/2">
       <div className="space-y-1 ">
         <TenantPartnerSection
           tenantEmail={tenantEmail}

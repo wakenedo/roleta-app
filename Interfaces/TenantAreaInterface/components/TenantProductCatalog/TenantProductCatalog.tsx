@@ -6,6 +6,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { TenantProductStatsToggleButton } from "./components/TenantProductStats/components/TenantProductStatsToggleButton";
 import { TenantProductCatalogProps } from "../../types";
 import { PreviewImportTable } from "./components/ProductEditSection/components/PreviewImportTable";
+import { TenantAreaSectionBackground } from "@/backgrounds/TenantAreaSectionBackground";
+import { TenantAreaLoading } from "../TenantAreaLoading";
 
 const TenantProductCatalog = ({
   products,
@@ -73,9 +75,13 @@ const TenantProductCatalog = ({
         </div>
       )}
       <div className="bg-white/90 backdrop-blur shadow-md px-1 w-full h-fit pb-1">
-        <div className=" bg-white/90 backdrop-blur shadow-md md:px-4 md:py-4 px-3 py-3 ">
+        <div className=" bg-white/90 backdrop-blur shadow-md md:px-4 md:py-4  px-3 py-3 ">
           {error && <TenantError error={error} />}
-          {loading && <span>Loading tenant...</span>}
+          {loading && (
+            <div className="pb-1">
+              <TenantAreaLoading />
+            </div>
+          )}
           {!loading && !error && (
             <div className="flex flex-col">
               <div className=" flex space-x-2  ">

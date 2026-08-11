@@ -19,29 +19,27 @@ const TenantOptions = ({
   tenantPayment,
 }: TenantOptionsProps) => {
   return (
-    <TenantAreaSectionBackground>
-      <div className=" flex flex-col ">
-        <div className="flex space-x-2 justify-between">
-          <TenantGeneralInterface
-            tenantEmail={tenantEmail}
-            registeredProductsAmount={registeredProductsAmount}
-            tenantSubscriptionMode={tenantSubscriptionMode}
-            createdAt={createdAt}
-            formattedCreatedAt={formattedCreatedAt}
-            tenantIdentifier={tenantIdentifier}
-            tenantStatus={tenantStatus}
-            tenantName={tenantName}
-            tenantSpinPool={tenantSpinPool}
-            tenantPayment={tenantPayment}
-          />
-          <TenantOptionsAnalytics
-            tenantGlobalStats={tenantGlobalStats}
-            seasonStats={seasonStats}
-            seasonStatsLoading={seasonStatsLoading}
-          />
-        </div>
+    <div className=" flex flex-col ">
+      <div className="flex space-x-2 justify-between">
+        <TenantGeneralInterface
+          tenantEmail={tenantEmail}
+          registeredProductsAmount={registeredProductsAmount}
+          tenantSubscriptionMode={tenantSubscriptionMode}
+          createdAt={createdAt}
+          formattedCreatedAt={formattedCreatedAt}
+          tenantIdentifier={tenantIdentifier}
+          tenantStatus={tenantStatus}
+          tenantName={tenantName}
+          tenantSpinPool={tenantSpinPool}
+          tenantPayment={tenantPayment}
+        />
+        <TenantOptionsAnalytics
+          tenantGlobalStats={tenantGlobalStats}
+          seasonStats={seasonStats}
+          seasonStatsLoading={seasonStatsLoading}
+        />
       </div>
-    </TenantAreaSectionBackground>
+    </div>
   );
 };
 

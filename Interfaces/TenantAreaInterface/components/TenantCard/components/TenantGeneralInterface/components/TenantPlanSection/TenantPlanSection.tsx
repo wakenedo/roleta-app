@@ -9,7 +9,7 @@ const TenantPlanSection = ({
   return (
     <>
       <TenantSectionMarker markerTitle="Assinatura" />
-      <div className="border border-slate-200 bg-slate-200 p-1 mb-3 -mt-1">
+      <div className="border border-slate-200 bg-slate-200 p-1 -mt-1">
         <div className="px-1 pb-1 mt-2">
           <div className="flex justify-between items-center text-base">
             <span className={`text-sm text-slate-600`}>Plano</span>
