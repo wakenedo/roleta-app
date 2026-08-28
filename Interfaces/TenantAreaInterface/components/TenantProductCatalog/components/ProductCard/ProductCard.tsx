@@ -4,12 +4,43 @@ const ProductCard = ({
   product,
   selected,
   onProductClick,
+  verification,
+  verificationLoading,
 }: TenantProductCatalogProductCard) => {
+  const hasWarnings = (verification?.warnings?.length ?? 0) > 0;
+  const isInvalid = verification?.valid === false;
   return (
     <div
       onClick={onProductClick}
-      className={`${selected && "border border-[#00EEFF]"} bg-white cursor-pointer shadow hover:shadow-lg transition p-3 flex flex-col gap-1`}
+      className={`${
+        selected
+          ? "border border-[#00EEFF]"
+          : isInvalid
+            ? "border border-red-300"
+            : hasWarnings
+              ? "border border-amber-300"
+              : ""
+      } bg-white cursor-pointer shadow hover:shadow-lg transition p-3 flex flex-col gap-1`}
     >
+      {!verificationLoading && verification && !selected && (
+        <div className="flex relative cursor-default ">
+          <div className="absolute right-0">
+            {isInvalid ? (
+              <span className="rounded-full bg-red-50 px-2 py-1 text-[10px] font-semibold text-red-600 shadow-md">
+                Inválido
+              </span>
+            ) : hasWarnings ? (
+              <span className="rounded-full bg-amber-50 px-2 py-1 text-[10px] font-semibold text-amber-600 shadow-md">
+                Revisar
+              </span>
+            ) : (
+              <span className="rounded-full bg-emerald-50 px-2 py-1 text-[10px] font-semibold text-emerald-600 shadow-md">
+                Válido
+              </span>
+            )}
+          </div>
+        </div>
+      )}
       <img
         src={product.image}
         alt={product.name}

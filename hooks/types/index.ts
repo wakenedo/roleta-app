@@ -187,6 +187,7 @@ interface VerifyCatalogResponse {
   validCount: number;
   invalidCount: number;
   warnings: string[];
+  errors: string[];
   results: VerificationResult[];
 }
 export type {
@@ -205,4 +206,5 @@ export type {
   ReceivedJsonPreviewProps,
   ReceivedCsvPreviewProps,
   VerifyCatalogResponse,
+  VerificationResult,
 };

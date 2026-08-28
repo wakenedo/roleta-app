@@ -6,8 +6,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { TenantProductStatsToggleButton } from "./components/TenantProductStats/components/TenantProductStatsToggleButton";
 import { TenantProductCatalogProps } from "../../types";
 import { PreviewImportTable } from "./components/ProductEditSection/components/PreviewImportTable";
-import { TenantAreaSectionBackground } from "@/backgrounds/TenantAreaSectionBackground";
 import { TenantAreaLoading } from "../TenantAreaLoading";
+import { CatalogVerificationModal } from "./components/CatalogVerificationModal";
+import { CatalogRemoveModal } from "./components/CatalogRemoveModal";
 
 const TenantProductCatalog = ({
   products,
@@ -40,6 +41,16 @@ const TenantProductCatalog = ({
   catalogItemsJsonResponse,
   catalogState,
   responsePanel,
+  closeCatalogVerificationModal,
+  isCatalogVerificationModalOpen,
+  setIsCatalogVerificationModalOpen,
+  verificationByProductId,
+  isRemoveProductsModalOpen,
+  setIsRemoveProductsModalOpen,
+  closeRemoveProductsModal,
+  handleRemoveAllCatalogProducts,
+  removalLoading,
+  removalResult,
 }: TenantProductCatalogProps) => {
   if (!products) return error;
   const { pagination, setPage, paginatedProducts, page, file } =
@@ -74,6 +85,25 @@ const TenantProductCatalog = ({
           />
         </div>
       )}
+      {isRemoveProductsModalOpen && (
+        <div className="flex-1 overflow-y-auto">
+          <CatalogRemoveModal
+            closeRemoveProductsModal={closeRemoveProductsModal}
+            removalLoading={removalLoading}
+            removalResult={removalResult}
+          />
+        </div>
+      )}
+      {isCatalogVerificationModalOpen && (
+        <div className="flex-1 overflow-y-auto">
+          <CatalogVerificationModal
+            closeCatalogVerificationModal={closeCatalogVerificationModal}
+            verificationLoading={verificationLoading}
+            verification={verification}
+          />
+        </div>
+      )}
+
       <div className="bg-white/90 backdrop-blur shadow-md px-1 w-full h-fit pb-1">
         <div className=" bg-white/90 backdrop-blur shadow-md md:px-4 md:py-4  px-3 py-3 ">
           {error && <TenantError error={error} />}
@@ -87,6 +117,8 @@ const TenantProductCatalog = ({
               <div className=" flex space-x-2  ">
                 <div className="relative flex flex-col w-1/2">
                   <ProductGrid
+                    verificationByProductId={verificationByProductId}
+                    verificationLoading={verificationLoading}
                     products={products}
                     catalogSelectionState={catalogSelectionState}
                     setCatalogSelectionState={setCatalogSelectionState}
@@ -148,9 +180,16 @@ const TenantProductCatalog = ({
                     pickProducts={pickProducts}
                     previewProducts={previewProducts}
                     productsImported={productsImported}
-                    isProductsPreviewTableOpen={isProductsPreviewTableOpen}
                     setIsProductsPreviewTableOpen={
                       setIsProductsPreviewTableOpen
+                    }
+                    setIsCatalogVerificationModalOpen={
+                      setIsCatalogVerificationModalOpen
+                    }
+                    verificationByProductId={verificationByProductId}
+                    setIsRemoveProductsModalOpen={setIsRemoveProductsModalOpen}
+                    handleRemoveAllCatalogProducts={
+                      handleRemoveAllCatalogProducts
                     }
                   />
                 </div>

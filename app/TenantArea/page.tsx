@@ -4,6 +4,7 @@ import { useGlobalQuota } from "@/context/GlobalQuotaContext/GlobalQuotaContext"
 import { useTenantAuth } from "@/context/TenantAuthContext/TenantAuthContext";
 import { useTenant } from "@/context/TenantContext/TenantContext";
 import { TenantProduct } from "@/context/TenantContext/types";
+import { useCatalogProductsRemoval } from "@/hooks/useCatalogProductsRemoval";
 import { useCatalogVerification } from "@/hooks/useCatalogVerification";
 import { useProductsImport } from "@/hooks/useProductsImport";
 import { useTenantOnboarding } from "@/hooks/useTenantOnboarding";
@@ -12,8 +13,9 @@ import { HeaderAndFooterInterface } from "@/Interfaces/HeaderAndFooterInterface"
 import { TenantAreaInterface } from "@/Interfaces/TenantAreaInterface";
 import { CatalogSelectionState } from "@/Interfaces/TenantAreaInterface/types";
 import { formatDateTime } from "@/utils/formatter-utils";
+import { getInvalidProductIds } from "@/utils/verification-utils";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 const TenantArea = () => {
   const router = useRouter();
@@ -33,6 +35,13 @@ const TenantArea = () => {
     verification,
     loading: _loading,
   } = useCatalogVerification(tenantIdentifier as string);
+
+  const {
+    loading: removalLoading,
+    removalResult,
+    removeItemsFromCatalog,
+  } = useCatalogProductsRemoval(tenantIdentifier as string);
+
   const productsImported = useProductsImport({
     selectedPlan: {
       id: tenantCurrentPlan || "",
@@ -79,7 +88,17 @@ const TenantArea = () => {
   const [isProductsPreviewTableOpen, setIsProductsPreviewTableOpen] =
     useState(false);
 
+  const [isCatalogVerificationModalOpen, setIsCatalogVerificationModalOpen] =
+    useState(false);
+
+  const [isRemoveProductsModalOpen, setIsRemoveProductsModalOpen] =
+    useState(false);
+
   const closeModal = () => setActiveModal(null);
+  const closeCatalogVerificationModal = () =>
+    setIsCatalogVerificationModalOpen(false);
+
+  const closeRemoveProductsModal = () => setIsRemoveProductsModalOpen(false);
 
   const handleLogout = () => {
     setTenant(null);
@@ -167,6 +186,43 @@ const TenantArea = () => {
     valid: catalogResponse?.validCount ?? 0,
   };
 
+  const verificationByProductId = useMemo(
+    () =>
+      new Map(
+        verification?.results.map((result) => [result.product.id, result]) ??
+          [],
+      ),
+    [verification],
+  );
+
+  const invalidProductIds = getInvalidProductIds(verificationByProductId);
+
+  const handleRemoveCatalogProducts = async (productIds: string[]) => {
+    if (productIds.length === 0) return;
+
+    const result = await removeItemsFromCatalog(productIds);
+
+    if (!result) return;
+
+    setProducts(
+      products.filter(
+        (product) => !result.removedProductIds.includes(product.id),
+      ),
+    );
+
+    setCatalogSelectionState({
+      selectionMode: "none",
+      productSelected: undefined,
+      multipleProductsSelected: [],
+    });
+  };
+
+  const handleRemoveAllCatalogProducts = async () => {
+    const productIds = products.map((product) => product.id);
+
+    await handleRemoveCatalogProducts(productIds);
+  };
+
   return (
     <HeaderAndFooterInterface>
       <TenantAreaInterface
@@ -231,6 +287,16 @@ const TenantArea = () => {
         catalogItemsCsvResponse={catalogItemsCsvResponse}
         catalogState={catalogStatus}
         responsePanel={responsePanel}
+        closeCatalogVerificationModal={closeCatalogVerificationModal}
+        isCatalogVerificationModalOpen={isCatalogVerificationModalOpen}
+        setIsCatalogVerificationModalOpen={setIsCatalogVerificationModalOpen}
+        verificationByProductId={verificationByProductId}
+        setIsRemoveProductsModalOpen={setIsRemoveProductsModalOpen}
+        isRemoveProductsModalOpen={isRemoveProductsModalOpen}
+        closeRemoveProductsModal={closeRemoveProductsModal}
+        handleRemoveAllCatalogProducts={handleRemoveAllCatalogProducts}
+        removalLoading={removalLoading}
+        removalResult={removalResult}
       />
     </HeaderAndFooterInterface>
   );

@@ -12,6 +12,7 @@ import {
 import {
   ReceivedCsvPreviewProps,
   ReceivedJsonPreviewProps,
+  VerificationResult,
   VerifyCatalogResponse,
 } from "@/hooks/types";
 import { ProductsImportedProps } from "@/Interfaces/ForTenantsInterface/components/PlanIdInterface/types";
@@ -107,6 +108,16 @@ interface TenantAreaInterfaceProps {
     valid: number;
   };
   catalogState: CatalogState;
+  closeCatalogVerificationModal: () => void;
+  isCatalogVerificationModalOpen: boolean;
+  setIsCatalogVerificationModalOpen: Dispatch<SetStateAction<boolean>>;
+  verificationByProductId: Map<string, VerificationResult>;
+  setIsRemoveProductsModalOpen: Dispatch<SetStateAction<boolean>>;
+  isRemoveProductsModalOpen: boolean;
+  closeRemoveProductsModal: () => void;
+  handleRemoveAllCatalogProducts: () => Promise<void>;
+  removalLoading: boolean;
+  removalResult: CatalogProductsRemovalResult | null;
 }
 
 interface TenantPreviewContentProps {
@@ -153,8 +164,11 @@ interface ProductEditSectionProps {
   handleCatalogSubmitProducts: () => Promise<void>;
   previewProducts: TenantProduct[];
   pickProducts: TenantProduct[];
-  isProductsPreviewTableOpen: boolean;
   setIsProductsPreviewTableOpen: Dispatch<SetStateAction<boolean>>;
+  setIsCatalogVerificationModalOpen: Dispatch<SetStateAction<boolean>>;
+  verificationByProductId: Map<string, VerificationResult>;
+  setIsRemoveProductsModalOpen: Dispatch<SetStateAction<boolean>>;
+  handleRemoveAllCatalogProducts: () => Promise<void>;
 }
 
 interface TenantPreviewMenuProps {
@@ -304,18 +318,34 @@ interface TenantProductCatalogProps {
     valid: number;
   };
   catalogState: CatalogState;
+  closeCatalogVerificationModal: () => void;
+  isCatalogVerificationModalOpen: boolean;
+  setIsCatalogVerificationModalOpen: Dispatch<SetStateAction<boolean>>;
+  verificationByProductId: Map<string, VerificationResult>;
+  isRemoveProductsModalOpen: boolean;
+  setIsRemoveProductsModalOpen: Dispatch<SetStateAction<boolean>>;
+  closeRemoveProductsModal: () => void;
+  handleRemoveAllCatalogProducts: () => Promise<void>;
+  removalLoading: boolean;
+  removalResult: CatalogProductsRemovalResult | null;
 }
 
 interface TenantProductCatalogProductCard {
   product: TenantProduct;
   selected: boolean;
   onProductClick: () => void;
+  verification: VerificationResult | undefined;
+  verificationLoading: boolean;
 }
 
 interface TenantProductCatalogProductGridProps {
   products: TenantProduct[];
   catalogSelectionState: CatalogSelectionState;
   setCatalogSelectionState: Dispatch<SetStateAction<CatalogSelectionState>>;
+
+  verificationLoading: boolean;
+
+  verificationByProductId: Map<string, VerificationResult>;
 }
 
 interface StatCardProps {
@@ -367,7 +397,9 @@ type CatalogSelectionSettersProps = {
 type SingleProductSelectionProps = {
   productSelected: TenantProduct | undefined;
   verifyCatalog: (products: TenantProduct[]) => Promise<VerifyCatalogResponse>;
-  verification: VerifyCatalogResponse | null;
+
+  productVerification: VerificationResult | undefined;
+
   verificationLoading: boolean;
 };
 
@@ -378,6 +410,7 @@ type MultipleProductsSelectionProps = {
   isMultipleProductsCheckoutVisible: boolean;
   catalogSelectionState: CatalogSelectionState;
   verification: VerifyCatalogResponse | null;
+  verificationByProductId: Map<string, VerificationResult>;
 };
 
 type CatalogSelectionMode = "none" | "single" | "multiple";
@@ -409,6 +442,9 @@ interface ProductsObjectManagerProps {
   previewProducts: TenantProduct[];
   pickProducts: TenantProduct[];
   setIsProductsPreviewTableOpen: Dispatch<SetStateAction<boolean>>;
+  setIsCatalogVerificationModalOpen: Dispatch<SetStateAction<boolean>>;
+  setIsRemoveProductsModalOpen: Dispatch<SetStateAction<boolean>>;
+  handleRemoveAllCatalogProducts: () => Promise<void>;
 }
 
 type ObjectManagerCheckoutProps = {
@@ -495,6 +531,11 @@ type SaveCatalogProductsButtonProps = {
   label: string;
 };
 
+type CatalogProductsRemovalResult = {
+  removedCount: number;
+  removedProductIds: string[];
+};
+
 export type {
   TenantAreaInterfaceProps,
   TenantCardProps,
@@ -535,4 +576,5 @@ export type {
   ProductTableProps,
   SaveCatalogProductsButtonProps,
   CatalogState,
+  CatalogProductsRemovalResult,
 };

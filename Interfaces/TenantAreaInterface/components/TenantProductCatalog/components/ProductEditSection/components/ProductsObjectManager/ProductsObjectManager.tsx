@@ -14,10 +14,13 @@ const ProductsObjectManager = ({
   pickProducts,
   previewProducts,
   productsImported,
+  setIsCatalogVerificationModalOpen,
+  setIsRemoveProductsModalOpen,
+  handleRemoveAllCatalogProducts,
 }: ProductsObjectManagerProps) => {
   const handleVerify = async () => {
     if (!products.length) return;
-
+    setIsCatalogVerificationModalOpen(true);
     await verifyCatalog(products);
   };
 
@@ -36,6 +39,11 @@ const ProductsObjectManager = ({
     await handleFileUpload(file, "admin/catalog");
   };
 
+  const handleRemoveClick = () => {
+    setIsRemoveProductsModalOpen(true);
+    handleRemoveAllCatalogProducts();
+  };
+
   const totalUploadedProducts = products.length;
   const productsLimit = tenantProductStats?.limit;
   const isProductsOnLimit = totalUploadedProducts === productsLimit;
@@ -45,13 +53,24 @@ const ProductsObjectManager = ({
       <div className="flex flex-col justify-between tracking-wider ">
         <div className="flex flex-col px-2 text-slate-500 ">
           <div className="flex ">
-            <span className="text-lg tracking-widest  ">Produtos</span>
-            {!isProductsOnLimit && (
-              <div className="px-2 flex space-x-2 items-center text-amber-500  ">
+            <span className="text-lg tracking-widest  cursor-default">
+              Produtos
+            </span>
+            {totalUploadedProducts != 0 && !isProductsOnLimit && (
+              <div className="cursor-default px-2 flex space-x-2 items-center text-amber-500  ">
                 <BsExclamationTriangle size={14} />
                 <span className="text-xs pt-1">
                   Adicione mais produtos para proporcionar a experiência
                   completa para seus usuários
+                </span>
+              </div>
+            )}
+            {totalUploadedProducts === 0 && (
+              <div className="cursor-default px-2 flex space-x-2 items-center text-red-500  ">
+                <BsExclamationTriangle size={14} />
+                <span className="text-xs pt-1">
+                  Adicione produtos para habilitar sua experiência para seus
+                  usuários
                 </span>
               </div>
             )}
@@ -64,7 +83,7 @@ const ProductsObjectManager = ({
             />
           )}
           <span
-            className={`${!isProductsOnLimit && "text-amber-500"} text-2xl  text-right`}
+            className={`${!isProductsOnLimit && "text-amber-500"} cursor-default text-2xl  text-right`}
           >
             {products.length}/{tenantProductStats?.limit}
           </span>
@@ -88,20 +107,26 @@ const ProductsObjectManager = ({
                 onChange={handleFileChange}
               />
 
-              <div onClick={handleAddClick}>Adicionar</div>
+              <span onClick={handleAddClick}>Adicionar</span>
             </div>
           )}
 
-          <div
-            className="flex cursor-pointer text-xs hover:text-emerald-500 transition"
-            onClick={handleVerify}
-          >
-            <span>{verificationLoading ? "Verificando..." : "Verificar"}</span>
-          </div>
+          {products && products.length != 0 ? (
+            <>
+              <button className="flex cursor-pointer text-xs hover:text-emerald-500 transition">
+                <span onClick={handleVerify}>
+                  {verificationLoading ? "Verificando..." : "Verificar"}
+                </span>
+              </button>
 
-          <div className="cursor-pointer text-xs hover:text-red-500 transition">
-            <span>Remover</span>
-          </div>
+              <button
+                className="cursor-pointer text-xs hover:text-red-500 transition"
+                disabled={products && products.length === 0}
+              >
+                <span onClick={handleRemoveClick}>Remover</span>
+              </button>
+            </>
+          ) : null}
         </div>
       </div>
     </div>

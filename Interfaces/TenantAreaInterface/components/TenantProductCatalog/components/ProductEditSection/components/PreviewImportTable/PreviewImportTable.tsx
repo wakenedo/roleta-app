@@ -40,7 +40,7 @@ const PreviewImportTable = ({
       flex
       items-center
       justify-center
-      bg-black/50
+      bg-black/10
       backdrop-blur-sm
       h-full
       
@@ -77,7 +77,7 @@ const PreviewImportTable = ({
         />
 
         <div className="mt-4 flex flex-col justify-center gap-5">
-          {previewProducts.length != 0 && (
+          {catalogItems.length != 0 && (
             <SaveProductsButton
               onClick={handleCatalogSubmitProducts}
               label={

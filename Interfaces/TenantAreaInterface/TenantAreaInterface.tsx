@@ -62,6 +62,16 @@ const TenantAreaInterface = ({
   catalogItemsCsvResponse,
   catalogState,
   responsePanel,
+  closeCatalogVerificationModal,
+  isCatalogVerificationModalOpen,
+  setIsCatalogVerificationModalOpen,
+  verificationByProductId,
+  isRemoveProductsModalOpen,
+  setIsRemoveProductsModalOpen,
+  closeRemoveProductsModal,
+  handleRemoveAllCatalogProducts,
+  removalLoading,
+  removalResult,
 }: TenantAreaInterfaceProps) => {
   return (
     <TenantSlotsDedicatedRouteBackground
@@ -134,6 +144,18 @@ const TenantAreaInterface = ({
                 catalogItemsJsonResponse={catalogItemsJsonResponse}
                 catalogState={catalogState}
                 responsePanel={responsePanel}
+                closeCatalogVerificationModal={closeCatalogVerificationModal}
+                isCatalogVerificationModalOpen={isCatalogVerificationModalOpen}
+                setIsCatalogVerificationModalOpen={
+                  setIsCatalogVerificationModalOpen
+                }
+                verificationByProductId={verificationByProductId}
+                setIsRemoveProductsModalOpen={setIsRemoveProductsModalOpen}
+                isRemoveProductsModalOpen={isRemoveProductsModalOpen}
+                closeRemoveProductsModal={closeRemoveProductsModal}
+                handleRemoveAllCatalogProducts={handleRemoveAllCatalogProducts}
+                removalLoading={removalLoading}
+                removalResult={removalResult}
               />
             )}
             {activeTab === "preview" && (

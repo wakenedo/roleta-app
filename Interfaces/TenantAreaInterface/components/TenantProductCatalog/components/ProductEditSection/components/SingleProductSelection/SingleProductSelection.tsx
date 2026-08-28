@@ -3,15 +3,19 @@ import { formatPriceBRL } from "@/utils/formatter-utils";
 
 const SingleProductSelection = ({
   productSelected,
-  verification,
   verificationLoading,
   verifyCatalog,
+  productVerification,
 }: SingleProductSelectionProps) => {
   const handleVerify = async () => {
     if (!productSelected) return;
 
     await verifyCatalog([productSelected]);
   };
+  const hasWarnings = (productVerification?.warnings?.length ?? 0) > 0;
+  const isInvalid = productVerification?.valid === false;
+
+  console.log("SProductSelection productVerification", productVerification);
 
   return (
     // * are  editable fields
@@ -21,9 +25,32 @@ const SingleProductSelection = ({
           <div className="flex flex-col justify-between   p-2">
             <div className="flex flex-col justify-between ">
               <div className="mb-2 border rounded border-slate-200 px-2">
-                <div className="flex space-x-1 items-center text-slate-400">
-                  <span className="text-xs">Id:</span>
-                  <span>{productSelected?.id}</span>
+                <div className="flex space-x-1 items-center text-slate-400 justify-between">
+                  <div>
+                    <span className="text-xs">Id:</span>
+                    <span>{productSelected?.id}</span>
+                  </div>
+                  <div>
+                    {productVerification && (
+                      <div className="flex relative z-99 cursor-default">
+                        <div className="absolute right-0 top-6  ">
+                          {isInvalid ? (
+                            <span className="rounded-full bg-red-50 px-3 py-2 text-[12px] font-semibold text-red-600 shadow-md">
+                              Inválido
+                            </span>
+                          ) : hasWarnings ? (
+                            <span className="rounded-full bg-amber-50 px-3 py-2 text-[12px] font-semibold text-amber-600 shadow-md">
+                              Revisar
+                            </span>
+                          ) : (
+                            <span className="rounded-full bg-emerald-50 px-3 py-2 text-[12px] font-semibold text-emerald-600 shadow-md">
+                              Válido
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
               <div className="flex space-x-2">
