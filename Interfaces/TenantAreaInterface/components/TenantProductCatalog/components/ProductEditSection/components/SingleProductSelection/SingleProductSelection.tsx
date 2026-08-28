@@ -54,10 +54,10 @@ const SingleProductSelection = ({
                 </div>
               </div>
               <div className="flex space-x-2">
-                <div className="bg-slate-200 h-full">
+                <div className="bg-slate-200 h-full w-2/5 max-w-md">
                   <span>Image (if present JSON flow mostly)</span>
                 </div>
-                <div className="flex flex-col p-2 lg:space-y-4">
+                <div className="flex flex-col p-2 lg:space-y-4 line-clamp-1 w-3/5">
                   <div className="flex flex-col">
                     <span className="text-xs text-slate-400">Nome</span>
                     <span className="text-slate-600 line-clamp-1">
