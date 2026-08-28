@@ -21,12 +21,12 @@ const ProductGrid = ({
       <TenantSectionMarker markerTitle="Produtos Carregados" />
 
       <div className="border-b border-x border-slate-200 p-2 grid grid-cols-2 md:grid-cols-3  gap-4 lg:h-166 h-168 xl:h-167.75  overflow-scroll   [scrollbar-width:none] bg-slate-100">
-        {products.map((product, index) => {
+        {products.map((product) => {
           const productVerification = verificationByProductId.get(product.id);
 
           return (
             <ProductCard
-              key={product.id + index}
+              key={product.id}
               product={product}
               verification={productVerification}
               verificationLoading={verificationLoading}
