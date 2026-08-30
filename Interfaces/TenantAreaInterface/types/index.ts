@@ -118,6 +118,7 @@ interface TenantAreaInterfaceProps {
   handleRemoveAllCatalogProducts: () => Promise<void>;
   removalLoading: boolean;
   removalResult: CatalogProductsRemovalResult | null;
+  productsImportedLoading: boolean;
 }
 
 interface TenantPreviewContentProps {
@@ -328,6 +329,7 @@ interface TenantProductCatalogProps {
   handleRemoveAllCatalogProducts: () => Promise<void>;
   removalLoading: boolean;
   removalResult: CatalogProductsRemovalResult | null;
+  productsImportedLoading: boolean;
 }
 
 interface TenantProductCatalogProductCard {
@@ -524,6 +526,7 @@ type PreviewImportTableProps = {
     valid: number;
   };
   catalogState: CatalogState;
+  productsImportedLoading: boolean;
 };
 
 type SaveCatalogProductsButtonProps = {
