@@ -61,6 +61,7 @@ const TenantArea = () => {
     catalogItemsJsonResponse,
     catalogItemsCsvResponse,
     catalogStatus,
+    loading: productsImportedLoading,
   } = productsImported;
   const [catalogSelectionState, setCatalogSelectionState] =
     useState<CatalogSelectionState>({
@@ -297,6 +298,7 @@ const TenantArea = () => {
         handleRemoveAllCatalogProducts={handleRemoveAllCatalogProducts}
         removalLoading={removalLoading}
         removalResult={removalResult}
+        productsImportedLoading={productsImportedLoading}
       />
     </HeaderAndFooterInterface>
   );
