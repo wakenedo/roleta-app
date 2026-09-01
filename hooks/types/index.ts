@@ -60,6 +60,8 @@ type UseProductsImportsProps = {
     path: "onboard" | "admin/catalog",
     dryRun?: boolean,
   ) => Promise<any>;
+  refresh: () => Promise<void>;
+  setTenantLoading: Dispatch<SetStateAction<boolean>>;
 };
 
 type CsvPreviewProps = {
