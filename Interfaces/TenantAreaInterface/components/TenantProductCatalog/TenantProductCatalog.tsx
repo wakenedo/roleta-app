@@ -37,8 +37,6 @@ const TenantProductCatalog = ({
   updateProducts,
   handlePreviewTableCancel,
   catalogItems,
-  catalogItemsCsvResponse,
-  catalogItemsJsonResponse,
   catalogState,
   responsePanel,
   closeCatalogVerificationModal,
@@ -51,6 +49,11 @@ const TenantProductCatalog = ({
   handleRemoveAllCatalogProducts,
   removalLoading,
   removalResult,
+  productsImportedLoading,
+  hasPreview,
+  productsToRender,
+  hasCatalogResponse,
+  isCatalogStateLoading,
 }: TenantProductCatalogProps) => {
   if (!products) return error;
   const { pagination, setPage, paginatedProducts, page, file } =
@@ -60,6 +63,7 @@ const TenantProductCatalog = ({
     name: tenantSubscriptionMode || "",
     price: "",
   };
+
   return (
     <>
       {isProductsPreviewTableOpen && file != null && (
@@ -74,14 +78,16 @@ const TenantProductCatalog = ({
             selectedPlan={_selectedPlan}
             setPage={setPage}
             updateProducts={updateProducts}
-            pickProducts={pickProducts}
             previewProducts={previewProducts}
             handlePreviewTableCancel={handlePreviewTableCancel}
             catalogItems={catalogItems}
-            catalogItemsCsvResponse={catalogItemsCsvResponse}
-            catalogItemsJsonResponse={catalogItemsJsonResponse}
             catalogState={catalogState}
             responsePanel={responsePanel}
+            productsImportedLoading={productsImportedLoading}
+            hasPreview={hasPreview}
+            productsToRender={productsToRender}
+            hasCatalogResponse={hasCatalogResponse}
+            isCatalogStateLoading={isCatalogStateLoading}
           />
         </div>
       )}
@@ -176,7 +182,6 @@ const TenantProductCatalog = ({
                     verifyCatalog={verifyCatalog}
                     products={products}
                     handleFileUpload={handleFileUpload}
-                    handleCatalogSubmitProducts={handleCatalogSubmitProducts}
                     pickProducts={pickProducts}
                     previewProducts={previewProducts}
                     productsImported={productsImported}

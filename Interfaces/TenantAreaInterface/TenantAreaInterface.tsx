@@ -58,8 +58,6 @@ const TenantAreaInterface = ({
   updateProducts,
   handlePreviewTableCancel,
   catalogItems,
-  catalogItemsJsonResponse,
-  catalogItemsCsvResponse,
   catalogState,
   responsePanel,
   closeCatalogVerificationModal,
@@ -72,6 +70,11 @@ const TenantAreaInterface = ({
   handleRemoveAllCatalogProducts,
   removalLoading,
   removalResult,
+  productsImportedLoading,
+  hasPreview,
+  productsToRender,
+  hasCatalogResponse,
+  isCatalogStateLoading,
 }: TenantAreaInterfaceProps) => {
   return (
     <TenantSlotsDedicatedRouteBackground
@@ -111,6 +114,7 @@ const TenantAreaInterface = ({
             {activeTab === "catalog" && (
               <TenantProductCatalog
                 error={error}
+                productsImportedLoading={productsImportedLoading}
                 loading={loading}
                 products={products}
                 tenantProductStats={tenantProductStats}
@@ -140,8 +144,6 @@ const TenantAreaInterface = ({
                 updateProducts={updateProducts}
                 handlePreviewTableCancel={handlePreviewTableCancel}
                 catalogItems={catalogItems}
-                catalogItemsCsvResponse={catalogItemsCsvResponse}
-                catalogItemsJsonResponse={catalogItemsJsonResponse}
                 catalogState={catalogState}
                 responsePanel={responsePanel}
                 closeCatalogVerificationModal={closeCatalogVerificationModal}
@@ -156,6 +158,10 @@ const TenantAreaInterface = ({
                 handleRemoveAllCatalogProducts={handleRemoveAllCatalogProducts}
                 removalLoading={removalLoading}
                 removalResult={removalResult}
+                hasPreview={hasPreview}
+                productsToRender={productsToRender}
+                hasCatalogResponse={hasCatalogResponse}
+                isCatalogStateLoading={isCatalogStateLoading}
               />
             )}
             {activeTab === "preview" && (

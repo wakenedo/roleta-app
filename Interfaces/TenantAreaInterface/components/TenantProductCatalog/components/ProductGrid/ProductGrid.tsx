@@ -14,7 +14,6 @@ const ProductGrid = ({
   verificationByProductId,
 }: TenantProductCatalogProductGridProps) => {
   if (products === null) return null;
-  console.log("ProductGrid verificationByProductId", verificationByProductId);
 
   return (
     <div className="flex flex-col  ">
