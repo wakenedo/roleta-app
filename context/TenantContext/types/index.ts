@@ -224,6 +224,7 @@ type TenantContextProps = {
   products: TenantProduct[];
   preview: TenantProduct[];
   loading: boolean;
+  setLoading: Dispatch<SetStateAction<boolean>>;
   error: string | null;
   setTenant: (t: Tenant | null) => void;
   setProducts: Dispatch<SetStateAction<TenantProduct[]>>;
