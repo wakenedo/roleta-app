@@ -27,6 +27,7 @@ const ProductsTable = ({
   productsToRender,
   hasCatalogResponse,
   isCatalogStateLoading,
+  productsImportedErrors,
 }: ProductTableProps) => {
   const updateProductField = (
     index: number,
@@ -50,6 +51,8 @@ const ProductsTable = ({
   const missing = (value: TenantProduct[keyof TenantProduct]) =>
     !value ? "border-red-400" : "border-gray-300";
 
+  console.log("ProductsTable catalogState", catalogState);
+  console.log("ProductsTable productsImportedErrors", productsImportedErrors);
   return (
     <>
       {catalogItems.length > 0 && (
@@ -183,7 +186,7 @@ const ProductsTable = ({
           </div>
         </div>
       )}
-      {isCatalogStateLoading && (
+      {isCatalogStateLoading && productsImportedErrors.length <= 0 && (
         <div className="flex flex-col rounded-lg border-slate-200 bg-white border shadow-sm mb-4">
           <div className=" border-slate-200 border-b flex items-center justify-between px-5 py-4">
             <div className="flex flex-col ">
@@ -213,6 +216,31 @@ const ProductsTable = ({
             <div className="text-sm text-slate-500">
               Aguarde um momento enquanto verificamos se os links estão ou
               continuam acessíveis.
+            </div>
+          </div>
+        </div>
+      )}
+      {productsImportedErrors.length > 0 && (
+        <div className="flex flex-col rounded-lg border-slate-200 bg-white border shadow-sm mb-4">
+          <div className=" border-slate-200 border-b flex items-center justify-between px-5 py-4">
+            <div className="flex flex-col ">
+              <h3 className="text-lg font-semibold text-slate-700">
+                Importação de Catálogo
+              </h3>
+              <p className="text-sm text-slate-500">
+                Erro ao importar produtos. O numero de produtos excede o limite
+                permitido para o plano atual. Remova produtos excedentes e tente
+                novamente.
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-col items-center gap-4  border-slate-200 border-b  ">
+            <div className="text-3xl font-bold text-slate-700 flex flex-col items-center py-3">
+              {productsImportedErrors.map((error, index) => (
+                <div key={index} className="text-xs text-red-500">
+                  {error}
+                </div>
+              ))}
             </div>
           </div>
         </div>

@@ -83,6 +83,10 @@ type ReceivedCsvPreviewProps = {
   total: number;
   validCount: number;
   valid: number;
+  current?: number;
+  error?: string;
+  incoming?: number;
+  limit?: number;
 };
 
 type JsonPreviewProps = {
@@ -104,6 +108,10 @@ type ReceivedJsonPreviewProps = {
   total: number;
   validCount: number;
   valid: number;
+  current?: number;
+  error?: string;
+  incoming?: number;
+  limit?: number;
 };
 
 type RegisterTenantProps = {

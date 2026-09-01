@@ -54,6 +54,7 @@ const TenantProductCatalog = ({
   productsToRender,
   hasCatalogResponse,
   isCatalogStateLoading,
+  productsImportedErrors,
 }: TenantProductCatalogProps) => {
   if (!products) return error;
   const { pagination, setPage, paginatedProducts, page, file } =
@@ -88,6 +89,7 @@ const TenantProductCatalog = ({
             productsToRender={productsToRender}
             hasCatalogResponse={hasCatalogResponse}
             isCatalogStateLoading={isCatalogStateLoading}
+            productsImportedErrors={productsImportedErrors}
           />
         </div>
       )}

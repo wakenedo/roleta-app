@@ -75,6 +75,7 @@ const TenantAreaInterface = ({
   productsToRender,
   hasCatalogResponse,
   isCatalogStateLoading,
+  productsImportedErrors,
 }: TenantAreaInterfaceProps) => {
   return (
     <TenantSlotsDedicatedRouteBackground
@@ -162,6 +163,7 @@ const TenantAreaInterface = ({
                 productsToRender={productsToRender}
                 hasCatalogResponse={hasCatalogResponse}
                 isCatalogStateLoading={isCatalogStateLoading}
+                productsImportedErrors={productsImportedErrors}
               />
             )}
             {activeTab === "preview" && (

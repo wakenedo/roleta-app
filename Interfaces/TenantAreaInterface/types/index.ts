@@ -121,6 +121,7 @@ interface TenantAreaInterfaceProps {
   productsToRender: TenantProduct[];
   hasCatalogResponse: boolean;
   isCatalogStateLoading: boolean;
+  productsImportedErrors: string[];
 }
 
 interface TenantPreviewContentProps {
@@ -333,6 +334,7 @@ interface TenantProductCatalogProps {
   productsToRender: TenantProduct[];
   hasCatalogResponse: boolean;
   isCatalogStateLoading: boolean;
+  productsImportedErrors: string[];
 }
 
 interface TenantProductCatalogProductCard {
@@ -498,6 +500,7 @@ type ProductTableProps = {
   productsToRender: TenantProduct[];
   hasCatalogResponse: boolean;
   isCatalogStateLoading: boolean;
+  productsImportedErrors: string[];
 };
 
 type PreviewImportTableProps = {
@@ -538,6 +541,7 @@ type PreviewImportTableProps = {
   productsToRender: TenantProduct[];
   hasCatalogResponse: boolean;
   isCatalogStateLoading: boolean;
+  productsImportedErrors: string[];
 };
 
 type SaveCatalogProductsButtonProps = {

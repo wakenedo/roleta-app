@@ -101,7 +101,7 @@ export const useProductsImport = ({
           true,
         )) as ReceivedJsonPreviewProps;
         console.log("jPreview", jPreview);
-        if (jPreview.products.length > MAX_PRODUCTS) {
+        if (jPreview.error?.includes("Product limit exceeded")) {
           setErrors([`Plan allows only ${MAX_PRODUCTS} products`]);
           return;
         }
@@ -129,7 +129,8 @@ export const useProductsImport = ({
           path,
           true,
         )) as ReceivedCsvPreviewProps;
-        if (cPreview.products.length > MAX_PRODUCTS) {
+        console.log("cPreview", cPreview);
+        if (cPreview.error?.includes("Product limit exceeded")) {
           setErrors([`Plan allows only ${MAX_PRODUCTS} products`]);
           return;
         }
@@ -219,6 +220,8 @@ export const useProductsImport = ({
     setIsValidated(false);
     setCatalogStatus("idle");
   };
+
+  console.log("errors", errors);
 
   return {
     file,

@@ -73,6 +73,7 @@ const TenantArea = () => {
     catalogItemsCsvResponse,
     catalogStatus,
     loading: productsImportedLoading,
+    errors: productsImportedErrors,
   } = productsImported;
   const [catalogSelectionState, setCatalogSelectionState] =
     useState<CatalogSelectionState>({
@@ -284,6 +285,7 @@ const TenantArea = () => {
         productsToRender={productsToRender}
         hasCatalogResponse={hasCatalogResponse}
         isCatalogStateLoading={isCatalogStateLoading}
+        productsImportedErrors={productsImportedErrors}
       />
     </HeaderAndFooterInterface>
   );

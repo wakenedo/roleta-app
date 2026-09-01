@@ -25,6 +25,7 @@ const PreviewImportTable = ({
   productsToRender,
   hasCatalogResponse,
   isCatalogStateLoading,
+  productsImportedErrors,
 }: PreviewImportTableProps) => {
   if (productsToRender.length < 0) return null;
 
@@ -72,6 +73,7 @@ const PreviewImportTable = ({
           productsToRender={productsToRender}
           hasCatalogResponse={hasCatalogResponse}
           isCatalogStateLoading={isCatalogStateLoading}
+          productsImportedErrors={productsImportedErrors}
         />
 
         <div className="mt-4 flex flex-col justify-center gap-5">
