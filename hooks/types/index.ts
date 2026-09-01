@@ -60,6 +60,8 @@ type UseProductsImportsProps = {
     path: "onboard" | "admin/catalog",
     dryRun?: boolean,
   ) => Promise<any>;
+  refresh: () => Promise<void>;
+  setTenantLoading: Dispatch<SetStateAction<boolean>>;
 };
 
 type CsvPreviewProps = {
@@ -81,6 +83,10 @@ type ReceivedCsvPreviewProps = {
   total: number;
   validCount: number;
   valid: number;
+  current?: number;
+  error?: string;
+  incoming?: number;
+  limit?: number;
 };
 
 type JsonPreviewProps = {
@@ -102,6 +108,10 @@ type ReceivedJsonPreviewProps = {
   total: number;
   validCount: number;
   valid: number;
+  current?: number;
+  error?: string;
+  incoming?: number;
+  limit?: number;
 };
 
 type RegisterTenantProps = {
@@ -187,6 +197,7 @@ interface VerifyCatalogResponse {
   validCount: number;
   invalidCount: number;
   warnings: string[];
+  errors: string[];
   results: VerificationResult[];
 }
 export type {
@@ -205,4 +216,5 @@ export type {
   ReceivedJsonPreviewProps,
   ReceivedCsvPreviewProps,
   VerifyCatalogResponse,
+  VerificationResult,
 };

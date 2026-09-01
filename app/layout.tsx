@@ -5,6 +5,7 @@ import { AuthProvider } from "@/context/AuthContext/AuthContext";
 import { UserProvider } from "@/context/UserContext/UserContext";
 import { TenantProvider } from "@/context/TenantContext/TenantContext";
 import { TenantAuthProvider } from "@/context/TenantAuthContext/TenantAuthContext";
+import { Analytics } from "@vercel/analytics/next";
 
 const roboto = Roboto({
   variable: "--font-roboto",
@@ -36,6 +37,7 @@ export default function RootLayout({
             </UserProvider>
           </TenantAuthProvider>
         </AuthProvider>
+        <Analytics />
       </body>
     </html>
   );

@@ -12,6 +12,7 @@ import {
 import {
   ReceivedCsvPreviewProps,
   ReceivedJsonPreviewProps,
+  VerificationResult,
   VerifyCatalogResponse,
 } from "@/hooks/types";
 import { ProductsImportedProps } from "@/Interfaces/ForTenantsInterface/components/PlanIdInterface/types";
@@ -96,8 +97,6 @@ interface TenantAreaInterfaceProps {
   updateProducts: Dispatch<SetStateAction<TenantProduct[]>>;
   handlePreviewTableCancel: () => void;
   catalogItems: TenantCatalogItem[];
-  catalogItemsJsonResponse: ReceivedJsonPreviewProps | null;
-  catalogItemsCsvResponse: ReceivedCsvPreviewProps | null;
   responsePanel: {
     preview: unknown[] | undefined;
     products: TenantProduct[];
@@ -107,6 +106,22 @@ interface TenantAreaInterfaceProps {
     valid: number;
   };
   catalogState: CatalogState;
+  closeCatalogVerificationModal: () => void;
+  isCatalogVerificationModalOpen: boolean;
+  setIsCatalogVerificationModalOpen: Dispatch<SetStateAction<boolean>>;
+  verificationByProductId: Map<string, VerificationResult>;
+  setIsRemoveProductsModalOpen: Dispatch<SetStateAction<boolean>>;
+  isRemoveProductsModalOpen: boolean;
+  closeRemoveProductsModal: () => void;
+  handleRemoveAllCatalogProducts: () => Promise<void>;
+  removalLoading: boolean;
+  removalResult: CatalogProductsRemovalResult | null;
+  productsImportedLoading: boolean;
+  hasPreview: boolean;
+  productsToRender: TenantProduct[];
+  hasCatalogResponse: boolean;
+  isCatalogStateLoading: boolean;
+  productsImportedErrors: string[];
 }
 
 interface TenantPreviewContentProps {
@@ -150,11 +165,13 @@ interface ProductEditSectionProps {
     path: "onboard" | "admin/catalog",
   ) => Promise<void>;
   productsImported: ProductsImportedProps;
-  handleCatalogSubmitProducts: () => Promise<void>;
   previewProducts: TenantProduct[];
   pickProducts: TenantProduct[];
-  isProductsPreviewTableOpen: boolean;
   setIsProductsPreviewTableOpen: Dispatch<SetStateAction<boolean>>;
+  setIsCatalogVerificationModalOpen: Dispatch<SetStateAction<boolean>>;
+  verificationByProductId: Map<string, VerificationResult>;
+  setIsRemoveProductsModalOpen: Dispatch<SetStateAction<boolean>>;
+  handleRemoveAllCatalogProducts: () => Promise<void>;
 }
 
 interface TenantPreviewMenuProps {
@@ -293,8 +310,6 @@ interface TenantProductCatalogProps {
   updateProducts: Dispatch<SetStateAction<TenantProduct[]>>;
   handlePreviewTableCancel: () => void;
   catalogItems: TenantCatalogItem[];
-  catalogItemsJsonResponse: ReceivedJsonPreviewProps | null;
-  catalogItemsCsvResponse: ReceivedCsvPreviewProps | null;
   responsePanel: {
     preview: unknown[] | undefined;
     products: TenantProduct[];
@@ -304,18 +319,40 @@ interface TenantProductCatalogProps {
     valid: number;
   };
   catalogState: CatalogState;
+  closeCatalogVerificationModal: () => void;
+  isCatalogVerificationModalOpen: boolean;
+  setIsCatalogVerificationModalOpen: Dispatch<SetStateAction<boolean>>;
+  verificationByProductId: Map<string, VerificationResult>;
+  isRemoveProductsModalOpen: boolean;
+  setIsRemoveProductsModalOpen: Dispatch<SetStateAction<boolean>>;
+  closeRemoveProductsModal: () => void;
+  handleRemoveAllCatalogProducts: () => Promise<void>;
+  removalLoading: boolean;
+  removalResult: CatalogProductsRemovalResult | null;
+  productsImportedLoading: boolean;
+  hasPreview: boolean;
+  productsToRender: TenantProduct[];
+  hasCatalogResponse: boolean;
+  isCatalogStateLoading: boolean;
+  productsImportedErrors: string[];
 }
 
 interface TenantProductCatalogProductCard {
   product: TenantProduct;
   selected: boolean;
   onProductClick: () => void;
+  verification: VerificationResult | undefined;
+  verificationLoading: boolean;
 }
 
 interface TenantProductCatalogProductGridProps {
   products: TenantProduct[];
   catalogSelectionState: CatalogSelectionState;
   setCatalogSelectionState: Dispatch<SetStateAction<CatalogSelectionState>>;
+
+  verificationLoading: boolean;
+
+  verificationByProductId: Map<string, VerificationResult>;
 }
 
 interface StatCardProps {
@@ -367,7 +404,9 @@ type CatalogSelectionSettersProps = {
 type SingleProductSelectionProps = {
   productSelected: TenantProduct | undefined;
   verifyCatalog: (products: TenantProduct[]) => Promise<VerifyCatalogResponse>;
-  verification: VerifyCatalogResponse | null;
+
+  productVerification: VerificationResult | undefined;
+
   verificationLoading: boolean;
 };
 
@@ -378,6 +417,7 @@ type MultipleProductsSelectionProps = {
   isMultipleProductsCheckoutVisible: boolean;
   catalogSelectionState: CatalogSelectionState;
   verification: VerifyCatalogResponse | null;
+  verificationByProductId: Map<string, VerificationResult>;
 };
 
 type CatalogSelectionMode = "none" | "single" | "multiple";
@@ -409,6 +449,9 @@ interface ProductsObjectManagerProps {
   previewProducts: TenantProduct[];
   pickProducts: TenantProduct[];
   setIsProductsPreviewTableOpen: Dispatch<SetStateAction<boolean>>;
+  setIsCatalogVerificationModalOpen: Dispatch<SetStateAction<boolean>>;
+  setIsRemoveProductsModalOpen: Dispatch<SetStateAction<boolean>>;
+  handleRemoveAllCatalogProducts: () => Promise<void>;
 }
 
 type ObjectManagerCheckoutProps = {
@@ -417,7 +460,13 @@ type ObjectManagerCheckoutProps = {
   pickProducts: TenantProduct[];
 };
 
-type CatalogState = "idle" | "loading" | "success" | "warning" | "partial";
+type CatalogState =
+  | "idle"
+  | "loading"
+  | "success"
+  | "warning"
+  | "partial"
+  | "submitting";
 
 type ProductTableProps = {
   products: TenantProduct[];
@@ -439,9 +488,6 @@ type ProductTableProps = {
     hasPrev: boolean;
   };
   previewProducts: TenantProduct[];
-  pickProducts: TenantProduct[];
-  catalogItemsJsonResponse: ReceivedJsonPreviewProps | null;
-  catalogItemsCsvResponse: ReceivedCsvPreviewProps | null;
   catalogItems: TenantCatalogItem[];
   catalogState: CatalogState;
   responsePanel: {
@@ -450,6 +496,11 @@ type ProductTableProps = {
     warnings: number;
     errors: number;
   };
+  productsImportedLoading: boolean;
+  productsToRender: TenantProduct[];
+  hasCatalogResponse: boolean;
+  isCatalogStateLoading: boolean;
+  productsImportedErrors: string[];
 };
 
 type PreviewImportTableProps = {
@@ -474,11 +525,8 @@ type PreviewImportTableProps = {
   handleCatalogSubmitProducts: () => Promise<void>;
   productsImported: ProductsImportedProps;
   previewProducts: TenantProduct[];
-  pickProducts: TenantProduct[];
   handlePreviewTableCancel: () => void;
   catalogItems: TenantCatalogItem[];
-  catalogItemsJsonResponse: ReceivedJsonPreviewProps | null;
-  catalogItemsCsvResponse: ReceivedCsvPreviewProps | null;
   responsePanel: {
     preview: unknown[] | undefined;
     products: TenantProduct[];
@@ -488,11 +536,29 @@ type PreviewImportTableProps = {
     valid: number;
   };
   catalogState: CatalogState;
+  productsImportedLoading: boolean;
+  hasPreview: boolean;
+  productsToRender: TenantProduct[];
+  hasCatalogResponse: boolean;
+  isCatalogStateLoading: boolean;
+  productsImportedErrors: string[];
 };
 
 type SaveCatalogProductsButtonProps = {
   onClick: () => void;
   label: string;
+};
+
+type CatalogProductsRemovalResult = {
+  removedCount: number;
+  removedProductIds: string[];
+};
+
+type CatalogRemoveModalProps = {
+  closeRemoveProductsModal: () => void;
+  onConfirm: () => Promise<void>;
+  removalLoading: boolean;
+  removalResult: CatalogProductsRemovalResult | null;
 };
 
 export type {
@@ -535,4 +601,6 @@ export type {
   ProductTableProps,
   SaveCatalogProductsButtonProps,
   CatalogState,
+  CatalogProductsRemovalResult,
+  CatalogRemoveModalProps,
 };

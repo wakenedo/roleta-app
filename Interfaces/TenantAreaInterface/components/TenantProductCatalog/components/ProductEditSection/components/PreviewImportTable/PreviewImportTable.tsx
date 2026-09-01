@@ -15,21 +15,19 @@ const PreviewImportTable = ({
   updateProducts,
   handleCatalogSubmitProducts,
   productsImported,
-  pickProducts,
   previewProducts,
   handlePreviewTableCancel,
   catalogItems,
-  catalogItemsCsvResponse,
-  catalogItemsJsonResponse,
   catalogState,
   responsePanel,
+  productsImportedLoading,
+  hasPreview,
+  productsToRender,
+  hasCatalogResponse,
+  isCatalogStateLoading,
+  productsImportedErrors,
 }: PreviewImportTableProps) => {
-  if (pickProducts.length < 0) return null;
-  console.log("catalogItems", catalogItems);
-  console.log("pickProducts", pickProducts);
-  console.log("previewProducts", previewProducts);
-  console.log("paginatedProducts", paginatedProducts);
-  console.log("preview catalogState", catalogState);
+  if (productsToRender.length < 0) return null;
 
   return (
     <div
@@ -40,7 +38,7 @@ const PreviewImportTable = ({
       flex
       items-center
       justify-center
-      bg-black/50
+      bg-black/10
       backdrop-blur-sm
       h-full
       
@@ -67,17 +65,19 @@ const PreviewImportTable = ({
           selectedPlan={selectedPlan}
           setPage={setPage}
           updateProducts={updateProducts}
-          pickProducts={pickProducts}
           previewProducts={previewProducts}
-          catalogItemsCsvResponse={catalogItemsCsvResponse}
-          catalogItemsJsonResponse={catalogItemsJsonResponse}
           catalogItems={catalogItems}
           catalogState={catalogState}
           responsePanel={responsePanel}
+          productsImportedLoading={productsImportedLoading}
+          productsToRender={productsToRender}
+          hasCatalogResponse={hasCatalogResponse}
+          isCatalogStateLoading={isCatalogStateLoading}
+          productsImportedErrors={productsImportedErrors}
         />
 
         <div className="mt-4 flex flex-col justify-center gap-5">
-          {previewProducts.length != 0 && (
+          {catalogItems.length != 0 && (
             <SaveProductsButton
               onClick={handleCatalogSubmitProducts}
               label={
@@ -86,6 +86,34 @@ const PreviewImportTable = ({
                   : "Salvar Produtos"
               }
             />
+          )}
+          {catalogState === "loading" && !hasPreview && (
+            <div className="flex flex-col rounded-lg border-slate-200 bg-white border shadow-sm mb-4">
+              <div className=" border-slate-200 border-b flex items-center justify-between px-5 py-4">
+                <div className="flex flex-col ">
+                  <h3 className="text-lg font-semibold text-slate-700">
+                    Importação de Catálogo
+                  </h3>
+                  <p className="text-sm text-slate-500">
+                    Identificando produtos para importação
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-col items-center gap-4  border-slate-200 border-b  ">
+                <div className="text-3xl font-bold text-slate-700 flex flex-col items-center py-3">
+                  {productsImportedLoading ? (
+                    <div className="h-12 w-12 my-2 animate-spin rounded-full border-2 border-slate-200 border-t-cyan-500" />
+                  ) : (
+                    <div className="h-12 w-12 my-2 animate-spin rounded-full border-2 border-slate-200 border-t-cyan-500" />
+                  )}
+                  <div className="text-xs  tracking-wide text-slate-400">
+                    {productsImportedLoading
+                      ? "Carregando Items e Links..."
+                      : "Concluído"}
+                  </div>
+                </div>
+              </div>
+            </div>
           )}
           <button
             onClick={handlePreviewTableCancel}

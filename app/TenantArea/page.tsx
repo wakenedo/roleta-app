@@ -3,7 +3,7 @@ import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useGlobalQuota } from "@/context/GlobalQuotaContext/GlobalQuotaContext";
 import { useTenantAuth } from "@/context/TenantAuthContext/TenantAuthContext";
 import { useTenant } from "@/context/TenantContext/TenantContext";
-import { TenantProduct } from "@/context/TenantContext/types";
+import { useCatalogProductsRemoval } from "@/hooks/useCatalogProductsRemoval";
 import { useCatalogVerification } from "@/hooks/useCatalogVerification";
 import { useProductsImport } from "@/hooks/useProductsImport";
 import { useTenantOnboarding } from "@/hooks/useTenantOnboarding";
@@ -12,14 +12,24 @@ import { HeaderAndFooterInterface } from "@/Interfaces/HeaderAndFooterInterface"
 import { TenantAreaInterface } from "@/Interfaces/TenantAreaInterface";
 import { CatalogSelectionState } from "@/Interfaces/TenantAreaInterface/types";
 import { formatDateTime } from "@/utils/formatter-utils";
+import { getInvalidProductIds } from "@/utils/verification-utils";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 const TenantArea = () => {
   const router = useRouter();
   const { tenantLogout, sessionTenantId } = useTenantAuth();
-  const { tenant, loading, error, products, preview, setTenant, setProducts } =
-    useTenant();
+  const {
+    tenant,
+    loading,
+    error,
+    products,
+    preview,
+    setTenant,
+    setProducts,
+    refresh,
+    setLoading,
+  } = useTenant();
   const { authorizedFetch } = useAuth();
   const { refresh: globalRefresh, globalQuotaLoading } = useGlobalQuota();
   const { importProductsJSON, importProductsCSV } = useTenantOnboarding();
@@ -33,6 +43,13 @@ const TenantArea = () => {
     verification,
     loading: _loading,
   } = useCatalogVerification(tenantIdentifier as string);
+
+  const {
+    loading: removalLoading,
+    removalResult,
+    removeItemsFromCatalog,
+  } = useCatalogProductsRemoval(tenantIdentifier as string);
+
   const productsImported = useProductsImport({
     selectedPlan: {
       id: tenantCurrentPlan || "",
@@ -41,17 +58,22 @@ const TenantArea = () => {
     },
     importProductsCSV,
     importProductsJSON,
+    refresh,
+    setTenantLoading: setLoading,
   });
   const {
     validateProducts,
     file,
     handleFileUpload,
+    handleCatalogSubmitProducts,
     updateProducts,
     clearImport,
     catalogItems,
     catalogItemsJsonResponse,
     catalogItemsCsvResponse,
     catalogStatus,
+    loading: productsImportedLoading,
+    errors: productsImportedErrors,
   } = productsImported;
   const [catalogSelectionState, setCatalogSelectionState] =
     useState<CatalogSelectionState>({
@@ -79,52 +101,22 @@ const TenantArea = () => {
   const [isProductsPreviewTableOpen, setIsProductsPreviewTableOpen] =
     useState(false);
 
+  const [isCatalogVerificationModalOpen, setIsCatalogVerificationModalOpen] =
+    useState(false);
+
+  const [isRemoveProductsModalOpen, setIsRemoveProductsModalOpen] =
+    useState(false);
+
   const closeModal = () => setActiveModal(null);
+  const closeCatalogVerificationModal = () =>
+    setIsCatalogVerificationModalOpen(false);
+
+  const closeRemoveProductsModal = () => setIsRemoveProductsModalOpen(false);
 
   const handleLogout = () => {
     setTenant(null);
     tenantLogout();
     router.push("/");
-  };
-
-  const handleCatalogSubmitProducts = async () => {
-    if (!file) return;
-
-    // 🧾 CSV FLOW
-    if (file.name.endsWith(".csv")) {
-      const result = (await importProductsCSV(
-        file,
-        "admin/catalog",
-        false,
-      )) as {
-        imported: number;
-        products: TenantProduct[];
-      };
-      setProducts(result.products);
-      console.log("Imported ✔", result);
-      validateProducts();
-      alert(`Imported ${result.imported} products`);
-      clearImport();
-      return;
-    }
-    if (file.name.endsWith(".json")) {
-      const result = (await importProductsJSON(
-        file,
-        "admin/catalog",
-        false,
-      )) as {
-        imported: number;
-        products: TenantProduct[];
-      };
-      setProducts(result.products);
-      console.log("Imported ✔", result);
-      validateProducts();
-      alert(`Imported ${result.imported} products`);
-      clearImport();
-      return;
-    }
-
-    console.log("Products validated ✔");
   };
 
   const handlePreviewTableCancel = () => {
@@ -158,6 +150,16 @@ const TenantArea = () => {
   const catalogResponse =
     catalogItemsJsonResponse ?? catalogItemsCsvResponse ?? null;
 
+  const hasPreview = previewProducts?.length > 0;
+  const productsToRender = pickProducts;
+
+  const csvOrJsonFileResponse =
+    catalogItemsCsvResponse ?? catalogItemsJsonResponse ?? null;
+
+  const hasCatalogResponse = !!csvOrJsonFileResponse;
+  const isCatalogStateLoading =
+    catalogStatus === "loading" && !hasCatalogResponse;
+
   const responsePanel = {
     preview: catalogResponse?.preview,
     products: catalogResponse?.products ?? [],
@@ -165,6 +167,43 @@ const TenantArea = () => {
     warnings: catalogResponse?.warningsCount ?? 0,
     total: catalogResponse?.products?.length ?? 0,
     valid: catalogResponse?.validCount ?? 0,
+  };
+
+  const verificationByProductId = useMemo(
+    () =>
+      new Map(
+        verification?.results.map((result) => [result.product.id, result]) ??
+          [],
+      ),
+    [verification],
+  );
+
+  const invalidProductIds = getInvalidProductIds(verificationByProductId);
+
+  const handleRemoveCatalogProducts = async (productIds: string[]) => {
+    if (productIds.length === 0) return;
+
+    const result = await removeItemsFromCatalog(productIds);
+
+    if (!result) return;
+
+    setProducts(
+      products.filter(
+        (product) => !result.removedProductIds.includes(product.id),
+      ),
+    );
+
+    setCatalogSelectionState({
+      selectionMode: "none",
+      productSelected: undefined,
+      multipleProductsSelected: [],
+    });
+  };
+
+  const handleRemoveAllCatalogProducts = async () => {
+    const productIds = products.map((product) => product.id);
+
+    await handleRemoveCatalogProducts(productIds);
   };
 
   return (
@@ -227,10 +266,24 @@ const TenantArea = () => {
         updateProducts={updateProducts}
         handlePreviewTableCancel={handlePreviewTableCancel}
         catalogItems={catalogItems}
-        catalogItemsJsonResponse={catalogItemsJsonResponse}
-        catalogItemsCsvResponse={catalogItemsCsvResponse}
         catalogState={catalogStatus}
         responsePanel={responsePanel}
+        closeCatalogVerificationModal={closeCatalogVerificationModal}
+        isCatalogVerificationModalOpen={isCatalogVerificationModalOpen}
+        setIsCatalogVerificationModalOpen={setIsCatalogVerificationModalOpen}
+        verificationByProductId={verificationByProductId}
+        setIsRemoveProductsModalOpen={setIsRemoveProductsModalOpen}
+        isRemoveProductsModalOpen={isRemoveProductsModalOpen}
+        closeRemoveProductsModal={closeRemoveProductsModal}
+        handleRemoveAllCatalogProducts={handleRemoveAllCatalogProducts}
+        removalLoading={removalLoading}
+        removalResult={removalResult}
+        productsImportedLoading={productsImportedLoading}
+        hasPreview={hasPreview}
+        productsToRender={productsToRender}
+        hasCatalogResponse={hasCatalogResponse}
+        isCatalogStateLoading={isCatalogStateLoading}
+        productsImportedErrors={productsImportedErrors}
       />
     </HeaderAndFooterInterface>
   );

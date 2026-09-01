@@ -7,6 +7,8 @@ const MultipleProductsSelection = ({
   catalogSelectionState,
   verificationLoading,
   verifyCatalog,
+  verificationByProductId,
+  verification,
 }: MultipleProductsSelectionProps) => {
   const selectedProducts = catalogSelectionState.multipleProductsSelected;
   const handleVerify = async () => {
@@ -44,28 +46,54 @@ const MultipleProductsSelection = ({
                     Nenhum produto selecionado.
                   </span>
                 ) : (
-                  selectedProducts.map((product, index) => (
-                    <div
-                      key={product.id}
-                      className="flex items-center justify-between border-b last:border-b-0 pb-1"
-                    >
-                      <div className="flex flex-col line-clamp-1">
-                        <span className="font-medium">
-                          {index + 1}. {product.name}
-                        </span>
+                  selectedProducts.map((product, index) => {
+                    const productVerification = verificationByProductId.get(
+                      product.id,
+                    );
+                    const hasWarnings =
+                      (productVerification?.warnings?.length ?? 0) > 0;
+                    const isInvalid = productVerification?.valid === false;
+                    return (
+                      <div
+                        key={product.id}
+                        className="flex items-center justify-between border-b last:border-b-0 pb-1"
+                      >
+                        <div className="flex flex-col line-clamp-1">
+                          <span className="font-medium">
+                            {index + 1}. {product.name}
+                          </span>
 
-                        <span className="text-[10px] text-slate-500">
-                          {product.metadata?.store ??
-                            product.store ??
-                            "Sem loja"}
+                          <span className="text-[10px] text-slate-500">
+                            {product.metadata?.store ??
+                              product.store ??
+                              "Sem loja"}
+                          </span>
+                        </div>
+                        {!verificationLoading && verification && (
+                          <div className="   cursor-default ">
+                            <div className=" right-0">
+                              {isInvalid ? (
+                                <span className="rounded-full bg-red-50 px-2 py-1 text-[10px] font-semibold text-red-600 shadow-md">
+                                  Inválido
+                                </span>
+                              ) : hasWarnings ? (
+                                <span className="rounded-full bg-amber-50 px-2 py-1 text-[10px] font-semibold text-amber-600 shadow-md">
+                                  Revisar
+                                </span>
+                              ) : (
+                                <span className="rounded-full bg-emerald-50 px-2 py-1 text-[10px] font-semibold text-emerald-600 shadow-md">
+                                  Válido
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                        <span className="text-[10px] text-slate-400">
+                          {product.tier}
                         </span>
                       </div>
-
-                      <span className="text-[10px] text-slate-400">
-                        {product.tier}
-                      </span>
-                    </div>
-                  ))
+                    );
+                  })
                 )}
               </div>
             </div>

@@ -19,7 +19,8 @@ const ForTenants = () => {
   const searchParams = useSearchParams();
   const planId = searchParams.get("plan");
 
-  const { tenant, products, loading, error, setProducts } = useTenant();
+  const { tenant, products, loading, error, setProducts, refresh, setLoading } =
+    useTenant();
   const {
     step,
     name,
@@ -80,6 +81,8 @@ const ForTenants = () => {
     selectedPlan,
     importProductsCSV,
     importProductsJSON,
+    refresh,
+    setTenantLoading: setLoading,
   });
 
   const { validateProducts, file, clearImport } = productsImported;

@@ -23,19 +23,22 @@ const ProductEditSection = ({
   previewProducts,
   productsImported,
   handleFileUpload,
-  handleCatalogSubmitProducts, //Used by Modal || ProductsPreviewTable
-  isProductsPreviewTableOpen,
+  setIsCatalogVerificationModalOpen,
+  verificationByProductId,
+  setIsRemoveProductsModalOpen,
+  handleRemoveAllCatalogProducts,
 }: ProductEditSectionProps) => {
-  console.log("ProductsEditSection", tenantProductStats);
-
   const selectionMode = getCatalogSelectionMode(catalogSelectionState);
-
+  const productVerification = verificationByProductId.get(
+    catalogSelectionState.productSelected?.id as string,
+  );
   return (
     <>
       <TenantSectionMarker markerTitle="Configurações" />
       <div className="  flex flex-col  h-full py-2 px-1 space-y-2 ">
         {selectionMode === "multiple" && (
           <MultipleProductsSelection
+            verificationByProductId={verificationByProductId}
             verificationLoading={verificationLoading}
             verification={verification}
             verifyCatalog={verifyCatalog}
@@ -52,7 +55,7 @@ const ProductEditSection = ({
           <SingleProductSelection
             verifyCatalog={verifyCatalog}
             productSelected={catalogSelectionState.productSelected}
-            verification={verification}
+            productVerification={productVerification}
             verificationLoading={verificationLoading}
           />
         )}
@@ -74,6 +77,9 @@ const ProductEditSection = ({
           previewProducts={previewProducts}
           productsImported={productsImported}
           setIsProductsPreviewTableOpen={setIsProductsPreviewTableOpen}
+          setIsCatalogVerificationModalOpen={setIsCatalogVerificationModalOpen}
+          setIsRemoveProductsModalOpen={setIsRemoveProductsModalOpen}
+          handleRemoveAllCatalogProducts={handleRemoveAllCatalogProducts}
         />
       </div>
     </>

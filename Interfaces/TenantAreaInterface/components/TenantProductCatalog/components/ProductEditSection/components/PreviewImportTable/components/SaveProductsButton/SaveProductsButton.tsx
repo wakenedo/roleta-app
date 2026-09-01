@@ -2,7 +2,10 @@ import { SaveCatalogProductsButtonProps } from "@/Interfaces/TenantAreaInterface
 
 const SaveProductsButton = ({ onClick }: SaveCatalogProductsButtonProps) => {
   return (
-    <button onClick={onClick} className="bg-indigo-500 py-3 rounded-lg">
+    <button
+      onClick={onClick}
+      className="cursor-pointer bg-[#00EEFF] py-3 rounded-lg"
+    >
       Importar Produtos
     </button>
   );

@@ -103,7 +103,7 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
         preview,
         loading,
         error,
-
+        setLoading,
         setTenant,
         setProducts,
         setTenantCatalogItems,

@@ -58,10 +58,24 @@ const TenantAreaInterface = ({
   updateProducts,
   handlePreviewTableCancel,
   catalogItems,
-  catalogItemsJsonResponse,
-  catalogItemsCsvResponse,
   catalogState,
   responsePanel,
+  closeCatalogVerificationModal,
+  isCatalogVerificationModalOpen,
+  setIsCatalogVerificationModalOpen,
+  verificationByProductId,
+  isRemoveProductsModalOpen,
+  setIsRemoveProductsModalOpen,
+  closeRemoveProductsModal,
+  handleRemoveAllCatalogProducts,
+  removalLoading,
+  removalResult,
+  productsImportedLoading,
+  hasPreview,
+  productsToRender,
+  hasCatalogResponse,
+  isCatalogStateLoading,
+  productsImportedErrors,
 }: TenantAreaInterfaceProps) => {
   return (
     <TenantSlotsDedicatedRouteBackground
@@ -101,6 +115,7 @@ const TenantAreaInterface = ({
             {activeTab === "catalog" && (
               <TenantProductCatalog
                 error={error}
+                productsImportedLoading={productsImportedLoading}
                 loading={loading}
                 products={products}
                 tenantProductStats={tenantProductStats}
@@ -130,10 +145,25 @@ const TenantAreaInterface = ({
                 updateProducts={updateProducts}
                 handlePreviewTableCancel={handlePreviewTableCancel}
                 catalogItems={catalogItems}
-                catalogItemsCsvResponse={catalogItemsCsvResponse}
-                catalogItemsJsonResponse={catalogItemsJsonResponse}
                 catalogState={catalogState}
                 responsePanel={responsePanel}
+                closeCatalogVerificationModal={closeCatalogVerificationModal}
+                isCatalogVerificationModalOpen={isCatalogVerificationModalOpen}
+                setIsCatalogVerificationModalOpen={
+                  setIsCatalogVerificationModalOpen
+                }
+                verificationByProductId={verificationByProductId}
+                setIsRemoveProductsModalOpen={setIsRemoveProductsModalOpen}
+                isRemoveProductsModalOpen={isRemoveProductsModalOpen}
+                closeRemoveProductsModal={closeRemoveProductsModal}
+                handleRemoveAllCatalogProducts={handleRemoveAllCatalogProducts}
+                removalLoading={removalLoading}
+                removalResult={removalResult}
+                hasPreview={hasPreview}
+                productsToRender={productsToRender}
+                hasCatalogResponse={hasCatalogResponse}
+                isCatalogStateLoading={isCatalogStateLoading}
+                productsImportedErrors={productsImportedErrors}
               />
             )}
             {activeTab === "preview" && (

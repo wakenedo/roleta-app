@@ -25,6 +25,8 @@ export const useProductsImport = ({
   selectedPlan,
   importProductsCSV,
   importProductsJSON,
+  refresh,
+  setTenantLoading,
 }: UseProductsImportsProps) => {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
@@ -99,7 +101,7 @@ export const useProductsImport = ({
           true,
         )) as ReceivedJsonPreviewProps;
         console.log("jPreview", jPreview);
-        if (jPreview.products.length > MAX_PRODUCTS) {
+        if (jPreview.error?.includes("Product limit exceeded")) {
           setErrors([`Plan allows only ${MAX_PRODUCTS} products`]);
           return;
         }
@@ -127,7 +129,8 @@ export const useProductsImport = ({
           path,
           true,
         )) as ReceivedCsvPreviewProps;
-        if (cPreview.products.length > MAX_PRODUCTS) {
+        console.log("cPreview", cPreview);
+        if (cPreview.error?.includes("Product limit exceeded")) {
           setErrors([`Plan allows only ${MAX_PRODUCTS} products`]);
           return;
         }
@@ -148,8 +151,62 @@ export const useProductsImport = ({
         }
       }
     } finally {
+      refresh;
       setLoading(false);
     }
+  };
+
+  const handleCatalogSubmitProducts = async () => {
+    if (!file) return;
+    setLoading(true);
+    setCatalogStatus("submitting");
+
+    try {
+      if (file.name.endsWith(".csv")) {
+        const result = (await importProductsCSV(
+          file,
+          "admin/catalog",
+          false,
+        )) as {
+          imported: number;
+          products: TenantProduct[];
+        };
+        setProducts(result.products);
+        setLoading(false);
+        setCatalogStatus("success");
+
+        console.log("Imported ✔", result);
+        validateProducts();
+        console.log(`Imported ${result.imported} products`);
+        clearImport();
+        return;
+      }
+      if (file.name.endsWith(".json")) {
+        const result = (await importProductsJSON(
+          file,
+          "admin/catalog",
+          false,
+        )) as {
+          imported: number;
+          products: TenantProduct[];
+        };
+        setProducts(result.products);
+        setLoading(false);
+        setCatalogStatus("success");
+
+        console.log("Imported ✔", result);
+        validateProducts();
+        console.log(`Imported ${result.imported} products`);
+        clearImport();
+        return;
+      }
+    } finally {
+      setLoading(false);
+      setTenantLoading(true);
+      refresh();
+    }
+
+    console.log("Products validated ✔");
   };
 
   const clearImport = () => {
@@ -164,6 +221,8 @@ export const useProductsImport = ({
     setCatalogStatus("idle");
   };
 
+  console.log("errors", errors);
+
   return {
     file,
     fileName,
@@ -176,6 +235,7 @@ export const useProductsImport = ({
     isValidated,
     rawProducts,
     handleFileUpload,
+    handleCatalogSubmitProducts,
     validateProducts,
     updateProducts: setProducts,
     setCatalogItems,
