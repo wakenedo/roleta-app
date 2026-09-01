@@ -3,7 +3,6 @@ import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useGlobalQuota } from "@/context/GlobalQuotaContext/GlobalQuotaContext";
 import { useTenantAuth } from "@/context/TenantAuthContext/TenantAuthContext";
 import { useTenant } from "@/context/TenantContext/TenantContext";
-import { TenantProduct } from "@/context/TenantContext/types";
 import { useCatalogProductsRemoval } from "@/hooks/useCatalogProductsRemoval";
 import { useCatalogVerification } from "@/hooks/useCatalogVerification";
 import { useProductsImport } from "@/hooks/useProductsImport";
@@ -20,8 +19,17 @@ import { useMemo, useState } from "react";
 const TenantArea = () => {
   const router = useRouter();
   const { tenantLogout, sessionTenantId } = useTenantAuth();
-  const { tenant, loading, error, products, preview, setTenant, setProducts } =
-    useTenant();
+  const {
+    tenant,
+    loading,
+    error,
+    products,
+    preview,
+    setTenant,
+    setProducts,
+    refresh,
+    setLoading,
+  } = useTenant();
   const { authorizedFetch } = useAuth();
   const { refresh: globalRefresh, globalQuotaLoading } = useGlobalQuota();
   const { importProductsJSON, importProductsCSV } = useTenantOnboarding();
@@ -50,11 +58,14 @@ const TenantArea = () => {
     },
     importProductsCSV,
     importProductsJSON,
+    refresh,
+    setTenantLoading: setLoading,
   });
   const {
     validateProducts,
     file,
     handleFileUpload,
+    handleCatalogSubmitProducts,
     updateProducts,
     clearImport,
     catalogItems,
@@ -107,46 +118,6 @@ const TenantArea = () => {
     router.push("/");
   };
 
-  const handleCatalogSubmitProducts = async () => {
-    if (!file) return;
-
-    // 🧾 CSV FLOW
-    if (file.name.endsWith(".csv")) {
-      const result = (await importProductsCSV(
-        file,
-        "admin/catalog",
-        false,
-      )) as {
-        imported: number;
-        products: TenantProduct[];
-      };
-      setProducts(result.products);
-      console.log("Imported ✔", result);
-      validateProducts();
-      alert(`Imported ${result.imported} products`);
-      clearImport();
-      return;
-    }
-    if (file.name.endsWith(".json")) {
-      const result = (await importProductsJSON(
-        file,
-        "admin/catalog",
-        false,
-      )) as {
-        imported: number;
-        products: TenantProduct[];
-      };
-      setProducts(result.products);
-      console.log("Imported ✔", result);
-      validateProducts();
-      alert(`Imported ${result.imported} products`);
-      clearImport();
-      return;
-    }
-
-    console.log("Products validated ✔");
-  };
-
   const handlePreviewTableCancel = () => {
     clearImport();
     setIsMultipleProductsCheckoutVisible(false);
@@ -177,6 +148,16 @@ const TenantArea = () => {
 
   const catalogResponse =
     catalogItemsJsonResponse ?? catalogItemsCsvResponse ?? null;
+
+  const hasPreview = previewProducts?.length > 0;
+  const productsToRender = pickProducts;
+
+  const csvOrJsonFileResponse =
+    catalogItemsCsvResponse ?? catalogItemsJsonResponse ?? null;
+
+  const hasCatalogResponse = !!csvOrJsonFileResponse;
+  const isCatalogStateLoading =
+    catalogStatus === "loading" && !hasCatalogResponse;
 
   const responsePanel = {
     preview: catalogResponse?.preview,
@@ -223,6 +204,8 @@ const TenantArea = () => {
 
     await handleRemoveCatalogProducts(productIds);
   };
+
+  console.log("TenantArea", products);
 
   return (
     <HeaderAndFooterInterface>
@@ -284,8 +267,6 @@ const TenantArea = () => {
         updateProducts={updateProducts}
         handlePreviewTableCancel={handlePreviewTableCancel}
         catalogItems={catalogItems}
-        catalogItemsJsonResponse={catalogItemsJsonResponse}
-        catalogItemsCsvResponse={catalogItemsCsvResponse}
         catalogState={catalogStatus}
         responsePanel={responsePanel}
         closeCatalogVerificationModal={closeCatalogVerificationModal}
@@ -299,6 +280,10 @@ const TenantArea = () => {
         removalLoading={removalLoading}
         removalResult={removalResult}
         productsImportedLoading={productsImportedLoading}
+        hasPreview={hasPreview}
+        productsToRender={productsToRender}
+        hasCatalogResponse={hasCatalogResponse}
+        isCatalogStateLoading={isCatalogStateLoading}
       />
     </HeaderAndFooterInterface>
   );
