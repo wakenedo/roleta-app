@@ -177,7 +177,7 @@ export const useProductsImport = ({
 
         console.log("Imported ✔", result);
         validateProducts();
-        alert(`Imported ${result.imported} products`);
+        console.log(`Imported ${result.imported} products`);
         clearImport();
         return;
       }
@@ -196,7 +196,7 @@ export const useProductsImport = ({
 
         console.log("Imported ✔", result);
         validateProducts();
-        alert(`Imported ${result.imported} products`);
+        console.log(`Imported ${result.imported} products`);
         clearImport();
         return;
       }

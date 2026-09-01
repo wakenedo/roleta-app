@@ -554,6 +554,13 @@ type CatalogProductsRemovalResult = {
   removedProductIds: string[];
 };
 
+type CatalogRemoveModalProps = {
+  closeRemoveProductsModal: () => void;
+  onConfirm: () => Promise<void>;
+  removalLoading: boolean;
+  removalResult: CatalogProductsRemovalResult | null;
+};
+
 export type {
   TenantAreaInterfaceProps,
   TenantCardProps,
@@ -595,4 +602,5 @@ export type {
   SaveCatalogProductsButtonProps,
   CatalogState,
   CatalogProductsRemovalResult,
+  CatalogRemoveModalProps,
 };

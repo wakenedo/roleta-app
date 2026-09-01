@@ -41,7 +41,6 @@ const ProductsObjectManager = ({
 
   const handleRemoveClick = () => {
     setIsRemoveProductsModalOpen(true);
-    handleRemoveAllCatalogProducts();
   };
 
   const totalUploadedProducts = products.length;

@@ -1,19 +1,24 @@
-import { CatalogProductsRemovalResult } from "@/Interfaces/TenantAreaInterface/types";
+import { CatalogRemoveModalProps } from "@/Interfaces/TenantAreaInterface/types";
+import { useState } from "react";
 
 const CatalogRemoveModal = ({
   closeRemoveProductsModal,
-
   removalLoading,
   removalResult,
-}: {
-  closeRemoveProductsModal: () => void;
+  onConfirm,
+}: CatalogRemoveModalProps) => {
+  const [areYouSure, setAreYouSure] = useState(false);
 
-  removalLoading: boolean;
-  removalResult: CatalogProductsRemovalResult | null;
-}) => {
   const handleClose = () => {
+    setAreYouSure(false);
     closeRemoveProductsModal();
   };
+
+  const handleAreYouSure = async () => {
+    setAreYouSure(true);
+    await onConfirm();
+  };
+
   return (
     <div
       className="
@@ -42,8 +47,22 @@ const CatalogRemoveModal = ({
       "
       >
         <div className="flex flex-col items-center justify-center gap-4 mx-auto">
-          {removalLoading && (
-            <>
+          {areYouSure === false && (
+            <div className="flex flex-col text-red-500 items-center justify-center gap-4 pt-8">
+              <p className="tracking-widest text-md text-slate-500 cursor-default">
+                Tem certeza que deseja remover todos os produtos do seu
+                catálogo?
+              </p>
+              <div className="flex items-center justify-center pt-4 ">
+                <button className="cursor-pointer" onClick={handleAreYouSure}>
+                  Sim, tenho certeza
+                </button>
+              </div>
+            </div>
+          )}
+
+          {removalLoading && areYouSure === true && (
+            <div className="flex flex-col items-center justify-center gap-4 pt-8">
               <div>
                 <div className="h-20 w-20 my-6 animate-spin rounded-full border-2 border-slate-200 border-t-cyan-500" />
               </div>
@@ -53,16 +72,16 @@ const CatalogRemoveModal = ({
                   catalogo...
                 </p>
               </div>
-            </>
+            </div>
           )}
-          {!removalLoading && (
-            <>
+          {!removalLoading && areYouSure === true && (
+            <div className="flex flex-col items-center justify-center gap-4 pt-8">
               <p className="tracking-widest text-xs text-slate-500 cursor-default">
                 Todos os {removalResult?.removedCount} items do seu catalogo
                 foram removidos, adicione novos produtos para manter sua
                 experiência ativa.
               </p>
-            </>
+            </div>
           )}
           <div className="flex items-center justify-center pt-4 ">
             <button className="cursor-pointer" onClick={handleClose}>

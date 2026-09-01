@@ -206,8 +206,6 @@ const TenantArea = () => {
     await handleRemoveCatalogProducts(productIds);
   };
 
-  console.log("TenantArea", products);
-
   return (
     <HeaderAndFooterInterface>
       <TenantAreaInterface

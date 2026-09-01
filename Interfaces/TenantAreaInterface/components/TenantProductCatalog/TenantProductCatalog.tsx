@@ -97,6 +97,7 @@ const TenantProductCatalog = ({
         <div className="flex-1 overflow-y-auto">
           <CatalogRemoveModal
             closeRemoveProductsModal={closeRemoveProductsModal}
+            onConfirm={handleRemoveAllCatalogProducts}
             removalLoading={removalLoading}
             removalResult={removalResult}
           />
