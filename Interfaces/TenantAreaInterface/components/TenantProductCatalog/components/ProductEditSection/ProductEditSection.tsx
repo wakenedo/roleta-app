@@ -23,14 +23,11 @@ const ProductEditSection = ({
   previewProducts,
   productsImported,
   handleFileUpload,
-  handleCatalogSubmitProducts, //Used by Modal || ProductsPreviewTable
   setIsCatalogVerificationModalOpen,
   verificationByProductId,
   setIsRemoveProductsModalOpen,
   handleRemoveAllCatalogProducts,
 }: ProductEditSectionProps) => {
-  console.log("ProductsEditSection", tenantProductStats);
-
   const selectionMode = getCatalogSelectionMode(catalogSelectionState);
   const productVerification = verificationByProductId.get(
     catalogSelectionState.productSelected?.id as string,
