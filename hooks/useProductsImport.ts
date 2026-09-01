@@ -25,6 +25,8 @@ export const useProductsImport = ({
   selectedPlan,
   importProductsCSV,
   importProductsJSON,
+  refresh,
+  setTenantLoading,
 }: UseProductsImportsProps) => {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
@@ -148,8 +150,62 @@ export const useProductsImport = ({
         }
       }
     } finally {
+      refresh;
       setLoading(false);
     }
+  };
+
+  const handleCatalogSubmitProducts = async () => {
+    if (!file) return;
+    setLoading(true);
+    setCatalogStatus("submitting");
+
+    try {
+      if (file.name.endsWith(".csv")) {
+        const result = (await importProductsCSV(
+          file,
+          "admin/catalog",
+          false,
+        )) as {
+          imported: number;
+          products: TenantProduct[];
+        };
+        setProducts(result.products);
+        setLoading(false);
+        setCatalogStatus("success");
+
+        console.log("Imported ✔", result);
+        validateProducts();
+        alert(`Imported ${result.imported} products`);
+        clearImport();
+        return;
+      }
+      if (file.name.endsWith(".json")) {
+        const result = (await importProductsJSON(
+          file,
+          "admin/catalog",
+          false,
+        )) as {
+          imported: number;
+          products: TenantProduct[];
+        };
+        setProducts(result.products);
+        setLoading(false);
+        setCatalogStatus("success");
+
+        console.log("Imported ✔", result);
+        validateProducts();
+        alert(`Imported ${result.imported} products`);
+        clearImport();
+        return;
+      }
+    } finally {
+      setLoading(false);
+      setTenantLoading(true);
+      refresh();
+    }
+
+    console.log("Products validated ✔");
   };
 
   const clearImport = () => {
@@ -176,6 +232,7 @@ export const useProductsImport = ({
     isValidated,
     rawProducts,
     handleFileUpload,
+    handleCatalogSubmitProducts,
     validateProducts,
     updateProducts: setProducts,
     setCatalogItems,
