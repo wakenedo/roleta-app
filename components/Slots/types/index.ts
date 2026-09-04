@@ -5,6 +5,7 @@ import {
 } from "@/context/TenantContext/types";
 import { SpinQuota, UserState } from "@/context/UserContext/types";
 import { ParamValue } from "next/dist/server/request/params";
+import { StaticImageData } from "next/image";
 
 type Tier = "common" | "rare" | "jackpot";
 
@@ -58,16 +59,17 @@ type ProductMetadata = {
 interface Product {
   id: string;
   name: string;
-  image: string;
+  image: string | StaticImageData;
   url: string;
   offerUrl: string;
   price: string;
   discount: string;
   discountedPrice: string;
-  metadata?: ProductMetadata;
+  metadata?: ProductMetadata | undefined;
   tier: Tier;
   store: string;
   campaign: CampaignProps;
+  category?: string;
 }
 
 interface CampaignProps {
