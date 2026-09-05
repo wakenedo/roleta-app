@@ -24,7 +24,7 @@ const TenantCardHeader = ({
           absolutePosition={true}
         />
       </div>
-      <hr className="border-t border-slate-300 mt-14 mb-2  ml-3 mr-[325px] " />
+      <hr className="border-t border-slate-300 mt-14 mb-2  ml-3 mr-81.25 " />
 
       <HeaderSectionTab setActiveTab={setActiveTab} activeTab={activeTab} />
     </div>

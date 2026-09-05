@@ -1,4 +1,5 @@
 import { Product } from "@/components/Slots/types";
+import { UserLimitQuotasProps } from "@/Interfaces/UserAreaInterface/types";
 
 type SpinQuota = {
   used: number;
@@ -39,20 +40,7 @@ type UserState = {
   rewards: unknown[];
   historyPreview: SpinHistoryItem[];
   clickEvents: ClickEvent[];
-  limits: {
-    tenantGlobal: {
-      monthly: {
-        limit: number;
-        remaining: number;
-        used: number;
-      };
-      weekly: {
-        limit: number;
-        remaining: number;
-        used: number;
-      };
-    };
-  };
+  limits: UserLimitQuotasProps;
 };
 
 interface SpinHistoryItem {

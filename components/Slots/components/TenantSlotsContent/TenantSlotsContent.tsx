@@ -21,8 +21,8 @@ const TenantSlotsContent = ({
   const tenantSettings = tenant.settings;
   const tenantBranding = tenant.branding;
   if (!tenantSettings && !tenantBranding) return;
-  const userWeeklyLimit = userData?.limits.tenantGlobal.weekly;
-  const userMonthlyLimit = userData?.limits.tenantGlobal.monthly;
+  const userWeeklyLimit = userData?.limits?.tenantGlobal.weekly;
+  const userMonthlyLimit = userData?.limits?.tenantGlobal.monthly;
   return (
     <TenantSlotsDedicatedRouteBackground
       tenantBranding={tenantBranding}
