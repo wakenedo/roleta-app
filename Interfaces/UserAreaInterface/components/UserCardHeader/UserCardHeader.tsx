@@ -24,7 +24,7 @@ const UserCardHeader = ({
   userEmail: string | null | undefined;
 }) => {
   return (
-    <div className=" bg-white/90 backdrop-blur rounded-tr-2xl ">
+    <div className=" bg-white/50 backdrop-blur rounded-tr-2xl ">
       <HeaderGreetingSection
         userName={userName}
         userEmail={userEmail}

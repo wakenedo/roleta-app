@@ -18,10 +18,10 @@ const HeaderGreetingSection = ({
   subStatus: string | undefined;
 }) => {
   return (
-    <div className="flex justify-between items-center px-1 mx-1 py-1 ">
+    <div className="flex justify-between  px-1 mx-1 py-1 ">
       <div className="flex flex-col ">
-        <div className=" p-4 ">
-          <div className=" flex justify-between gap-3 items-center mb-5">
+        <div className="pl-2 pt-2 ">
+          <div className=" flex justify-between gap-5 items-center mb-2">
             <>
               {userPhotoURL && (
                 <img
@@ -49,7 +49,7 @@ const HeaderGreetingSection = ({
         </div>
         <HeaderAdvancedSettings setActiveModal={setActiveModal} />
       </div>
-      <div className=" mr-1 flex flex-col items-center text-red-400 hover:text-red-600 transition cursor-pointer ">
+      <div className="mt-2 mr-1 flex flex-col items-center text-red-500 hover:text-red-400 transition cursor-pointer ">
         <FaPowerOff size={18} className="mr-1 w-fit  " onClick={logout} />
         <div>
           <span className="tracking-widest text-center text-xs font-semibold ">

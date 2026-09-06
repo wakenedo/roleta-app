@@ -1,5 +1,5 @@
 import { ClickEvent } from "@/context/UserContext/types";
-import { UserAreaSectionBackground } from "@/Interfaces/UserAreaInterface/UserAreaSectionBackground";
+import { UserAreaSectionBackground } from "@/backgrounds/UserAreaSectionBackground";
 import { formatPriceBRL } from "@/utils/formatter-utils";
 import { BsCompass } from "react-icons/bs";
 
@@ -57,9 +57,9 @@ const UserLastClickedOffers = ({
             return (
               <div
                 key={click.url}
-                className="min-w-[180px] max-w-[180px] h-fit mt-1 mx-2  flex-shrink-0 bg-slate-700 p-4 flex flex-col justify-between shadow-md 
+                className="min-w-45 max-w-45 h-fit mt-1 mx-2  shrink-0 bg-slate-700 p-4 flex flex-col justify-between shadow-md 
                 hover:shadow-lg hover:scale-105 transition
-                hover:bg-gradient-to-r from-[#84e9e4]/1 to-purple-500/15 "
+                hover:bg-linear-to-r from-[#84e9e4]/1 to-purple-500/15 "
               >
                 {/* IMAGE */}
                 <img

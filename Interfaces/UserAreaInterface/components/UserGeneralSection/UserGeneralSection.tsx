@@ -3,8 +3,10 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import { UserLimitQuotasProps } from "../../types";
 import { UserRecentTenants } from "./components/UserRecentTenants";
 import { UserRemainingQuota } from "./components/UserRemainingQuota";
-import { UserSpinHistory } from "./components/UserSpinHistory";
 import UserQuotaLimits from "./components/UserQuotaLimits/UserQuotaLimits";
+import { UserPaymentSection } from "./components/UserPaymentSection";
+import { UserDynamicSection } from "./components/UserDynamicSection";
+import { UserPromoGiroSection } from "./components/UserPromoGiroSection";
 
 const UserGeneralSection = ({
   barColor,
@@ -16,7 +18,6 @@ const UserGeneralSection = ({
   router,
   uniqueTenants,
   userLimitQuotas,
-  userStats,
   userSubscriptionStatus,
 }: {
   uniqueTenants: SpinHistoryItem[];
@@ -27,18 +28,14 @@ const UserGeneralSection = ({
   dailyQuotaLimit: number | undefined;
   progressBar: number;
   remainingQuota: number | undefined;
-  userStats: UserStats | undefined;
   userSubscriptionStatus: string | undefined;
   userLimitQuotas: UserLimitQuotasProps;
 }) => {
   return (
-    <div className="bg-white/90 backdrop-blur shadow-md px-1 w-full h-fit pb-1">
-      <div className=" bg-white/90 backdrop-blur shadow-md md:px-4 md:py-4  px-3 py-3 ">
-        <div className="flex  space-x-2">
-          <div className=" flex flex-col ">
-            <UserRecentTenants uniqueTenants={uniqueTenants} router={router} />
-          </div>
-          <div className="flex flex-col space-y-2 w-full">
+    <div className="bg-white/50 backdrop-blur shadow-md px-1 w-full  pb-1">
+      <div className=" bg-white backdrop-blur shadow-md md:px-1 md:py-3  px-3 py-3 ">
+        <div className="flex  mb-2  space-x-2">
+          <div className="flex  flex-col space-y-2 max-w-full lg:w-full w-md">
             <UserRemainingQuota
               quotaCooldownTimeLeft={quotaCooldownTimeLeft}
               barColor={barColor}
@@ -47,11 +44,24 @@ const UserGeneralSection = ({
               progressBar={progressBar}
               remainingQuota={remainingQuota}
             />
-            <UserSpinHistory stats={userStats} />
-            <UserQuotaLimits
-              accountSubscriptionStatus={userSubscriptionStatus}
-              accountLimitQuotas={userLimitQuotas}
+            <UserDynamicSection
               router={router}
+              isQuotaEmpty={isQuotaEmpty}
+              accountSubscriptionStatus={userSubscriptionStatus}
+            />
+            <UserPaymentSection />
+          </div>
+          <div className="h-full flex flex-col space-y-2 justify-between max-w-full lg:w-full w-md">
+            <UserPromoGiroSection
+              router={router}
+              isQuotaEmpty={isQuotaEmpty}
+              accountSubscriptionStatus={userSubscriptionStatus}
+            />
+            <UserQuotaLimits accountLimitQuotas={userLimitQuotas} />
+            <UserRecentTenants
+              uniqueTenants={uniqueTenants}
+              router={router}
+              isQuotaEmpty={isQuotaEmpty}
             />
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { UserStats } from "@/context/UserContext/types";
-import { UserAreaSectionBackground } from "@/Interfaces/UserAreaInterface/UserAreaSectionBackground";
+import { UserAreaSectionBackground } from "@/backgrounds/UserAreaSectionBackground";
 
 const UserSpinHistory = ({ stats }: { stats: UserStats | undefined }) => {
   if (!stats) return;

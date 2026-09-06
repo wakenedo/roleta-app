@@ -1,4 +1,4 @@
-import { UserAreaSectionBackground } from "@/Interfaces/UserAreaInterface/UserAreaSectionBackground";
+import { UserAreaSectionBackground } from "@/backgrounds/UserAreaSectionBackground";
 import { BsFillTrophyFill } from "react-icons/bs";
 
 const TrophiesAcquired = () => {

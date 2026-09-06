@@ -39,9 +39,9 @@ const UserAreaInterface = ({
 }: UserAreaInterfaceProps) => {
   return (
     <AreaBackground>
-      <main className="font-sans overflow-hidden md:max-w-8xl mx-auto relative z-10 mb-4 flex flex-col items-center  md:px-4 px-1 ">
+      <main className="h-full font-sans overflow-hidden md:max-w-8xl mx-auto relative z-10 mt-4 flex flex-col items-center  md:px-4 px-1 ">
         {user && (
-          <div className="w-full h-full   ">
+          <div className="w-full   ">
             <UserCardHeader
               userName={userName as string}
               userEmail={userEmail}
@@ -63,7 +63,6 @@ const UserAreaInterface = ({
                 router={router}
                 uniqueTenants={uniqueTenants}
                 userLimitQuotas={userLimitQuotas}
-                userStats={userStats}
                 userSubscriptionStatus={userSubscriptionStatus}
               />
             )}
@@ -78,6 +77,7 @@ const UserAreaInterface = ({
                 }
                 isHistoryPreviewEmpty={isHistoryPreviewEmpty}
                 router={router}
+                userSpinsStats={userStats}
               />
             )}
             {activeTab === "trophies" && <UserTrophiesSection />}

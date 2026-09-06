@@ -15,7 +15,7 @@ const HeaderSectionTab = ({
         className={`p-2 px-5 ${
           activeTab === "general"
             ? "bg-white text-slate-600 shadow-sm rounded-t-2xl "
-            : "text-slate-400 "
+            : "text-slate-300 "
         }`}
         onClick={() => setActiveTab("general")}
       >
@@ -25,7 +25,7 @@ const HeaderSectionTab = ({
         className={`p-2 px-5  ${
           activeTab === "visited"
             ? "bg-white text-slate-600 shadow-sm  rounded-t-2xl "
-            : "text-slate-400 "
+            : "text-slate-300 "
         }`}
         onClick={() => setActiveTab("visited")}
       >
@@ -35,7 +35,7 @@ const HeaderSectionTab = ({
         className={`p-2 px-5  ${
           activeTab === "spin-history"
             ? "bg-white text-slate-600 shadow-sm  rounded-t-2xl "
-            : "text-slate-400 "
+            : "text-slate-300 "
         }`}
         onClick={() => setActiveTab("spin-history")}
       >
@@ -45,7 +45,7 @@ const HeaderSectionTab = ({
         className={`p-2 px-5  ${
           activeTab === "trophies"
             ? "bg-white text-slate-600 shadow-sm  rounded-t-2xl "
-            : "text-slate-400 "
+            : "text-slate-300 "
         }`}
         onClick={() => setActiveTab("trophies")}
       >
