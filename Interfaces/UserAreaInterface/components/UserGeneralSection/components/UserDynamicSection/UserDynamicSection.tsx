@@ -73,10 +73,15 @@ const UserDynamicSection = ({
               Volta ao Jogo
             </h3>
             <hr className="border-t border-slate-300 mb-4" />
+            <div className="mb-4 tracking-widest">
+              <span className="text-slate-400 text-xs">
+                Quota disponível, pronto para girar ?
+              </span>
+            </div>
 
             <div className="w-full">
               <button
-                className="cursor-pointer text-lg  py-2 px-4 w-full drop-shadow-xl text-shadow-2xs tracking-widest
+                className="cursor-pointer text-lg  py-3 px-4 w-full drop-shadow-xl text-shadow-2xs tracking-widest
               bg-amber-500 hover:bg-yellow-200 transition
               text-[#84e9e4] rounded-xs disabled:bg-slate-400 pb-2 font-bold "
                 onClick={() => router.push("/Games")}

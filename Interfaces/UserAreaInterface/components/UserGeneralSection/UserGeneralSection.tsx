@@ -35,7 +35,7 @@ const UserGeneralSection = ({
     <div className="bg-white/50 backdrop-blur shadow-md px-1 w-full  pb-1">
       <div className=" bg-white backdrop-blur shadow-md md:px-1 md:py-3  px-3 py-3 ">
         <div className="flex  mb-2  space-x-2">
-          <div className="flex  flex-col space-y-2 max-w-full lg:w-full w-md">
+          <div className="flex justify-between flex-col space-y-2 max-w-full lg:w-full w-md">
             <UserRemainingQuota
               quotaCooldownTimeLeft={quotaCooldownTimeLeft}
               barColor={barColor}

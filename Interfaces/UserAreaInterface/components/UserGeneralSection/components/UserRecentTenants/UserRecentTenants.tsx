@@ -1,5 +1,5 @@
 import { SpinHistoryItem } from "@/context/UserContext/types";
-import { UserAreaSectionBackground } from "@/Interfaces/UserAreaInterface/UserAreaSectionBackground";
+import { UserAreaSectionBackground } from "@/backgrounds/UserAreaSectionBackground";
 import { formatTenantNameAllowIdUndefined } from "@/utils/formatter-utils";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { BsExclamationDiamond } from "react-icons/bs";
@@ -7,9 +7,11 @@ import { BsExclamationDiamond } from "react-icons/bs";
 const UserRecentTenants = ({
   uniqueTenants,
   router,
+  isQuotaEmpty,
 }: {
   uniqueTenants: SpinHistoryItem[];
   router: AppRouterInstance;
+  isQuotaEmpty: boolean;
 }) => {
   return (
     <UserAreaSectionBackground>
@@ -17,12 +19,18 @@ const UserRecentTenants = ({
         Parceiros Recentes
       </h3>
       <hr className="border-t border-slate-300 mb-4" />
-      <div className="text-center space-y-2 flex flex-col mx-auto">
-        <div className="mb-6 max-h-30 overflow-scroll [scrollbar-width:none]   pb-4 text-slate-500">
+      <div className="text-center space-y-2 flex flex-col mx-auto ">
+        <div
+          className={`rounded  overflow-scroll [scrollbar-width:none] h-30 
+          ${!isQuotaEmpty ? " lg:h-65" : "lg:h-88"} lg:max-h-88.5  border-slate-300   border border-dashed
+        p-1 pt-2 text-slate-500`}
+        >
           <div className=" overflow-scroll flex flex-col space-y-2 [scrollbar-width:none]">
             {(!uniqueTenants || uniqueTenants.length === 0) && (
-              <div className="mt-6  cursor-default">
-                <BsExclamationDiamond size={45} className="mx-auto mb-2" />
+              <div
+                className={`${!isQuotaEmpty ? " mt-20" : "mt-32 "}  cursor-default`}
+              >
+                <BsExclamationDiamond size={45} className={`mx-auto mb-2`} />
                 <span className="tracking-widest">
                   Sem Parceiros visitados por enquanto...
                 </span>
@@ -35,9 +43,12 @@ const UserRecentTenants = ({
               return (
                 <div
                   key={tenantId}
-                  className="flex border-l-2 border-[#84e9e4] justify-between items-center p-3 bg-slate-600 shadow-2xs w-md
-                  hover:shadow-lg transition
-                hover:bg-gradient-to-r from-[#84e9e4]/1 to-purple-500/15 
+                  onClick={() => router.push(`/${tenantId}/slots`)}
+                  className="cursor-pointer rounded-md  flex border-l-2 
+                  border-[#84e9e4] justify-between items-center p-3 
+                  bg-slate-600  lg:w-full max-w-full w-sm
+                  hover:shadow-lg transition ease-in h-fit opacity-50 hover:opacity-100
+                  hover:bg-linear-to-r from-[#84e9e4]/1 to-purple-500/15 
                   "
                 >
                   <div className="flex flex-col">
@@ -55,17 +66,6 @@ const UserRecentTenants = ({
                       <div>
                         <span className="text-sm text-slate-300">{date}</span>
                       </div>
-                    </div>
-                  </div>
-
-                  <div className="border-x border-amber-500 hover:bg-amber-500 hover:text-black transition  px-2 pb-1 items-center ">
-                    <div>
-                      <span
-                        className="text-xs align-text-bottom font-bold text-slate-50 cursor-pointer tracking-widest "
-                        onClick={() => router.push(`/${tenantId}/slots`)}
-                      >
-                        Jogar
-                      </span>
                     </div>
                   </div>
                 </div>

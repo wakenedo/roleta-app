@@ -39,7 +39,7 @@ const UserRemainingQuota = ({
             border-dashed
             border border-red-400 w-fit px-2 rounded mx-auto"
             >
-              <div className="py-2">
+              <div className="pb-2 pt-1">
                 <BiErrorCircle className="text-red-400 w-8 h-8" />
               </div>
               <p className="text-xs text-red-400 tracking-widest ">
