@@ -1,17 +1,5 @@
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-import { UserSubscriptionsContent } from "@/Interfaces/UserSubscriptionsInterface/components/UserSubscriptionsContent";
-import { Suspense } from "react";
+import { UserSubscriptionsClient } from "@/Interfaces/UserSubscriptionsInterface/components/UserSubscriptionsClient";
 
-const UserSubscriptions = () => {
-  return (
-    <>
-      <Header />
-      <Suspense fallback={null}>
-        <UserSubscriptionsContent />
-      </Suspense>
-      <Footer />
-    </>
-  );
-};
-export default UserSubscriptions;
+export default function UserSubscriptions() {
+  return <UserSubscriptionsClient />;
+}
