@@ -2,7 +2,17 @@ import { UserChoiceSubscription } from "./components/UserChoiceSubscription";
 import { UserPremium } from "./components/UserPremium";
 import { UserPremiumPlus } from "./components/UserPremiumPlus";
 
-const UserSubscriptionsInterface = ({ planId }: { planId: string | null }) => {
+const UserSubscriptionsInterface = ({
+  planId,
+  upgradeUserSubscription,
+  successUpgradeUserSub,
+  loadingUpgradeUserSub,
+}: {
+  upgradeUserSubscription: (selectedPlan: string) => Promise<void>;
+  planId: string | null;
+  successUpgradeUserSub: boolean;
+  loadingUpgradeUserSub: boolean;
+}) => {
   console.log(planId);
   switch (planId != null && planId) {
     case "premium":
@@ -12,7 +22,13 @@ const UserSubscriptionsInterface = ({ planId }: { planId: string | null }) => {
       return <UserPremiumPlus planId={planId} />;
 
     default:
-      return <UserChoiceSubscription />;
+      return (
+        <UserChoiceSubscription
+          upgradeUserSubscription={upgradeUserSubscription}
+          successUpgradeUserSub={successUpgradeUserSub}
+          loadingUpgradeUserSub={loadingUpgradeUserSub}
+        />
+      );
   }
 };
 

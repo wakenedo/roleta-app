@@ -1,46 +1,14 @@
 import { AreaBackground } from "@/backgrounds/AreaBackground";
-import { useAuth } from "@/context/AuthContext/AuthContext";
-import { useUser } from "@/context/UserContext/UserContext";
-import { API_URL } from "@/enums";
 
-import { useState } from "react";
-
-const UserChoiceSubscription = () => {
-  const { authorizedFetch } = useAuth();
-  const { refresh } = useUser();
-
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-
-  const upgrade = async (selectedPlan: string) => {
-    if (!selectedPlan) return;
-
-    try {
-      setLoading(true);
-
-      const res = await authorizedFetch(`${API_URL}/users/subscriptions`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          plan: selectedPlan,
-        }),
-      });
-
-      if (!res.ok) {
-        throw new Error("Subscription failed");
-      }
-
-      await refresh();
-      setSuccess(true);
-    } catch (err) {
-      console.error("Upgrade failed:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+const UserChoiceSubscription = ({
+  upgradeUserSubscription,
+  successUpgradeUserSub,
+  loadingUpgradeUserSub,
+}: {
+  loadingUpgradeUserSub: boolean;
+  successUpgradeUserSub: boolean;
+  upgradeUserSubscription: (selectedPlan: string) => Promise<void>;
+}) => {
   return (
     <AreaBackground>
       <main className="flex flex-col  min-h-screen relative z-10">
@@ -52,17 +20,17 @@ const UserChoiceSubscription = () => {
               Premium gives you the highest spin quota, larger history access
               and the best rewards in the platform.
             </p>
-            {success ? (
+            {successUpgradeUserSub ? (
               <div className="text-green-500 text-lg">
                 🎉 Subscription activated!
               </div>
             ) : (
               <button
-                onClick={() => upgrade("premium")}
-                disabled={loading}
+                onClick={() => upgradeUserSubscription("premium")}
+                disabled={loadingUpgradeUserSub}
                 className="px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-black font-semibold rounded-lg transition"
               >
-                {loading ? "Processing..." : "Upgrade to Premium"}
+                {loadingUpgradeUserSub ? "Processing..." : "Upgrade to Premium"}
               </button>
             )}
           </div>
@@ -72,17 +40,19 @@ const UserChoiceSubscription = () => {
               Premium gives you the highest spin quota, larger history access
               and the best rewards in the platform.
             </p>
-            {success ? (
+            {successUpgradeUserSub ? (
               <div className="text-green-500 text-lg">
                 🎉 Subscription activated!
               </div>
             ) : (
               <button
-                onClick={() => upgrade("premium+")}
-                disabled={loading}
+                onClick={() => upgradeUserSubscription("premium+")}
+                disabled={loadingUpgradeUserSub}
                 className="px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-black font-semibold rounded-lg transition"
               >
-                {loading ? "Processing..." : "Upgrade to Premium+"}
+                {loadingUpgradeUserSub
+                  ? "Processing..."
+                  : "Upgrade to Premium+"}
               </button>
             )}
           </div>
