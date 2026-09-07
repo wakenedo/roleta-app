@@ -29,7 +29,6 @@ interface UserAreaInterfaceProps {
   userStats: UserStats | undefined;
   userSubscriptionStatus: string | undefined;
   userLimitQuotas: UserLimitQuotasProps | undefined;
-  userClickEvents: ClickEvent[] | undefined;
   isHistoryPreviewEmpty: boolean;
   globalSpinHistory: SpinHistoryItem[] | undefined;
   groupedTenantHistory: Record<string, SpinHistoryItem[]> | undefined;
@@ -41,6 +40,7 @@ interface UserAreaInterfaceProps {
   progressBar: number;
   remainingQuota: number | undefined;
   quotaCooldownTimeLeft: string;
+  uniqueProductsClicked: ClickEvent[];
 }
 
 type UserLimitQuotasProps =

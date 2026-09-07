@@ -74,6 +74,19 @@ interface UserContextProps {
     productUrl: string;
     position?: number;
   }>;
+  clickedGlobalCatalogProduct: ({
+    spinId,
+    productUrl,
+    position,
+  }: {
+    spinId: string;
+    productUrl: string;
+    position?: number;
+  }) => Promise<{
+    spinId: string;
+    productUrl: string;
+    position?: number;
+  }>;
 }
 
 export type {
