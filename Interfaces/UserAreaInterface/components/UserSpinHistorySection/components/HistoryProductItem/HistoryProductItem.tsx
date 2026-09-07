@@ -4,14 +4,23 @@ import { formatPriceBRL } from "@/utils/formatter-utils";
 function HistoryProductItem({ product }: { product: Product }) {
   const tierStyles: Record<string, string> = {
     common: "bg-slate-100 text-slate-700",
-    rare: "bg-indigo-100 text-indigo-700",
-    jackpot: "bg-amber-100 text-amber-700",
+    rare: "bg-linear-to-r from-indigo-400/1 to-indigo-300/15 bg-indigo-50 text-indigo-700",
+    jackpot:
+      "bg-linear-to-r from-amber-200/1 to-amber-500/15 bg-amber-100 text-amber-700",
+  };
+  const tierBgStyles: Record<string, string> = {
+    common:
+      "bg-linear-to-r from-slate-700/1 to-slate-500/15  bg-slate-700 text-slate-100",
+    rare: "bg-linear-to-r from-indigo-500/1 to-indigo-300/15  bg-indigo-200 text-indigo-700",
+    jackpot:
+      "bg-linear-to-r from-amber-500/1 to-amber-300/15 bg-amber-200 text-amber-700",
   };
 
   return (
     <div
       key={product.id}
-      className="flex items-center justify-between gap-3 rounded-md bg-white px-3 py-2"
+      className={`flex items-center justify-between gap-3 rounded-md 
+        ${tierBgStyles[product.tier] ?? "bg-slate-100 text-slate-700"} px-3 py-2`}
     >
       {/* Left */}
       <div className="flex flex-col min-w-0">
@@ -54,7 +63,7 @@ function HistoryProductItem({ product }: { product: Product }) {
         )}
         <div className="text-center min-w-15">
           <span
-            className={`text-[10px]  px-2 py-0.5 rounded-full font-semibold ${
+            className={`text-[10px] shadow-md  px-2 py-1 capitalize rounded-full font-semibold ${
               tierStyles[product.tier] ?? "bg-slate-100 text-slate-700 "
             }`}
           >
