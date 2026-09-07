@@ -2,113 +2,93 @@ import { ClickEvent } from "@/context/UserContext/types";
 import { UserAreaSectionBackground } from "@/backgrounds/UserAreaSectionBackground";
 import { formatPriceBRL } from "@/utils/formatter-utils";
 import { BsCompass } from "react-icons/bs";
+import { CategoryImage } from "@/components/CategoryImage";
 
 const UserLastClickedOffers = ({
-  accountClickEvents,
+  tenantProductsClicked,
 }: {
-  accountClickEvents: ClickEvent[] | undefined;
+  tenantProductsClicked: ClickEvent[];
 }) => {
-  // 🧠 Deduplicate (keep most recent per URL)
-  const uniqueClicksMap = accountClickEvents
-    ?.filter((c) => c?.url)
-    ?.reduce((acc, click) => {
-      const existing = acc.get(click.url);
+  console.log("UserLastClickedOffers clicks", tenantProductsClicked);
 
-      if (!existing) {
-        acc.set(click.url, click);
-        return acc;
-      }
-
-      if (new Date(click.createdAt) > new Date(existing.createdAt)) {
-        acc.set(click.url, click);
-      }
-
-      return acc;
-    }, new Map<string, ClickEvent>());
-
-  const clicks = uniqueClicksMap
-    ? Array.from(uniqueClicksMap.values()).sort(
-        (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-      )
-    : [];
-
-  console.log("clicks", clicks);
   return (
     <UserAreaSectionBackground>
       <span className="cursor-default text-lg font-semibold tracking-widest text-amber-500 ">
-        Visitadas
+        Catalogo Parceiros
       </span>
 
       <hr className="border-t border-slate-300 mb-4" />
-      <div className=" max-w-full  overflow-x-auto">
+      <div className=" max-w-full  overflow-y-auto ">
         {/* ❌ Empty state */}
-        {(!clicks || clicks.length === 0) && (
+        {(!tenantProductsClicked || tenantProductsClicked.length === 0) && (
           <div className="flex absolute w-full flex-col items-center justify-center text-slate-500 pt-20">
             <BsCompass size={45} className="mb-2" />
             <span className="tracking-widest">Ainda nenhuma descoberta !</span>
           </div>
         )}
-        <div className="h-65 max-w-5  flex  flex-nowrap space-x-4  scroll-smooth [scrollbar-width:none]">
+        <div className="px-4 lg:h-63.25 my-5  flex  flex-wrap overflow-y-auto  space-y-4  scroll-smooth [scrollbar-width:none]">
           {/* ✅ Click events */}
-          {clicks.map((click) => {
+          {tenantProductsClicked.map((click) => {
             const date = new Date(click.createdAt).toLocaleString();
 
             return (
               <div
                 key={click.url}
-                className="min-w-45 max-w-45 h-fit mt-1 mx-2  shrink-0 bg-slate-700 p-4 flex flex-col justify-between shadow-md 
-                hover:shadow-lg hover:scale-105 transition
+                className=" h-fit mx-1  shrink-0 bg-slate-700 px-1 py-1  
+                flex  justify-between shadow-md hover:opacity-100 opacity-50
+                hover:shadow-lg hover:scale-101 transition
+                space-x-2 rounded border-l-2 border-amber-500
                 hover:bg-linear-to-r from-[#84e9e4]/1 to-purple-500/15 "
               >
-                {/* IMAGE */}
-                <img
-                  src={click.image}
-                  alt={click.name}
-                  className="w-full h-20 object-cover mb-1 bg-slate-300"
-                />
-
-                {/* TEXT */}
-                <div className="flex flex-col flex-1 cursor-default space-y-1">
-                  <div className="w-full border-x border-amber-500 hover:bg-amber-500 hover:text-black transition  px-2 py-1">
-                    <span className="text-sm font-semibold text-slate-100 line-clamp-1">
-                      <a
-                        href={click.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-center text-xs    text-slate-200 "
-                      >
-                        {click.name}
-                      </a>
-                    </span>
+                <div className="flex flex-col w-full justify-between h-full space-y-2">
+                  <a
+                    href={click.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full lg:max-w-85 hover:bg-linear-to-r 
+                    from-[#84e9e4]/1 to-purple-500/15 border-l-2 
+                    border-amber-500 rounded hover:opacity-100 opacity-50 
+                    bg-slate-900 text-slate-200  transition  px-2 py-1
+                    hover:font-medium font-light 
+                    "
+                  >
+                    <span className="text-sm   line-clamp-2">{click.name}</span>
+                  </a>
+                  {/* TEXT */}
+                  <div className="flex justify-between  flex-1 cursor-default space-y-1 space-x-1">
+                    {click.image ? (
+                      <img
+                        src={click.image}
+                        alt={click.name}
+                        className="w-30 h-30 object-cover mb-1 bg-slate-300"
+                      />
+                    ) : (
+                      <div className="lg:w-30 lg:h-30 ">
+                        <CategoryImage
+                          object="object-cover"
+                          productCategory={click.category}
+                          rounded="rounded"
+                        />
+                      </div>
+                    )}
+                    <div className="flex flex-col-reverse">
+                      <div className="mx-auto mb-1 text-center  transition  px-3 py-1 border rounded-full w-fit border-slate-300">
+                        <span className="text-xs font-semibold text-slate-300 line-clamp-4">
+                          {click.tenantId}
+                        </span>
+                      </div>
+                      <div className="flex mb-1 flex-row-reverse w-full pr-1">
+                        <span className="text-xs text-center text-slate-400 ">
+                          {date}
+                        </span>
+                      </div>
+                      <div className="flex flex-row-reverse w-full pr-1">
+                        <span className="text-lg font-semibold text-[#84e9e4] line-clamp-2">
+                          {formatPriceBRL(click.price)}
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                  <span className="text-xs text-slate-400 ">{date}</span>
-                  <span className="text-sm font-semibold text-[#84e9e4] line-clamp-2">
-                    {formatPriceBRL(click.price)}
-                  </span>
-                </div>
-
-                {/* ACTION */}
-                <span className="cursor-default text-left text-xs  pt-1  text-slate-200 ">
-                  Comprou o produto ?
-                </span>
-                <div className="flex space-x-2 items-center mx-auto">
-                  <a
-                    href={click.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-3 text-center text-xs border border-emerald-500 px-2 py-1  text-slate-200 hover:bg-emerald-500 hover:text-slate-800 transition"
-                  >
-                    Sim
-                  </a>
-                  <a
-                    href={click.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-3 text-center text-xs border border-red-500 px-2 py-1  text-slate-200 hover:bg-red-500 hover:text-black transition"
-                  >
-                    Não
-                  </a>
                 </div>
               </div>
             );
