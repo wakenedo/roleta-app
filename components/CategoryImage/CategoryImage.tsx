@@ -44,11 +44,36 @@ const CATEGORY_IMAGES: Record<string, StaticImageData> = {
 interface CategoryImageProps {
   productCategory?: string;
   alt?: string;
+  object?: "object-contain" | "object-cover";
+  rounded?:
+    | "rounded-t-sm"
+    | "rounded-t-md"
+    | "rounded-t-lg"
+    | "rounded-t-2xl"
+    | "rounded-b-sm"
+    | "rounded-b-md"
+    | "rounded-b-lg"
+    | "rounded-b-2xl"
+    | "rounded-r-sm"
+    | "rounded-r-md"
+    | "rounded-r-lg"
+    | "rounded-r-2xl"
+    | "rounded-l-sm"
+    | "rounded-l-md"
+    | "rounded-l-lg"
+    | "rounded-l-2xl"
+    | "rounded"
+    | "rounded-full"
+    | "rounded-sm"
+    | "rounded-md"
+    | "rounded-lg";
 }
 
 const CategoryImage = ({
   productCategory,
   alt = "General Product",
+  object = "object-contain",
+  rounded = "rounded-t-md",
 }: CategoryImageProps) => {
   const image = CATEGORY_IMAGES[productCategory ?? "general"] ?? GeneralImage;
 
@@ -56,7 +81,7 @@ const CategoryImage = ({
     <Image
       src={image}
       alt={alt}
-      className="object-contain max-h-full rounded-t-md"
+      className={`${object} max-h-full ${rounded}`}
     />
   );
 };
