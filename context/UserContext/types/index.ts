@@ -32,6 +32,8 @@ type ClickEvent = {
   url: string;
   createdAt: string;
   tenantId: string;
+  category: string;
+  mode?: string;
 };
 
 type UserState = {
