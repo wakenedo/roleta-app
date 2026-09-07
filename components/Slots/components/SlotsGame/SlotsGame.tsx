@@ -10,6 +10,7 @@ const SlotsGame: React.FC<SlotsGameProps & { onSpin: () => void }> = ({
   quota,
   currentSpinId,
   selectedProducts,
+  tenantId,
   tenantQuota,
   tenantBranding,
   userMonthlyLimit,
@@ -24,7 +25,7 @@ const SlotsGame: React.FC<SlotsGameProps & { onSpin: () => void }> = ({
 
   const disabled = spinning || !quota || (quota && remaining <= 0);
   const tenantDisabled =
-    spinning || !tenantQuota || (tenantQuota && remaining <= 0);
+    spinning || !tenantQuota || (tenantQuota && tenantRemaining <= 0);
 
   const dailyLimit = quota?.limit ?? 0;
   const tenantDailyLimit = tenantQuota?.limit ?? 0;
@@ -45,15 +46,12 @@ const SlotsGame: React.FC<SlotsGameProps & { onSpin: () => void }> = ({
   const isEmpty = remaining === 0;
   const tenantIsEmpty = tenantRemaining === 0;
 
-  console.log("SlotsGame - quota:", quota);
-  console.log("SlotsGame - tenantQuota:", tenantQuota);
-  console.log("Slots Game - tenantBranding", tenantBranding);
-
   return (
     <div className="flex flex-col items-center w-full md:w-fit">
       <ProductSlotsReels
         currentSpinId={currentSpinId}
         selectedProducts={selectedProducts}
+        tenantId={tenantId}
       />
 
       <div className="md:min-w-xl min-w-full px-4">

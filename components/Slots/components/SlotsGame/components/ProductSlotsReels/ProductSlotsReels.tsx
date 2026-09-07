@@ -6,9 +6,11 @@ import { Product } from "@/components/Slots/types";
 const ProductSlotsReels = ({
   currentSpinId,
   selectedProducts,
+  tenantId,
 }: {
   currentSpinId: string | null;
   selectedProducts: Product[];
+  tenantId?: string;
 }) => {
   const {
     reels,
@@ -57,6 +59,7 @@ const ProductSlotsReels = ({
                           product={product}
                           currentSpinId={currentSpinId}
                           selectedProducts={selectedProducts}
+                          tenantId={tenantId}
                         />
                       </div>
                     </div>
