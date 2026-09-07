@@ -1,7 +1,7 @@
 import { getTimeUntil } from "@/components/Slots/components/SlotsGame/components/SpinInterface/utils";
 import { useAuth } from "@/context/AuthContext/AuthContext";
 import { useGlobalQuota } from "@/context/GlobalQuotaContext/GlobalQuotaContext";
-import { SpinHistoryItem } from "@/context/UserContext/types";
+import { ClickEvent, SpinHistoryItem } from "@/context/UserContext/types";
 import { useUser } from "@/context/UserContext/UserContext";
 import { formatCountdown } from "@/utils/formatter-utils";
 import { useRouter } from "next/navigation";
@@ -95,6 +95,38 @@ export const useUserArea = () => {
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
   );
 
+  const uniqueClicksMap = userClickEvents
+    ?.filter((c) => c?.url)
+    ?.reduce((acc, click) => {
+      const existing = acc.get(click.url);
+
+      if (!existing) {
+        acc.set(click.url, click);
+        return acc;
+      }
+
+      if (new Date(click.createdAt) > new Date(existing.createdAt)) {
+        acc.set(click.url, click);
+      }
+
+      return acc;
+    }, new Map<string, ClickEvent>());
+
+  const uniqueProductsClicked = uniqueClicksMap
+    ? Array.from(uniqueClicksMap.values()).sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+      )
+    : [];
+
+  const globalProductsClicked = uniqueProductsClicked.filter(
+    (click) => click.mode === "globalCatalog",
+  );
+
+  const tenantProductsClicked = uniqueProductsClicked.filter(
+    (click) => click.mode !== "globalCatalog" && click.tenantId,
+  );
+
   useEffect(() => {
     if (!isQuotaEmpty) return;
 
@@ -129,7 +161,6 @@ export const useUserArea = () => {
     userStats,
     userLimitQuotas,
     userSubscriptionStatus,
-    userClickEvents,
     historyPreview,
     quota,
     loading,
@@ -152,5 +183,8 @@ export const useUserArea = () => {
     remainingQuota,
     progressBar,
     quotaCooldownTimeLeft,
+    uniqueProductsClicked,
+    globalProductsClicked,
+    tenantProductsClicked,
   };
 };
