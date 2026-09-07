@@ -62,6 +62,7 @@ const UserGeneralSection = ({
               uniqueTenants={uniqueTenants}
               router={router}
               isQuotaEmpty={isQuotaEmpty}
+              userSubscriptionStatus={userSubscriptionStatus}
             />
           </div>
         </div>

@@ -80,7 +80,7 @@ const UserPromoGiroSection = ({
               </span>
             </div>
           </div>
-          {!isQuotaEmpty && accountSubscriptionStatus != "tenantPremium" && (
+          {!isQuotaEmpty && accountSubscriptionStatus != "premium+" && (
             <div>
               <div
                 onClick={handleUpdateSubscriptionClick}

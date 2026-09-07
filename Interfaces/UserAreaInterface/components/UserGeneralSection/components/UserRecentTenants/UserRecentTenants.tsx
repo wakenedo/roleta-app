@@ -8,10 +8,12 @@ const UserRecentTenants = ({
   uniqueTenants,
   router,
   isQuotaEmpty,
+  userSubscriptionStatus,
 }: {
   uniqueTenants: SpinHistoryItem[];
   router: AppRouterInstance;
   isQuotaEmpty: boolean;
+  userSubscriptionStatus: string | undefined;
 }) => {
   return (
     <UserAreaSectionBackground>
@@ -22,7 +24,9 @@ const UserRecentTenants = ({
       <div className="text-center space-y-2 flex flex-col mx-auto ">
         <div
           className={`rounded  overflow-scroll [scrollbar-width:none] h-30 
-          ${!isQuotaEmpty ? " lg:h-65" : "lg:h-88"} lg:max-h-88.5  border-slate-300   border border-dashed
+            ${!isQuotaEmpty && userSubscriptionStatus != "premium+" && "lg:h-88"} 
+            ${!isQuotaEmpty && userSubscriptionStatus === "premium+" && "lg:h-77"} 
+          lg:max-h-88.5  border-slate-300   border border-dashed
         p-1 pt-2 text-slate-500`}
         >
           <div className=" overflow-scroll flex flex-col space-y-2 [scrollbar-width:none]">
