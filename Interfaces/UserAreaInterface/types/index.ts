@@ -40,7 +40,8 @@ interface UserAreaInterfaceProps {
   progressBar: number;
   remainingQuota: number | undefined;
   quotaCooldownTimeLeft: string;
-  uniqueProductsClicked: ClickEvent[];
+  globalProductsClicked: ClickEvent[];
+  tenantProductsClicked: ClickEvent[];
 }
 
 type UserLimitQuotasProps =
