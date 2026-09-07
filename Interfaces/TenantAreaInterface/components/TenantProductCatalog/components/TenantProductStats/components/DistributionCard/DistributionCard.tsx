@@ -6,7 +6,7 @@ const DistributionCard = ({ title, data }: DistributionCardProps) => {
   return (
     <div
       className="cursor-default text-slate-700 drop-shadow px-3 
-      bg-gradient-to-r from-amber-500 to-amber-600"
+      bg-linear-to-r from-amber-500 to-amber-600"
     >
       <span className="font-extrabold pb-3 text-xs tracking-widest text-slate-100">
         {title}

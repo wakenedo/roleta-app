@@ -1,4 +1,5 @@
 import { Product } from "@/components/Slots/types";
+import { UserLimitQuotasProps } from "@/Interfaces/UserAreaInterface/types";
 
 type SpinQuota = {
   used: number;
@@ -31,6 +32,8 @@ type ClickEvent = {
   url: string;
   createdAt: string;
   tenantId: string;
+  category: string;
+  mode?: string;
 };
 
 type UserState = {
@@ -39,20 +42,7 @@ type UserState = {
   rewards: unknown[];
   historyPreview: SpinHistoryItem[];
   clickEvents: ClickEvent[];
-  limits: {
-    tenantGlobal: {
-      monthly: {
-        limit: number;
-        remaining: number;
-        used: number;
-      };
-      weekly: {
-        limit: number;
-        remaining: number;
-        used: number;
-      };
-    };
-  };
+  limits: UserLimitQuotasProps;
 };
 
 interface SpinHistoryItem {
@@ -74,6 +64,19 @@ interface UserContextProps {
   optimisticSpin: (tenantId?: string | null) => void;
   historyPreview?: SpinHistoryItem[];
   clickedProduct: ({
+    spinId,
+    productUrl,
+    position,
+  }: {
+    spinId: string;
+    productUrl: string;
+    position?: number;
+  }) => Promise<{
+    spinId: string;
+    productUrl: string;
+    position?: number;
+  }>;
+  clickedGlobalCatalogProduct: ({
     spinId,
     productUrl,
     position,

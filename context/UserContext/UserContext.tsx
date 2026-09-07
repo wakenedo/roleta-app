@@ -142,6 +142,40 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       console.error("❌ click error", err);
     }
   };
+  const clickedGlobalCatalogProduct = async ({
+    spinId,
+    productUrl,
+    position,
+  }: {
+    spinId: string;
+    productUrl: string;
+    position?: number;
+  }) => {
+    try {
+      const res = await authorizedFetch(`${API_URL}/spin/globalCatalog/click`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          spinId,
+          productClicked: {
+            productUrl,
+          },
+          positionClicked: position ?? null,
+        }),
+      });
+
+      if (!res?.ok) throw new Error("Click Failed");
+
+      const json = await res.json();
+      console.log("✅ click tracked", json);
+
+      return json;
+    } catch (err) {
+      console.error("❌ click error", err);
+    }
+  };
 
   return (
     <UserContext.Provider
@@ -153,6 +187,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         refresh: fetchMe,
         optimisticSpin,
         clickedProduct,
+        clickedGlobalCatalogProduct,
       }}
     >
       {children}

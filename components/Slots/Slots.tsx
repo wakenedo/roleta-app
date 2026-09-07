@@ -94,6 +94,7 @@ const Slots: FC<SlotsConfig> = ({
             selectedProducts={selectedProducts}
           >
             <SlotsGame
+              tenantId={tenantId}
               spinning={spinning}
               onSpin={spin}
               quota={quota as SpinQuota}

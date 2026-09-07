@@ -8,16 +8,17 @@ const ProductCard: React.FC<ProductCardProps> = ({
   product,
   currentSpinId,
   selectedProducts,
+  tenantId,
 }) => {
-  const { clickedProduct } = useUser();
+  const { clickedProduct, clickedGlobalCatalogProduct } = useUser();
   const isFiller = product.id === "placeholder";
   const cardContent = (
     <motion.div
       className="
          overflow-hidden
-        w-full md:w-[192px]
-        md:h-[33rem]
-        h-[30rem]
+        w-full md:w-48
+        md:h-132
+        h-120
         rounded-md
         shadow-md
         transform-gpu
@@ -57,11 +58,19 @@ const ProductCard: React.FC<ProductCardProps> = ({
     const position = selectedProducts.findIndex((p) => p.url === product.url);
 
     try {
-      await clickedProduct({
-        spinId: currentSpinId,
-        productUrl: product.url,
-        position: position !== -1 ? position : undefined, // safe fallback
-      });
+      if (tenantId != undefined) {
+        await clickedProduct({
+          spinId: currentSpinId,
+          productUrl: product.url,
+          position: position !== -1 ? position : undefined, // safe fallback
+        });
+      } else {
+        await clickedGlobalCatalogProduct({
+          spinId: currentSpinId,
+          productUrl: product.url,
+          position: position !== -1 ? position : undefined, // safe fallback
+        });
+      }
     } catch (err) {
       console.error(err);
     }

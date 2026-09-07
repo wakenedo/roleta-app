@@ -82,6 +82,7 @@ interface ProductCardProps {
   product: Product;
   currentSpinId: string | null;
   selectedProducts: Product[];
+  tenantId?: string;
 }
 
 interface ProductReelsProps {
@@ -95,6 +96,7 @@ interface ProductSlotsProps {
 }
 
 interface SlotsGameProps {
+  tenantId?: string;
   spinning: boolean;
   onSpin: () => Promise<void>;
   quota: SpinQuota | null;

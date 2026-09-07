@@ -1,0 +1,10 @@
+import { ReactNode } from "react";
+
+const UserAreaSectionBackground = ({ children }: { children: ReactNode }) => {
+  return (
+    <div className="bg-slate-50  shadow-md md:px-4 md:py-4 px-3 py-3">
+      {children}
+    </div>
+  );
+};
+export default UserAreaSectionBackground;
