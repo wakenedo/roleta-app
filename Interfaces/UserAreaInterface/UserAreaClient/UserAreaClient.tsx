@@ -14,7 +14,6 @@ const UserAreaClient = () => {
     userStats,
     userLimitQuotas,
     userSubscriptionStatus,
-    userClickEvents,
     quota,
     loading,
     authLoading,
@@ -36,6 +35,8 @@ const UserAreaClient = () => {
     progressBar,
     remainingQuota,
     quotaCooldownTimeLeft,
+    globalProductsClicked,
+    tenantProductsClicked,
   } = useUserArea();
 
   if (authLoading) {
@@ -65,7 +66,6 @@ const UserAreaClient = () => {
         userStats={userStats}
         userLimitQuotas={userLimitQuotas}
         userSubscriptionStatus={userSubscriptionStatus}
-        userClickEvents={userClickEvents}
         isHistoryPreviewEmpty={isHistoryPreviewEmpty}
         globalSpinHistory={globalSpinHistory}
         groupedTenantHistory={groupedTenantHistory}
@@ -77,6 +77,8 @@ const UserAreaClient = () => {
         progressBar={progressBar}
         remainingQuota={remainingQuota}
         quotaCooldownTimeLeft={quotaCooldownTimeLeft}
+        globalProductsClicked={globalProductsClicked}
+        tenantProductsClicked={tenantProductsClicked}
       />
     </HeaderAndFooterInterface>
   );
