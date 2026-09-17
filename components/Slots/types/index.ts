@@ -3,7 +3,11 @@ import {
   TenantBranding,
   TenantSettings,
 } from "@/context/TenantContext/types";
-import { SpinQuota, UserState } from "@/context/UserContext/types";
+import {
+  SpinQuota,
+  TenantSpinQuota,
+  UserState,
+} from "@/context/UserContext/types";
 import { ParamValue } from "next/dist/server/request/params";
 import { StaticImageData } from "next/image";
 
@@ -100,7 +104,7 @@ interface SlotsGameProps {
   spinning: boolean;
   onSpin: () => Promise<void>;
   quota: SpinQuota | null;
-  tenantQuota?: SpinQuota | null;
+  tenantQuota?: TenantSpinQuota | null;
   tenantBranding?: TenantBranding;
   tenantSettings?: TenantSettings;
   currentSpinId: string | null;
@@ -165,6 +169,9 @@ interface SpinInterfaceProps {
     | undefined;
   tenantBranding?: TenantBranding;
   tenantSettings?: TenantSettings;
+  tenantUserExtraSpins?: number;
+  userPromoGiros?: number;
+  tenantScopedQuota?: number;
 }
 
 type AvailableRoundsProps = {
@@ -177,6 +184,9 @@ type AvailableRoundsProps = {
 type DynamicProgressBarProps = {
   barColor: "bg-green-400" | "bg-yellow-400" | "bg-red-400" | string;
   progress: number;
+  tenantUserExtraSpins?: number;
+  tenantScopedQuota?: number;
+  userPromoGiros?: number;
 };
 
 type SpinButtonProps = {
@@ -215,7 +225,7 @@ type TenantSlotsContentProps = {
     tenantId: string | null;
   }) => Promise<void>;
   quota: SpinQuota | null;
-  tenantQuota: SpinQuota | null;
+  tenantQuota: TenantSpinQuota | null;
   globalQuotaLoading: boolean;
 };
 
