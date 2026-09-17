@@ -8,13 +8,15 @@ type SpinQuota = {
   promoGiros: number;
   resetsAt: string;
 };
+
 type TenantSpinQuota = {
   used: number;
   remaining: number;
   limit: number;
   promoGiros: number;
-  extras: number;
   resetsAt: string;
+  userExtraSpins: number;
+  tenantScopedQuota: number;
 };
 
 type UserStats = {
