@@ -7,6 +7,7 @@ import { UserActionsReport } from "./components/UserActionsReport";
 const UserActions = ({
   userMonthlyLimit,
   userWeeklyLimit,
+  userPromoGiros,
 }: {
   userMonthlyLimit:
     | {
@@ -22,10 +23,11 @@ const UserActions = ({
         used: number;
       }
     | undefined;
+  userPromoGiros: number | undefined;
 }) => {
-  const [activeTab, setActiveTab] = useState<"limits" | "extras" | "report">(
-    "limits",
-  );
+  const [activeTab, setActiveTab] = useState<
+    "limits" | "promogiros" | "report"
+  >("limits");
   return (
     <div>
       <UserActionsHeader activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -35,7 +37,9 @@ const UserActions = ({
           userWeeklyLimit={userWeeklyLimit}
         />
       )}
-      {activeTab === "extras" && <UserActionsExtras />}
+      {activeTab === "promogiros" && (
+        <UserActionsExtras userPromoGiros={userPromoGiros} />
+      )}
       {activeTab === "report" && <UserActionsReport />}
     </div>
   );
