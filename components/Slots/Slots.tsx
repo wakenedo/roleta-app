@@ -1,16 +1,16 @@
 "use client";
 
-import { FC, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Product, SlotsConfig } from "./types";
 import { ProductSlotsReelsProvider } from "@/context/ProductSlotsReelsContext/ProductSlotsReelsContext";
 import { SlotsTitle } from "./components/SlotsTitle";
 import { SlotsGame } from "./components/SlotsGame";
 import { productSlotsReelsGradient } from "./components/SlotsGame/components/ProductSlotsReels/utils";
 import { SlotsLoading } from "./components/SlotsLoading";
-import { SpinQuota } from "@/context/UserContext/types";
+import { SpinQuota, TenantSpinQuota } from "@/context/UserContext/types";
 import { API_URL } from "@/enums";
 
-const Slots: FC<SlotsConfig> = ({
+const Slots = ({
   tenantId,
   tenantBranding,
   tenantSettings,
@@ -25,7 +25,8 @@ const Slots: FC<SlotsConfig> = ({
   sessionTenantId,
   userMonthlyLimit,
   userWeeklyLimit,
-}) => {
+  subscriptionExtras,
+}: SlotsConfig) => {
   const [spinning, setSpinning] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
   const [currentSpinId, setCurrentSpinId] = useState<string | null>(null);
@@ -98,12 +99,13 @@ const Slots: FC<SlotsConfig> = ({
               spinning={spinning}
               onSpin={spin}
               quota={quota as SpinQuota}
-              tenantQuota={tenantQuota as SpinQuota}
+              tenantQuota={tenantQuota as TenantSpinQuota}
               currentSpinId={currentSpinId}
               selectedProducts={selectedProducts}
               tenantBranding={tenantBranding}
               userMonthlyLimit={userMonthlyLimit}
               userWeeklyLimit={userWeeklyLimit}
+              subscriptionExtras={subscriptionExtras}
             />
           </ProductSlotsReelsProvider>
         )}
