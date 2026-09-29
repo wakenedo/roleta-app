@@ -1,6 +1,6 @@
 import { TenantSlotsDedicatedRouteBackground } from "@/backgrounds/TenantSlotsDedicatedRouteBackground";
-import Slots from "../../Slots";
 import { TenantSlotsContentProps } from "../../types";
+import Slots from "../../Slots";
 
 const TenantSlotsContent = ({
   authorizedFetch,
@@ -14,6 +14,7 @@ const TenantSlotsContent = ({
   tenantId,
   tenantQuota,
   userData,
+  subscriptionExtras,
 }: TenantSlotsContentProps) => {
   if (!tenant) return;
   const paramTenantId = tenantId as string;
@@ -44,6 +45,7 @@ const TenantSlotsContent = ({
           tenantQuota={tenantQuota}
           userMonthlyLimit={userMonthlyLimit}
           userWeeklyLimit={userWeeklyLimit}
+          subscriptionExtras={subscriptionExtras}
         />
       </div>
     </TenantSlotsDedicatedRouteBackground>
