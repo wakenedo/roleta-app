@@ -1,10 +1,9 @@
 import { DynamicProgressBarProps } from "@/components/Slots/types";
-import { FC } from "react";
 
-const DynamicProgressBar: FC<DynamicProgressBarProps> = ({
+const DynamicProgressBar = ({
   barColor,
   progress,
-}) => {
+}: DynamicProgressBarProps) => {
   const fillColor =
     progress > 60
       ? barColor || "#22c55e"
