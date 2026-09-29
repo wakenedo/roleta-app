@@ -190,8 +190,6 @@ type AvailableRoundsProps = {
 type DynamicProgressBarProps = {
   barColor: "bg-green-400" | "bg-yellow-400" | "bg-red-400" | string;
   progress: number;
-
-  subscriptionExtras?: SubscriptionExtras | undefined;
 };
 
 type SpinButtonProps = {
