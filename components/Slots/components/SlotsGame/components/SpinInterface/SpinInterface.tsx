@@ -1,14 +1,12 @@
-import { FC } from "react";
 import { AvailableRounds } from "./components/AvailableRounds";
 import { DepletedCTA } from "./components/DepletedCTA";
 import { DynamicProgressBar } from "./components/DynamicProgressBar";
 import { SpinButton } from "./components/SpinButton";
 import { SpinInterfaceProps } from "@/components/Slots/types";
-import { BsExclamationCircle } from "react-icons/bs";
 import { UserActions } from "./components/UserActions";
 import { DesktopUserActions } from "./components/DesktopUserActions";
 
-const SpinInterface: FC<SpinInterfaceProps> = ({
+const SpinInterface = ({
   barColor,
   tenantBarColor,
   onSpin,
@@ -29,10 +27,15 @@ const SpinInterface: FC<SpinInterfaceProps> = ({
   userMonthlyLimit,
   userWeeklyLimit,
   tenantSettings,
-}) => {
-  console.log("SpinInterface tenantBranding", tenantBranding);
+  tenantUserExtraSpins,
+  tenantScopedQuota,
+  userPromoGiros,
+  subscriptionExtras,
+  subscriptionExtrasIsEmpty,
+}: SpinInterfaceProps) => {
   const tenantPrimaryColor = tenantBranding?.primaryColor;
-
+  const globalColor = barColor;
+  const globalBarColor = `${globalColor}`;
   const primaryColorClassName = `${tenantPrimaryColor}`;
   return (
     <>
@@ -40,25 +43,45 @@ const SpinInterface: FC<SpinInterfaceProps> = ({
         {tenantBranding != undefined ? (
           <>
             <DesktopUserActions
+              userPromoGiros={userPromoGiros}
               userWeeklyLimit={userWeeklyLimit}
               userMonthlyLimit={userMonthlyLimit}
             />
             <div>
-              <span className="text-xs tracking-widest">
-                Cortesia do Parceiro
-              </span>
+              {tenantRemaining && tenantRemaining > 0 ? (
+                <div className="cursor-default flex space-x-1 items-center">
+                  <span className="text-xs tracking-widest">
+                    Cortesia do Parceiro
+                  </span>
+                  <div className="-mt-1">
+                    <span className="text-xs">x</span>
+                    <span>{tenantRemaining}</span>
+                  </div>
+                </div>
+              ) : (
+                <div className="cursor-default flex space-x-1 items-center">
+                  <span className="text-xs tracking-widest capitalize">
+                    {subscriptionExtras?.plan}
+                  </span>
+                  <div className="-mt-1">
+                    <span className="text-xs">x</span>
+                    <span>{subscriptionExtras?.remaining}</span>
+                  </div>
+                </div>
+              )}
               <AvailableRounds
                 resetsAt={tenantResetsAt}
                 dailyLimit={tenantDailyLimit as number}
                 isEmpty={tenantIsEmpty as boolean}
                 remaining={tenantRemaining as number}
+                subscriptionExtras={subscriptionExtras}
               />
             </div>
             <DynamicProgressBar
               barColor={tenantBarColor as string}
               progress={tenantProgress as number}
             />
-            {tenantRemaining != 0 && (
+            {tenantRemaining != 0 && subscriptionExtrasIsEmpty ? (
               <div className=" flex items-center justify-center">
                 <SpinButton
                   primaryColorClassName={primaryColorClassName}
@@ -67,13 +90,22 @@ const SpinInterface: FC<SpinInterfaceProps> = ({
                   onSpin={onSpin}
                 />
               </div>
+            ) : (
+              <div className=" flex items-center justify-center">
+                <SpinButton
+                  disabled={disabled}
+                  spinning={spinning}
+                  onSpin={onSpin}
+                />
+              </div>
             )}
 
-            {tenantIsEmpty && <DepletedCTA />}
+            {tenantIsEmpty && subscriptionExtrasIsEmpty && <DepletedCTA />}
             <div className="block lg:hidden">
               <UserActions
                 userWeeklyLimit={userWeeklyLimit}
                 userMonthlyLimit={userMonthlyLimit}
+                userPromoGiros={userPromoGiros}
               />
             </div>
           </>
@@ -90,7 +122,7 @@ const SpinInterface: FC<SpinInterfaceProps> = ({
               isEmpty={isEmpty}
               remaining={remaining}
             />
-            <DynamicProgressBar barColor={barColor} progress={progress} />
+            <DynamicProgressBar barColor={globalBarColor} progress={progress} />
             {isEmpty && <DepletedCTA />}
             {remaining != 0 && (
               <div className="my-3 flex items-center justify-center">
