@@ -1,6 +1,14 @@
 import { Product } from "@/components/Slots/types";
 import { UserLimitQuotasProps } from "@/Interfaces/UserAreaInterface/types";
 
+type SubscriptionExtras = {
+  granted: number;
+  used: number;
+  remaining: number;
+  plan: string;
+  updatedAt: string | null;
+};
+
 type SpinQuota = {
   used: number;
   remaining: number;
@@ -17,6 +25,7 @@ type TenantSpinQuota = {
   resetsAt: string;
   userExtraSpins: number;
   tenantScopedQuota: number;
+  subscriptionExtras: SubscriptionExtras;
 };
 
 type UserStats = {
@@ -111,4 +120,5 @@ export type {
   UserStats,
   SpinHistoryItem,
   ClickEvent,
+  SubscriptionExtras,
 };

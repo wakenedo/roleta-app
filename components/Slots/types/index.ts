@@ -5,6 +5,7 @@ import {
 } from "@/context/TenantContext/types";
 import {
   SpinQuota,
+  SubscriptionExtras,
   TenantSpinQuota,
   UserState,
 } from "@/context/UserContext/types";
@@ -47,6 +48,7 @@ interface SlotsConfig {
         used: number;
       }
     | undefined;
+  subscriptionExtras?: SubscriptionExtras | undefined;
   previewMode?: boolean; // Optional prop to indicate if it's in preview mode
 }
 
@@ -123,6 +125,7 @@ interface SlotsGameProps {
         used: number;
       }
     | undefined;
+  subscriptionExtras?: SubscriptionExtras | undefined;
 }
 
 interface TierBadgeProps {
@@ -172,6 +175,8 @@ interface SpinInterfaceProps {
   tenantUserExtraSpins?: number;
   userPromoGiros?: number;
   tenantScopedQuota?: number;
+  subscriptionExtras?: SubscriptionExtras | undefined;
+  subscriptionExtrasIsEmpty?: boolean | undefined;
 }
 
 type AvailableRoundsProps = {
@@ -179,14 +184,14 @@ type AvailableRoundsProps = {
   remaining: number;
   dailyLimit: number;
   resetsAt: string | undefined;
+  subscriptionExtras?: SubscriptionExtras | undefined;
 };
 
 type DynamicProgressBarProps = {
   barColor: "bg-green-400" | "bg-yellow-400" | "bg-red-400" | string;
   progress: number;
-  tenantUserExtraSpins?: number;
-  tenantScopedQuota?: number;
-  userPromoGiros?: number;
+
+  subscriptionExtras?: SubscriptionExtras | undefined;
 };
 
 type SpinButtonProps = {
@@ -227,6 +232,7 @@ type TenantSlotsContentProps = {
   quota: SpinQuota | null;
   tenantQuota: TenantSpinQuota | null;
   globalQuotaLoading: boolean;
+  subscriptionExtras: SubscriptionExtras | undefined;
 };
 
 export type {
