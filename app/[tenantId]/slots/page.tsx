@@ -20,6 +20,8 @@ export default function TenantSlotsPage() {
     tenantQuota,
     globalQuotaLoading,
   } = useGlobalQuota();
+
+  const subscriptionExtras = tenantQuota?.subscriptionExtras;
   return (
     <HeaderAndFooterInterface>
       <TenantSlotsContent
@@ -34,6 +36,7 @@ export default function TenantSlotsPage() {
         tenant={tenant}
         tenantId={tenantId}
         tenantQuota={tenantQuota}
+        subscriptionExtras={subscriptionExtras}
       />
     </HeaderAndFooterInterface>
   );
