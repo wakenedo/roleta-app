@@ -1,14 +1,18 @@
 import { AvailableRoundsProps } from "@/components/Slots/types";
-import { FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getTimeUntil } from "../../utils";
 import { formatCountdown } from "@/utils/formatter-utils";
 
-const AvailableRounds: FC<AvailableRoundsProps> = ({
+const AvailableRounds = ({
   isEmpty,
   remaining,
   dailyLimit,
   resetsAt,
-}) => {
+  isSubscriptionExtrasPresent,
+  sumLimit,
+  sumRemaining,
+  isSubscriptionExtrasEmpty,
+}: AvailableRoundsProps) => {
   const [timeLeft, setTimeLeft] = useState(
     formatCountdown(getTimeUntil(resetsAt as string)),
   );
@@ -37,24 +41,44 @@ const AvailableRounds: FC<AvailableRoundsProps> = ({
         <div>
           <span
             className={`text-base cursor-default tracking-widest font-semibold ${
-              isEmpty ? "text-red-600" : "text-slate-800"
+              isEmpty && isSubscriptionExtrasEmpty
+                ? "text-red-600"
+                : "text-slate-800"
             } mb-2 `}
           >
-            Rodadas de Hoje
+            {isSubscriptionExtrasPresent && isEmpty
+              ? "Rodadas Extras"
+              : "Rodadas de Hoje"}
           </span>
         </div>
-        <div>
-          <span
-            className={`text-lg font-bold cursor-default ${
-              isEmpty ? "text-red-600" : "text-slate-800"
-            }`}
-          >
-            {remaining} / {dailyLimit}
-          </span>
-        </div>
+        {isSubscriptionExtrasPresent ? (
+          <div>
+            <span
+              className={`text-lg font-bold cursor-default ${
+                isEmpty && isSubscriptionExtrasEmpty
+                  ? "text-red-600"
+                  : "text-slate-800"
+              }`}
+            >
+              {sumRemaining} / {sumLimit}
+            </span>
+          </div>
+        ) : (
+          <div>
+            <span
+              className={`text-lg font-bold cursor-default ${
+                isEmpty && isSubscriptionExtrasEmpty
+                  ? "text-red-600"
+                  : "text-slate-800"
+              }`}
+            >
+              {remaining} / {dailyLimit}
+            </span>
+          </div>
+        )}
       </div>
 
-      {isEmpty && (
+      {isEmpty && isSubscriptionExtrasEmpty && (
         <div className="flex items-center justify-center space-x-1">
           <span className="text-xs">Seus giros voltam em:</span>
           <b className="text-md">{timeLeft}</b>
