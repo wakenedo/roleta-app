@@ -31,12 +31,17 @@ const SpinInterface = ({
   tenantScopedQuota,
   userPromoGiros,
   subscriptionExtras,
-  subscriptionExtrasIsEmpty,
+  isSubscriptionExtrasEmpty,
+  subscriptionExtrasGranted,
+  subscriptionExtrasRemaining,
+  sumLimit,
+  sumRemaining,
 }: SpinInterfaceProps) => {
   const tenantPrimaryColor = tenantBranding?.primaryColor;
   const globalColor = barColor;
   const globalBarColor = `${globalColor}`;
   const primaryColorClassName = `${tenantPrimaryColor}`;
+  const isSubscriptionExtrasPresent = subscriptionExtras != undefined;
   return (
     <>
       <div className="bg-white/20 backdrop-blur shadow-md mb-4 p-2 px-3 md:w-full mx-auto ">
@@ -74,14 +79,18 @@ const SpinInterface = ({
                 dailyLimit={tenantDailyLimit as number}
                 isEmpty={tenantIsEmpty as boolean}
                 remaining={tenantRemaining as number}
-                subscriptionExtras={subscriptionExtras}
+                isSubscriptionExtrasPresent={isSubscriptionExtrasPresent}
+                subscriptionExtrasGranted={subscriptionExtrasGranted}
+                subscriptionExtrasRemaining={subscriptionExtrasRemaining}
+                sumLimit={sumLimit}
+                sumRemaining={sumRemaining}
               />
             </div>
             <DynamicProgressBar
               barColor={tenantBarColor as string}
               progress={tenantProgress as number}
             />
-            {tenantRemaining != 0 && subscriptionExtrasIsEmpty ? (
+            {tenantRemaining != 0 && isSubscriptionExtrasEmpty ? (
               <div className=" flex items-center justify-center">
                 <SpinButton
                   primaryColorClassName={primaryColorClassName}
@@ -100,7 +109,7 @@ const SpinInterface = ({
               </div>
             )}
 
-            {tenantIsEmpty && subscriptionExtrasIsEmpty && <DepletedCTA />}
+            {tenantIsEmpty && isSubscriptionExtrasEmpty && <DepletedCTA />}
             <div className="block lg:hidden">
               <UserActions
                 userWeeklyLimit={userWeeklyLimit}
