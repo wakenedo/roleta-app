@@ -1,5 +1,3 @@
-"use client";
-
 import { SlotsGameProps } from "../../types";
 import { ProductSlotsReels } from "./components/ProductSlotsReels";
 import { SpinInterface } from "./components/SpinInterface";
@@ -13,9 +11,13 @@ const SlotsGame: React.FC<SlotsGameProps & { onSpin: () => void }> = ({
   tenantId,
   tenantQuota,
   tenantBranding,
+  tenantSettings,
   userMonthlyLimit,
   userWeeklyLimit,
-  tenantSettings,
+  subscriptionExtras,
+  subscriptionExtrasGranted,
+  subscriptionExtrasRemaining,
+  isSubscriptionExtrasEmpty,
 }) => {
   const remaining = quota?.remaining ?? 0;
   const tenantRemaining = tenantQuota?.remaining ?? 0;
@@ -29,13 +31,29 @@ const SlotsGame: React.FC<SlotsGameProps & { onSpin: () => void }> = ({
 
   const dailyLimit = quota?.limit ?? 0;
   const tenantDailyLimit = tenantQuota?.limit ?? 0;
+  const tenantUserExtraSpins = tenantQuota?.userExtraSpins;
+  const tenantScopedQuota = tenantQuota?.tenantScopedQuota;
+
+  const userPromoGiros = quota?.promoGiros;
+
+  const sumRemaining =
+    subscriptionExtrasRemaining && remaining + subscriptionExtrasRemaining;
+
+  const sumLimit =
+    subscriptionExtrasGranted && dailyLimit + subscriptionExtrasGranted;
 
   const progress = dailyLimit > 0 ? (remaining / dailyLimit) * 100 : 0;
   const tenantProgress =
     tenantDailyLimit > 0 ? (tenantRemaining / tenantDailyLimit) * 100 : 0;
 
+  // Will increment this logic to make distinct for user when extras are being queued
+  const tenantAndSubscriptionProgress =
+    sumLimit && sumRemaining && sumLimit > 0
+      ? (sumRemaining / sumLimit) * 100
+      : 0;
+
   const barColor =
-    progress > 60
+    progress >= 60
       ? "bg-green-400"
       : progress > 30
         ? "bg-yellow-400"
@@ -47,7 +65,7 @@ const SlotsGame: React.FC<SlotsGameProps & { onSpin: () => void }> = ({
   const tenantIsEmpty = tenantRemaining === 0;
 
   return (
-    <div className="flex flex-col items-center w-full md:w-fit">
+    <div className="flex flex-col items-center w-full ">
       <ProductSlotsReels
         currentSpinId={currentSpinId}
         selectedProducts={selectedProducts}
@@ -76,6 +94,15 @@ const SlotsGame: React.FC<SlotsGameProps & { onSpin: () => void }> = ({
             tenantRemaining={tenantRemaining}
             userMonthlyLimit={userMonthlyLimit}
             userWeeklyLimit={userWeeklyLimit}
+            tenantUserExtraSpins={tenantUserExtraSpins}
+            tenantScopedQuota={tenantScopedQuota}
+            subscriptionExtras={subscriptionExtras}
+            isSubscriptionExtrasEmpty={isSubscriptionExtrasEmpty}
+            subscriptionExtrasGranted={subscriptionExtrasGranted}
+            subscriptionExtrasRemaining={subscriptionExtrasRemaining}
+            sumLimit={sumLimit}
+            sumRemaining={sumRemaining}
+            userPromoGiros={userPromoGiros}
           />
         ) : (
           <SpinInterface
@@ -88,6 +115,7 @@ const SlotsGame: React.FC<SlotsGameProps & { onSpin: () => void }> = ({
             progress={progress}
             resetsAt={resetsAt}
             remaining={remaining}
+            userPromoGiros={userPromoGiros}
           />
         )}
       </div>
