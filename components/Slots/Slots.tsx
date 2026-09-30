@@ -26,6 +26,8 @@ const Slots = ({
   userMonthlyLimit,
   userWeeklyLimit,
   subscriptionExtras,
+  subscriptionExtrasGranted,
+  subscriptionExtrasRemaining,
 }: SlotsConfig) => {
   const [spinning, setSpinning] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
@@ -80,13 +82,13 @@ const Slots = ({
   return (
     <div
       ref={gradientRef}
-      className="shadow-2xl h-auto min-h-[450px] flex flex-col py-2 md:w-2xl w-full md:px-0 px-2"
+      className="shadow-2xl h-auto min-h-112.5 flex flex-col py-2 md:w-2xl w-full md:px-0 px-2"
     >
       <SlotsTitle tenantName={tenantName} tenantBranding={tenantBranding} />
       <div className="z-10 border-b border-slate-100 md:mx-6 mx-3" />
       <div className="z-10 flex mt-4 items-center justify-center h-full w-full">
         {loading && globalQuotaLoading ? (
-          <div className="mt-40">
+          <div className="mt-40 h-fit">
             <SlotsLoading />
           </div>
         ) : (
@@ -106,6 +108,8 @@ const Slots = ({
               userMonthlyLimit={userMonthlyLimit}
               userWeeklyLimit={userWeeklyLimit}
               subscriptionExtras={subscriptionExtras}
+              subscriptionExtrasGranted={subscriptionExtrasGranted}
+              subscriptionExtrasRemaining={subscriptionExtrasRemaining}
             />
           </ProductSlotsReelsProvider>
         )}
