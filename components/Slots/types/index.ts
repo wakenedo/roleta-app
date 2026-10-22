@@ -1,15 +1,10 @@
-import {
-  Tenant,
-  TenantBranding,
-  TenantSettings,
-} from "@/context/TenantContext/types";
+import { TenantBranding, TenantSettings } from "@/context/TenantContext/types";
 import {
   SpinQuota,
+  SpinSource,
   SubscriptionExtras,
   TenantSpinQuota,
-  UserState,
 } from "@/context/UserContext/types";
-import { ParamValue } from "next/dist/server/request/params";
 import { StaticImageData } from "next/image";
 
 type Tier = "common" | "rare" | "jackpot";
@@ -106,7 +101,7 @@ interface ProductSlotsProps {
 interface SlotsGameProps {
   tenantId?: string;
   spinning: boolean;
-  onSpin: () => Promise<void>;
+  onSpin: (source: SpinSource) => Promise<void>;
   quota: SpinQuota | null;
   tenantQuota?: TenantSpinQuota | null;
   tenantBranding?: TenantBranding;
@@ -133,6 +128,7 @@ interface SlotsGameProps {
   sumRemaining?: number | undefined;
   sumLimit?: number | undefined;
   isSubscriptionExtrasEmpty?: boolean | undefined;
+  spinSource: SpinSource | null;
 }
 
 interface TierBadgeProps {
@@ -149,7 +145,7 @@ type TierConfig = {
 interface SpinInterfaceProps {
   barColor: "bg-green-400" | "bg-yellow-400" | "bg-red-400";
   tenantBarColor?: string;
-  onSpin: () => void;
+  onSpin: (source: SpinSource) => Promise<void>;
   spinning: boolean;
   dailyLimit: number;
   disabled: boolean | undefined | null;
@@ -179,15 +175,17 @@ interface SpinInterfaceProps {
     | undefined;
   tenantBranding?: TenantBranding;
   tenantSettings?: TenantSettings;
-  tenantUserExtraSpins?: number;
   userPromoGiros?: number;
-  tenantScopedQuota?: number;
   subscriptionExtras?: SubscriptionExtras | undefined;
   isSubscriptionExtrasEmpty?: boolean | undefined;
   subscriptionExtrasRemaining?: number | undefined;
   subscriptionExtrasGranted?: number | undefined;
   sumRemaining?: number | undefined;
   sumLimit?: number | undefined;
+  spinSource?: SpinSource | null;
+  subscriptionsExtrasDisabled?: boolean | 0 | undefined;
+  nextSpinSource?: "courtesy" | "subscription";
+  allTenantSpinsDisabled?: boolean;
 }
 
 type AvailableRoundsProps = {
@@ -209,8 +207,8 @@ type DynamicProgressBarProps = {
 };
 
 type SpinButtonProps = {
-  onSpin: () => void;
-  disabled: boolean | null | undefined;
+  onSpin: () => Promise<void>;
+  disabled: boolean | null | undefined | 0;
   spinning: boolean;
   primaryColorClassName?: string;
 };

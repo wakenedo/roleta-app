@@ -17,6 +17,8 @@ type SpinQuota = {
   resetsAt: string;
 };
 
+type SpinSource = "courtesy" | "subscription" | "promoGiro";
+
 type TenantSpinQuota = {
   used: number;
   remaining: number;
@@ -26,6 +28,7 @@ type TenantSpinQuota = {
   userExtraSpins: number;
   tenantScopedQuota: number;
   subscriptionExtras: SubscriptionExtras;
+  spinSource: SpinSource;
 };
 
 type UserStats = {
@@ -121,4 +124,5 @@ export type {
   SpinHistoryItem,
   ClickEvent,
   SubscriptionExtras,
+  SpinSource,
 };
