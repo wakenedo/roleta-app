@@ -5,6 +5,7 @@ import { SpinButton } from "./components/SpinButton";
 import { SpinInterfaceProps } from "@/components/Slots/types";
 import { UserActions } from "./components/UserActions";
 import { DesktopUserActions } from "./components/DesktopUserActions";
+import { SpinSource } from "@/context/UserContext/types";
 
 const SpinInterface = ({
   barColor,
@@ -27,8 +28,6 @@ const SpinInterface = ({
   userMonthlyLimit,
   userWeeklyLimit,
   tenantSettings,
-  tenantUserExtraSpins,
-  tenantScopedQuota,
   userPromoGiros,
   subscriptionExtras,
   isSubscriptionExtrasEmpty,
@@ -36,12 +35,21 @@ const SpinInterface = ({
   subscriptionExtrasRemaining,
   sumLimit,
   sumRemaining,
+  spinSource,
+  subscriptionsExtrasDisabled,
+  allTenantSpinsDisabled,
+  nextSpinSource,
 }: SpinInterfaceProps) => {
   const tenantPrimaryColor = tenantBranding?.primaryColor;
   const globalColor = barColor;
   const globalBarColor = `${globalColor}`;
   const primaryColorClassName = `${tenantPrimaryColor}`;
+  const promobetColorClassName = `${"#00EEFF"}`;
   const isSubscriptionExtrasPresent = subscriptionExtras != undefined;
+  const subscriptionRemaining = subscriptionExtrasRemaining ?? 0;
+
+  console.log("SpinSource in SpinInterface", spinSource);
+
   return (
     <>
       <div className="bg-white/20 backdrop-blur shadow-md mb-4 p-2 px-3 md:w-full mx-auto ">
@@ -52,26 +60,37 @@ const SpinInterface = ({
               userWeeklyLimit={userWeeklyLimit}
               userMonthlyLimit={userMonthlyLimit}
             />
+
             <div>
-              {tenantRemaining && tenantRemaining > 0 ? (
+              {nextSpinSource === "courtesy" &&
+              tenantRemaining &&
+              tenantRemaining > 0 ? (
                 <div className="cursor-default flex space-x-1 items-center">
                   <span className="text-xs tracking-widest">
                     Cortesia do Parceiro
                   </span>
+
                   <div className="-mt-1">
                     <span className="text-xs">x</span>
                     <span>{tenantRemaining}</span>
                   </div>
                 </div>
-              ) : (
+              ) : subscriptionRemaining > 0 ? (
                 <div className="cursor-default flex space-x-1 items-center">
                   <span className="text-xs tracking-widest capitalize">
                     {subscriptionExtras?.plan}
                   </span>
+
                   <div className="-mt-1">
                     <span className="text-xs">x</span>
-                    <span>{subscriptionExtras?.remaining}</span>
+                    <span>{subscriptionRemaining}</span>
                   </div>
+                </div>
+              ) : (
+                <div className="cursor-default flex space-x-1 items-center">
+                  <span className="text-xs tracking-widest">
+                    Sem giros disponíveis
+                  </span>
                 </div>
               )}
               <AvailableRounds
@@ -90,24 +109,18 @@ const SpinInterface = ({
               barColor={tenantBarColor as string}
               progress={tenantProgress as number}
             />
-            {tenantRemaining != 0 && isSubscriptionExtrasEmpty ? (
-              <div className=" flex items-center justify-center">
-                <SpinButton
-                  primaryColorClassName={primaryColorClassName}
-                  disabled={tenantDisabled}
-                  spinning={spinning}
-                  onSpin={onSpin}
-                />
-              </div>
-            ) : (
-              <div className=" flex items-center justify-center">
-                <SpinButton
-                  disabled={disabled}
-                  spinning={spinning}
-                  onSpin={onSpin}
-                />
-              </div>
-            )}
+            <div className="flex items-center justify-center">
+              <SpinButton
+                primaryColorClassName={
+                  nextSpinSource === "courtesy"
+                    ? primaryColorClassName
+                    : promobetColorClassName
+                }
+                disabled={allTenantSpinsDisabled}
+                spinning={spinning}
+                onSpin={() => onSpin(nextSpinSource as SpinSource)}
+              />
+            </div>
 
             {tenantIsEmpty && isSubscriptionExtrasEmpty && <DepletedCTA />}
             <div className="block lg:hidden">
@@ -138,7 +151,7 @@ const SpinInterface = ({
                 <SpinButton
                   disabled={disabled}
                   spinning={spinning}
-                  onSpin={onSpin}
+                  onSpin={() => onSpin("courtesy")}
                 />
               </div>
             )}
