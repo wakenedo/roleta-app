@@ -7,7 +7,11 @@ import { SlotsTitle } from "./components/SlotsTitle";
 import { SlotsGame } from "./components/SlotsGame";
 import { productSlotsReelsGradient } from "./components/SlotsGame/components/ProductSlotsReels/utils";
 import { SlotsLoading } from "./components/SlotsLoading";
-import { SpinQuota, TenantSpinQuota } from "@/context/UserContext/types";
+import {
+  SpinQuota,
+  SpinSource,
+  TenantSpinQuota,
+} from "@/context/UserContext/types";
 import { API_URL } from "@/enums";
 
 const Slots = ({
@@ -32,11 +36,13 @@ const Slots = ({
   const [spinning, setSpinning] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
   const [currentSpinId, setCurrentSpinId] = useState<string | null>(null);
+  const [spinSource, setSpinSource] = useState<SpinSource | null>(null);
 
-  const spin = async () => {
+  const spin = async (source: SpinSource) => {
     if (spinning) return;
 
     setSpinning(true);
+    setSpinSource(source);
 
     const endpoint = tenantId
       ? `${API_URL}/spin/${tenantId}`
@@ -45,6 +51,12 @@ const Slots = ({
     try {
       const res = await authorizedFetch(endpoint, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          spinSource: source,
+        }),
       });
 
       const data = await res.json();
@@ -56,10 +68,22 @@ const Slots = ({
       // 🎯 Backend is the authority
       setSelectedProducts(data.products ?? []);
       setCurrentSpinId(data.spinId);
-      if (tenantId && (await refresh({ tenantId: tenantId }))) {
+      setSpinSource(data.spinSource ?? source);
+      if (tenantId) {
+        await refresh({
+          tenantId,
+        });
+
         optimisticSpin(tenantId);
-        refresh({ tenantId: tenantId });
-      } else refresh({ tenantId: null });
+
+        await refresh({
+          tenantId,
+        });
+      } else {
+        await refresh({
+          tenantId: null,
+        });
+      }
     } catch (err) {
       console.error("Spin error:", err);
     } finally {
@@ -110,6 +134,7 @@ const Slots = ({
               subscriptionExtras={subscriptionExtras}
               subscriptionExtrasGranted={subscriptionExtrasGranted}
               subscriptionExtrasRemaining={subscriptionExtrasRemaining}
+              spinSource={spinSource}
             />
           </ProductSlotsReelsProvider>
         )}
