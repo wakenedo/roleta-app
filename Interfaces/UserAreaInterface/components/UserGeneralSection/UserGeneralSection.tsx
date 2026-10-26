@@ -1,4 +1,4 @@
-import { SpinHistoryItem, UserStats } from "@/context/UserContext/types";
+import { SpinHistoryItem, TenantSpinQuota } from "@/context/UserContext/types";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { UserLimitQuotasProps } from "../../types";
 import { UserRecentTenants } from "./components/UserRecentTenants";
@@ -19,6 +19,7 @@ const UserGeneralSection = ({
   uniqueTenants,
   userLimitQuotas,
   userSubscriptionStatus,
+  quota,
 }: {
   uniqueTenants: SpinHistoryItem[];
   router: AppRouterInstance;
@@ -30,6 +31,7 @@ const UserGeneralSection = ({
   remainingQuota: number | undefined;
   userSubscriptionStatus: string | undefined;
   userLimitQuotas: UserLimitQuotasProps;
+  quota: TenantSpinQuota | null;
 }) => {
   return (
     <div className="bg-white/50 backdrop-blur shadow-md px-1 w-full  pb-1">
@@ -56,6 +58,7 @@ const UserGeneralSection = ({
               router={router}
               isQuotaEmpty={isQuotaEmpty}
               accountSubscriptionStatus={userSubscriptionStatus}
+              quota={quota}
             />
             <UserQuotaLimits accountLimitQuotas={userLimitQuotas} />
             <UserRecentTenants

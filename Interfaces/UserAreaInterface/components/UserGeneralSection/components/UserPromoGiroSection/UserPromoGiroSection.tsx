@@ -1,29 +1,19 @@
-import { USER_SPIN_PLANS } from "@/Interfaces/HomePageInterface/utils/userHelpers";
+import { TenantSpinQuota } from "@/context/UserContext/types";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 const UserPromoGiroSection = ({
   router,
   isQuotaEmpty,
   accountSubscriptionStatus,
+  quota,
 }: {
   accountSubscriptionStatus: string | undefined;
   router: AppRouterInstance;
   isQuotaEmpty: boolean;
+  quota: TenantSpinQuota | null;
 }) => {
-  const config =
-    USER_SPIN_PLANS[accountSubscriptionStatus as keyof typeof USER_SPIN_PLANS];
   const handleAcquirePromoSpinClick = () => {
     console.log("Next Implementation");
-  };
-  const getTenantMultiplierLabel = (multiplier?: number) => {
-    switch (multiplier) {
-      case 0.5:
-        return 10;
-      case 1:
-        return 30;
-      default:
-        return 0; // fallback (or null if you prefer)
-    }
   };
   const handleUpdateSubscriptionClick = () => {
     router.push(`/UserSubscriptions`);
@@ -76,7 +66,8 @@ const UserPromoGiroSection = ({
             </div>
             <div>
               <span className="text-amber-500 text-2xl font-bold">
-                {getTenantMultiplierLabel(config?.tenantMultiplier)}
+                {quota?.subscriptionExtras.remaining} /
+                {quota?.subscriptionExtras.granted}
               </span>
             </div>
           </div>

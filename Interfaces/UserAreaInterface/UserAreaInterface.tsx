@@ -37,6 +37,7 @@ const UserAreaInterface = ({
   quotaCooldownTimeLeft,
   globalProductsClicked,
   tenantProductsClicked,
+  quota,
 }: UserAreaInterfaceProps) => {
   return (
     <AreaBackground>
@@ -65,6 +66,7 @@ const UserAreaInterface = ({
                 uniqueTenants={uniqueTenants}
                 userLimitQuotas={userLimitQuotas}
                 userSubscriptionStatus={userSubscriptionStatus}
+                quota={quota}
               />
             )}
             {activeTab === "visited" && (
