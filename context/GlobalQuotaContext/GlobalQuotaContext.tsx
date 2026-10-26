@@ -1,13 +1,13 @@
 "use client";
 import { useState, useCallback } from "react";
 import { useAuth } from "../AuthContext/AuthContext";
-import { SpinQuota } from "../UserContext/types";
+import { SpinQuota, TenantSpinQuota } from "../UserContext/types";
 import { API_URL } from "@/enums";
 
 const useGlobalQuota = () => {
   const { authorizedFetch } = useAuth();
   const [quota, setQuota] = useState<SpinQuota | null>(null);
-  const [tenantQuota, setTenantQuota] = useState<SpinQuota | null>(null);
+  const [tenantQuota, setTenantQuota] = useState<TenantSpinQuota | null>(null);
   const [globalQuotaLoading, setGlobalQuotaLoading] = useState(false);
 
   const refresh = useCallback(

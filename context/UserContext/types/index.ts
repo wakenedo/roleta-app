@@ -1,11 +1,34 @@
 import { Product } from "@/components/Slots/types";
 import { UserLimitQuotasProps } from "@/Interfaces/UserAreaInterface/types";
 
+type SubscriptionExtras = {
+  granted: number;
+  used: number;
+  remaining: number;
+  plan: string;
+  updatedAt: string | null;
+};
+
 type SpinQuota = {
   used: number;
   remaining: number;
   limit: number;
+  promoGiros: number;
   resetsAt: string;
+};
+
+type SpinSource = "courtesy" | "subscription" | "promoGiro";
+
+type TenantSpinQuota = {
+  used: number;
+  remaining: number;
+  limit: number;
+  promoGiros: number;
+  resetsAt: string;
+  userExtraSpins: number;
+  tenantScopedQuota: number;
+  subscriptionExtras: SubscriptionExtras;
+  spinSource: SpinSource;
 };
 
 type UserStats = {
@@ -96,7 +119,10 @@ export type {
   UserState,
   BackendUser,
   SpinQuota,
+  TenantSpinQuota,
   UserStats,
   SpinHistoryItem,
   ClickEvent,
+  SubscriptionExtras,
+  SpinSource,
 };

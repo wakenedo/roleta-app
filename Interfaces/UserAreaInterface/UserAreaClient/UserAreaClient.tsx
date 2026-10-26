@@ -3,6 +3,7 @@
 import { HeaderAndFooterInterface } from "@/Interfaces/HeaderAndFooterInterface";
 import UserAreaInterface from "../UserAreaInterface";
 import { useUserArea } from "@/hooks/pages/useUserArea";
+import { TenantSpinQuota } from "@/context/UserContext/types";
 
 const UserAreaClient = () => {
   const {
@@ -79,6 +80,7 @@ const UserAreaClient = () => {
         quotaCooldownTimeLeft={quotaCooldownTimeLeft}
         globalProductsClicked={globalProductsClicked}
         tenantProductsClicked={tenantProductsClicked}
+        quota={quota as TenantSpinQuota | null}
       />
     </HeaderAndFooterInterface>
   );

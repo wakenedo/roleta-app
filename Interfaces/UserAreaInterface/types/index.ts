@@ -2,6 +2,7 @@ import {
   ClickEvent,
   SpinHistoryItem,
   SpinQuota,
+  TenantSpinQuota,
   UserState,
   UserStats,
 } from "@/context/UserContext/types";
@@ -42,6 +43,7 @@ interface UserAreaInterfaceProps {
   quotaCooldownTimeLeft: string;
   globalProductsClicked: ClickEvent[];
   tenantProductsClicked: ClickEvent[];
+  quota: TenantSpinQuota | null;
 }
 
 type UserLimitQuotasProps =

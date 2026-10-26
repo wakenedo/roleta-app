@@ -16,13 +16,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
     <motion.div
       className="
          overflow-hidden
-        w-full md:w-48
+        w-full md:w-52
         md:h-132
         h-120
         rounded-md
         shadow-md
         transform-gpu
-        md:mx-2
       "
     >
       {/* 🔵 GRADIENT LAYER */}

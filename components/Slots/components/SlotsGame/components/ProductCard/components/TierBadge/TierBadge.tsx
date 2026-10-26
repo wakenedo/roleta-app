@@ -3,7 +3,7 @@ import { BadgeDynamicGradient } from "./components/BadgeDynamicGradiet";
 import { BadgeContent } from "./components/BadgeContent";
 import { tierStyle } from "../../utils";
 
-const TierBadge: React.FC<TierBadgeProps> = ({ product }) => {
+const TierBadge = ({ product }: TierBadgeProps) => {
   return (
     <div
       className={`

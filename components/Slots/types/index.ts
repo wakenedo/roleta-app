@@ -1,10 +1,10 @@
+import { TenantBranding, TenantSettings } from "@/context/TenantContext/types";
 import {
-  Tenant,
-  TenantBranding,
-  TenantSettings,
-} from "@/context/TenantContext/types";
-import { SpinQuota, UserState } from "@/context/UserContext/types";
-import { ParamValue } from "next/dist/server/request/params";
+  SpinQuota,
+  SpinSource,
+  SubscriptionExtras,
+  TenantSpinQuota,
+} from "@/context/UserContext/types";
 import { StaticImageData } from "next/image";
 
 type Tier = "common" | "rare" | "jackpot";
@@ -43,6 +43,9 @@ interface SlotsConfig {
         used: number;
       }
     | undefined;
+  subscriptionExtras?: SubscriptionExtras | undefined;
+  subscriptionExtrasRemaining?: number | undefined;
+  subscriptionExtrasGranted?: number | undefined;
   previewMode?: boolean; // Optional prop to indicate if it's in preview mode
 }
 
@@ -98,9 +101,9 @@ interface ProductSlotsProps {
 interface SlotsGameProps {
   tenantId?: string;
   spinning: boolean;
-  onSpin: () => Promise<void>;
+  onSpin: (source: SpinSource) => Promise<void>;
   quota: SpinQuota | null;
-  tenantQuota?: SpinQuota | null;
+  tenantQuota?: TenantSpinQuota | null;
   tenantBranding?: TenantBranding;
   tenantSettings?: TenantSettings;
   currentSpinId: string | null;
@@ -119,6 +122,13 @@ interface SlotsGameProps {
         used: number;
       }
     | undefined;
+  subscriptionExtras?: SubscriptionExtras | undefined;
+  subscriptionExtrasRemaining?: number | undefined;
+  subscriptionExtrasGranted?: number | undefined;
+  sumRemaining?: number | undefined;
+  sumLimit?: number | undefined;
+  isSubscriptionExtrasEmpty?: boolean | undefined;
+  spinSource: SpinSource | null;
 }
 
 interface TierBadgeProps {
@@ -135,7 +145,7 @@ type TierConfig = {
 interface SpinInterfaceProps {
   barColor: "bg-green-400" | "bg-yellow-400" | "bg-red-400";
   tenantBarColor?: string;
-  onSpin: () => void;
+  onSpin: (source: SpinSource) => Promise<void>;
   spinning: boolean;
   dailyLimit: number;
   disabled: boolean | undefined | null;
@@ -165,6 +175,17 @@ interface SpinInterfaceProps {
     | undefined;
   tenantBranding?: TenantBranding;
   tenantSettings?: TenantSettings;
+  userPromoGiros?: number;
+  subscriptionExtras?: SubscriptionExtras | undefined;
+  isSubscriptionExtrasEmpty?: boolean | undefined;
+  subscriptionExtrasRemaining?: number | undefined;
+  subscriptionExtrasGranted?: number | undefined;
+  sumRemaining?: number | undefined;
+  sumLimit?: number | undefined;
+  spinSource?: SpinSource | null;
+  subscriptionsExtrasDisabled?: boolean | 0 | undefined;
+  nextSpinSource?: "courtesy" | "subscription";
+  allTenantSpinsDisabled?: boolean;
 }
 
 type AvailableRoundsProps = {
@@ -172,6 +193,12 @@ type AvailableRoundsProps = {
   remaining: number;
   dailyLimit: number;
   resetsAt: string | undefined;
+  isSubscriptionExtrasPresent?: boolean;
+  subscriptionExtrasRemaining?: number | undefined;
+  subscriptionExtrasGranted?: number | undefined;
+  sumRemaining?: number | undefined;
+  sumLimit?: number | undefined;
+  isSubscriptionExtrasEmpty?: boolean | undefined;
 };
 
 type DynamicProgressBarProps = {
@@ -180,8 +207,8 @@ type DynamicProgressBarProps = {
 };
 
 type SpinButtonProps = {
-  onSpin: () => void;
-  disabled: boolean | null | undefined;
+  onSpin: () => Promise<void>;
+  disabled: boolean | null | undefined | 0;
   spinning: boolean;
   primaryColorClassName?: string;
 };
@@ -193,30 +220,6 @@ type CardGradientLifecycleProps = {
 type BadgeGradientLifecycleProps = {
   badgeGradientRef: React.RefObject<HTMLDivElement | null>;
   product: Product;
-};
-
-type TenantSlotsContentProps = {
-  tenant: Tenant | null;
-  tenantId: ParamValue;
-  sessionTenantId: string | null;
-  authorizedFetch: {
-    (input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
-    (
-      input: string | URL | globalThis.Request,
-      init?: RequestInit,
-    ): Promise<Response>;
-  };
-  loading: boolean;
-  optimisticSpin: (tenantId?: string | null) => void;
-  userData: UserState | null;
-  refreshGlobalQuota: ({
-    tenantId,
-  }: {
-    tenantId: string | null;
-  }) => Promise<void>;
-  quota: SpinQuota | null;
-  tenantQuota: SpinQuota | null;
-  globalQuotaLoading: boolean;
 };
 
 export type {
@@ -235,5 +238,4 @@ export type {
   TierBadgeProps,
   BadgeGradientLifecycleProps,
   SlotsConfig,
-  TenantSlotsContentProps,
 };

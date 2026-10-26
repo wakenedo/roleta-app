@@ -36,7 +36,7 @@ const ProductSlotsReels = ({
           return (
             <div
               key={col}
-              className="pb-1 md:mx-auto  overflow-hidden relative  md:w-fit"
+              className="pb-1  overflow-hidden relative  md:w-fit"
               style={{ height: `${CELL_HEIGHT * VISIBLE}px` }}
             >
               <div

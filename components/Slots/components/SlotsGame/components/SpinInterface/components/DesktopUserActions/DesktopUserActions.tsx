@@ -8,6 +8,7 @@ import { DUserActionsExtras } from "./components/DUserActionsExtras";
 const DesktopUserActions = ({
   userMonthlyLimit,
   userWeeklyLimit,
+  userPromoGiros,
 }: {
   userMonthlyLimit:
     | {
@@ -23,12 +24,13 @@ const DesktopUserActions = ({
         used: number;
       }
     | undefined;
+  userPromoGiros: number | undefined;
 }) => {
   const [open, setOpen] = useState(false);
 
-  const [activeTab, setActiveTab] = useState<"limits" | "extras" | "report">(
-    "limits",
-  );
+  const [activeTab, setActiveTab] = useState<
+    "limits" | "promogiros" | "report"
+  >("limits");
 
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -79,7 +81,9 @@ const DesktopUserActions = ({
           />
         )}
 
-        {activeTab === "extras" && <DUserActionsExtras />}
+        {activeTab === "promogiros" && (
+          <DUserActionsExtras userPromoGiros={userPromoGiros} />
+        )}
 
         {activeTab === "report" && <DUserActionsReport />}
       </div>

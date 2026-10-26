@@ -1,16 +1,20 @@
 "use client";
 
-import { FC, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Product, SlotsConfig } from "./types";
 import { ProductSlotsReelsProvider } from "@/context/ProductSlotsReelsContext/ProductSlotsReelsContext";
 import { SlotsTitle } from "./components/SlotsTitle";
 import { SlotsGame } from "./components/SlotsGame";
 import { productSlotsReelsGradient } from "./components/SlotsGame/components/ProductSlotsReels/utils";
 import { SlotsLoading } from "./components/SlotsLoading";
-import { SpinQuota } from "@/context/UserContext/types";
+import {
+  SpinQuota,
+  SpinSource,
+  TenantSpinQuota,
+} from "@/context/UserContext/types";
 import { API_URL } from "@/enums";
 
-const Slots: FC<SlotsConfig> = ({
+const Slots = ({
   tenantId,
   tenantBranding,
   tenantSettings,
@@ -25,15 +29,20 @@ const Slots: FC<SlotsConfig> = ({
   sessionTenantId,
   userMonthlyLimit,
   userWeeklyLimit,
-}) => {
+  subscriptionExtras,
+  subscriptionExtrasGranted,
+  subscriptionExtrasRemaining,
+}: SlotsConfig) => {
   const [spinning, setSpinning] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
   const [currentSpinId, setCurrentSpinId] = useState<string | null>(null);
+  const [spinSource, setSpinSource] = useState<SpinSource | null>(null);
 
-  const spin = async () => {
+  const spin = async (source: SpinSource) => {
     if (spinning) return;
 
     setSpinning(true);
+    setSpinSource(source);
 
     const endpoint = tenantId
       ? `${API_URL}/spin/${tenantId}`
@@ -42,6 +51,12 @@ const Slots: FC<SlotsConfig> = ({
     try {
       const res = await authorizedFetch(endpoint, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          spinSource: source,
+        }),
       });
 
       const data = await res.json();
@@ -53,10 +68,22 @@ const Slots: FC<SlotsConfig> = ({
       // 🎯 Backend is the authority
       setSelectedProducts(data.products ?? []);
       setCurrentSpinId(data.spinId);
-      if (tenantId && (await refresh({ tenantId: tenantId }))) {
+      setSpinSource(data.spinSource ?? source);
+      if (tenantId) {
+        await refresh({
+          tenantId,
+        });
+
         optimisticSpin(tenantId);
-        refresh({ tenantId: tenantId });
-      } else refresh({ tenantId: null });
+
+        await refresh({
+          tenantId,
+        });
+      } else {
+        await refresh({
+          tenantId: null,
+        });
+      }
     } catch (err) {
       console.error("Spin error:", err);
     } finally {
@@ -79,13 +106,13 @@ const Slots: FC<SlotsConfig> = ({
   return (
     <div
       ref={gradientRef}
-      className="shadow-2xl h-auto min-h-[450px] flex flex-col py-2 md:w-2xl w-full md:px-0 px-2"
+      className="shadow-2xl h-auto min-h-112.5 flex flex-col py-2 md:w-2xl w-full md:px-0 px-2"
     >
       <SlotsTitle tenantName={tenantName} tenantBranding={tenantBranding} />
       <div className="z-10 border-b border-slate-100 md:mx-6 mx-3" />
       <div className="z-10 flex mt-4 items-center justify-center h-full w-full">
         {loading && globalQuotaLoading ? (
-          <div className="mt-40">
+          <div className="mt-40 h-fit">
             <SlotsLoading />
           </div>
         ) : (
@@ -98,12 +125,16 @@ const Slots: FC<SlotsConfig> = ({
               spinning={spinning}
               onSpin={spin}
               quota={quota as SpinQuota}
-              tenantQuota={tenantQuota as SpinQuota}
+              tenantQuota={tenantQuota as TenantSpinQuota}
               currentSpinId={currentSpinId}
               selectedProducts={selectedProducts}
               tenantBranding={tenantBranding}
               userMonthlyLimit={userMonthlyLimit}
               userWeeklyLimit={userWeeklyLimit}
+              subscriptionExtras={subscriptionExtras}
+              subscriptionExtrasGranted={subscriptionExtrasGranted}
+              subscriptionExtrasRemaining={subscriptionExtrasRemaining}
+              spinSource={spinSource}
             />
           </ProductSlotsReelsProvider>
         )}
